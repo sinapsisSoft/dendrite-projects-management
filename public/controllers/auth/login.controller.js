@@ -23,49 +23,51 @@ $("#to-login").click(function () {
 });
 
 // ==============================================================
+// This is Variable  
+// ==============================================================
+
+var sTForm = null;
+var arRoutes = new Array('login');
+var arMessages = new Array('Validate the entered username and password data');
+var ruteContent = "login/";
+var dataModel = 'data';
+var dataResponse = 'response';
+var dataMessages = 'message';
+var assignmentAction=0;
+const URL_ROUTE = BASE_URL + ruteContent;
+var url ="";
+
+// ==============================================================
 // Functions 
 // ==============================================================
 /*
 *Ahutor:DIEGO CASALLAS
 *Busines: SINAPSIS TECHNOLOGIES
 *Date:17/05/2022
-*Description:This functionsend data Login 
+*Description:This function send data Login 
 */
-var sTForm=null;
+
 function sendDataLogin(e, formObj) {
 
-    var obj;
-    if (typeof formObj === 'object') {
-        obj = formObj.id;
-
-    } else {
-        obj = formObj;
-
-    }
+    let obj=formObj;
     sTForm = new STForm(obj);
     getDataLogin(sTForm.getDataForm());
     sTForm.clearDataForm(obj);
-    sTForm.inputDisable();
+    sTForm.inputButtonDisable();
     e.preventDefault();
 }
 /*
 *Ahutor:DIEGO CASALLAS
 *Busines: SINAPSIS TECHNOLOGIES
 *Date:17/05/2022
-*Description:This functionsend data Login 
+*Description:This function recovery Password
 */
 function recoveryPassword(e, formObj) {
 
-    var obj;
-    if (typeof formObj === 'object') {
-        obj = formObj.id;
-
-    } else {
-        obj = formObj;
-
-    }
-    const sTForm = new STForm(obj);
+    let obj=formObj;
+    sTForm = new STForm(obj);
     sTForm.clearDataForm(obj);
+    sTForm.inputButtonDisable();
     e.preventDefault();
 }
 
@@ -76,10 +78,10 @@ function recoveryPassword(e, formObj) {
   *Description:This function view input password
   */
 function viewInputPassword(inputId, iconId) {
-    var x = document.getElementById(inputId);
-    var icon = document.getElementById(iconId);
-    var iconActivie='mdi-eye';
-    var iconInActivie='mdi-eye-off';
+    let x = document.getElementById(inputId);
+    let icon = document.getElementById(iconId);
+    let iconActivie = 'mdi-eye';
+    let iconInActivie = 'mdi-eye-off';
     if (x.type === "password") {
         x.type = "text";
         icon.classList.remove(iconActivie);
@@ -97,23 +99,26 @@ function viewInputPassword(inputId, iconId) {
   *Description:This function send data  login validate
   */
 function getDataLogin(formData) {
-    console.log(formData);
-    var url = BASE_URL+"login/login";
+
+    url =URL_ROUTE+arRoutes[0];
     fetch(url, {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-Type": "application/json",
-        "X-Requested-With": "XMLHttpRequest"
-      }
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        }
     })
-      .then(response => response.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => {
-   
-       console.log(response['data']);
-       sTForm.inputEnable();
-        
-      });
-  }
+        .then(response => response.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+
+            if (response[dataResponse] == 200) {
+                console.log(response[dataModel]);
+            } else {
+                console.log(arMessages[0]);
+            }
+            sTForm.inputButtonEnable();
+        });
+}
 

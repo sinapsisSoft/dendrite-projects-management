@@ -10,7 +10,7 @@ class STForm {
     //Constructor method
     constructor(formObj) {
        
-        this.objectForm = document.getElementById(formObj);
+        this.objectForm = document.getElementById(this.validateFormObject(formObj));
         this.objectInput = null;
         this.elementsForm = this.objectForm.length;
         this.elementJson = {};
@@ -180,7 +180,7 @@ class STForm {
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES
     *Date:17/05/2022
-    *Description:Add data in the form, these functions validate the identification of the Html input with the json key to insert data in each Html element with the value that the Json has
+    *Description:Add data in the form, these methods validate the identification of the Html input with the json key to insert data in each Html element with the value that the Json has
     */
     setDataForm(dataJson, idForm) {
         this.objectForm = document.getElementById(idForm);
@@ -223,7 +223,7 @@ class STForm {
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES
     *Date:31/08/2022
-    *Description:Add data in the form, these functions validate the identification of the Html input with the json key to insert data in each Html element with the value that the Json has
+    *Description:Add data in the form, these methods validate the identification of the Html input with the json key to insert data in each Html element with the value that the Json has
     */
     setDataFormDisabled(dataJson, idForm) {
         this.objectForm = document.getElementById(idForm);
@@ -268,7 +268,7 @@ class STForm {
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES
     *Date:31/08/2022
-    *Description:Add data in the form, these functions validate the identification of the Html input with the json key to insert data in each Html element with the value that the Json has
+    *Description:Add data in the form, these methods validate the identification of the Html input with the json key to insert data in each Html element with the value that the Json has
     */
     setDataFormEnable() {
         this.objectForm = this.objectForm;
@@ -308,11 +308,36 @@ class STForm {
             }
         }
     }
+     /*
+    *Ahutor:DIEGO CASALLAS
+    *Busines: SINAPSIS TECHNOLOGIES
+    *Date:01/02/2023
+    *Description:Form input and button disable
+    */
+    inputButtonDisable() {
+        for (let i = 0; i < this.elementsForm; i++) {
+           
+                this.objectForm[i].disabled = true;
+            
+        }
+    }
+       /*
+    *Ahutor:DIEGO CASALLAS
+    *Busines: SINAPSIS TECHNOLOGIES
+    *Date:01/02/2023
+    *Description:Form input and button enable
+    */
+    inputButtonEnable() {
+        for (let i = 0; i < this.elementsForm; i++) {
+                this.objectForm[i].disabled = false;
+            
+        }
+    }
     /*
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES
     *Date:17/05/2022
-    *Description:This function clear the form
+    *Description:This method clear the form
     */
     clearDataForm() {
         this.objectForm = this.objectForm;
@@ -324,7 +349,7 @@ class STForm {
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES
     *Date:17/05/2022
-    *Description:This function clear the form
+    *Description:This method clear the form
     */
     validateForm() {
         for (let i = 0; i < this.elementsForm; i++) {
@@ -333,5 +358,23 @@ class STForm {
             }
         }
         return true;
+    }
+ /*
+    *Ahutor:DIEGO CASALLAS
+    *Busines: SINAPSIS TECHNOLOGIES
+    *Date:17/05/2022
+    *Description:This method validate form object or id 
+    */
+    validateFormObject(formObj) {
+
+        let obj;
+        if (typeof formObj === 'object') {
+            obj = formObj.id;
+    
+        } else {
+            obj = formObj;
+    
+        }
+        return obj;
     }
 }
