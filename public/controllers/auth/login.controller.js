@@ -1,4 +1,3 @@
-
 /*
 *Ahutor:DIEGO CASALLAS
 *Busines: SINAPSIS TECHNOLOGIES
@@ -33,9 +32,9 @@ var ruteContent = "login/";
 var dataModel = 'data';
 var dataResponse = 'response';
 var dataMessages = 'message';
-var assignmentAction=0;
+var assignmentAction = 0;
 const URL_ROUTE = BASE_URL + ruteContent;
-var url ="";
+var url = "";
 
 // ==============================================================
 // Functions 
@@ -48,8 +47,7 @@ var url ="";
 */
 
 function sendDataLogin(e, formObj) {
-
-    let obj=formObj;
+    let obj = formObj;
     sTForm = new STForm(obj);
     getDataLogin(sTForm.getDataForm());
     sTForm.clearDataForm(obj);
@@ -63,8 +61,7 @@ function sendDataLogin(e, formObj) {
 *Description:This function recovery Password
 */
 function recoveryPassword(e, formObj) {
-
-    let obj=formObj;
+    let obj = formObj;
     sTForm = new STForm(obj);
     sTForm.clearDataForm(obj);
     sTForm.inputButtonDisable();
@@ -72,11 +69,11 @@ function recoveryPassword(e, formObj) {
 }
 
 /*
-  *Ahutor:DIEGO CASALLAS
-  *Busines: SINAPSIS TECHNOLOGIES
-  *Date:31/01/2023
-  *Description:This function view input password
-  */
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:31/01/2023
+*Description:This function view input password
+*/
 function viewInputPassword(inputId, iconId) {
     let x = document.getElementById(inputId);
     let icon = document.getElementById(iconId);
@@ -93,14 +90,13 @@ function viewInputPassword(inputId, iconId) {
     }
 }
 /*
-  *Ahutor:DIEGO CASALLAS
-  *Busines: SINAPSIS TECHNOLOGIES
-  *Date:31/01/2023
-  *Description:This function send data  login validate
-  */
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:31/01/2023
+*Description:This function send data  login validate
+*/
 function getDataLogin(formData) {
-
-    url =URL_ROUTE+arRoutes[0];
+    url = URL_ROUTE + arRoutes[0];
     fetch(url, {
         method: "POST",
         body: JSON.stringify(formData),
@@ -112,7 +108,6 @@ function getDataLogin(formData) {
         .then(response => response.json())
         .catch(error => console.error('Error:', error))
         .then(response => {
-
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
             } else {

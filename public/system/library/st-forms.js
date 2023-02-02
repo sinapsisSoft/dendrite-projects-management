@@ -9,7 +9,7 @@ class STForm {
     //Class variables
     //Constructor method
     constructor(formObj) {
-       
+
         this.objectForm = document.getElementById(this.validateFormObject(formObj));
         this.objectInput = null;
         this.elementsForm = this.objectForm.length;
@@ -34,8 +34,8 @@ class STForm {
     *Date:17/05/2022
     *Description:Get form data
     */
+
     getDataForm() {
-    
         for (let i = 0; i < this.elementsForm; i++) {
             if (!((this.objectForm[i].type == this.textSubmit) || (this.objectForm[i].type == this.textButton))) {
                 if (this.objectForm[i].getAttribute("src") != null) {
@@ -62,8 +62,7 @@ class STForm {
                     }
                 }
             }
-           
-         
+
         }
         return this.elementJson;
     }
@@ -282,7 +281,7 @@ class STForm {
             }
         }
     }
- /*
+    /*
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES
     *Date:17/05/2022
@@ -295,7 +294,7 @@ class STForm {
             }
         }
     }
-     /*
+    /*
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES
     *Date:17/05/2022
@@ -308,7 +307,7 @@ class STForm {
             }
         }
     }
-     /*
+    /*
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES
     *Date:01/02/2023
@@ -316,12 +315,10 @@ class STForm {
     */
     inputButtonDisable() {
         for (let i = 0; i < this.elementsForm; i++) {
-           
-                this.objectForm[i].disabled = true;
-            
+            this.objectForm[i].disabled = true;
         }
     }
-       /*
+    /*
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES
     *Date:01/02/2023
@@ -329,8 +326,7 @@ class STForm {
     */
     inputButtonEnable() {
         for (let i = 0; i < this.elementsForm; i++) {
-                this.objectForm[i].disabled = false;
-            
+            this.objectForm[i].disabled = false;
         }
     }
     /*
@@ -359,7 +355,7 @@ class STForm {
         }
         return true;
     }
- /*
+    /*
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES
     *Date:17/05/2022
@@ -369,11 +365,13 @@ class STForm {
 
         let obj;
         if (typeof formObj === 'object') {
+
             obj = formObj.id;
-    
+
         } else {
+
             obj = formObj;
-    
+
         }
         return obj;
     }
