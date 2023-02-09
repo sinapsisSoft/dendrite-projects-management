@@ -10,10 +10,10 @@ class UserModel extends Model
 {
 
     protected $table = 'user';
+    protected $primaryKey='User_id';
     protected $allowedFields = [
         'User_name', 'User_email', 'User_password', 'Comp_id ', 'Stat_id', 'Role_id'
     ];
-
 
     protected $updatedField = 'updated_at';
     protected $beforeInsert = ['beforeInsert'];

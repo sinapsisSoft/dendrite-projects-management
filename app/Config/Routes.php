@@ -39,6 +39,11 @@ $routes->group('login', ['namespace' => 'App\Controllers\Auth'], function ($rout
     //$routes->post("api/login", "Login::index");
 });
 
+/**Routes groups*/
+$routes->group('user', ['namespace' => 'App\Controllers\User'], function ($routes) {
+    $routes->get('/', 'User::show');
+    
+});
 
     
     
