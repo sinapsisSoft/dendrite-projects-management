@@ -54,7 +54,7 @@
                 <div class="row">
                     <div class="col-12 d-flex no-block align-items-center">
                         <h4 class="page-title">
-                            <button type="button" class="btn btn-primary btn-circle btn-lg" data-bs-toggle="modal" data-bs-target="#userModal"><i class="mdi mdi-account-plus"></i></button>
+                            <button type="button" class="btn btn-primary btn-circle btn-lg" data-bs-toggle="modal" data-bs-target="#createUpdateModal"><i class="mdi mdi-account-plus"></i></button>
                         </h4>
                         <div class="ms-auto text-end">
                             <nav aria-label="breadcrumb">
@@ -154,17 +154,16 @@
                 <!-- ============================================================== -->
                 <!-- Button trigger modal -->
 
-
                 <!-- Modal -->
-                <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+                <div class="modal fade" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="userModalLabel">Modal title</h5>
+                                <h5 class="modal-title" id="createUpdateModalLabel">Modal title</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form class="form-horizontal mt-3" id="userForm" action="" onsubmit="sendDataUser(event,this.id)">
+                                <form class="form-horizontal mt-3" id="objForm" action="" onsubmit="sendDataUser(event,this.id)">
                                     <input type="hidden" class="form-control" id="User_id" name="User_id" value="0">
                                     <div class="form-floating mb-3">
                                         <input type="email" class="form-control" id="User_email" placeholder="user@example.com" required>
@@ -209,7 +208,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" form="userForm" class="btn btn-primary mx-auto w-50">Save changes</button>
+                                <button type="submit" form="objForm" class="btn btn-primary mx-auto w-50">Save changes</button>
                             </div>
                         </div>
                     </div>

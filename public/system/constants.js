@@ -8,7 +8,7 @@
    const BASE_URL_IMG="../assets/img/logos/logo_rizoma_small.png";
    const IMG_DEFAULT="logo_rizoma_small.png";
    const ROUTE_FILE_VIEW_UPLOADS='../uploads/crops/';
-   const AR_ROUTES_GENERAL = new Array('create', 'show', 'update', 'delete');
+   const AR_ROUTES_GENERAL = new Array('create', 'show', 'update', 'delete','edit');
 
 
     /*
@@ -17,5 +17,5 @@
     *Date:01/02/2023
     *Description:General messages management 
     */
-    const AR_MESSAGES_GENERAL = new Array('create', 'show', 'update', 'delete');
+    const AR_MESSAGES_GENERAL = new Array('create', 'show', 'update', 'delete','edit');
     

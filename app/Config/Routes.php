@@ -43,6 +43,8 @@ $routes->group('login', ['namespace' => 'App\Controllers\Auth'], function ($rout
 $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($routes) {
     $routes->get('/', 'User::show');
     $routes->post('create', 'User::create');
+    $routes->post('delete', 'User::delete');
+    $routes->post('edit', 'User::edit');
 });
 
     

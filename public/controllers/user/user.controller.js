@@ -20,19 +20,34 @@ $("#zero_config").DataTable();
 // ==============================================================
 // This is Variable  
 // ==============================================================
-var sTForm = null;
+
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Validate the entered username and password data', 'A new user was created');
+const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', '', 'The user was deleted');
 const ruteContent = "user/";
+const nameModel='users';
 const dataModel = 'data';
 const dataResponse = 'response';
 const dataMessages = 'message';
 const dataCsrf = 'csrf';
-var assignmentAction = 0;
+// ==============================================================
+// This is Variable  
+// ==============================================================
+const primaryId = 'User_id';
 const URL_ROUTE = BASE_URL + ruteContent;
-var url = "";
+// ==============================================================
+// This is Variable  
+// ==============================================================
 const TOASTS = new STtoasts();
-const myModalObjec = document.getElementById('userModal');
+const myModalObjec = document.getElementById('createUpdateModal');
+const objForm = document.getElementById('objForm');
+// ==============================================================
+// This is Variable  
+// ==============================================================
+var sTForm = null;
+var url = "";
+var assignmentAction = 0;
+var formData = new Object();
+
 // ==============================================================
 // Functions 
 // ==============================================================
@@ -42,22 +57,18 @@ const myModalObjec = document.getElementById('userModal');
 *Date:25/05/2022
 *Description:This functions is general for the operations of users
 */
-
 function sendDataUser(e, formObj) {
     let obj = formObj;
     sTForm = new STForm(obj);
     if (sTForm.validateConfirmationsPassword()) {
-
         if (sTForm.validateForm()) {
             create(sTForm.getDataForm());
             sTForm.clearDataForm(obj);
             sTForm.inputButtonDisable();
         }
-
     } else {
         TOASTS.toastView("", "", arMessages[0], 1);
     }
-
     e.preventDefault();
 }
 
@@ -88,13 +99,74 @@ function create(formData) {
             } else {
                 console.log(arMessages[0]);
             }
-        
             sTForm.inputButtonEnable();
         });
-
-    
-
 }
+
+/*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:25/02/2023
+*Description:This function delete users
+*/
+function delete_(id) {
+    let text = "Do you want to carry out this process?\n OK or Cancel.";
+    if (confirm(text) == true) {
+        url = URL_ROUTE + arRoutes[3];
+        formData[primaryId] = id;
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(formData),
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        })
+            .then(response => response.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                if (response[dataResponse] == 200) {
+                    console.log(response[dataModel]);
+                    TOASTS.toastView("", "", arMessages[4], 0);
+                    window.location.reload();
+                } else {
+                    console.log(arMessages[0]);
+                }
+            });
+    }
+}
+
+/*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:25/02/2023
+*Description:This function get data id user
+*/
+function getDataId(id) {
+    formData[primaryId] = id;
+    url = URL_ROUTE + arRoutes[4];
+    debugger;
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    })
+        .then(response => response.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            if (response[dataResponse] == 200) {
+                objSTFrom = new STForm(objForm.id);
+                objSTFrom.setDataForm(response[dataModel], objForm.id);
+                console.log(response[dataModel]);
+            } else {
+                console.log(arMessages[0]);
+            }
+        });
+}
+
 /*
 *Ahutor:DIEGO CASALLAS
 *Busines: SINAPSIS TECHNOLOGIES
@@ -106,6 +178,13 @@ function hideModal() {
     let modal = bootstrap.Modal.getInstance(myModalObjec);
     modal.hide();
 }
+
+/*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:25/02/2023
+*Description:This function to show user modal 
+*/
 function showModal() {
     let modal = bootstrap.Modal.getInstance(myModalObjec);
     modal.show();
