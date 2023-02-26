@@ -101,9 +101,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <?php $i = 1 ?>
+                                            <?php $i = 1 ?>
                                             <?php foreach ($users as $obj) : ?>
-                                               
+
                                                 <tr>
                                                     <td><?= $i++; ?></td>
                                                     <td><?= $obj->User_email; ?></td>
@@ -182,27 +182,27 @@
                                         <label for="Comp_id">User Company</label>
                                         <select class="form-select form-select-sm" id="Comp_id" name="Comp_id" aria-label=".form-select-sm example" required>
                                             <option value="" disabled selected>Open this select menu</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <?php foreach ($companys as $company) : ?>
+                                                <option value="<?= $company['Comp_id']; ?>"> <?= $company['Comp_name']; ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="confirmPassword">User State</label>
                                         <select class="form-select form-select-sm" id="Stat_id" name="Stat_id" aria-label=".form-select-sm example" required>
                                             <option value="" disabled selected>Open this select menu</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <?php foreach ($status as $statu) : ?>
+                                                <option value="<?= $statu->Stat_id; ?>"> <?= $statu->Stat_name; ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="confirmPassword">User Role</label>
                                         <select class="form-select form-select-sm" id="Role_id" name="Role_id" aria-label=".form-select-sm example" required>
                                             <option value="" disabled selected>Open this select menu</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <?php foreach ($roles as $role) : ?>
+                                                <option value="<?= $role['Role_id']; ?>"> <?= $role['Role_name']; ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </form>

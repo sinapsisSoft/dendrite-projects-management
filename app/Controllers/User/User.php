@@ -5,6 +5,10 @@ namespace App\Controllers\User;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UserModel;
+use App\Models\UserRole;
+use App\Models\UserStatus;
+use App\Models\Company;
+
 
 class User extends BaseController
 {
@@ -22,6 +26,11 @@ class User extends BaseController
 
     public function show()
     {
+        
+        $role = new UserRole();
+        $status = new UserStatus();
+        $company = new Company();
+
         $data['title'] = 'USERS';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
@@ -31,6 +40,9 @@ class User extends BaseController
         $data['footer'] = view('navbar/footer');
 
         $data[$this->nameModel] = $this->objModel->sp_select_all_users();
+        $data['roles'] = $role->orderBy('Role_id', 'ASC')->findAll();
+        $data['status'] = $status->sp_select_status_users();
+        $data['companys'] = $company->orderBy('Comp_id', 'ASC')->findAll();
 
         return view('user/user', $data);
     }
