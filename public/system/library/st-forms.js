@@ -355,6 +355,25 @@ class STForm {
         }
         return true;
     }
+
+     /*
+    *Ahutor:DIEGO CASALLAS
+    *Busines: SINAPSIS TECHNOLOGIES
+    *Date:25/05/2022
+    *Description:This method validate two input password 
+    */
+    validateConfirmationsPassword() {
+
+        let obj=this.objectForm.querySelectorAll("input[type='password']");
+        if(obj[0].value==obj[1].value){
+            this.vaslidateInput=true;
+        }else{
+            obj[1].focus;
+            this.vaslidateInput=false;
+        }
+        return this.vaslidateInput;
+     
+    }
     /*
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES

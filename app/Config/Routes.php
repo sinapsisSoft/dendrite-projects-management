@@ -42,7 +42,7 @@ $routes->group('login', ['namespace' => 'App\Controllers\Auth'], function ($rout
 /**Routes groups*/
 $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($routes) {
     $routes->get('/', 'User::show');
-    
+    $routes->post('create', 'User::create');
 });
 
     

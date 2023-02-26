@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use CodeIgniter\HTTP\ResponseInterface;
 
 use CodeIgniter\Model;
@@ -10,10 +11,8 @@ class UserModel extends Model
 {
 
     protected $table = 'user';
-    protected $primaryKey='User_id';
-    protected $allowedFields = [
-        'User_name', 'User_email', 'User_password', 'Comp_id ', 'Stat_id', 'Role_id'
-    ];
+    protected $primaryKey = 'User_id';
+    protected $allowedFields = ['User_id', 'User_email', 'User_password', 'Comp_id', 'Stat_id', 'Role_id'];
 
     protected $updatedField = 'updated_at';
     protected $beforeInsert = ['beforeInsert'];
@@ -29,6 +28,13 @@ class UserModel extends Model
         return $this->getUpdatedDataWithHashedPassword($data);
     }
 
+
+    function sp_select_all_users()
+    {
+        $query = "CALL sp_select_all_users()";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
 
     private function getUpdatedDataWithHashedPassword(array $data): array
     {
@@ -55,11 +61,10 @@ class UserModel extends Model
         $this->select('User_id');
         $this->where('User_email', $emailAddress);
         $user = $this->where('User_password', $password)->first();
-       
+
         if (!$user) {
-            
-         return ResponseInterface::HTTP_NO_CONTENT;   
-            
+
+            return ResponseInterface::HTTP_NO_CONTENT;
         }
         return $user;
     }

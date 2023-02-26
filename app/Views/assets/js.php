@@ -26,3 +26,4 @@
     <script src="<?=base_url()?>/assets/matrix-admin-bt5/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
     <script src="<?=base_url()?>/assets/matrix-admin-bt5/dist/js/pages/chart/chart-page-init.js"></script>
     <script src="<?=base_url()?>/system/library/st-forms.js"></script>
+    <script src="<?=base_url()?>/system/library/st-toasts.js"></script>
