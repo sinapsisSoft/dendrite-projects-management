@@ -15,6 +15,7 @@
     <!--Custom JavaScript -->
     <script src="<?=base_url()?>/assets/matrix-admin-bt5/dist/js/custom.min.js"></script>
     <!--This page JavaScript -->
+    <script src="<?= base_url() ?>/assets/matrix-admin-bt5/assets/extra-libs/DataTables/datatables.min.js"></script>
     <!-- <script src="../dist/js/pages/dashboards/dashboard1.js"></script> -->
     <!-- Charts js Files -->
     <script src="<?=base_url()?>/assets/matrix-admin-bt5/assets/libs/flot/excanvas.js"></script>

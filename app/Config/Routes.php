@@ -45,6 +45,7 @@ $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($route
     $routes->post('create', 'User::create');
     $routes->post('delete', 'User::delete');
     $routes->post('edit', 'User::edit');
+    $routes->post('update', 'User::update');
 });
 
     

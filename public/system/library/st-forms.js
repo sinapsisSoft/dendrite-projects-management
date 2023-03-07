@@ -26,6 +26,8 @@ class STForm {
         this.dataLengthJson = 0;
         this.objElementInput = null;
         this.postData = new FormData();
+        this.classNameDisableInput = "form-disabled";
+        this.classListInput = "";
     }
 
     /*
@@ -181,42 +183,46 @@ class STForm {
     *Date:17/05/2022
     *Description:Add data in the form, these methods validate the identification of the Html input with the json key to insert data in each Html element with the value that the Json has
     */
-    setDataForm(dataJson, idForm) {
-        this.objectForm = document.getElementById(idForm);
+    setDataForm(dataJson) {
         this.objJson = Object.keys(dataJson);
         this.dataLengthJson = this.objJson.length;
         for (let i = 0; i < this.dataLengthJson; i++) {
             this.objElementInput = null;
             this.objElementInput = document.getElementById(this.objJson[i]);
             if (i <= this.dataLengthJson) {
-                if (this.objElementInput.getAttribute("src") != null) {
-                    this.objElementInput.src = ROUTE_FILE_VIEW_UPLOADS + dataJson[this.objJson[i]];
-                    this.objElementInput.value = dataJson[this.objJson[i]];
-                } else {
-                    if (this.objectForm[i] === undefined) {
-                        this.objElementInput = document.getElementById(this.objJson[i]);
-                        this.objElementInput.value = dataJson[this.objJson[i]];
-                    } else if (this.objectForm[i].type == this.arrayTypeInput[0]) {
-                        this.objElementInput = document.getElementById(this.objJson[i]);
-                        this.objElementInput.checked = dataJson[this.objJson[i]];
-                    } else if (this.objectForm[i].type == this.textRadio) {
-                        this.objElementInput = document.getElementsByName(this.objJson[i]);
+                if ((this.objElementInput) != undefined) {
+              
+                   if (this.objElementInput.type == this.arrayTypeInput[0]) {
+                        this.objElementInputchecked = dataJson[this.objJson[i]];
+                    } else if (this.objElementInput.type == this.textRadio) {
+
                         for (let j = 0; j < this.objElementInput.length; j++) {
-                            if (this.objElementInput[j].value == dataJson[this.objJson[i]]) {
-                                this.objElementInput[j].checked = true;
+                            if (this.objElementInput.value == dataJson[this.objJson[i]]) {
+                                this.objElementInput.checked = true;
                             } else {
-                                this.objElementInput[j].checked = false;
+                                this.objElementInput.checked = false;
                             }
                         }
                     }
                     else {
-                        this.objElementInput = document.getElementById(this.objJson[i])
+                       
                         this.objElementInput.value = dataJson[this.objJson[i]];
                     }
+                    
+                    if (this.objElementInput.classList.contains(this.classNameDisableInput)) {
+                        this.objElementInput.disabled = true;
+                    } else {
+                        this.objElementInput.disabled = false;
+                    }
+
                 }
+
             }
+
         }
+
     }
+
 
     /*
     *Ahutor:DIEGO CASALLAS
@@ -267,14 +273,13 @@ class STForm {
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES
     *Date:31/08/2022
-    *Description:Add data in the form, these methods validate the identification of the Html input with the json key to insert data in each Html element with the value that the Json has
+    *Description:These methods add data to the form, validating the data that should remain disabled
     */
-    setDataFormEnable() {
-        this.objectForm = this.objectForm;
+    FormEnableEdit() {
         this.dataLength = this.objectForm.length;
         for (let i = 0; i < this.dataLength; i++) {
             let classInput = this.objectForm[i].classList;
-            if (this.objectForm[i].classList.item(1) === 'form-disabled') {
+            if (this.objectForm[i].classList.item(i) === 'form-disabled') {
                 this.objectForm[i].disabled = true;
             } else {
                 this.objectForm[i].disabled = false;
@@ -336,9 +341,10 @@ class STForm {
     *Description:This method clear the form
     */
     clearDataForm() {
-        this.objectForm = this.objectForm;
+
         this.objectForm.value = "";
         this.objectForm.reset();
+
     }
 
     /*
@@ -356,7 +362,7 @@ class STForm {
         return true;
     }
 
-     /*
+    /*
     *Ahutor:DIEGO CASALLAS
     *Busines: SINAPSIS TECHNOLOGIES
     *Date:25/05/2022
@@ -364,15 +370,15 @@ class STForm {
     */
     validateConfirmationsPassword() {
 
-        let obj=this.objectForm.querySelectorAll("input[type='password']");
-        if(obj[0].value==obj[1].value){
-            this.vaslidateInput=true;
-        }else{
+        let obj = this.objectForm.querySelectorAll("input[type='password']");
+        if (obj[0].value == obj[1].value) {
+            this.vaslidateInput = true;
+        } else {
             obj[1].focus;
-            this.vaslidateInput=false;
+            this.vaslidateInput = false;
         }
         return this.vaslidateInput;
-     
+
     }
     /*
     *Ahutor:DIEGO CASALLAS

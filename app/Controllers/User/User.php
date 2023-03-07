@@ -9,7 +9,6 @@ use App\Models\UserRole;
 use App\Models\UserStatus;
 use App\Models\Company;
 
-use function PHPUnit\Framework\isNull;
 
 class User extends BaseController
 {
@@ -24,7 +23,12 @@ class User extends BaseController
         $this->primaryKey = 'User_id';
         $this->nameModel = 'users';
     }
-
+    /*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:25/05/2022
+*Description:This functions Show overview
+*/
     public function show()
     {
         $role = new UserRole();
@@ -33,18 +37,26 @@ class User extends BaseController
         $data['title'] = 'USERS';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
+        
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
         $data['header'] = view('navbar/header');
         $data['footer'] = view('navbar/footer');
+
         $data[$this->nameModel] = $this->objModel->sp_select_all_users();
+        
         $data['roles'] = $role->orderBy('Role_id', 'ASC')->findAll();
         $data['status'] = $status->sp_select_status_users();
         $data['companys'] = $company->orderBy('Comp_id', 'ASC')->findAll();
+
         return view('user/user', $data);
     }
-
-
+    /*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:25/05/2022
+*Description:This functions create 
+*/
     public function create()
     {
         if ($this->request->isAJAX()) {
@@ -66,7 +78,12 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-
+    /*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:25/05/2022
+*Description:This functions edit 
+*/
     public function edit()
     {
         try {
@@ -83,7 +100,37 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-
+    /*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:25/05/2022
+*Description:This functions update 
+*/
+    public function update()
+    {
+        try {
+            $today = date("Y-m-d H:i:s");
+            $id = $this->request->getVar($this->primaryKey);
+            $data = $this->getDataModel($id);
+            $data['updated_at'] = $today;
+            $this->objModel->update($id, $data);
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['data'] = $id;
+            $data['csrf'] = csrf_hash();
+        } catch (\Exception $e) {
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = 'Error';
+        }
+        return json_encode($data);
+    }
+    /*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:25/05/2022
+*Description:This functions delete 
+*/
     public function delete()
     {
         try {
@@ -105,16 +152,22 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-
+    /*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:25/05/2022
+*Description:This functions create datamodel  
+*/
     public function getDataModel($getShares)
     {
         $data = [
             'User_id' => $getShares,
             'User_email' => $this->request->getVar('User_email'),
-            'User_password' => password_hash($this->request->getVar('User_password'), PASSWORD_DEFAULT),
+            'User_password' => password_hash($this->request->getVar('User_password'), PASSWORD_BCRYPT),
             'Comp_id' => $this->request->getVar('Comp_id'),
             'Stat_id' => $this->request->getVar('Stat_id'),
-            'Role_id' => $this->request->getVar('Role_id')
+            'Role_id' => $this->request->getVar('Role_id'),
+            'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;
     }
