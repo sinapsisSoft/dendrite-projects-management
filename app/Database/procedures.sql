@@ -16,3 +16,15 @@ BEGIN
 END$$
 DELIMITER ;
 
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_modules_role`()
+BEGIN
+select 
+	rm.Mod_id as mod_id,
+    (select group_concat(rmp.Perm_id) from role_module_permit rmp 
+where rmp.Role_mod_id = rm.Role_mod_id) as permits
+from role_module rm where rm.Role_id = role_id;
+
+END
+DELIMITER ;
+
