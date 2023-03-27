@@ -1,64 +1,50 @@
 <?php
-
-namespace App\Controllers\User;
+namespace App\Controllers\Client;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\UserModel;
-use App\Models\UserRole;
-use App\Models\UserStatusModel;
+use App\Models\ClientModel;
 use App\Models\CompanyModel;
+use App\Models\DocTypeModel;
+use App\Models\UserStatusModel;
+use App\Models\CountryModel;
 
 
-class User extends BaseController
-{
-    public $dataResult;
+class Client extends BaseController{
     private $objModel;
     private $primaryKey;
     private $nameModel;
 
     public function __construct()
     {
-        $this->objModel = new UserModel();
-        $this->primaryKey = 'User_id';
-        $this->nameModel = 'users';
+        $this->objModel = new ClientModel();
+        $this->primaryKey = 'Client_id';
+        $this->nameModel = 'clients';
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions Show overview
-*/
-    public function show()
-    {
-        $role = new UserRole();
-        $status = new UserStatusModel();
+
+    public function show(){
+        $doctype = new DocTypeModel();
+        $userstatus = new UserStatusModel();
         $company = new CompanyModel();
-        $data['title'] = 'USERS';
+        $country = new CountryModel();
+        $data['title'] = 'Clientes';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
-        
+
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
         $data['header'] = view('navbar/header');
         $data['footer'] = view('navbar/footer');
 
-        $data[$this->nameModel] = $this->objModel->sp_select_all_users();
-        
-        $data['roles'] = $role->orderBy('Role_id', 'ASC')->findAll();
-        $data['status'] = $status->sp_select_status_users();
-        $data['companys'] = $company->orderBy('Comp_id', 'ASC')->findAll();
-
-        return view('user/user', $data);
+        $data[$this->nameModel] = $this->objModel->findAll();
+        $data['doctypes'] = $doctype->findAll();
+        $data['userstatuses'] = $userstatus->sp_select_status_users();
+        $data['companies'] = $company->findAll();
+        $data['countries'] = $country->findAll();
+        return view('client/client', $data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions create 
-*/
-    public function create()
-    {
+
+    public function create(){
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL);
             if ($this->objModel->insert($dataModel)) {
@@ -78,12 +64,7 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions edit 
-*/
+
     public function edit()
     {
         try {
@@ -100,12 +81,7 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions update 
-*/
+
     public function update()
     {
         try {
@@ -125,12 +101,7 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions delete 
-*/
+
     public function delete()
     {
         try {
@@ -152,21 +123,20 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions create datamodel  
-*/
+
     public function getDataModel($getShares)
     {
         $data = [
-            'User_id' => $getShares,
-            'User_email' => $this->request->getVar('User_email'),
-            'User_password' => password_hash($this->request->getVar('User_password'), PASSWORD_BCRYPT),
-            'Comp_id' => $this->request->getVar('Comp_id'),
+            'Client_id' => $getShares,
+            'Client_name' => $this->request->getVar('Client_name'),
+            'Client_identification' => $this->request->getVar('Client_identification'),
+            'Client_email' => $this->request->getVar('Client_email'),
+            'Client_phone' => $this->request->getVar('Client_phone'),
+            'Client_address' => $this->request->getVar('Client_address'),
+            'DocType_id' => $this->request->getVar('DocType_id'),
             'Stat_id' => $this->request->getVar('Stat_id'),
-            'Role_id' => $this->request->getVar('Role_id'),
+            'Comp_id' => $this->request->getVar('Comp_id'),
+            'Country_id' => $this->request->getVar('Country_id'),
             'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;

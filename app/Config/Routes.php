@@ -48,8 +48,101 @@ $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($route
     $routes->post('update', 'User::update');
 });
 
-    
-    
+$routes->group('doctype', ['namespace' => 'App\Controllers\DocType'], function ($routes) {
+    $routes->get('/', 'DocType::show');
+    $routes->post('create', 'DocType::create');
+    $routes->post('delete', 'DocType::delete');
+    $routes->post('edit', 'DocType::edit');
+    $routes->post('update', 'DocType::update');
+});
+
+$routes->group('role', ['namespace' => 'App\Controllers\Role'], function ($routes) {
+    $routes->get('/', 'Role::show');
+    $routes->post('create', 'Role::create');
+    $routes->post('delete', 'Role::delete');
+    $routes->post('edit', 'Role::edit');
+    $routes->post('update', 'Role::update');
+});
+
+$routes->group('module', ['namespace' => 'App\Controllers\Module'], function ($routes) {
+    $routes->get('/', 'Module::show');
+    $routes->post('create', 'Module::create');
+    $routes->post('delete', 'Module::delete');
+    $routes->post('edit', 'Module::edit');
+    $routes->post('update', 'Module::update');
+});
+
+$routes->group('userstatus', ['namespace' => 'App\Controllers\UserStatus'], function ($routes) {
+    $routes->get('/', 'UserStatus::show');
+    $routes->post('create', 'UserStatus::create');
+    $routes->post('delete', 'UserStatus::delete');
+    $routes->post('edit', 'UserStatus::edit');
+    $routes->post('update', 'UserStatus::update');
+});
+
+$routes->group('country', ['namespace' => 'App\Controllers\Country'], function ($routes) {
+    $routes->get('/', 'Country::show');
+    $routes->post('create', 'Country::create');
+    $routes->post('delete', 'Country::delete');
+    $routes->post('edit', 'Country::edit');
+    $routes->post('update', 'Country::update');
+});
+
+$routes->group('unit', ['namespace' => 'App\Controllers\Unit'], function ($routes) {
+    $routes->get('/', 'Unit::show');
+    $routes->post('create', 'Unit::create');
+    $routes->post('delete', 'Unit::delete');
+    $routes->post('edit', 'Unit::edit');
+    $routes->post('update', 'Unit::update');
+});
+
+$routes->group('city', ['namespace' => 'App\Controllers\City'], function ($routes) {
+    $routes->get('/', 'City::show');
+    $routes->post('create', 'City::create');
+    $routes->post('delete', 'City::delete');
+    $routes->post('edit', 'City::edit');
+    $routes->post('update', 'City::update');
+});
+
+$routes->group('company', ['namespace' => 'App\Controllers\Company'], function ($routes) {
+    $routes->get('/', 'Company::show');
+    $routes->post('create', 'Company::create');
+    $routes->post('delete', 'Company::delete');
+    $routes->post('edit', 'Company::edit');
+    $routes->post('update', 'Company::update');
+});
+
+$routes->group('client', ['namespace' => 'App\Controllers\Client'], function ($routes) {
+    $routes->get('/', 'Client::show');
+    $routes->post('create', 'Client::create');
+    $routes->post('delete', 'Client::delete');
+    $routes->post('edit', 'Client::edit');
+    $routes->post('update', 'Client::update');
+});
+
+$routes->group('product', ['namespace' => 'App\Controllers\Product'], function ($routes) {
+    $routes->get('/', 'Product::show');
+    $routes->post('create', 'Product::create');
+    $routes->post('delete', 'Product::delete');
+    $routes->post('edit', 'Product::edit');
+    $routes->post('update', 'Product::update');
+});
+
+$routes->group('producttype', ['namespace' => 'App\Controllers\ProductType'], function ($routes) {
+    $routes->get('/', 'ProductType::show');
+    $routes->post('create', 'ProductType::create');
+    $routes->post('delete', 'ProductType::delete');
+    $routes->post('edit', 'ProductType::edit');
+    $routes->post('update', 'ProductType::update');
+});
+
+$routes->group('filing', ['namespace' => 'App\Controllers\Filing'], function ($routes) {
+    $routes->get('/', 'Filing::show');
+    $routes->post('create', 'Filing::create');
+    $routes->post('delete', 'Filing::delete');
+    $routes->post('edit', 'Filing::edit');
+    $routes->post('update', 'Filing::update');
+});
 
 
 /*

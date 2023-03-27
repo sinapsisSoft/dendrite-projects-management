@@ -1,64 +1,47 @@
 <?php
-
-namespace App\Controllers\User;
+namespace App\Controllers\Product;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\UserModel;
-use App\Models\UserRole;
-use App\Models\UserStatusModel;
-use App\Models\CompanyModel;
+use App\Models\ProductModel;
+use App\Models\FilingModel;
+use App\Models\ProducttypeModel;
+use App\Models\UnitModel;
 
 
-class User extends BaseController
-{
-    public $dataResult;
+class Product extends BaseController{
     private $objModel;
     private $primaryKey;
     private $nameModel;
 
     public function __construct()
     {
-        $this->objModel = new UserModel();
-        $this->primaryKey = 'User_id';
-        $this->nameModel = 'users';
+        $this->objModel = new ProductModel();
+        $this->primaryKey = 'Prod_id';
+        $this->nameModel = 'products';
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions Show overview
-*/
-    public function show()
-    {
-        $role = new UserRole();
-        $status = new UserStatusModel();
-        $company = new CompanyModel();
-        $data['title'] = 'USERS';
+
+    public function show(){
+        $filing = new FilingModel();
+        $producttype = new ProductTypeModel();
+        $unit = new UnitModel();
+        $data['title'] = 'Productos';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
-        
+
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
         $data['header'] = view('navbar/header');
         $data['footer'] = view('navbar/footer');
 
-        $data[$this->nameModel] = $this->objModel->sp_select_all_users();
-        
-        $data['roles'] = $role->orderBy('Role_id', 'ASC')->findAll();
-        $data['status'] = $status->sp_select_status_users();
-        $data['companys'] = $company->orderBy('Comp_id', 'ASC')->findAll();
-
-        return view('user/user', $data);
+        $data[$this->nameModel] = $this->objModel->findAll();
+        $data['filings'] = $filing->findAll();
+        $data['producttypes'] = $producttype->findAll();
+        $data['units'] = $unit->findAll();
+        return view('product/product', $data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions create 
-*/
-    public function create()
-    {
+
+    public function create(){
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL);
             if ($this->objModel->insert($dataModel)) {
@@ -78,12 +61,7 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions edit 
-*/
+
     public function edit()
     {
         try {
@@ -100,12 +78,7 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions update 
-*/
+
     public function update()
     {
         try {
@@ -125,12 +98,7 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions delete 
-*/
+
     public function delete()
     {
         try {
@@ -152,21 +120,17 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions create datamodel  
-*/
+
     public function getDataModel($getShares)
     {
         $data = [
-            'User_id' => $getShares,
-            'User_email' => $this->request->getVar('User_email'),
-            'User_password' => password_hash($this->request->getVar('User_password'), PASSWORD_BCRYPT),
-            'Comp_id' => $this->request->getVar('Comp_id'),
-            'Stat_id' => $this->request->getVar('Stat_id'),
-            'Role_id' => $this->request->getVar('Role_id'),
+            'Prod_id' => $getShares,
+            'Prod_name' => $this->request->getVar('Prod_name'),
+            'Prod_description' => $this->request->getVar('Prod_description'),
+            'Prod_value' => $this->request->getVar('Prod_value'),
+            'TypePro_id' => $this->request->getVar('TypePro_id'),
+            'Unit_id' => $this->request->getVar('Unit_id'),
+            'Filing_id' => $this->request->getVar('Filing_id'),
             'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;

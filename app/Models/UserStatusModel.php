@@ -3,7 +3,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserStatus extends Model{
+class UserStatusModel extends Model{
 
     protected $table ='status';
     protected $primaryKey='Stat_id';

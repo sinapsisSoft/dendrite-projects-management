@@ -1,67 +1,60 @@
 <?php
 
-namespace App\Controllers\User;
+namespace App\Controllers\Role;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\UserModel;
 use App\Models\UserRole;
-use App\Models\UserStatusModel;
-use App\Models\CompanyModel;
+use App\Models\RoleModuleModel;
+use App\Models\RoleModulePermitModel;
+use App\Models\PermitModel;
+use App\Models\ModuleModel;
 
-
-class User extends BaseController
+class Role extends BaseController
 {
-    public $dataResult;
     private $objModel;
     private $primaryKey;
     private $nameModel;
+    private $roleModule;
+    private $roleModulePermit;
 
     public function __construct()
     {
-        $this->objModel = new UserModel();
-        $this->primaryKey = 'User_id';
-        $this->nameModel = 'users';
+        $this->objModel = new UserRole();
+        $this->roleModule = new RoleModuleModel();
+        $this->roleModulePermit = new RoleModulePermitModel();
+        $this->primaryKey = "Role_id";
+        $this->nameModel = "roles";
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions Show overview
-*/
+
     public function show()
     {
-        $role = new UserRole();
-        $status = new UserStatusModel();
-        $company = new CompanyModel();
-        $data['title'] = 'USERS';
+        $permits = new PermitModel();
+        $modules = new ModuleModel();
+
+        $data['title'] = 'Roles';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
-        
+
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
         $data['header'] = view('navbar/header');
         $data['footer'] = view('navbar/footer');
 
-        $data[$this->nameModel] = $this->objModel->sp_select_all_users();
-        
-        $data['roles'] = $role->orderBy('Role_id', 'ASC')->findAll();
-        $data['status'] = $status->sp_select_status_users();
-        $data['companys'] = $company->orderBy('Comp_id', 'ASC')->findAll();
+        $data[$this->nameModel] = $this->objModel->findAll();
+        $data['permits'] = $permits->findAll();
+        $data['modules'] = $modules->findAll();
 
-        return view('user/user', $data);
+        return view('role/role', $data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions create 
-*/
+
     public function create()
     {
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL);
             if ($this->objModel->insert($dataModel)) {
+                $roleId = $this->objModel->insertID();
+                $this->save_module_role($roleId);
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['data'] = $dataModel;
@@ -78,40 +71,15 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions edit 
-*/
-    public function edit()
-    {
-        try {
-            $id = $this->request->getVar($this->primaryKey);
-            $getDataId = $this->objModel->where($this->primaryKey, $id)->first();
-            $data['message'] = 'success';
-            $data['response'] = ResponseInterface::HTTP_OK;
-            $data['data'] = $getDataId;
-            $data['csrf'] = csrf_hash();
-        } catch (\Exception $e) {
-            $data['message'] = $e;
-            $data['response'] = ResponseInterface::HTTP_CONFLICT;
-            $data['data'] = 'Error';
-        }
-        return json_encode($data);
-    }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions update 
-*/
+
     public function update()
     {
         try {
             $today = date("Y-m-d H:i:s");
             $id = $this->request->getVar($this->primaryKey);
+            $this->delete_module_role($id);
             $data = $this->getDataModel($id);
+            $this->save_module_role($id);
             $data['updated_at'] = $today;
             $this->objModel->update($id, $data);
             $data['message'] = 'success';
@@ -125,16 +93,43 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions delete 
-*/
+
+    public function save_module_role($roleId)
+    {
+        $modules = $this->request->getVar('modules');
+        foreach ($modules as $module) {
+            $object = explode(";", $module);
+            $this->roleModule->insert(["Role_id" => $roleId, "Mod_id" => $object[0]]);
+            $roleModuleId = $this->roleModule->insertID();
+            $permits = explode(",", $object[1]);
+            foreach ($permits as $permit) {
+                $this->roleModulePermit->insert(["Perm_id" => $permit, "Role_mod_id" => $roleModuleId]);
+            }
+        }
+    }
+
+    public function edit()
+    {
+        try {
+            $id = $this->request->getVar($this->primaryKey);
+            $getDataId = $this->objModel->where($this->primaryKey, $id)->first();
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['data'] = ["role" => $getDataId, "modules" => $this->objModel->sp_select_modules_role($id)];
+            $data['csrf'] = csrf_hash();
+        } catch (\Exception $e) {
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = 'Error';
+        }
+        return json_encode($data);
+    }
+
     public function delete()
     {
         try {
             $id = $this->request->getVar($this->primaryKey);
+            $this->delete_module_role($id);
             if ($this->objModel->where($this->primaryKey, $id)->delete($id)) {
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
@@ -152,21 +147,23 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-    /*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions create datamodel  
-*/
+
+    public function delete_module_role($roleId){
+        $this->roleModule->delete([$this->primaryKey => $roleId]);
+        $roleModules = $this->roleModule->where($this->primaryKey, $roleId)->findAll();
+        foreach($roleModules as $roleModule){
+            $roleModIdColumn = 'Role_mod_id';
+            $roleModId = $roleModule[$roleModIdColumn];
+            //$this->roleModulePermit->where($roleModIdColumn, $roleModId)->delete($roleModId);
+            $this->roleModule->where($roleModIdColumn, $roleModId)->delete($roleModId);
+        }
+    }
+
     public function getDataModel($getShares)
     {
         $data = [
-            'User_id' => $getShares,
-            'User_email' => $this->request->getVar('User_email'),
-            'User_password' => password_hash($this->request->getVar('User_password'), PASSWORD_BCRYPT),
-            'Comp_id' => $this->request->getVar('Comp_id'),
-            'Stat_id' => $this->request->getVar('Stat_id'),
-            'Role_id' => $this->request->getVar('Role_id'),
+            'Role_id' => $getShares,
+            'Role_name' => $this->request->getVar('Role_name'),
             'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;

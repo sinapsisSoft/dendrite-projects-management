@@ -1,64 +1,29 @@
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/01/2023
-*Description:General login management functions
-*/
-// ==============================================================
-// Start View
-// ==============================================================
 showPreload();
-// ==============================================================
-// Login and Recover Password
-// ==============================================================
-/****************************************
-*       Basic Table                   *
-****************************************/
-$("#table_obj").DataTable();
 
-// ==============================================================
-// This is Variable  
-// ==============================================================
+$("#table_obj").DataTable();
 
 const arRoutes = AR_ROUTES_GENERAL;
 const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', 'Updated user ', 'The user was deleted');
-const ruteContent = "user/";
-const nameModel = 'users';
+const ruteContent = "client/";
+const nameModel = 'clients';
 const dataModel = 'data';
 const dataResponse = 'response';
 const dataMessages = 'message';
 const dataCsrf = 'csrf';
-// ==============================================================
-// This is Variable  
-// ==============================================================
-const primaryId = 'User_id';
+
+const primaryId = 'Client_id';
 const URL_ROUTE = BASE_URL + ruteContent;
-// ==============================================================
-// This is Variable  
-// ==============================================================
+
 const TOASTS = new STtoasts();
 const myModalObjec = '#createUpdateModal';
 const idForm = 'objForm';
 
-// ==============================================================
-// This is Variable  
-// ==============================================================
 var sTForm = null;
 var url = "";
 var assignmentAction = 0;
 var formData = new Object();
 var selectInsertOrUpdate = true;
 
-// ==============================================================
-// Functions 
-// ==============================================================
-
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:31/01/2023
-*Description:This function create users
-*/
 function create(formData) {
     url = URL_ROUTE + arRoutes[0];
     debugger;
@@ -75,7 +40,6 @@ function create(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-                debugger;
                 TOASTS.toastView("", "", arMessages[1], 0);
                 hideModal();
                 window.location.reload();
@@ -83,16 +47,10 @@ function create(formData) {
                 console.log(arMessages[0]);
             }
             sTForm.inputButtonEnable();
-            debugger;
             hidePreload();
         });
 }
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:31/01/2023
-*Description:This function update users
-*/
+
 function update(formData) {
     url = URL_ROUTE + arRoutes[2];
     fetch(url, {
@@ -119,12 +77,6 @@ function update(formData) {
         });
 }
 
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/02/2023
-*Description:This function delete users
-*/
 function delete_(id) {
     let text = "Do you want to carry out this process?\n OK or Cancel.";
     if (confirm(text) == true) {
@@ -154,36 +106,24 @@ function delete_(id) {
             });
     }
 }
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions is general for the operations of users
-*/
+
 function sendData(e, formObj) {
+    debugger;
     let obj = formObj;
     sTForm = SingletonClassSTForm.getInstance();
-    if (sTForm.validateConfirmationsPassword()) {
-        if (sTForm.validateForm()) {
-            showPreload();
-            if (selectInsertOrUpdate) {
-                create(sTForm.getDataForm());
-            } else {
-                update(sTForm.getDataForm());
-            }
-            sTForm.inputButtonDisable();
+    if (sTForm.validateForm()) {
+        showPreload();
+        if (selectInsertOrUpdate) {
+            create(sTForm.getDataForm());
+        } else {
+            update(sTForm.getDataForm());
         }
+        sTForm.inputButtonDisable();
     } else {
         TOASTS.toastView("", "", arMessages[0], 1);
     }
     e.preventDefault();
 }
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/02/2023
-*Description:This function get data id user
-*/
 
 function detail(idData) {
     getDataId(idData);
@@ -226,33 +166,15 @@ function getDataId(idData) {
         });
 }
 
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/02/2023
-*Description:This function to hide user modal 
-*/
 function addData() {
     selectInsertOrUpdate = true;
     showModal(1);
 }
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/02/2023
-*Description:This function to hide user modal 
-*/
 
 function hideModal() {
     $(myModalObjec).modal("hide");
 }
 
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/02/2023
-*Description:This function to show user modal 
-*/
 function showModal(type) {
     if (type == 1) {
         sTForm = SingletonClassSTForm.getInstance();
@@ -261,31 +183,15 @@ function showModal(type) {
     sTForm.clearDataForm();
     $(myModalObjec).modal("show");
 }
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:27/02/2023
-*Description:This function to show preload
-*/
+
 function showPreload() {
     $(".preloader").fadeIn();
 }
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:27/02/2023
-*Description:This function to hide preload
-*/
+
 function hidePreload() {
     $(".preloader").fadeOut();
 }
 
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
-*Description:This functions singleton STForm class
-*/
 var SingletonClassSTForm = (function () {
     var objInstance;
     function createInstance() {
