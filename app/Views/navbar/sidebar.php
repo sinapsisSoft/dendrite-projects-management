@@ -80,6 +80,12 @@
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Tipo </span></a
                     >
+                    <li class="sidebar-item">
+                    <a href="/brand" class="sidebar-link"
+                      ><i class="mdi mdi-chevron-right"></i
+                      ><span class="hide-menu">Marca</span></a
+                    >
+                  </li>
                   </li>
                   <li class="sidebar-item">
                     <a href="/filing" class="sidebar-link"

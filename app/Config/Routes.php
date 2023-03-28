@@ -144,6 +144,14 @@ $routes->group('filing', ['namespace' => 'App\Controllers\Filing'], function ($r
     $routes->post('update', 'Filing::update');
 });
 
+$routes->group('brand', ['namespace' => 'App\Controllers\Brand'], function ($routes) {
+    $routes->get('/', 'Brand::show');
+    $routes->post('create', 'Brand::create');
+    $routes->post('delete', 'Brand::delete');
+    $routes->post('edit', 'Brand::edit');
+    $routes->post('update', 'Brand::update');
+});
+
 
 /*
  * --------------------------------------------------------------------

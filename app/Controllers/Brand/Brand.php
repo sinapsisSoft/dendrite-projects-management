@@ -1,33 +1,27 @@
 <?php
-namespace App\Controllers\Product;
+namespace App\Controllers\Brand;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProductModel;
-use App\Models\FilingModel;
 use App\Models\BrandModel;
-use App\Models\ProducttypeModel;
-use App\Models\UnitModel;
+use App\Models\ClientModel;
 
 
-class Product extends BaseController{
+class Brand extends BaseController{
     private $objModel;
     private $primaryKey;
     private $nameModel;
 
     public function __construct()
     {
-        $this->objModel = new ProductModel();
-        $this->primaryKey = 'Prod_id';
-        $this->nameModel = 'products';
+        $this->objModel = new BrandModel();
+        $this->primaryKey = 'Brand_id';
+        $this->nameModel = 'brands';
     }
 
     public function show(){
-        $filing = new FilingModel();
-        $brand = new BrandModel();
-        $producttype = new ProductTypeModel();
-        $unit = new UnitModel();
-        $data['title'] = 'Productos';
+        $client = new ClientModel();
+        $data['title'] = 'Marca';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
@@ -37,11 +31,8 @@ class Product extends BaseController{
         $data['footer'] = view('navbar/footer');
 
         $data[$this->nameModel] = $this->objModel->findAll();
-        $data['filings'] = $filing->findAll();
-        $data['brands'] = $brand->findAll();
-        $data['producttypes'] = $producttype->findAll();
-        $data['units'] = $unit->findAll();
-        return view('product/product', $data);
+        $data['clients'] = $client->findAll();
+        return view('brand/brand', $data);
     }
 
     public function create(){
@@ -127,14 +118,10 @@ class Product extends BaseController{
     public function getDataModel($getShares)
     {
         $data = [
-            'Prod_id' => $getShares,
-            'Prod_name' => $this->request->getVar('Prod_name'),
-            'Prod_description' => $this->request->getVar('Prod_description'),
-            'Prod_value' => $this->request->getVar('Prod_value'),
-            'TypePro_id' => $this->request->getVar('TypePro_id'),
-            'Brand_id' => $this->request->getVar('Brand_id'),
-            'Unit_id' => $this->request->getVar('Unit_id'),
-            'Filing_id' => $this->request->getVar('Filing_id'),
+            'Brand_id' => $getShares,
+            'Brand_name' => $this->request->getVar('Brand_name'),
+            'Brand_description' => $this->request->getVar('Brand_description'),
+            'Client_id' => $this->request->getVar('Client_id'),
             'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;
