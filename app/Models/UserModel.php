@@ -12,7 +12,14 @@ class UserModel extends Model
 
     protected $table = 'user';
     protected $primaryKey = 'User_id';
-    protected $allowedFields = ['User_id', 'User_email', 'User_password', 'Comp_id', 'Stat_id', 'Role_id','updated_at'];
+    protected $allowedFields = [
+    'User_id', 
+    'User_email', 
+    'User_password', 
+    'Comp_id', 
+    'Stat_id', 
+    'Role_id',
+    'updated_at'];
 
     protected $updatedField = 'updated_at';
     protected $beforeInsert = ['beforeInsert'];
@@ -32,6 +39,13 @@ class UserModel extends Model
     function sp_select_all_users()
     {
         $query = "CALL sp_select_all_users()";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
+
+    function sp_select_all_users_developer()
+    {
+        $query = "CALL sp_select_all_users_developer()";
         $result = $this->db->query($query)->getResult();
         return $result;
     }

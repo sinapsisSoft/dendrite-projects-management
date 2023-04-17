@@ -29,7 +29,8 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Home::home');
+
 
 
 /**Routes groups*/
@@ -151,6 +152,51 @@ $routes->group('brand', ['namespace' => 'App\Controllers\Brand'], function ($rou
     $routes->post('edit', 'Brand::edit');
     $routes->post('update', 'Brand::update');
 });
+
+$routes->group('project', ['namespace' => 'App\Controllers\Project'], function ($routes) {
+    $routes->get('/', 'Project::show');
+    $routes->post('create', 'Project::create');
+    $routes->post('delete', 'Project::delete');
+    $routes->post('edit', 'Project::edit');
+    $routes->post('update', 'Project::update');
+});
+
+$routes->group('approvalcode', ['namespace' => 'App\Controllers\ApprovalCode'], function ($routes) {
+    $routes->get('/', 'ApprovalCode::show');
+    $routes->post('create', 'ApprovalCode::create');
+    $routes->post('delete', 'ApprovalCode::delete');
+    $routes->post('edit', 'ApprovalCode::edit');
+    $routes->post('update', 'ApprovalCode::update');
+});
+
+$routes->group('activities', ['namespace' => 'App\Controllers\Activities'], function ($routes) {
+    $routes->get('/', 'Activities::show');
+    $routes->post('create', 'Activities::create');
+    $routes->post('delete', 'Activities::delete');
+    $routes->post('edit', 'Activities::edit');
+    $routes->post('update', 'Activities::update');
+});
+
+$routes->group('projectproduct', ['namespace' => 'App\Controllers\Projectproduct'], function ($routes) {
+    $routes->get('/', 'Projectproduct::show');
+    $routes->post('create', 'Projectproduct::create');
+    $routes->post('delete', 'Projectproduct::delete');
+    $routes->post('edit', 'Projectproduct::edit');
+    $routes->post('update', 'Projectproduct::update');
+});
+
+$routes->group('details', ['namespace' => 'App\Controllers\Details'], function ($routes) {
+    $routes->get('/', 'Details::show');
+});
+
+// $routes->group('/', ['namespace' => 'App\Controllers\Home'], function ($routes) {
+//     $routes->get('/', 'Home::show');
+// });
+ 
+ 
+
+
+
 
 
 /*

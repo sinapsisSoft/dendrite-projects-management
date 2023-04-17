@@ -8,6 +8,9 @@ class ProductTypeModel extends Model
 {
     protected $table            = 'product_type';
     protected $primaryKey       = 'TypePro_id';
-    protected $allowedFields    = ["TypePro_id", "TypePro_name", "TypePro_description"];
+    protected $allowedFields    = [
+    "TypePro_id", 
+    "TypePro_name", 
+    "TypePro_description"];
     protected $updatedField = 'updated_at';
 }

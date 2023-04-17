@@ -54,6 +54,39 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="/project"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-content-paste"></i
+                  ><span class="hide-menu">Gestión de proyectos</span></a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link has-arrow waves-effect waves-dark"
+                  href="javascript:void(0)"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-checkbox-multiple-marked-outline"></i
+                  ><span class="hide-menu">Gestión de Actividades </span></a
+                >
+                <ul aria-expanded="false" class="collapse first-level">
+
+                <li class="sidebar-item">
+                    <a href="/activities" class="sidebar-link"
+                      ><i class="mdi mdi-chevron-right"></i
+                      ><span class="hide-menu"> Actividades </span></a
+                    >
+                  </li>
+                <li class="sidebar-item">
+                    <a href="/approvalcode" class="sidebar-link"
+                      ><i class="mdi mdi-chevron-right"></i
+                      ><span class="hide-menu"> Código de actividades </span></a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
                   href="/company"
                   aria-expanded="false"
                   ><i class="mdi mdi-clipboard"></i
@@ -66,7 +99,7 @@
                   href="javascript:void(0)"
                   aria-expanded="false"
                   ><i class="mdi mdi-webpack"></i
-                  ><span class="hide-menu">Gestión de producto </span></a
+                  ><span class="hide-menu">Productos / Servicios </span></a
                 >
                 <ul aria-expanded="false" class="collapse first-level">
                   <li class="sidebar-item">
