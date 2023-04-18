@@ -72,7 +72,7 @@ class ProjectProduct extends BaseController
             $getDataId = $this->objModel->where($this->primaryKey, $id)->first();
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
-            $data['data'] = ["role" => $getDataId, "modules" => $this->objModel->sp_select_modules_role($id)];
+            $data['data'] = $getDataId;
             $data['csrf'] = csrf_hash();
         } catch (\Exception $e) {
             $data['message'] = $e;
