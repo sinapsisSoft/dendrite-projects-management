@@ -1,33 +1,33 @@
-showPreload();
+// $("#table_obj_activities").DataTable();
 
-$("#table_obj").DataTable();
+const ruteContentActivites = "activities/";
+const nameModelActivities = 'activities';
+const dataModelActivities = 'data';
+const dataResponseActivities = 'response';
+const dataMessagesActivities = 'message';
+const dataCsrfActivities = 'csrf';
 
-const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', 'Updated user ', 'The user was deleted');
-const ruteContent = "activities/";
-const nameModel = 'activities';
-const dataModel = 'data';
-const dataResponse = 'response';
-const dataMessages = 'message';
-const dataCsrf = 'csrf';
+const primaryIdActivities = 'Activi_id';
+const URL_ROUTEActivities = BASE_URL + ruteContentActivites;
 
-const primaryId = 'Activi_id';
-const URL_ROUTE = BASE_URL + ruteContent;
+const TOASTSActivities = new STtoasts();
+const activitiesModal = '#activitiesModal';
+const idActivitiesForm = 'objActivitiesForm';
 
-const TOASTS = new STtoasts();
-const myModalObjec = '#createUpdateModal';
-const idForm = 'objForm';
+var sTFormActivities = null
+var urlActivities = "";
+var assignmentActionActivities = 0;
+var formDataActivities = new Object();
+var selectInsertOrUpdateActivities = true;
 
-var sTForm = null;
-var url = "";
-var assignmentAction = 0;
-var formData = new Object();
-var selectInsertOrUpdate = true;
+function details(subactivitiesId) {
+    window.location = `${BASE_URL}subactivities?activitiesId=${subactivitiesId}`
+}
 
-function create(formData) {
-    url = URL_ROUTE + arRoutes[0];
-    formData['Project_product_id'] = null;
-    fetch(url, {
+function createActivities(formData) {
+    urlActivities = URL_ROUTEActivities + arRoutes[0];
+    debugger;
+    fetch(urlActivities, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -40,20 +40,20 @@ function create(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-                TOASTS.toastView("", "", arMessages[1], 0);
-                hideModal();
+                TOASTSActivities.toastView("", "", arMessages[1], 0);
+                hidelActivitiesModal();
                 window.location.reload();
             } else {
                 console.log(arMessages[0]);
             }
-            sTForm.inputButtonEnable();
+            sTFormActivities.inputButtonEnable();
             hidePreload();
         });
 }
 
-function update(formData) {
-    url = URL_ROUTE + arRoutes[2];
-    fetch(url, {
+function updateActivities(formData) {
+    urlActivities = URL_ROUTEActivities + arRoutes[2];
+    fetch(urlActivities, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -66,24 +66,24 @@ function update(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-                TOASTS.toastView("", "", arMessages[3], 0);
-                hideModal();
+                TOASTSActivities.toastView("", "", arMessages[3], 0);
+                hidelActivitiesModal();
                 window.location.reload();
             } else {
                 console.log(arMessages[0]);
             }
-            sTForm.inputButtonEnable();
+            sTFormActivities.inputButtonEnable();
             hidePreload();
         });
 }
 
-function delete_(id) {
+function deleteActivities(id) {
     let text = "Do you want to carry out this process?\n OK or Cancel.";
     if (confirm(text) == true) {
         showPreload();
-        url = URL_ROUTE + arRoutes[3];
-        formData[primaryId] = id;
-        fetch(url, {
+        urlActivities = URL_ROUTEActivities + arRoutes[3];
+        formData[primaryIdActivities] = id;
+        fetch(urlActivities, {
             method: "POST",
             body: JSON.stringify(formData),
             headers: {
@@ -107,30 +107,30 @@ function delete_(id) {
     }
 }
 
-function sendData(e, formObj) {
+function sendActivitiesData(e, formObj) {
     debugger;
     let obj = formObj;
-    sTForm = SingletonClassSTForm.getInstance();
-    if (sTForm.validateForm()) {
+    sTFormActivities = SingletonClassSTFormActivities.getInstance();
+    if (sTFormActivities.validateForm()) {
         showPreload();
-        if (selectInsertOrUpdate) {
-            create(sTForm.getDataForm());
+        if (selectInsertOrUpdateActivities) {
+            createActivities(sTFormActivities.getDataForm());
         } else {
-            update(sTForm.getDataForm());
+            updateActivities(sTFormActivities.getDataForm());
         }
-        sTForm.inputButtonDisable();
+        sTFormActivities.inputButtonDisable();
     } else {
-        TOASTS.toastView("", "", arMessages[0], 1);
+        TOASTSActivities.toastView("", "", arMessages[0], 1);
     }
     e.preventDefault();
 }
 
-function detail(idData) {
-    getDataId(idData);
+function detailActivities(idData) {
+    getActivitiesDataId(idData);
     toogleDisabledFields();
 }
 
-function toogleDisabledFields() {
+function toogleActivitiesDisabledFields() {
     const btnSubmit = document.getElementById('btn-submit');
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => input.classList.add('form-disabled'))
@@ -139,15 +139,15 @@ function toogleDisabledFields() {
     btnSubmit.disabled = true;
 }
 
-function getDataId(idData) {
+function getActivitiesDataId(idData) {
     showPreload();
-    selectInsertOrUpdate = false;
-    formData[primaryId] = idData;
-    url = URL_ROUTE + arRoutes[4];
-    sTForm = SingletonClassSTForm.getInstance();
-    fetch(url, {
+    selectInsertOrUpdateActivities = false;
+    formDataActivities[primaryIdActivities] = idData;
+    urlActivities = URL_ROUTEActivities + arRoutes[4];
+    sTFormActivities = SingletonClassSTFormActivities.getInstance();
+    fetch(urlActivities, {
         method: "POST",
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formDataActivities),
         headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest"
@@ -157,8 +157,8 @@ function getDataId(idData) {
         .catch(error => console.error('Error:', error))
         .then(response => {
             if (response[dataResponse] == 200) {
-                showModal(0);
-                sTForm.setDataForm(response[dataModel]);
+                showActivitiesModal(0);
+                sTFormActivities.setDataForm(response[dataModel]);
                 hidePreload();
             } else {
                 console.log(arMessages[0]);
@@ -166,36 +166,31 @@ function getDataId(idData) {
         });
 }
 
-function addData() {
-    selectInsertOrUpdate = true;
-    showModal(1);
+function addActivitiesData() {
+    selectInsertOrUpdateActivities = true;
+    showActivitiesModal(1);
 }
 
-function hideModal() {
-    $(myModalObjec).modal("hide");
+function hidelActivitiesModal() {
+    $(activitiesModal).modal("hide");
 }
 
-function showModal(type) {
+function showActivitiesModal(type) {
+    debugger;
     if (type == 1) {
-        sTForm = SingletonClassSTForm.getInstance();
-        sTForm.inputButtonEnable();
+        sTFormActivities = SingletonClassSTFormActivities.getInstance();
+        sTFormActivities.inputButtonEnable();
     }
-    sTForm.clearDataForm();
-    $(myModalObjec).modal("show");
+    sTFormActivities.clearDataForm();
+    $(activitiesModal).modal("show");
 }
 
-function showPreload() {
-    $(".preloader").fadeIn();
-}
 
-function hidePreload() {
-    $(".preloader").fadeOut();
-}
 
-var SingletonClassSTForm = (function () {
+var SingletonClassSTFormActivities = (function () {
     var objInstance;
     function createInstance() {
-        var object = new STForm(idForm);
+        var object = new STForm(idActivitiesForm);
         return object;
     }
     return {

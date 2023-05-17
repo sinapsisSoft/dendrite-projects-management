@@ -13,6 +13,50 @@
     <?= $css ?>
     <!-- Custom CSS -->
 
+    <!-- <link href="/public/assets/css/global.css" rel="stylesheet" type="text/css"> -->
+
+    <style>
+        .modal-content {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            width: 130%;
+
+        }
+        .card-pp {
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+        }
+
+        .modal-header {
+            background: none;
+            color: #1F0229;
+        }
+
+        .modal-footer {
+            display: block !important;
+            text-align: end;
+        }
+
+        .modal-footer .btn-secondary {
+            width: 100px !important;
+        }
+
+        .modal-footer .btn-primary {
+            width: 100px !important;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .mb-3 {
+            color: gray;
+            font-size: 13px;
+        }
+        input {
+            text-transform: uppercase !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,6 +74,7 @@
                 <div class="row">
                     <div class="col-12 d-flex no-block align-items-center">
                         <h4 class="page-title">
+                            NUEVO PROYECTO
                             <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-account-plus"></i></button>
                         </h4>
                         <div class="ms-auto text-end">
@@ -52,12 +97,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                  LISTA DE PROYECTOS
+                                    LISTA DE PROYECTOS
                                 </h5>
-                                <div class="table-responsive">
+                                <div class="table-responsive  card-pp">
                                     <table id="table_obj" class="table table-striped table-bordered">
                                         <thead>
-                                        <tr>
+                                            <tr>
                                                 <th>#</th>
                                                 <th>Código</th>
                                                 <th>Nombre</th>
@@ -75,15 +120,15 @@
                                                     <td><?= $obj['created_at']; ?></td>
                                                     <td>
                                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                            <button type="button" class="btn btn-warning" onclick="getDataId(<?= $obj['Project_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj['Project_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                                                 </svg></button>
-                                                            <button type="button" class="btn btn-success" onclick="details(<?= $obj['Project_id'] ?>)" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-outline-success" onclick="details(<?= $obj['Project_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                     <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                                                 </svg></button>
-                                                            <button type="button" class="btn btn-danger" onclick="delete_(<?= $obj['Project_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj['Project_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                                 </svg></button>
                                                         </div>
@@ -93,7 +138,7 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                            <th>#</th>
+                                                <th>#</th>
                                                 <th>Código</th>
                                                 <th>Nombre</th>
                                                 <th>Fecha de creación</th>
@@ -114,93 +159,137 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form class="form-horizontal mt-3" id="objForm" action="" onsubmit="sendData(event,this.id)">
-                                <div class="row">
+                                <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
                                     <input type="hidden" class="form-control" id="Project_id" name="Project_id" value="0">
                                     <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                                    <div class="form-floating mb-3">
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_name" class="bmd-label-floating">Nombre del Proyecto</label>
                                         <input type="text" class="form-control" id="Project_name" name="Project_name" required>
-                                        <label for="Project_name">Nombre</label>
                                     </div>
-                                    <div class="form-floating mb-3 col-4">
-                                        <input type="text" class="form-control" id="Project_purchaseOrder" name="Project_purchaseOrder" required>
-                                        <label for="Project_purchaseOrder">Orden de compra</label>
-                                    </div>
-                                    <!-- <div class="form-floating mb-3">
-                                        <input type="date" class="form-control form-disabled" id="Project_ddtStartDate" name="Project_ddtStartDate" required>
-                                        <label for="Project_ddtStartDate">Fecha Inicio DDT</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control form-disabled" id="Project_ddtEndDate" name="Project_ddtEndDate" required>
-                                        <label for="Project_ddtEndDate">Fecha Máxima DDT</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control form-disabled" id="Project_startDate" name="Project_startDate" required>
-                                        <label for="Project_startDate">Fecha Inicio Proyecto</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control form-disabled" id="Project_estimatedEndDate" name="Project_estimatedEndDate" required>
-                                        <label for="Project_estimatedEndDate">Fecha Entrega Estimada de Proyecto</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control form-disabled" id="Project_activitiStartDate" name="Project_activitiStartDate" required>
-                                        <label for="Project_activitiStartDate">Fecha de inicio de las actividades del proyecto</label>
-                                    </div> -->
-                                    <div class="form-floating mb-3 col-8">
-                                        <input type="text" class="form-control" id="Project_link" name="Project_link" required>
-                                        <label for="Project_link">Link del proyeto</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-6">
-                                        <input type="text" class="form-control" id="Project_percentage" name="Project_percentage" required>
-                                        <label for="Project_percentage">% realizado del proyecto</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-6">
-                                        <input type="text" class="form-control" id="Project_observation" name="Project_observation" required>
-                                        <label for="Project_observation">Observaciones</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-8">
-                                        <select name="Client_id" id="Client_id" class="form-control">
-                                            <?php foreach($clients as $client) : ?>
+                                    <div class="mb-3 col-3">
+                                        <label for="Client_id">Cliente</label>
+                                        <select name="Client_id" id="Client_id" class="form-control form-select" required>
+                                            <option value="">
+                                                Seleccione...
+                                            </option>
+                                            <?php foreach ($clients as $client) : ?>
                                                 <option value="<?= $client['Client_id'] ?>">
                                                     <?= $client['Client_name'] ?>
                                                 </option>
-                                            <?php endforeach;?>
+                                            <?php endforeach; ?>
                                         </select>
-                                        <label for="Client_id">Clientes</label>
                                     </div>
-                                    <div class="form-floating mb-3 col-4">
-                                        <select name="Country_id" id="Country_id" class="form-control">
-                                            <?php foreach($countries as $country) : ?>
+                                    <div class="mb-3 col-3">
+                                        <label for="Manager_id">Gerente</label>
+                                        <select name="Manager_id" id="Manager_id" class="form-control form-select" required>
+                                            <option value="">
+                                                Seleccione...
+                                            </option>
+                                            <?php foreach ($managers as $manager) : ?>
+                                                <option value="<?= $manager['Manager_id'] ?>">
+                                                    <?= $manager['Manager_name'] ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Brand_id">Marca</label>
+                                        <select name="Brand_id" id="Brand_id" class="form-control form-select" required>
+                                            <option value="">
+                                                Seleccione...
+                                            </option>
+                                            <?php foreach ($brands as $brand) : ?>
+                                                <option value="<?= $brand['Brand_id'] ?>">
+                                                    <?= $brand['Brand_name'] ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_purchaseOrder">Orden de compra</label>
+                                        <input type="text" class="form-control" id="Project_purchaseOrder" name="Project_purchaseOrder" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_ddtStartDate">Fecha Inicio DDT</label>
+                                        <input type="date" class="form-control form-disabled" id="Project_ddtStartDate" name="Project_ddtStartDate" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_ddtEndDate">Fecha Máxima DDT</label>
+                                        <input type="date" class="form-control form-disabled" id="Project_ddtEndDate" name="Project_ddtEndDate" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Country_id">Pais</label>
+                                        <select name="Country_id" id="Country_id" class="form-control form-select" required>
+                                            <option value="">
+                                                Seleccione...
+                                            </option>
+                                            <?php foreach ($countries as $country) : ?>
                                                 <option value="<?= $country['Country_id'] ?>">
                                                     <?= $country['Country_name'] ?>
                                                 </option>
-                                            <?php endforeach;?>
+                                            <?php endforeach; ?>
                                         </select>
-                                        <label for="Country_id">Pais</label>
                                     </div>
-                                    <div class="form-floating mb-3">
-                                        <select name="User_id" id="User_id" class="form-control">
-                                            <?php foreach($users as $user) : ?>
+                                    <div class="mb-3 col-3">
+                                        <label for="User_id">Nombre del comercial</label>
+                                        <select name="User_id" id="User_id" class="form-control form-select" required>
+                                            <option value="">
+                                                Seleccione...
+                                            </option>
+                                            <?php foreach ($commercial as $user) : ?>
                                                 <option value="<?= $user->User_id; ?>">
-                                                <?= $user->User_email; ?>
+                                                    <?= $user->User_email; ?>
                                                 </option>
-                                            <?php endforeach;?>
+                                            <?php endforeach; ?>
                                         </select>
-                                        <label for="User_id">Usuarios</label>
                                     </div>
-                                    <div class="form-floating mb-3">
-                                        <select name="Stat_id" id="Stat_id" class="form-control">
-                                            <?php foreach($userstatuses as $userstatus) : ?>
-                                                <option value="<?= $userstatus->Stat_id; ?>">
-                                                <?= $userstatus->Stat_name; ?>
-                                                </option>
-                                            <?php endforeach;?>
-                                        </select>
+
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_startDate">Fecha Inicio Proyecto</label>
+                                        <input type="date" class="form-control form-disabled" id="Project_startDate" name="Project_startDate" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_estimatedEndDate">Fecha Entrega Estimada de Proyecto</label>
+                                        <input type="date" class="form-control form-disabled" id="Project_estimatedEndDate" name="Project_estimatedEndDate" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_activitiEndDate">Fecha Finalización de Actividades</label>
+                                        <input type="date" class="form-control form-disabled" id="Project_activitiEndDate" name="Project_activitiEndDate" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_link">Link del Proyecto</label>
+                                        <input type="text" class="form-control" id="Project_link" name="Project_link" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
                                         <label for="Stat_id">Estado</label>
+                                        <select class="form-control form-select" id="Stat_id" name="Stat_id" required>
+                                            <option value="">Seleccione...</option>
+                                            <?php foreach ($userstatuses as $userstatus) : ?>
+                                                <option value="<?= $userstatus->Stat_id; ?>">
+                                                    <?= $userstatus->Stat_name; ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="User_id">Notificar a:</label>
+                                        <select name="User_id" id="User_id" class="form-control form-select" required>
+                                            <option value="">
+                                                Seleccione...
+                                            </option>
+                                            <?php foreach ($users as $user) : ?>
+                                                <option value="<?= $user->User_id; ?>">
+                                                    <?= $user->User_email; ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
-                                </form>
+                                    <div class="mb-3 col-12">
+                                        <label for="Project_observation">Observaciones</label>
+                                        <input type="text" class="form-control" id="Project_observation" name="Project_observation" required>
+                                    </div>
                             </div>
+                            </form>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="submit" id="btn-submit" form="objForm" class="btn btn-primary mx-auto w-50">Guardar</button>

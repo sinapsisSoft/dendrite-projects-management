@@ -1,0 +1,23 @@
+.card-pp {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        }
+
+.modal-header{
+    background: none;
+    color: #1F0229;
+}  
+
+.modal-footer{
+    display: block !important;
+    text-align: end;
+}
+.modal-footer .btn-secondary{
+    width: 100px !important;
+}
+.modal-footer .btn-primary{
+    width: 100px !important;
+}
+
+.form-control{
+    border-radius: 5px;
+}

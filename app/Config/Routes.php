@@ -153,6 +153,14 @@ $routes->group('brand', ['namespace' => 'App\Controllers\Brand'], function ($rou
     $routes->post('update', 'Brand::update');
 });
 
+$routes->group('manager', ['namespace' => 'App\Controllers\Manager'], function ($routes) {
+    $routes->get('/', 'Manager::show');
+    $routes->post('create', 'Manager::create');
+    $routes->post('delete', 'Manager::delete');
+    $routes->post('edit', 'Manager::edit');
+    $routes->post('update', 'Manager::update');
+});
+
 $routes->group('project', ['namespace' => 'App\Controllers\Project'], function ($routes) {
     $routes->get('/', 'Project::show');
     $routes->post('create', 'Project::create');
@@ -176,6 +184,13 @@ $routes->group('activities', ['namespace' => 'App\Controllers\Activities'], func
     $routes->post('edit', 'Activities::edit');
     $routes->post('update', 'Activities::update');
 });
+$routes->group('projecttracking', ['namespace' => 'App\Controllers\ProjectTracking'], function ($routes) {
+    $routes->get('/', 'ProjectTracking::show');
+    $routes->post('create', 'ProjectTracking::create');
+    $routes->post('delete', 'ProjectTracking::delete');
+    $routes->post('edit', 'ProjectTracking::edit');
+    $routes->post('update', 'ProjectTracking::update');
+});
 
 $routes->group('projectproduct', ['namespace' => 'App\Controllers\Projectproduct'], function ($routes) {
     $routes->get('/', 'Projectproduct::show');
@@ -187,6 +202,15 @@ $routes->group('projectproduct', ['namespace' => 'App\Controllers\Projectproduct
 
 $routes->group('details', ['namespace' => 'App\Controllers\Details'], function ($routes) {
     $routes->get('/', 'Details::show');
+
+});
+$routes->group('subactivities', ['namespace' => 'App\Controllers\SubActivities'], function ($routes) {
+    $routes->get('/', 'SubActivities::show');
+    $routes->post('create', 'SubActivities::create');
+    $routes->post('delete', 'SubActivities::delete');
+    $routes->post('edit', 'SubActivities::edit');
+    $routes->post('update', 'SubActivities::update');
+
 });
 
 // $routes->group('/', ['namespace' => 'App\Controllers\Home'], function ($routes) {

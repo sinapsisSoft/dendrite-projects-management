@@ -13,6 +13,32 @@
     <?= $css ?>
     <!-- Custom CSS -->
 
+ <style>
+
+.card-pp {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        }
+
+.modal-header{
+    background: none;
+    color: #1F0229;
+}  
+
+.modal-footer{
+    display: block !important;
+    text-align: end;
+}
+.modal-footer .btn-secondary{
+    width: 100px !important;
+}
+.modal-footer .btn-primary{
+    width: 100px !important;
+}
+
+.form-control{
+    border-radius: 5px;
+}
+ </style>
 </head>
 
 <body>
@@ -52,7 +78,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    LISTA DE PRODUCTOS
+                                    GERENTES
                                 </h5>
                                 <div class="table-responsive">
                                     <table id="table_obj" class="table table-striped table-bordered">
@@ -60,32 +86,32 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombre</th>
-                                                <th>Descripción</th>
-                                                <th>Valor</th>
-                                                <th>Fecha de creación</th>
+                                                <th>Correo</th>
+                                                <th>Telefono</th>
+                                                <th>Marca</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $i = 1 ?>
-                                            <?php foreach ($products as $obj) : ?>
+                                            <?php foreach ($managers as $obj) : ?>
                                                 <tr>
                                                     <td><?= $i++; ?></td>
-                                                    <td><?= $obj['Prod_name']; ?></td>
-                                                    <td><?= $obj['Prod_description']; ?></td>
-                                                    <td><?= $obj['Prod_value']; ?></td>
-                                                    <td><?= $obj['created_at']; ?></td>
+                                                    <td><?= $obj['Manager_name']; ?></td>
+                                                    <td><?= $obj['Manager_email']; ?></td>
+                                                    <td><?= $obj['Manager_phone']; ?></td>
+                                                    <td><?= $obj['Brand_id']; ?></td>
                                                     <td>
                                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                            <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj['Prod_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-warning" onclick="getDataId(<?= $obj['Manager_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                                                 </svg></button>
-                                                            <button type="button" class="btn btn-outline-success" onclick="detail(<?= $obj['Prod_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-success" onclick="detail(<?= $obj['Manager_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                     <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                                                 </svg></button>
-                                                            <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj['Prod_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-danger" onclick="delete_(<?= $obj['Manager_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                                 </svg></button>
                                                         </div>
@@ -97,9 +123,9 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombre</th>
-                                                <th>Descripción</th>
-                                                <th>Valor</th>
-                                                <th>Fecha de creación</th>
+                                                <th>Correo</th>
+                                                <th>Telefono</th>
+                                                <th>Marca</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </tfoot>
@@ -111,75 +137,36 @@
                 </div>
                 <div class="modal fade" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                        <div class="modal-content">
+                        <div class="modal-content card-pp">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="createUpdateModalLabel">DATOS</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
-                                    <input type="hidden" class="form-control" id="Prod_id" name="Prod_id" value="0">
+                                    <input type="hidden" class="form-control" id="Manager_id" name="Manager_id" value="0">
                                     <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                                    <div class="mb-3 col-4">
-                                        <label for="Prod_name">Nombre</label>
-                                        <input type="text" class="form-control" id="Prod_name" name="Prod_name" required>
+                                    <div class="mb-3 col-6">
+                                        <label for="Manager_name">Nombre</label>
+                                        <input type="text" class="form-control" placeholder="Nombre" id="Manager_name" name="Manager_name" required>
                                     </div>
-                                    <div class="mb-3 col-4">
-                                        <label for="TypePro_id">Tipo de producto</label>
-                                        <select name="TypePro_id" id="TypePro_id" class="form-control form-select" required>
-                                            <option value="">
-                                                Seleccione...
-                                            </option>
-                                            <?php foreach ($producttypes as $producttype) : ?>
-                                                <option value="<?= $producttype['TypePro_id'] ?>">
-                                                    <?= $producttype['TypePro_name'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                    <div class="mb-3 col-6">
+                                        <label for="Manager_email">Correo</label>
+                                        <input type="text" class="form-control" placeholder="Correo" id="Manager_email" name="Manager_email" required>
                                     </div>
-                                    <div class="mb-3 col-4">
-                                        <label for="Brand_id">Marca</label>
-                                        <select name="Brand_id" id="Brand_id" class="form-control form-select" required>
+                                    <div class="mb-3 col-6">
+                                        <label for="Manager_phone">Telefono</label>
+                                        <input type="text" class="form-control" placeholder="Nombre" id="Manager_phone" name="Manager_phone" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                    <label for="brand_id">Marca</label>
+                                        <select name="Brand_id" id="Brand_id" class="form-control form-select">
                                             <option value="">
                                                 Seleccione...
                                             </option>
                                             <?php foreach ($brands as $brand) : ?>
                                                 <option value="<?= $brand['Brand_id'] ?>">
                                                     <?= $brand['Brand_name'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-4">
-                                        <label for="Prod_value">Valor</label>
-                                        <input type="text" class="form-control" id="Prod_value" name="Prod_value" required>
-                                    </div>
-                                    <div class="mb-3 col-12">
-                                        <label for="Prod_description">Descripción</label>
-                                        <input type="text" class="form-control" id="Prod_description" name="Prod_identification" required>
-                                    </div>
-                                    <div class="mb-3 col-4">
-                                        <label for="Filings_id">Presentación</label>
-                                        <select name="Filing_id" id="Filing_id" class="form-control form-select" required>
-                                            <option value="">
-                                                Seleccione...
-                                            </option>
-                                            <?php foreach ($filings as $filing) : ?>
-                                                <option value="<?= $filing['Filing_id'] ?>">
-                                                    <?= $filing['Filing_name'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="Unit_id">Unidad</label>
-                                        <select name="Unit_id" id="Unit_id" class="form-contro form-select" required>
-                                            <option value="">
-                                                Seleccione...
-                                            </option>
-                                            <?php foreach ($units as $unit) : ?>
-                                                <option value="<?= $unit['Unit_id'] ?>">
-                                                    <?= $unit['Unit_name'] ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
@@ -199,5 +186,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/product/product.controller.js"></script>
+    <script src="../controllers/manager/manager.controller.js"></script>
 </body>

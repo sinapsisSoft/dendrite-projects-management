@@ -9,6 +9,7 @@ class ProjectProductModel extends Model{
     protected $primaryKey = 'Project_product_id';
     protected $allowedFields = [
         'Project_productAmount', 
+        'Project_product_percentage', 
         'Project_id', 
         'Prod_id', 
         'Stat_id', 

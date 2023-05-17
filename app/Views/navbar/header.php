@@ -1,6 +1,13 @@
+<style>
+.color{
+  background: #B8CECA !important;
+}
+
+</style>
+
 <header class="topbar" data-navbarbg="skin5">
         <nav class="navbar top-navbar navbar-expand-md navbar-dark">
-          <div class="navbar-header" data-logobg="skin5">
+          <div class="navbar-header color" data-logobg="skin5">
             <!-- ============================================================== -->
             <!-- Logo -->
             <!-- ============================================================== -->

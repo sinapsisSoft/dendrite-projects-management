@@ -35,6 +35,55 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
             transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
         }
+
+        .card-details {
+            padding: 15px;
+            background-color: white;
+        }
+
+        .percentaje {
+            padding: 10px;
+
+        }
+
+        .progress-bar {
+            padding-left: 0% !important;
+        }
+
+        .modal-content {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            width: 130%;
+        }
+
+        .modal-header {
+            background: none;
+            color: #1F0229;
+        }
+
+        .modal-footer {
+            display: block !important;
+            text-align: end;
+        }
+
+        .modal-footer .btn-secondary {
+            width: 100px !important;
+        }
+
+        .modal-footer .btn-primary {
+            width: 100px !important;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .mb-3 {
+            color: gray;
+            font-size: 13px;
+        }
+        input {
+            text-transform: uppercase !important;
+        }
     </style>
 </head>
 
@@ -67,371 +116,473 @@
             </div>
 
             <div class="container-fluid">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="true">Información del Proyecto</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Información</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Gestión</button>
-                    </li>
-                </ul>
-
-                <!-- GESTIÓN DE PROYECTOS -->
-
-
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
-
-                        <!-- FORMULARIO DE PROYECTOS -->
-
-                        <div class="form-horizontal mt-3">
-                            <div class="row">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" disabled id="Project_name" name="Project_name" value="<?= $data["project"]["Project_name"] ?>" required>
-                                    <label for="Project_name">Nombre</label>
-                                </div>
-                                <div class="form-floating mb-3 col-4">
-                                    <input type="text" class="form-control" disabled id="Project_purchaseOrder" name="Project_purchaseOrder" value="<?= $data["project"]["Project_purchaseOrder"] ?>" required>
-                                    <label for="Project_purchaseOrder">Orden de compra</label>
-                                </div>
-                                <!-- <div class="form-floating mb-3">
-                                        <input type="date" class="form-control form-disabled" id="Project_ddtStartDate" name="Project_ddtStartDate" required>
-                                        <label for="Project_ddtStartDate">Fecha Inicio DDT</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control form-disabled" id="Project_ddtEndDate" name="Project_ddtEndDate" required>
-                                        <label for="Project_ddtEndDate">Fecha Máxima DDT</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control form-disabled" id="Project_startDate" name="Project_startDate" required>
-                                        <label for="Project_startDate">Fecha Inicio Proyecto</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control form-disabled" id="Project_estimatedEndDate" name="Project_estimatedEndDate" required>
-                                        <label for="Project_estimatedEndDate">Fecha Entrega Estimada de Proyecto</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control form-disabled" id="Project_activitiStartDate" name="Project_activitiStartDate" required>
-                                        <label for="Project_activitiStartDate">Fecha de inicio de las actividades del proyecto</label>
-                                    </div> -->
-                                <div class="form-floating mb-3 col-8">
-                                    <input type="text" class="form-control" disabled id="Project_link" value="<?= $data["project"]["Project_link"] ?>" name="Project_link" required>
-                                    <label for="Project_link">Link del proyeto</label>
-                                </div>
-                                <div class="form-floating mb-3 col-6">
-                                    <input type="text" class="form-control" disabled id="Project_percentage" value="<?= $data["project"]["Project_percentage"] ?>" name="Project_percentage" required>
-                                    <label for="Project_percentage">% realizado del proyecto</label>
-                                </div>
-                                <div class="form-floating mb-3 col-6">
-                                    <input type="text" class="form-control" disabled id="Project_observation" value="<?= $data["project"]["Project_observation"] ?>" name="Project_observation" required>
-                                    <label for="Project_observation">Observaciones</label>
-                                </div>
-                            </div>
+                <div class="card-details">
+                    <div class="row percentaje">
+                        <div class="col-4">
+                            <h6>Datos de Actividad</h6>
                         </div>
-
-                        <!-- TABLA DE PROYECT_PRODUCT -->
-
-                        <div class="card-pp">
-                            <h4 class="page-title text-end">
-                                <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-plus"></i></button>
-                            </h4>
-                            <div class="table-responsive table-pp">
-                                <table id="table_obj" class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Producto</th>
-                                            <th>Cantidad</th>
-                                            <th>Estado</th>
-                                            <th>Semaforo</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $i = 1 ?>
-                                        <?php foreach ($data['products'] as $obj) : ?>
-                                            <tr>
-                                                <td><?= $i++; ?></td>
-                                                <td><?= $obj->Prod_name; ?></td>
-                                                <td><?= $obj->Project_productAmount; ?></td>
-                                                <td><?= $obj->Stat_name; ?></td>
-                                                <td>
-                                                    <div class="circle" style="background-color:<?= $obj->color; ?>"></div>
-                                                </td>
-                                                <td>
-                                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                        <button type="button" class="btn btn-warning" onclick="getDataId(<?= $obj->Project_product_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                                            </svg></button>
-                                                        <button type="button" class="btn btn-danger" onclick="delete_(<?= $obj->Project_product_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                            </svg></button>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Producto</th>
-                                            <th>Cantidad</th>
-                                            <th>Estado</th>
-                                            <th>Semaforo</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- MODAL DE PROJECT_PRODUCT -->
-
-                        <div class="modal fade" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="createUpdateModalLabel">NUEVO PRODUCTO</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form class="form-horizontal mt-3 row" id="objForm" action="POST" onsubmit="sendData(event,this.id)">
-                                            <input type="hidden" class="form-control" id="Project_id" name="Project_id" value="<?= $data["project"]["Project_id"] ?>">
-                                            <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                                            <input type="hidden" class="form-control" id="Project_product_id" name="Project_product_id" value="NULL">
-                                            <div class="form-floating mb-3 col-6">
-                                                <select name="Prod_id" id="Prod_id" class="form-control form-disabled">
-                                                    <option value="">
-                                                        Seleccionar...
-                                                    </option>
-                                                    <?php foreach ($products as $product) : ?>
-                                                        <option value="<?= $product['Prod_id']; ?>">
-                                                            <?= $product['Prod_name']; ?>
-                                                        </option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                                <label for="Prod_id">Producto</label>
-                                            </div>
-                                            <div class="form-floating mb-3 col-6">
-                                                <input type="text" class="form-control" id="Project_productAmount" name="Project_productAmount" required>
-                                                <label for="Project_productAmount">Cantidad</label>
-                                            </div>
-                                            <div class="form-floating mb-3 col-6">
-                                                <select class="form-control" id="Stat_id" name="Stat_id" required>
-                                                    <option value="">Seleccione...</option>
-                                                    <?php foreach ($statuses as $status) : ?>
-                                                        <option value="<?= $status['Stat_id']; ?>">
-                                                            <?= $status['Stat_name']; ?>
-                                                        </option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                                <label for="Stat_id">Estado</label>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" id="btn-submit" form="objForm" class="btn btn-primary mx-auto w-50">Guardar</button>
-                                    </div>
-                                </div>
+                        <div class="progress col-6" style="height: 15px;">
+                            <div class="progress-bar" role="progressbar" style="width: <?= $data['percent']->percent ?>%; " aria-valuenow="<?= $data['percent']->percent ?>" aria-valuemin="0" aria-valuemax="100">
+                            <?= $data['percent']->percent ?> %
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Informacion</div>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="true">Información del Proyecto</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Seguimiento del Proyecto</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Gestión de Actividades</button>
+                        </li>
+                    </ul>
 
-                    <!-- GESTIÓN DE ACTIVIDADES -->
+                    <!-- GESTIÓN DE PROYECTOS -->
 
-                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    LISTA DE ACTIVIDADES
-                                </h5>
-                                <div class="table-responsive">
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+
+                            <!-- FORMULARIO DE PROYECTOS -->
+
+                            <div class="form-horizontal mt-3">
+                                <div class="row">
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_code">Código del proyecto</label>
+                                        <input type="text" class="form-control" disabled id="Project_code" name="Project_code" value="<?= $data['project']->Project_code ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_name">Nombre del proyecto</label>
+                                        <input type="text" class="form-control" disabled id="Project_name" name="Project_name" value="<?= $data["project"]->Project_name ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Client_name">Cliente</label>
+                                        <input type="text" class="form-control" disabled id="Client_name" name="Client_name" value="<?= $data["project"]->Client_name ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Manager_name">Gerente</label>
+                                        <input type="text" class="form-control" disabled id="Manager_name" name="Manager_name" value="<?= $data["project"]->Manager_name ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Brand_name">Marca</label>
+                                        <input type="text" class="form-control" disabled id="Brand_name" name="Brand_name" value="<?= $data["project"]->Brand_name ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_purchaseOrder">Orden de compra</label>
+                                        <input type="text" class="form-control" disabled id="Project_purchaseOrder" name="Project_purchaseOrder" value="<?= $data["project"]->Project_purchaseOrder ?>" required>
+                                    </div>
+
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_ddtStartDate">Fecha Inicio DDT</label>
+                                        <input type="date" class="form-control" disabled id="Project_ddtStartDate" name="Project_ddtStartDate" value="<?= $data["project"]->Project_ddtStartDate ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_ddtEndDate">Fecha Máxima DDT</label>
+                                        <input type="date" class="form-control" disabled id="Project_ddtEndDate" name="Project_ddtEndDate" value="<?= $data["project"]->Project_ddtEndDate ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Country_name">País</label>
+                                        <input type="text" class="form-control" disabled id="Country_name" name="Country_name" value="<?= $data["project"]->Country_name ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="User_email">Nombre del Comercial</label>
+                                        <input type="text" class="form-control" disabled id="User_email" name="User_email" value="<?= $data["project"]->User_email ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_startDate">Fecha de Creación</label>
+                                        <input type="date" class="form-control" disabled id="Project_startDate" name="Project_startDate" value="<?= $data["project"]->Project_startDate ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="Project_estimatedEndDate">Fecha Estimada de Entrga</label>
+                                        <input type="date" class="form-control" disabled id="Project_estimatedEndDate" name="Project_estimatedEndDate" value="<?= $data["project"]->Project_estimatedEndDate ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="Project_activitiStartDate">Fecha Finalización de las actividades</label>
+                                        <input type="date" class="form-control" disabled id="Project_activitiEndDate" name="Project_activitiEndtDate" value="<?= $data["project"]->Project_activitiEndDate ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="Stat_name">Estado</label>
+                                        <input type="text" class="form-control" disabled id="Stat_name" name="Stat_name" value="<?= $data["project"]->Stat_name ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="Project_link">Link del proyeto</label>
+                                        <input type="text" class="form-control" disabled id="Project_link" value="<?= $data["project"]->Project_link ?>" name="Project_link" required>
+                                    </div>
+                                    <div class="mb-3 col-12">
+                                        <label for="Project_observation">Observaciones</label>
+                                        <input type="text" class="form-control" size="15" maxlength="30" disabled id="Project_observation" value="<?= $data["project"]->Project_observation ?>" name="Project_observation" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TABLA DE PROYECT_PRODUCT -->
+
+                            <div class="card-pp">
+                                <h4 class="page-title text-end">
+                                    <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-plus"></i></button>
+                                </h4>
+                                <div class="table-responsive table-pp">
                                     <table id="table_obj" class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Nombre</th>
-                                                <th>Código</th>
-                                                <th>Fecha de creación</th>
-                                                <th>Actions</th>
+                                                <th>Producto</th>
+                                                <th>Cantidad</th>
+                                                <th>Estado</th>
+                                                <th>Semaforo</th>
+                                                <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $i = 1 ?>
-                                            <?php foreach ($activities as $obj) : ?>
+                                            <?php foreach ($data['products'] as $obj) : ?>
                                                 <tr>
                                                     <td><?= $i++; ?></td>
-                                                    <td><?= $obj->Activi_name; ?></td>
-                                                    <td><?= $obj->ApprCode_code; ?></td>
-                                                    <td><?= $obj->created_at; ?></td>
+                                                    <td><?= $obj->Prod_name; ?></td>
+                                                    <td><?= $obj->Project_productAmount; ?></td>
+                                                    <td><?= $obj->Stat_name; ?></td>
+                                                    <td>
+                                                        <div class="circle" style="background-color:<?= $obj->color; ?>"></div>
+                                                    </td>
                                                     <td>
                                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                            <button type="button" class="btn btn-warning" onclick="getDataId(<?= $obj->Activi_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->Project_product_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                                                 </svg></button>
-                                                            <button type="button" class="btn btn-success" onclick="detail(<?= $obj->Activi_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                                </svg></button>
-                                                            <button type="button" class="btn btn-danger" onclick="delete_(<?= $obj->Activi_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->Project_product_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                                 </svg></button>
                                                         </div>
                                                     </td>
+                                                    <td></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                            <th>#</th>
-                                                <th>Nombre</th>
-                                                <th>Código</th>
-                                                <th>Fecha de creación</th>
-                                                <th>Actions</th>
+                                                <th>#</th>
+                                                <th>Producto</th>
+                                                <th>Cantidad</th>
+                                                <th>Estado</th>
+                                                <th>Semaforo</th>
+                                                <th>Acciones</th>
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="createUpdateModalLabel">DATOS</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body ">
-                                <form class="form-horizontal mt-3" id="objForm" action="" onsubmit="sendData(event,this.id)">
-                                   <div class="row">
-                                   <input type="hidden" class="form-control" id="Activi_id" name="Activi_id" value="0">
-                                    <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                                    <div class="form-floating  mb-3 col-12">
-                                        <input type="text" class="form-control" id="Activi_name" name="Activi_name" required>
-                                        <label for="Activi_name">Nombre</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-4">
-                                        <select name="ApprCode_id" id="ApprCode_id" class="form-control">
-                                            <?php foreach ($approvalcodes as $approvalcode): ?>
-                                                <option>
-                                                    Seleccione...
-                                                </option>
-                                                <option value="<?= $approvalcode['ApprCode_id'] ?>">
-                                                    <?= $approvalcode['ApprCode_code']. " - ".  $approvalcode['ApprCode_name'];?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="ApprCode_id">Código de actividades</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-8">
-                                        <input type="text" class="form-control" id="Activi_observation" name="Activi_observation" required>
-                                        <label for="Activi_observation">Observaciones</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-3">
-                                        <input type="date" class="form-control" id="Activi_startDate" name="Activi_startDate" required>
-                                        <label for="Activi_startDate">Fecha de inicio</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-3">
-                                        <input type="date" class="form-control" id="Activi_endDate" name="Activi_endDate" required>
-                                        <label for="Activi_endDate">Fecha de cierre</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-3">
-                                        <input type="text" class="form-control" id="Activi_time" name="Activi_time" required>
-                                        <label for="Activi_time">Tiempo de actividad</label>
-                                    </div>
-                                    
-                                    <div class="form-floating mb-3 col-3">
-                                        <input type="text" class="form-control" id="Activi_completion" name="Activi_completion" required>
-                                        <label for="Activi_completion">% de actividad realizada</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-12">
-                                        <input type="text" class="form-control" id="Activi_link" name="Activi_link" required>
-                                        <label for="Activi_link">Enlace</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-6">
-                                        <select name="Stat_id" id="Stat_id" class="form-control">
-                                            <?php foreach ($userstatuses as $userstatus) : ?>
-                                                <option>
-                                                    Seleccione...
-                                                </option>
-                                                <option value="<?= $userstatus->Stat_id ?>">
-                                                    <?= $userstatus->Stat_name  ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="Stat_id">Estado</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-6">
-                                        <select name="Project_product_id" id="Project_product_id" class="form-control">
-                                            <?php foreach ($projectproducts as $projectproduct) : ?>
-                                                <option>
-                                                    Seleccione...
-                                                </option>
-                                                <option value="<?= $projectproduct['Project_product_id'] ?>">
-                                                    <?= $projectproduct['Project_productAmount'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="Project_product_id">Pp</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <select name="User_id" id="User_id" class="form-control">
-                                            <?php foreach ($users as $user) : ?>
-                                                <option>
-                                                    Seleccione...
-                                                </option>
-                                                <option value="<?= $user->User_id ?>">
-                                                    <?= $user->User_email  ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="User_id">Usuarios</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <select name="User_assigned" id="User_assigned" class="form-control">
-                                            <?php foreach ($developers as $user) : ?>
-                                                <option>
-                                                    Seleccione...
-                                                </option>
-                                                <option value="<?= $user->User_id ?>">
-                                                    <?= $user->User_email  ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="User_assigned">Colaboradores</label>
-                                    </div>
-                                   </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" id="btn-submit" form="objForm" class="btn btn-primary mx-auto w-50">Guardar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                    </div>
-                </div>
 
+                            <!-- MODAL DE PROJECT_PRODUCT -->
+
+                            <div class="modal fade" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="createUpdateModalLabel">NUEVO PRODUCTO</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-horizontal mt-3 row" id="objForm" action="POST" onsubmit="sendData(event,this.id)">
+                                                <input type="hidden" class="form-control" id="Project_id" name="Project_id" value="<?= $data["project"]->Project_id ?>">
+                                                <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
+                                                <input type="hidden" class="form-control" id="Project_product_id" name="Project_product_id" value="NULL">
+                                                <div class="mb-3 col-6">
+                                                    <label for="Prod_id">Producto</label>
+                                                    <select class="form-control form-select" name="Prod_id" id="Prod_id" required>
+                                                        <option value="">
+                                                            Seleccionar...
+                                                        </option>
+                                                        <?php foreach ($products as $product) : ?>
+                                                            <option value="<?= $product['Prod_id']; ?>">
+                                                                <?= $product['Prod_name']; ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-6">
+                                                    <label for="Project_productAmount">Cantidad</label>
+                                                    <input type="text" class="form-control" id="Project_productAmount" name="Project_productAmount" required>
+                                                </div>
+                                                <div class="mb-3 col-6">
+                                                    <label for="Stat_id">Estado</label>
+                                                    <select class="form-control form-select" id="Stat_id" name="Stat_id" required>
+                                                        <option value="">
+                                                            Seleccione...
+                                                        </option>
+                                                        <?php foreach ($userstatuses as $userstatus) : ?>
+                                                            <option value="<?= $userstatus['Stat_id']; ?>">
+                                                                <?= $userstatus['Stat_name']; ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" id="btn-submit" form="objForm" class="btn btn-primary mx-auto w-50">Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- GESTIÓN DE SEGUIMIENTO DE PROYECTO -->
+
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+                            <!-- TABLA DE SEGUIMIENTO DE PROYECTO -->
+
+                            <div class="card-pp">
+                                <h4 class="page-title">
+                                    <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showTrackingModal(1)"><i class="mdi mdi-plus"></i></button>
+                                    Agregar Seguimiento
+                                </h4>
+                                <div class="card-body">
+                                    <div class="table-responsive table-pp">
+                                        <table id="table_obj_tracking" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Nombre</th>
+                                                    <th>Descripción</th>
+                                                    <th>Fecha</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $i = 1 ?>
+                                                <?php foreach ($projecttrackings as $obj) : ?>
+                                                    <tr>
+                                                        <td><?= $i++; ?></td>
+                                                        <td><?= $obj['ProjectTracking_name']; ?></td>
+                                                        <td><?= $obj['ProjectTracking_description']; ?></td>
+                                                        <td><?= $obj['ProjectTracking_date']; ?></td>
+                                                        <td>
+                                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                                <button type="button" class="btn btn-warning" onclick="getActivitiesDataId(<?= $obj['ProjectTracking_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                                                    </svg></button>
+                                                                <button type="button" class="btn btn-success" onclick="details(<?= $obj['ProjectTracking_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                    </svg></button>
+                                                                <button type="button" class="btn btn-danger" onclick="deleteActivities(<?= $obj['ProjectTracking_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                    </svg></button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Nombre</th>
+                                                    <th>Descripción</th>
+                                                    <th>Fecha</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MODAL DE SEGUIMIENTO DE PROYECTO -->
+
+                            <div class="modal fade" id="TrackingModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="createUpdateModalLabel">NUEVO SEGUIMIENTO</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-horizontal mt-3" id="objTrackingForm" action="" onsubmit="sendtrackingData(event,this.id)">
+                                                <div class="row">
+                                                    <input type="hidden" class="form-control" id="ProjectTrack_id" name="ProjectTrack_id" value="0">
+                                                    <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
+                                                    <div class="mb-3 col-3">
+                                                        <label for="ProjectTrack_name">Nombre</label>
+                                                        <input type="text" class="form-control" id="ProjectTrack_name" name="ProjectTrack_name" required>
+                                                    </div>   
+                                                    <div class="mb-3 col-3">
+                                                        <label for="ProjectTrack_date">Fecha</label>
+                                                        <input type="date" class="form-control" id="ProjectTrack_date" name="ProjectTrack_date" required>
+                                                    </div>
+                                                    <div class="mb-3 col-12">
+                                                        <label for="ProjectTrack_description">Descripción</label>
+                                                        <input type="text" class="form-control" id="ProjectTrack_description" name="ProjectTrack_description" required>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" id="btn-submit" form="objTrackingForm" class="btn btn-primary mx-auto w-50">Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- GESTIÓN DE ACTIVIDADES -->
+
+                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+                            <!-- TABLA DE ACTIVIDADES-->
+
+                            <div class="card-pp">
+                                <h4 class="page-title">
+                                    <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showActivitiesModal(1)"><i class="mdi mdi-plus"></i></button>
+                                    Asignar Actividad
+                                </h4>
+                                <div class="card-body">
+                                    <div class="table-responsive table-pp">
+                                        <table id="table_obj_activities" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Nombre</th>
+                                                    <th>Código</th>
+                                                    <th>Fecha de creación</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $i = 1 ?>
+                                                <?php foreach ($activities as $obj) : ?>
+                                                    <tr>
+                                                        <td><?= $i++; ?></td>
+                                                        <td><?= $obj['Activi_name']; ?></td>
+                                                        <td><?= $obj['Activi_code']; ?></td>
+                                                        <td><?= $obj['created_at']; ?></td>
+                                                        <td>
+                                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                                <button type="button" class="btn btn-outline-warning" onclick="getActivitiesDataId(<?= $obj['Activi_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                                                    </svg></button>
+                                                                <button type="button" class="btn btn-outline-success" onclick="details(<?= $obj['Activi_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                    </svg></button>
+                                                                <button type="button" class="btn btn-outline-danger" onclick="deleteActivities(<?= $obj['Activi_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                    </svg></button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Nombre</th>
+                                                    <th>Código</th>
+                                                    <th>Fecha de creación</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MODAL DE ACTIVIDADES-->
+
+                            <div class="modal fade" id="activitiesModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="createUpdateModalLabel">NUEVA ACTIVIDAD</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body ">
+                                            <form class="form-horizontal mt-3" id="objActivitiesForm" action="" onsubmit="sendActivitiesData(event,this.id)">
+                                                <div class="row">
+                                                    <input type="hidden" class="form-control" id="Activi_id" name="Activi_id" value="0">
+                                                    <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
+                                                    <div class="mb-3 col-3">
+                                                        <label for="Activi_name">Nombre de Actividad</label>
+                                                        <input type="text" class="form-control" id="Activi_name" name="Activi_name" required>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="Project_product_id">Producto</label>
+                                                        <select name="Project_product_id" id="Project_product_id" class="form-control">
+                                                            <option value="">
+                                                                Seleccione...
+                                                            </option>
+                                                            <?php foreach ($projectProducts as $projectProduct) : ?>
+                                                                <option value="<?= $projectProduct['Project_product_id'] ?>">
+                                                                    <?= $projectProduct['Project_productAmount'] ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="User_assigned">Colaboradores</label>
+                                                        <select name="User_assigned" id="User_assigned" class="form-control">
+                                                            <option value="">
+                                                                Seleccione...
+                                                            </option>
+                                                            <?php foreach ($developers as $user) : ?>
+                                                                <option value="<?= $user->User_id ?>">
+                                                                    <?= $user->User_email  ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="Activi_startDate">Fecha de inicio</label>
+                                                        <input type="date" class="form-control" id="Activi_startDate" name="Activi_startDate" required>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="Activi_link">Enlace</label>
+                                                        <input type="text" class="form-control" id="Activi_link" name="Activi_link" required>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="Activi_codeMiigo">Código Miigo</label>
+                                                        <input type="text" class="form-control" id="Activi_codeMiigo" name="Activi_codeMiigo" required>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="Activi_codeSpectra">Código Spectra</label>
+                                                        <input type="text" class="form-control" id="Activi_codeSpectra" name="Activi_codeSpectra" required>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="Activi_codeDelivery">Código Entregable</label>
+                                                        <input type="text" class="form-control" id="Activi_codeDelivery" name="Activi_codeDelivery" required>
+                                                    </div>
+                                                    <div class="mb-3 col-12">
+                                                        <label for="Activi_observation">Observaciones</label>
+                                                        <input type="text" class="form-control" id="Activi_observation" name="Activi_observation" required>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" id="btn-submit" form="objActivitiesForm" class="btn btn-primary mx-auto w-50">Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <?= $footer ?>
             <?= $toasts ?>
-        </div>
+        </div>.
     </div>
     <?= $js ?>
     <script src="../controllers/details/details.controller.js"></script>
+    <script src="../controllers/activities/activities.controller.js"></script>
+    <script src="../controllers/projecttracking/projecttracking.controller.js"></script>
 </body>

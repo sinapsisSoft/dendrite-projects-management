@@ -1,33 +1,41 @@
 <?php
-
-namespace App\Controllers\ProjectProduct;
+namespace App\Controllers\ProjectTracking;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProjectProductModel;
-use App\Models\ProductModel;
-use App\Models\ProjectModel;
-use App\Models\UserstatusModel;
+use App\Models\ProjectTrackingModel;
 
-class ProjectProduct extends BaseController
-{
+
+class ProjectTracking extends BaseController{
     private $objModel;
     private $primaryKey;
     private $nameModel;
 
     public function __construct()
     {
-        $this->objModel = new ProjectProductModel();
-        $this->primaryKey = "Project_product_id";
-        $this->nameModel = "projectproducts";
+        $this->objModel = new ProjectTrackingModel();
+        $this->primaryKey = 'ProjectTracking_id';
+        $this->nameModel = 'projecttrackings';
     }
 
-    public function create()
-    {
+    public function show(){
+        $data['title'] = 'Seguimiento del Proyecto';
+        $data['css'] = view('assets/css');
+        $data['js'] = view('assets/js');
+
+        $data['toasts'] = view('html/toasts');
+        $data['sidebar'] = view('navbar/sidebar');
+        $data['header'] = view('navbar/header');
+        $data['footer'] = view('navbar/footer');
+
+        $data[$this->nameModel] = $this->objModel->findAll();
+        return view('projecttracking/projecttracking', $data);
+    }
+
+    public function create(){
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL);
             if ($this->objModel->insert($dataModel)) {
-                $roleId = $this->objModel->insertID();
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['data'] = $dataModel;
@@ -45,6 +53,23 @@ class ProjectProduct extends BaseController
         return json_encode($data);
     }
 
+    public function edit()
+    {
+        try {
+            $id = $this->request->getVar($this->primaryKey);
+            $getDataId = $this->objModel->where($this->primaryKey, $id)->first();
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['data'] = $getDataId;
+            $data['csrf'] = csrf_hash();
+        } catch (\Exception $e) {
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = 'Error';
+        }
+        return json_encode($data);
+    }
+
     public function update()
     {
         try {
@@ -56,23 +81,6 @@ class ProjectProduct extends BaseController
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
             $data['data'] = $id;
-            $data['csrf'] = csrf_hash();
-        } catch (\Exception $e) {
-            $data['message'] = $e;
-            $data['response'] = ResponseInterface::HTTP_CONFLICT;
-            $data['data'] = 'Error';
-        }
-        return json_encode($data);
-    }
-
-    public function edit()
-    {
-        try {
-            $id = $this->request->getVar($this->primaryKey);
-            $getDataId = $this->objModel->where($this->primaryKey, $id)->first();
-            $data['message'] = 'success';
-            $data['response'] = ResponseInterface::HTTP_OK;
-            $data['data'] = $getDataId;
             $data['csrf'] = csrf_hash();
         } catch (\Exception $e) {
             $data['message'] = $e;
@@ -107,12 +115,10 @@ class ProjectProduct extends BaseController
     public function getDataModel($getShares)
     {
         $data = [
-            'Project_product_id' => $getShares,
-            'Project_productAmount' => $this->request->getVar('Project_productAmount'),
-            'Project_product_percentage' => $this->request->getVar('Project_product_percentage'),
-            'Prod_id' => $this->request->getVar('Prod_id'),
-            'Project_id' => $this->request->getVar('Project_id'),
-            'Stat_id' => $this->request->getVar('Stat_id'),
+            'ProjectTrack_id' => $getShares,
+            'ProjectTrack_name' => $this->request->getVar('ProjectTrack_name'),
+            'ProjectTrack_description' => $this->request->getVar('ProjectTrack_description'),
+            'ProjectTrack_date' => $this->request->getVar('ProjectTrack_date'),
             'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;

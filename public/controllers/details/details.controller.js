@@ -187,6 +187,8 @@ function showModal(type) {
     $(myModalObjec).modal("show");
 }
 
+
+
 function showPreload() {
     $(".preloader").fadeIn();
 }

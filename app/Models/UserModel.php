@@ -50,6 +50,13 @@ class UserModel extends Model
         return $result;
     }
 
+    function sp_select_all_users_comercial()
+    {
+        $query = "CALL sp_select_all_users_comercial()";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
+
     private function getUpdatedDataWithHashedPassword(array $data): array
     {
         if (isset($data['data']['User_password'])) {

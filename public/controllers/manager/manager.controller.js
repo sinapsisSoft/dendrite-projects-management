@@ -4,14 +4,14 @@ $("#table_obj").DataTable();
 
 const arRoutes = AR_ROUTES_GENERAL;
 const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', 'Updated user ', 'The user was deleted');
-const ruteContent = "project/";
-const nameModel = 'projects';
+const ruteContent = "manager/";
+const nameModel = 'managers';
 const dataModel = 'data';
 const dataResponse = 'response';
 const dataMessages = 'message';
 const dataCsrf = 'csrf';
 
-const primaryId = 'Project_id';
+const primaryId = 'Manager_id';
 const URL_ROUTE = BASE_URL + ruteContent;
 
 const TOASTS = new STtoasts();
@@ -24,12 +24,9 @@ var assignmentAction = 0;
 var formData = new Object();
 var selectInsertOrUpdate = true;
 
-function details(projectId) {
-    window.location = `${BASE_URL}details?projectId=${projectId}`
-}
-
 function create(formData) {
     url = URL_ROUTE + arRoutes[0];
+    debugger;
     fetch(url, {
         method: "POST",
         body: JSON.stringify(formData),

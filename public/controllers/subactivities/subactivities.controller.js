@@ -1,32 +1,30 @@
-showPreload();
-
-$("#table_obj").DataTable();
 
 const arRoutes = AR_ROUTES_GENERAL;
 const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', 'Updated user ', 'The user was deleted');
-const ruteContent = "project/";
-const nameModel = 'projects';
+const ruteContent = "subactivities/";
+const nameModel = 'subactivities';
 const dataModel = 'data';
 const dataResponse = 'response';
 const dataMessages = 'message';
 const dataCsrf = 'csrf';
 
-const primaryId = 'Project_id';
+const primaryId = 'SubAct_id';
 const URL_ROUTE = BASE_URL + ruteContent;
 
 const TOASTS = new STtoasts();
 const myModalObjec = '#createUpdateModal';
 const idForm = 'objForm';
+const idEmailForm = 'objEmailForm';
+const idFinForm = 'objEmailForm';
+
 
 var sTForm = null;
+var sTFormEmail = null
+var sTFormFin = null
 var url = "";
 var assignmentAction = 0;
 var formData = new Object();
 var selectInsertOrUpdate = true;
-
-function details(projectId) {
-    window.location = `${BASE_URL}details?projectId=${projectId}`
-}
 
 function create(formData) {
     url = URL_ROUTE + arRoutes[0];
@@ -43,7 +41,6 @@ function create(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-                debugger;
                 TOASTS.toastView("", "", arMessages[1], 0);
                 hideModal();
                 window.location.reload();
@@ -51,7 +48,6 @@ function create(formData) {
                 console.log(arMessages[0]);
             }
             sTForm.inputButtonEnable();
-            debugger;
             hidePreload();
         });
 }
@@ -88,6 +84,7 @@ function delete_(id) {
         showPreload();
         url = URL_ROUTE + arRoutes[3];
         formData[primaryId] = id;
+        formData['activityId'] = document.getElementById('Activi_id').value;
         fetch(url, {
             method: "POST",
             body: JSON.stringify(formData),
@@ -113,6 +110,7 @@ function delete_(id) {
 }
 
 function sendData(e, formObj) {
+    debugger;
     let obj = formObj;
     sTForm = SingletonClassSTForm.getInstance();
     if (sTForm.validateForm()) {
@@ -144,6 +142,7 @@ function toogleDisabledFields() {
 }
 
 function getDataId(idData) {
+    debugger;
     showPreload();
     selectInsertOrUpdate = false;
     formData[primaryId] = idData;
@@ -211,3 +210,56 @@ var SingletonClassSTForm = (function () {
         }
     }
 })();
+
+function showEmailModal(type) {
+    debugger;
+    if (type == 1) {
+        sTFormEmail = SingletonClassSTFormEmail.getInstance();
+        sTFormEmail.inputButtonEnable();
+    }
+    sTFormEmail.clearDataForm();
+    $(emailModal).modal("show");
+}
+
+var SingletonClassSTFormEmail = (function () {
+    var objInstance;
+    function createInstance() {
+        var object = new STForm(idEmailForm);
+        return object;
+    }
+    return {
+        getInstance: function () {
+            if (!objInstance) {
+                objInstance = createInstance();
+            }
+            return objInstance;
+        }
+    }
+})();
+
+function showFinModal(type) {
+    debugger;
+    if (type == 1) {
+        sTFormFin = SingletonClassSTFormFin.getInstance();
+        sTFormFin.inputButtonEnable();
+    }
+    sTFormFin.clearDataForm();
+    $(finModal).modal("show");
+}
+
+var SingletonClassSTFormFin = (function () {
+    var objInstance;
+    function createInstance() {
+        var object = new STForm(idFinForm);
+        return object;
+    }
+    return {
+        getInstance: function () {
+            if (!objInstance) {
+                objInstance = createInstance();
+            }
+            return objInstance;
+        }
+    }
+})();
+

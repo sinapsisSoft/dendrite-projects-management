@@ -71,7 +71,8 @@
                                                 <tr>
                                                     <td><?= $i++; ?></td>
                                                     <td><?= $obj->Activi_name; ?></td>
-                                                    <td><?= $obj->ApprCode_code; ?></td>
+                                                    <td><?= $obj->Project_product; ?></td>
+                                                    <td><?= $obj->Project_product; ?></td>
                                                     <td><?= $obj->created_at; ?></td>
                                                     <td>
                                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
@@ -93,7 +94,7 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                            <th>#</th>
+                                                <th>#</th>
                                                 <th>Nombre</th>
                                                 <th>Código</th>
                                                 <th>Fecha de creación</th>
@@ -115,104 +116,104 @@
                             </div>
                             <div class="modal-body ">
                                 <form class="form-horizontal mt-3" id="objForm" action="" onsubmit="sendData(event,this.id)">
-                                   <div class="row">
-                                   <input type="hidden" class="form-control" id="Activi_id" name="Activi_id" value="0">
-                                    <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                                    <div class="form-floating  mb-3 col-12">
-                                        <input type="text" class="form-control" id="Activi_name" name="Activi_name" required>
-                                        <label for="Activi_name">Nombre</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-4">
-                                        <select name="ApprCode_id" id="ApprCode_id" class="form-control">
-                                            <?php foreach ($approvalcodes as $approvalcode): ?>
-                                                <option>
+                                    <div class="row">
+                                        <input type="hidden" class="form-control" id="Activi_id" name="Activi_id" value="0">
+                                        <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
+                                        <div class="form-floating  mb-3 col-12">
+                                            <input type="text" class="form-control" id="Activi_name" name="Activi_name" required>
+                                            <label for="Activi_name">Nombre</label>
+                                        </div>
+                                        <div class="form-floating mb-3 col-4">
+                                            <select name="ApprCode_id" id="ApprCode_id" class="form-control">
+                                                <option value="">
                                                     Seleccione...
                                                 </option>
-                                                <option value="<?= $approvalcode['ApprCode_id'] ?>">
-                                                    <?= $approvalcode['ApprCode_code']. " - ".  $approvalcode['ApprCode_name'];?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="ApprCode_id">Código de actividades</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-8">
-                                        <input type="text" class="form-control" id="Activi_observation" name="Activi_observation" required>
-                                        <label for="Activi_observation">Observaciones</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-3">
-                                        <input type="date" class="form-control" id="Activi_startDate" name="Activi_startDate" required>
-                                        <label for="Activi_startDate">Fecha de inicio</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-3">
-                                        <input type="date" class="form-control" id="Activi_endDate" name="Activi_endDate" required>
-                                        <label for="Activi_endDate">Fecha de cierre</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-3">
-                                        <input type="text" class="form-control" id="Activi_time" name="Activi_time" required>
-                                        <label for="Activi_time">Tiempo de actividad</label>
-                                    </div>
-                                    
-                                    <div class="form-floating mb-3 col-3">
-                                        <input type="text" class="form-control" id="Activi_completion" name="Activi_completion" required>
-                                        <label for="Activi_completion">% de actividad realizada</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-12">
-                                        <input type="text" class="form-control" id="Activi_link" name="Activi_link" required>
-                                        <label for="Activi_link">Enlace</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-6">
-                                        <select name="Stat_id" id="Stat_id" class="form-control">
-                                            <?php foreach ($userstatuses as $userstatus) : ?>
-                                                <option>
+                                                <?php foreach ($approvalcodes as $approvalcode) : ?>
+                                                    <option value="<?= $approvalcode['ApprCode_id'] ?>">
+                                                        <?= $approvalcode['ApprCode_code'] . " - " .  $approvalcode['ApprCode_name']; ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <label for="ApprCode_id">Código de actividades</label>
+                                        </div>
+                                        <div class="form-floating mb-3 col-8">
+                                            <input type="text" class="form-control" id="Activi_observation" name="Activi_observation" required>
+                                            <label for="Activi_observation">Observaciones</label>
+                                        </div>
+                                        <div class="form-floating mb-3 col-3">
+                                            <input type="date" class="form-control" id="Activi_startDate" name="Activi_startDate" required>
+                                            <label for="Activi_startDate">Fecha de inicio</label>
+                                        </div>
+                                        <div class="form-floating mb-3 col-3">
+                                            <input type="date" class="form-control" id="Activi_endDate" name="Activi_endDate" required>
+                                            <label for="Activi_endDate">Fecha de cierre</label>
+                                        </div>
+                                        <div class="form-floating mb-3 col-3">
+                                            <input type="text" class="form-control" id="Activi_time" name="Activi_time" required>
+                                            <label for="Activi_time">Tiempo de actividad</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3 col-3">
+                                            <input type="text" class="form-control" id="Activi_completion" name="Activi_completion" required>
+                                            <label for="Activi_completion">% de actividad realizada</label>
+                                        </div>
+                                        <div class="form-floating mb-3 col-12">
+                                            <input type="text" class="form-control" id="Activi_link" name="Activi_link" required>
+                                            <label for="Activi_link">Enlace</label>
+                                        </div>
+                                        <div class="form-floating mb-3 col-6">
+                                            <select name="Stat_id" id="Stat_id" class="form-control">
+                                                <option value="">
                                                     Seleccione...
                                                 </option>
-                                                <option value="<?= $userstatus->Stat_id ?>">
-                                                    <?= $userstatus->Stat_name  ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="Stat_id">Estado</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-6">
-                                        <select name="Project_product_id" id="Project_product_id" class="form-control">
-                                            <?php foreach ($projectproducts as $projectproduct) : ?>
-                                                <option>
+                                                <?php foreach ($userstatuses as $userstatus) : ?>
+                                                    <option value="<?= $userstatus->Stat_id ?>">
+                                                        <?= $userstatus->Stat_name  ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <label for="Stat_id">Estado</label>
+                                        </div>
+                                        <div class="form-floating mb-3 col-6">
+                                            <select name="Project_product_id" id="Project_product_id" class="form-control">
+                                                <option value="">
                                                     Seleccione...
                                                 </option>
-                                                <option value="<?= $projectproduct['Project_product_id'] ?>">
-                                                    <?= $projectproduct['Project_productAmount'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="Project_product_id">Pp</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <select name="User_id" id="User_id" class="form-control">
-                                            <?php foreach ($users as $user) : ?>
-                                                <option>
+                                                <?php foreach ($projectproducts as $projectproduct) : ?>
+                                                    <option value="<?= $projectproduct['Project_product_id'] ?>">
+                                                        <?= $projectproduct['Project_productAmount'] ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <label for="Project_product_id">Proyecto</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select name="User_id" id="User_id" class="form-control">
+                                                <option value="">
                                                     Seleccione...
                                                 </option>
-                                                <option value="<?= $user->User_id ?>">
-                                                    <?= $user->User_email  ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="User_id">Usuarios</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <select name="User_assigned" id="User_assigned" class="form-control">
-                                            <?php foreach ($developers as $user) : ?>
-                                                <option>
+                                                <?php foreach ($users as $user) : ?>
+                                                    <option value="<?= $user->User_id ?>">
+                                                        <?= $user->User_email  ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <label for="User_id">Usuarios</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select name="User_assigned" id="User_assigned" class="form-control">
+                                                <option value="">
                                                     Seleccione...
                                                 </option>
-                                                <option value="<?= $user->User_id ?>">
-                                                    <?= $user->User_email  ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="User_assigned">Colaboradores</label>
+                                                <?php foreach ($developers as $user) : ?>
+                                                    <option value="<?= $user->User_id ?>">
+                                                        <?= $user->User_email  ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <label for="User_assigned">Colaboradores</label>
+                                        </div>
                                     </div>
-                                   </div>
                                 </form>
                             </div>
                             <div class="modal-footer">

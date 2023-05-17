@@ -1,36 +1,27 @@
-showPreload();
 
-$("#table_obj").DataTable();
+const ruteContentTracking = "projecttracking/";
+const nameModelTracking = 'projecttrackings';
+const dataModelTracking = 'data';
+const dataResponseTracking = 'response';
+const dataMessagesTracking = 'message';
+const dataCsrfTracking = 'csrf';
 
-const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', 'Updated user ', 'The user was deleted');
-const ruteContent = "project/";
-const nameModel = 'projects';
-const dataModel = 'data';
-const dataResponse = 'response';
-const dataMessages = 'message';
-const dataCsrf = 'csrf';
+const primaryIdTracking = 'ProjectTrack_id';
+const URL_ROUTETracking = BASE_URL + ruteContentTracking;
 
-const primaryId = 'Project_id';
-const URL_ROUTE = BASE_URL + ruteContent;
+const TOASTSTracking = new STtoasts();
+const TrackingModal = '#TrackingModal';
+const idTrackingForm = 'objTrackingForm';
 
-const TOASTS = new STtoasts();
-const myModalObjec = '#createUpdateModal';
-const idForm = 'objForm';
+var sTFormTracking = null
+var urlTracking = "";
+var assignmentActionTracking = 0;
+var formDataTracking = new Object();
+var selectInsertOrUpdateTracking = true;
 
-var sTForm = null;
-var url = "";
-var assignmentAction = 0;
-var formData = new Object();
-var selectInsertOrUpdate = true;
-
-function details(projectId) {
-    window.location = `${BASE_URL}details?projectId=${projectId}`
-}
-
-function create(formData) {
-    url = URL_ROUTE + arRoutes[0];
-    fetch(url, {
+function createTracking(formData) {
+    urlTracking = URL_ROUTETracking + arRoutes[0];
+    fetch(urlTracking, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -43,22 +34,20 @@ function create(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-                debugger;
-                TOASTS.toastView("", "", arMessages[1], 0);
-                hideModal();
+                TOASTSTracking.toastView("", "", arMessages[1], 0);
+                hidelTrackingModal();
                 window.location.reload();
             } else {
                 console.log(arMessages[0]);
             }
-            sTForm.inputButtonEnable();
-            debugger;
+            sTFormTracking.inputButtonEnable();
             hidePreload();
         });
 }
 
-function update(formData) {
-    url = URL_ROUTE + arRoutes[2];
-    fetch(url, {
+function updateTracking(formData) {
+    urlTracking = URL_ROUTETracking + arRoutes[2];
+    fetch(urlTracking, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -71,24 +60,24 @@ function update(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-                TOASTS.toastView("", "", arMessages[3], 0);
-                hideModal();
+                TOASTSTracking.toastView("", "", arMessages[3], 0);
+                hidelTrackingModal();
                 window.location.reload();
             } else {
                 console.log(arMessages[0]);
             }
-            sTForm.inputButtonEnable();
+            sTFormTracking.inputButtonEnable();
             hidePreload();
         });
 }
 
-function delete_(id) {
+function deleteTracking(id) {
     let text = "Do you want to carry out this process?\n OK or Cancel.";
     if (confirm(text) == true) {
         showPreload();
-        url = URL_ROUTE + arRoutes[3];
-        formData[primaryId] = id;
-        fetch(url, {
+        urlTracking = URL_ROUTETracking + arRoutes[3];
+        formData[primaryIdTracking] = id;
+        fetch(urlTracking, {
             method: "POST",
             body: JSON.stringify(formData),
             headers: {
@@ -112,19 +101,20 @@ function delete_(id) {
     }
 }
 
-function sendData(e, formObj) {
+function sendTrackingData(e, formObj) {
+    debugger;
     let obj = formObj;
-    sTForm = SingletonClassSTForm.getInstance();
-    if (sTForm.validateForm()) {
+    sTFormTracking = SingletonClassSTFormTracking.getInstance();
+    if (sTFormTracking.validateForm()) {
         showPreload();
-        if (selectInsertOrUpdate) {
-            create(sTForm.getDataForm());
+        if (selectInsertOrUpdateTracking) {
+            createTracking(sTFormTracking.getDataForm());
         } else {
-            update(sTForm.getDataForm());
+            updateTracking(sTFormTracking.getDataForm());
         }
-        sTForm.inputButtonDisable();
+        sTFormTracking.inputButtonDisable();
     } else {
-        TOASTS.toastView("", "", arMessages[0], 1);
+        TOASTSTracking.toastView("", "", arMessages[0], 1);
     }
     e.preventDefault();
 }
@@ -134,7 +124,7 @@ function detail(idData) {
     toogleDisabledFields();
 }
 
-function toogleDisabledFields() {
+function toogleTrackingDisabledFields() {
     const btnSubmit = document.getElementById('btn-submit');
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => input.classList.add('form-disabled'))
@@ -143,12 +133,12 @@ function toogleDisabledFields() {
     btnSubmit.disabled = true;
 }
 
-function getDataId(idData) {
+function getTrackingDataId(idData) {
     showPreload();
-    selectInsertOrUpdate = false;
-    formData[primaryId] = idData;
-    url = URL_ROUTE + arRoutes[4];
-    sTForm = SingletonClassSTForm.getInstance();
+    selectInsertOrUpdateTracking = false;
+    formDataTracking[primaryIdTracking] = idData;
+    urlTracking = URL_ROUTETracking + arRoutes[4];
+    sTFormTracking = SingletonClassSTFormTracking.getInstance();
     fetch(url, {
         method: "POST",
         body: JSON.stringify(formData),
@@ -161,7 +151,7 @@ function getDataId(idData) {
         .catch(error => console.error('Error:', error))
         .then(response => {
             if (response[dataResponse] == 200) {
-                showModal(0);
+                showTrackingModal(0);
                 sTForm.setDataForm(response[dataModel]);
                 hidePreload();
             } else {
@@ -170,36 +160,29 @@ function getDataId(idData) {
         });
 }
 
-function addData() {
-    selectInsertOrUpdate = true;
-    showModal(1);
+function addTrackingData() {
+    selectInsertOrUpdateTracking = true;
+    showTrackingModal(1);
 }
 
-function hideModal() {
-    $(myModalObjec).modal("hide");
+function hidelTrackingModal() {
+    $(TrackingModal).modal("hide");
 }
 
-function showModal(type) {
+function showTrackingModal(type) {
+    debugger;
     if (type == 1) {
-        sTForm = SingletonClassSTForm.getInstance();
-        sTForm.inputButtonEnable();
+        sTFormTracking = SingletonClassSTFormTracking.getInstance();
+        sTFormTracking.inputButtonEnable();
     }
-    sTForm.clearDataForm();
-    $(myModalObjec).modal("show");
+    sTFormTracking.clearDataForm();
+    $(TrackingModal).modal("show");
 }
 
-function showPreload() {
-    $(".preloader").fadeIn();
-}
-
-function hidePreload() {
-    $(".preloader").fadeOut();
-}
-
-var SingletonClassSTForm = (function () {
+var SingletonClassSTFormTracking = (function () {
     var objInstance;
     function createInstance() {
-        var object = new STForm(idForm);
+        var object = new STForm(idTrackingForm);
         return object;
     }
     return {

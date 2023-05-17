@@ -9,6 +9,8 @@ use App\Models\ClientModel;
 use App\Models\CountryModel;
 use App\Models\UserModel;
 use App\Models\UserStatusModel;
+use App\Models\ManagerModel;
+use App\Models\BrandModel;
 
 
 class Project extends BaseController
@@ -30,6 +32,8 @@ class Project extends BaseController
         $country = new CountryModel();
         $user = new UserModel();
         $userstatus = new UserStatusModel();
+        $manager = new ManagerModel();
+        $brand = new BrandModel();
 
         $data['title'] = 'Proyectos';
         $data['css'] = view('assets/css');
@@ -42,7 +46,10 @@ class Project extends BaseController
 
         $data[$this->nameModel] = $this->objModel->findAll();
         $data['clients'] = $client->findAll();
+        $data['managers'] = $manager->findAll();
+        $data['brands'] = $brand->findAll();
         $data['countries'] = $country->findAll();
+        $data['commercial'] = $user->sp_select_all_users_comercial();
         $data['users'] = $user->sp_select_all_users();
         $data['userstatuses'] = $userstatus->sp_select_status_users();
         return view('project/project', $data);
@@ -150,11 +157,13 @@ class Project extends BaseController
             'Project_ddtEndDate' => $this->request->getVar('Project_ddtEndDate'),
             'Project_startDate' => $this->request->getVar('Project_startDate'),
             'Project_estimatedEndDate' => $this->request->getVar('Project_estimatedEndDate'),
-            'Project_activitiStartDate' => $this->request->getVar('Project_activitiStartDate'),
+            'Project_activitiEndDate' => $this->request->getVar('Project_activitiEndDate'),
             'Project_link' => $this->request->getVar('Project_link'),
             'Project_percentage' => $this->request->getVar('Project_percentage'),
             'Project_observation' => $this->request->getVar('Project_observation'),
             'Client_id' => $this->request->getVar('Client_id'),
+            'Manager_id' => $this->request->getVar('Manager_id'),
+            'Brand_id' => $this->request->getVar('Brand_id'),
             'Country_id' => $this->request->getVar('Country_id'),
             'User_id' => $this->request->getVar('User_id'),
             'Stat_id' => $this->request->getVar('Stat_id'),

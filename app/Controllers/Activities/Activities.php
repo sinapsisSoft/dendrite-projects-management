@@ -43,11 +43,18 @@ class Activities extends BaseController{
         $data['projectproducts'] = $projectproduct->findAll();
         return view('activities/activities', $data);
     }
+    
 
-    public function create(){
+    public function create()
+    {
+        $codeProject = '';
         if ($this->request->isAJAX()) {
-            $dataModel = $this->getDataModel(NULL);
+            $dataModel = $this->getDataModel(NULL, $codeProject);
             if ($this->objModel->insert($dataModel)) {
+                $id = $this->objModel->insertID();
+                $codeActivities = $this->generateCode((string) $id);
+                $dataModel['Activi_id'] = $id;
+                $this->objModel->update($id, array_merge($dataModel, ["Activi_code" => $codeActivities]));
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['data'] = $dataModel;
@@ -87,9 +94,10 @@ class Activities extends BaseController{
         try {
             $today = date("Y-m-d H:i:s");
             $id = $this->request->getVar($this->primaryKey);
+            $codeActivities = $this->generateCode((string) $id);
             $data = $this->getDataModel($id);
             $data['updated_at'] = $today;
-            $this->objModel->update($id, $data);
+            $this->objModel->update($id, array_merge($data, ["Activi_code" => $codeActivities]));
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
             $data['data'] = $id;
@@ -100,6 +108,9 @@ class Activities extends BaseController{
             $data['data'] = 'Error';
         }
         return json_encode($data);
+    }
+    public function generateCode($id){
+        return "ACT_".str_pad($id, 3, '0', STR_PAD_LEFT);
     }
 
     public function delete()
@@ -132,13 +143,14 @@ class Activities extends BaseController{
             'Activi_observation' => $this->request->getVar('Activi_observation'),
             'Activi_startDate' => $this->request->getVar('Activi_startDate'),
             'Activi_endDate' => $this->request->getVar('Activi_endDate'),
-            'Activi_time' => $this->request->getVar('Activi_time'),
             'Activi_link' => $this->request->getVar('Activi_link'),
-            'Activi_completion' => $this->request->getVar('Activi_completion'),
             'ApprCode_id' => $this->request->getVar('ApprCode_id'),
+            'Activi_codeMiigo' => $this->request->getVar('Activi_codeMiigo'),
+            'Activi_codeSpectra' => $this->request->getVar('Activi_codeSpectra'),
+            'Activi_codeDelivery' => $this->request->getVar('Activi_codeDelivery'),
+            'Activi_percentage' => $this->request->getVar('Activi_percentage') == null ? 0  : $this->request->getVar('Activi_percentage'),
             'Stat_id' => $this->request->getVar('Stat_id'),
             'Project_product_id' => $this->request->getVar('Project_product_id'),
-            'User_id' => $this->request->getVar('User_id'),
             'User_assigned' => $this->request->getVar('User_assigned'),
             'updated_at' => $this->request->getVar('updated_at')
         ];
