@@ -1,25 +1,24 @@
 <?php
-namespace App\Controllers\ProjectTracking;
+namespace App\Controllers\ProductBrand;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProjectTrackingModel;
+use App\Models\ProductBrandModel;
 
-
-class ProjectTracking extends BaseController{
+class ProductBrand extends BaseController{
     private $objModel;
     private $primaryKey;
     private $nameModel;
 
     public function __construct()
     {
-        $this->objModel = new ProjectTrackingModel();
-        $this->primaryKey = 'ProjectTrack_id';
-        $this->nameModel = 'projecttrackings';
+        $this->objModel = new ProductBrandModel();
+        $this->primaryKey = 'Prod_brand_id';
+        $this->nameModel = 'productbrands';
     }
 
     public function show(){
-        $data['title'] = 'Seguimiento del Proyecto';
+        $data['title'] = 'Marca de producto';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
@@ -29,7 +28,7 @@ class ProjectTracking extends BaseController{
         $data['footer'] = view('navbar/footer');
 
         $data[$this->nameModel] = $this->objModel->findAll();
-        return view('projecttracking/projecttracking', $data);
+        return view('productbrand/productbrand', $data);
     }
 
     public function create(){
@@ -115,11 +114,10 @@ class ProjectTracking extends BaseController{
     public function getDataModel($getShares)
     {
         $data = [
-            'ProjectTrack_id' => $getShares,
-            'ProjectTrack_name' => $this->request->getVar('ProjectTrack_name'),
-            'ProjectTrack_description' => $this->request->getVar('ProjectTrack_description'),
-            'Project_id' => $this->request->getVar('Project_id'),
-            'ProjectTrack_date' => $this->request->getVar('ProjectTrack_date'),
+            'Prod_brand_id' => $getShares,
+            'Prod_brand_name' => $this->request->getVar('Prod_brand_name'),
+            'Prod_brand_description' => $this->request->getVar('Prod_brand_description'),
+            'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;
     }

@@ -5,7 +5,6 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ActivitiesModel;
 use App\Models\UserStatusModel;
-use App\Models\UserModel;
 use App\Models\ApprovalCodeModel;
 use App\Models\ProjectProductModel;
 
@@ -23,7 +22,6 @@ class Activities extends BaseController{
 
     public function show(){
         $userstatus = new UserStatusModel();
-        $user = new UserModel();
         $approvalcode = new ApprovalCodeModel();
         $projectproduct = new ProjectProductModel();
         $data['title'] = 'Actividad';
@@ -37,8 +35,6 @@ class Activities extends BaseController{
 
         $data[$this->nameModel] = $this->objModel->sp_select_all_activities();
         $data['userstatuses'] = $userstatus->sp_select_status_users();
-        $data['users'] = $user->sp_select_all_users();
-        $data['developers'] = $user->sp_select_all_users_developer();
         $data['approvalcodes'] = $approvalcode->findAll();
         $data['projectproducts'] = $projectproduct->findAll();
         return view('activities/activities', $data);
@@ -151,7 +147,6 @@ class Activities extends BaseController{
             'Activi_percentage' => $this->request->getVar('Activi_percentage') == null ? 0  : $this->request->getVar('Activi_percentage'),
             'Stat_id' => $this->request->getVar('Stat_id'),
             'Project_product_id' => $this->request->getVar('Project_product_id'),
-            'User_assigned' => $this->request->getVar('User_assigned'),
             'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;

@@ -151,6 +151,14 @@ $routes->group('brand', ['namespace' => 'App\Controllers\Brand'], function ($rou
     $routes->post('delete', 'Brand::delete');
     $routes->post('edit', 'Brand::edit');
     $routes->post('update', 'Brand::update');
+    $routes->post('findByManager', 'Brand::findByManager');
+});
+$routes->group('productbrand', ['namespace' => 'App\Controllers\ProductBrand'], function ($routes) {
+    $routes->get('/', 'ProductBrand::show');
+    $routes->post('create', 'ProductBrand::create');
+    $routes->post('delete', 'ProductBrand::delete');
+    $routes->post('edit', 'ProductBrand::edit');
+    $routes->post('update', 'ProductBrand::update');
 });
 
 $routes->group('manager', ['namespace' => 'App\Controllers\Manager'], function ($routes) {
@@ -159,6 +167,7 @@ $routes->group('manager', ['namespace' => 'App\Controllers\Manager'], function (
     $routes->post('delete', 'Manager::delete');
     $routes->post('edit', 'Manager::edit');
     $routes->post('update', 'Manager::update');
+    $routes->post('findByClient', 'Manager::findByClient');
 });
 
 $routes->group('project', ['namespace' => 'App\Controllers\Project'], function ($routes) {
@@ -204,12 +213,26 @@ $routes->group('details', ['namespace' => 'App\Controllers\Details'], function (
     $routes->get('/', 'Details::show');
 
 });
+
+$routes->group('detailsclient', ['namespace' => 'App\Controllers\DetailsClient'], function ($routes) {
+    $routes->get('/', 'DetailsClient::show');
+
+});
 $routes->group('subactivities', ['namespace' => 'App\Controllers\SubActivities'], function ($routes) {
     $routes->get('/', 'SubActivities::show');
     $routes->post('create', 'SubActivities::create');
     $routes->post('delete', 'SubActivities::delete');
     $routes->post('edit', 'SubActivities::edit');
     $routes->post('update', 'SubActivities::update');
+
+});
+
+$routes->group('priorities', ['namespace' => 'App\Controllers\Priorities'], function ($routes) {
+    $routes->get('/', 'Priorities::show');
+    $routes->post('create', 'Priorities::create');
+    $routes->post('delete', 'Priorities::delete');
+    $routes->post('edit', 'Priorities::edit');
+    $routes->post('update', 'Priorities::update');
 
 });
 

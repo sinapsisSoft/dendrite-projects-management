@@ -25,10 +25,18 @@ class ProjectModel extends Model{
         'Manager_id',
         'Country_id', 
         'User_id', 
-        'Stat_id', 
+        'Stat_id',
+        'Priorities_id', 
         'updated_at'
     ];
     protected $updatedField = 'updated_at';
+
+    function sp_select_all_project_table()
+    {
+        $query = "CALL sp_select_all_project_table()";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
     
     function sp_select_all_project($projectId)
     {

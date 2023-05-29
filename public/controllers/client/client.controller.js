@@ -24,9 +24,12 @@ var assignmentAction = 0;
 var formData = new Object();
 var selectInsertOrUpdate = true;
 
+function details(detailsclientId) {
+    window.location = `${BASE_URL}detailsclient?detailsclientId=${detailsclientId}`
+}
+
 function create(formData) {
     url = URL_ROUTE + arRoutes[0];
-    debugger;
     fetch(url, {
         method: "POST",
         body: JSON.stringify(formData),
@@ -108,7 +111,6 @@ function delete_(id) {
 }
 
 function sendData(e, formObj) {
-    debugger;
     let obj = formObj;
     sTForm = SingletonClassSTForm.getInstance();
     if (sTForm.validateForm()) {

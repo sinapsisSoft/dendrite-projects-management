@@ -11,11 +11,12 @@ class ProductModel extends Model
     protected $primaryKey = 'Prod_id';
     protected $allowedFields = [
     'Prod_id', 
+    'Prod_code', 
     'Prod_name', 
     'Prod_description', 
     'Prod_value', 
     'TypePro_id',
-    'Brand_id', 
+    'Prod_brand_id', 
     'Unit_id', 
     'Filing_id'];
     protected $updatedField = 'updated_at';

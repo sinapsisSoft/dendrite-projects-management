@@ -11,9 +11,7 @@ class ProjectTrackingModel extends Model
     protected $primaryKey = 'ProjectTrack_id';
     protected $allowedFields = ['ProjectTrack_id', 
     'ProjectTrack_name',
+    'Project_id',
     'ProjectTrack_description',
-    'ProjectTrack_date',
-    'updated_at'];
-    protected $updatedField = 'updated_at';
-
+    'ProjectTrack_date'];
 }

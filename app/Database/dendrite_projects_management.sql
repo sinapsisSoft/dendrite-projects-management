@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 17-05-2023 a las 15:31:31
+-- Tiempo de generación: 25-05-2023 a las 14:17:18
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.0.26
 
@@ -14,172 +14,10 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `dendrite_projects_management`
 --
-
-DELIMITER $$
 --
 -- Procedimientos
 --
-DROP PROCEDURE IF EXISTS `sp_select_all_activities`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_activities` ()   BEGIN 
-SELECT A.Activi_id, A.Activi_name, AP.ApprCode_code, A.created_at FROM activities A INNER JOIN approvalcode AP on AP.ApprCode_id = A.ApprCode_id;
 
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_select_all_details_activities`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_details_activities` (IN `Activi_id` INT)   BEGIN
-SELECT
-A.Activi_id,
-    A.Activi_name,
-    A.Activi_code,
-    A.Activi_codeMiigo,
-    A.Activi_codeSpectra,
-    A.Activi_codeDelivery,
-    A.Activi_endDate,
-    A.Activi_percentage,
-    S.Stat_name,
-    U.User_email,
-    P.Prod_name
-FROM activities A
-LEFT JOIN status S ON S.Stat_id = A.Stat_id
-LEFT JOIN user U ON U.User_id = A.User_assigned
-LEFT JOIN project_product PP ON PP.Project_product_id = A.Project_product_id
-LEFT JOIN product P ON P.Prod_id = PP.Prod_id
-WHERE A.Activi_id = Activi_id;
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_select_all_details_subactivities`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_details_subactivities` (IN `SubAct_id` INT)   BEGIN
-SELECT
-    SA.SubAct_id,
-    SA.SubAct_name,
-    S.Stat_name,
-    SA.SubAct_description
-FROM subactivities SA
-LEFT JOIN status S ON S.Stat_id = SA.Stat_id
-WHERE SA.SubAct_id = SubAct_id; 
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_select_all_project`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_project` (IN `project_id` INT)   BEGIN
-
-SELECT
-P.Project_id,
-P.Project_code,
-P.Project_name,
-C.Client_name,
-M.Manager_name,
-B.Brand_name,
-P.Project_purchaseOrder,
-P.Project_ddtStartDate,
-CT.Country_name,
-P.Project_ddtEndDate,
-C.Client_name,
-U.User_email,
-P.Project_startDate,
-P.Project_estimatedEndDate,
-P.Project_activitiEndDate,
-S.Stat_name,
-P.Project_link,
-P.Project_observation
-
-FROM project P
-INNER JOIN client C on C.Client_id = P.Client_id
-INNER JOIN manager M on M.Manager_id = P.Manager_id
-INNER JOIN brand B on B.Brand_id = P.Brand_id
-INNER JOIN country CT on CT.Country_id = P.Country_id
-INNER JOIN user U on U.User_id = P.User_id
-INNER JOIN status S on S.Stat_id = P.Stat_id
-
-WHERE P.Project_id = Project_id;
-
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_select_all_project_product`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_project_product` (IN `project_id` INT)   SELECT
-	PP.Project_product_id,
-    P.Prod_name,
-    PP.Project_productAmount,
-    S.Stat_name,
-    CASE 
-    	WHEN S.Stat_name LIKE 'Realizado' THEN '#16FF00' 
-        WHEN S.Stat_name LIKE 'Pendiente' THEN '#FFD93D'
-        ELSE '#FF0303' END as color
-FROM project_product PP
-INNER JOIN product P ON P.Prod_id = PP.Prod_id
-INNER JOIN status S ON S.Stat_id = PP.Stat_id
-WHERE PP.Project_id = project_id$$
-
-DROP PROCEDURE IF EXISTS `sp_select_all_subactivities`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_subactivities` (IN `activity_id` INT)   BEGIN
-SELECT
- SA.SubAct_id,
- SA.SubAct_name,
- S.Stat_name,
- CASE 
-    	WHEN S.Stat_name LIKE 'Realizado' THEN '#16FF00' 
-        WHEN S.Stat_name LIKE 'Pendiente' THEN '#FFD93D'
-        ELSE '#FF0303' END as color
-FROM subactivities SA
-INNER JOIN status S ON S.Stat_id = SA.Stat_id
-WHERE SA.Activi_id = activity_id;
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_select_all_users`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_users` ()   BEGIN
-    SELECT User_id,User_email,CO.Comp_name,ST.Stat_name,RO.Role_name,USU.created_at AS Created_at FROM user USU 
-    INNER JOIN status ST ON USU.Stat_id =ST.Stat_id
-    INNER JOIN role RO ON USU.Role_id=RO.Role_id
-    INNER JOIN company CO ON USU.Comp_id =CO.Comp_id
-    WHERE ST.Stat_id=1 ORDER BY User_id ASC;
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_select_all_users_comercial`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_users_comercial` ()   BEGIN
-
-SELECT U.User_id, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id WHERE R.Role_name = "Comercial";
-
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_select_all_users_developer`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_users_developer` ()   BEGIN
-
-SELECT U.User_id, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id WHERE R.Role_name = "Developer";
-
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_select_modules_role`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_modules_role` (IN `role_id` INT)   BEGIN
-select 
-	rm.Mod_id as mod_id,
-    (select group_concat(rmp.Perm_id) from role_module_permit rmp 
-where rmp.Role_mod_id = rm.Role_mod_id) as permits
-from role_module rm where rm.Role_id = role_id;
-
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_select_percent_project`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_percent_project` (IN `project_id` INT)   BEGIN
-SELECT 
-	ROUND(SUM(A.Activi_percentage) / COUNT(*)) as percent
-FROM activities A
-INNER JOIN project_product PP ON PP.Project_product_id = A.Project_product_id
-WHERE PP.Project_id = project_id;
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_select_status_users`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_status_users` ()   BEGIN
-    SELECT Stat_id,Stat_name FROM status WHERE StatType_id=1;
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_update_percent_activity`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_percent_activity` (IN `activity_id` INT)   BEGIN
-SELECT @porcent := ROUND(SUM(SubAct_percentage) / COUNT(*)) as porcent FROM subactivities WHERE Activi_id = activity_id;
-SELECT @porcent;
-update activities set Activi_percentage = @porcent
-WHERE Activi_id = activity_id;
-END$$
-
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -202,24 +40,22 @@ CREATE TABLE IF NOT EXISTS `activities` (
   `Activi_percentage` varchar(15) NOT NULL,
   `Stat_id` int UNSIGNED DEFAULT NULL,
   `Project_product_id` int UNSIGNED DEFAULT NULL,
-  `User_id` int UNSIGNED DEFAULT NULL,
-  `User_assigned` int UNSIGNED DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Activi_id`),
   KEY `activities_status` (`Stat_id`),
-  KEY `activities_user` (`User_id`),
   KEY `activities_project_product` (`Project_product_id`),
-  KEY `activities_approvalcode` (`Activi_code`),
-  KEY `activities_user_assigned` (`User_assigned`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `activities_approvalcode` (`Activi_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `activities`
 --
 
-INSERT INTO `activities` (`Activi_id`, `Activi_name`, `Activi_code`, `Activi_observation`, `Activi_startDate`, `Activi_endDate`, `Activi_link`, `Activi_codeMiigo`, `Activi_codeSpectra`, `Activi_codeDelivery`, `Activi_percentage`, `Stat_id`, `Project_product_id`, `User_id`, `User_assigned`, `updated_at`, `created_at`) VALUES
-(11, 'danna', 'ACT_011', 'desarrollar', '2023-05-17 00:00:00', NULL, 'git', '125', '45', 78, '0', NULL, 1, NULL, 1, '0000-00-00 00:00:00', '2023-05-17 09:51:14');
+INSERT INTO `activities` (`Activi_id`, `Activi_name`, `Activi_code`, `Activi_observation`, `Activi_startDate`, `Activi_endDate`, `Activi_link`, `Activi_codeMiigo`, `Activi_codeSpectra`, `Activi_codeDelivery`, `Activi_percentage`, `Stat_id`, `Project_product_id`, `updated_at`, `created_at`) VALUES
+(22, 'sinapsis', 'ACT_022', 'grande', '2023-05-25 00:00:00', NULL, 'git', '125', '45', 78, '50', NULL, 19, '0000-00-00 00:00:00', '2023-05-24 10:25:03'),
+(23, 'cocacola', 'ACT_023', 'grande', '2023-05-12 00:00:00', NULL, 'git', '125', '45', 78, '0', NULL, 20, '0000-00-00 00:00:00', '2023-05-24 10:58:02'),
+(24, 'peinar', 'ACT_024', 'dred', '2023-05-25 00:00:00', NULL, 'git', '125', '45', 78, '100', NULL, 19, '0000-00-00 00:00:00', '2023-05-24 11:48:43');
 
 -- --------------------------------------------------------
 
@@ -233,18 +69,24 @@ CREATE TABLE IF NOT EXISTS `brand` (
   `Brand_name` varchar(50) NOT NULL,
   `Brand_description` varchar(100) NOT NULL,
   `Client_id` int UNSIGNED NOT NULL,
+  `Manager_id` int UNSIGNED NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Brand_id`),
   KEY `brand_client` (`Client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `brand`
 --
 
-INSERT INTO `brand` (`Brand_id`, `Brand_name`, `Brand_description`, `Client_id`, `updated_at`, `created_at`) VALUES
-(7, 'coca cola', 'fria', 2, '0000-00-00 00:00:00', '2023-03-28 11:59:49');
+INSERT INTO `brand` (`Brand_id`, `Brand_name`, `Brand_description`, `Client_id`, `Manager_id`, `updated_at`, `created_at`) VALUES
+(7, 'yamaha', 'moto', 3, 0, '0000-00-00 00:00:00', '2023-03-28 11:59:49'),
+(8, 'kawasaki', 'moto', 3, 0, '0000-00-00 00:00:00', '2023-05-17 16:50:27'),
+(9, 'suzuki', 'carro', 2, 0, '0000-00-00 00:00:00', '2023-05-17 16:50:46'),
+(10, 'ducatti', 'moto', 2, 0, '0000-00-00 00:00:00', '2023-05-17 16:51:37'),
+(11, 'benelli', 'ASDASDASDASDAS', 2, 6, '2023-05-18 05:04:32', '2023-05-18 00:02:37'),
+(12, 'SYNTHROID', 'HIPOTIROIDISMO', 3, 9, '2023-05-18 14:08:56', '2023-05-18 09:01:20');
 
 -- --------------------------------------------------------
 
@@ -295,15 +137,16 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `client_docType` (`DocType_id`),
   KEY `client_state` (`Stat_id`),
   KEY `client_contry` (`Country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `client`
 --
 
 INSERT INTO `client` (`Client_id`, `Client_name`, `Client_identification`, `Client_email`, `Client_phone`, `Client_address`, `DocType_id`, `Comp_id`, `Stat_id`, `Country_id`, `updated_at`, `created_at`) VALUES
-(2, 'pepe', '152478930', 'pepe@gmail.com', '3025897144', 'zaragocilla', 1, 1, 1, 1, NULL, '2023-03-23 12:13:46'),
-(3, 'market support', '90126111', 'sinapsis@gmail.com', '3025897144', 'zaragocilla', 6, 14, 1, 1, NULL, '2023-05-05 11:08:56');
+(2, 'GIA', '152478930', 'pepe@gmail.com', '3025897144', 'zaragocilla', 1, 1, 1, 1, NULL, '2023-03-23 12:13:46'),
+(3, 'ABBOT', '90126111', 'ABBOTT@gmail.com', '3025897144', 'zaragocilla', 6, 1, 1, 1, NULL, '2023-05-05 11:08:56'),
+(18, 'abbott', '54', 'sinapsis@gmail.com', '3025897144', 'zaragocilla', 6, 1, 1, 1, NULL, '2023-05-18 19:03:47');
 
 -- --------------------------------------------------------
 
@@ -350,8 +193,7 @@ CREATE TABLE IF NOT EXISTS `company` (
 --
 
 INSERT INTO `company` (`Comp_id`, `Comp_name`, `Comp_identification`, `Comp_email`, `Comp_phone`, `DocType_id`, `Stat_id`, `updated_at`, `created_at`) VALUES
-(1, 'Sinapsis', '123', 'danaco', '125', 1, 1, NULL, '2023-01-30 21:22:39'),
-(14, 'Sinapsis Lab', '900000000', 'sinapsislab.com', '7101010', 6, 1, NULL, '2023-05-12 15:29:56');
+(1, 'Market Support', '123', 'danaco', '125', 1, 1, NULL, '2023-01-30 21:22:39');
 
 -- --------------------------------------------------------
 
@@ -472,16 +314,21 @@ CREATE TABLE IF NOT EXISTS `manager` (
   `Manager_email` varchar(100) NOT NULL,
   `Manager_phone` varchar(10) NOT NULL,
   `Brand_id` int UNSIGNED NOT NULL,
+  `Client_id` int UNSIGNED NOT NULL,
   PRIMARY KEY (`Manager_id`),
   KEY `manager_brand` (`Brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `manager`
 --
 
-INSERT INTO `manager` (`Manager_id`, `Manager_name`, `Manager_email`, `Manager_phone`, `Brand_id`) VALUES
-(2, 'Juan', 'juanP@gmail.com', '123', 7);
+INSERT INTO `manager` (`Manager_id`, `Manager_name`, `Manager_email`, `Manager_phone`, `Brand_id`, `Client_id`) VALUES
+(2, 'Juan', 'juanP@gmail.com', '123', 10, 0),
+(3, 'andres', 'andres.com', '1478', 9, 0),
+(4, 'eduardo', 'eduardo.com', '1236', 7, 0),
+(6, 'andres', 'andrespuello53@gmail.com', '3435676654', 8, 2),
+(9, 'BEATRIZ GOMEZ', 'BEATRIZ@GMAIL.COM', '3435676654', 12, 3);
 
 -- --------------------------------------------------------
 
@@ -574,18 +421,32 @@ INSERT INTO `permit` (`Perm_id`, `Perm_name`, `Perm_description`, `updated_at`, 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `priorities`
+--
+
+DROP TABLE IF EXISTS `priorities`;
+CREATE TABLE IF NOT EXISTS `priorities` (
+  `Priorities_id` int NOT NULL AUTO_INCREMENT,
+  `Priorities_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`Priorities_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `product`
 --
 
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE IF NOT EXISTS `product` (
+  `Prod_code` varchar(30) NOT NULL,
   `Prod_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `Prod_name` varchar(100) NOT NULL,
   `Prod_description` varchar(200) NOT NULL,
   `Prod_value` double NOT NULL,
   `TypePro_id` int UNSIGNED NOT NULL,
-  `Brand_id` int UNSIGNED NOT NULL,
   `Unit_id` int UNSIGNED NOT NULL,
+  `Prod_brand_id` int UNSIGNED NOT NULL,
   `Filing_id` int UNSIGNED NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -593,16 +454,37 @@ CREATE TABLE IF NOT EXISTS `product` (
   KEY `product_typeProduct` (`TypePro_id`),
   KEY `product_uni` (`Unit_id`),
   KEY `product_filing` (`Filing_id`),
-  KEY `Brand_id` (`Brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `product_brand` (`Prod_brand_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `product`
 --
 
-INSERT INTO `product` (`Prod_id`, `Prod_name`, `Prod_description`, `Prod_value`, `TypePro_id`, `Brand_id`, `Unit_id`, `Filing_id`, `updated_at`, `created_at`) VALUES
-(3, 'pagina', 'web', 20, 1, 7, 1, 1, NULL, '2023-03-28 12:40:55'),
-(4, 'podcats', 'podcats grabación de audio y video', 0, 1, 7, 1, 1, NULL, '2023-04-19 16:13:26');
+INSERT INTO `product` (`Prod_code`, `Prod_id`, `Prod_name`, `Prod_description`, `Prod_value`, `TypePro_id`, `Unit_id`, `Prod_brand_id`, `Filing_id`, `updated_at`, `created_at`) VALUES
+('PROd_02', 13, 'moto', 'podcats grabación de audio y video', 20, 5, 1, 2, 1, NULL, '2023-05-23 13:23:01'),
+('compra', 14, 'pagina', 'podcats grabación de audio y video', 20, 5, 1, 2, 1, NULL, '2023-05-23 13:23:15');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `product_brand`
+--
+
+DROP TABLE IF EXISTS `product_brand`;
+CREATE TABLE IF NOT EXISTS `product_brand` (
+  `Prod_brand_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Prod_brand_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Prod_brand_description` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`Prod_brand_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `product_brand`
+--
+
+INSERT INTO `product_brand` (`Prod_brand_id`, `Prod_brand_name`, `Prod_brand_description`) VALUES
+(2, 'honda', 'motos');
 
 -- --------------------------------------------------------
 
@@ -616,15 +498,14 @@ CREATE TABLE IF NOT EXISTS `product_type` (
   `TypePro_name` varchar(100) NOT NULL,
   `TypePro_description` varchar(200) NOT NULL,
   PRIMARY KEY (`TypePro_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `product_type`
 --
 
 INSERT INTO `product_type` (`TypePro_id`, `TypePro_name`, `TypePro_description`) VALUES
-(1, 'Digital ', ''),
-(2, 'Físico ', '');
+(5, 'fisico', 'hola');
 
 -- --------------------------------------------------------
 
@@ -685,16 +566,15 @@ CREATE TABLE IF NOT EXISTS `project` (
   KEY `project_contry` (`Country_id`),
   KEY `project_brand` (`Brand_id`),
   KEY `project_manager` (`Manager_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `project`
 --
 
 INSERT INTO `project` (`Project_id`, `Project_code`, `Project_name`, `Manager_id`, `Brand_id`, `Project_purchaseOrder`, `Project_ddtStartDate`, `Project_ddtEndDate`, `Project_startDate`, `Project_estimatedEndDate`, `Project_activitiEndDate`, `Project_observation`, `Project_link`, `Project_percentage`, `Client_id`, `Country_id`, `User_id`, `Stat_id`, `updated_at`, `created_at`) VALUES
-(3, 'PRO_003', 'inventario', 2, 7, '125', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00', 'infromación', 'git', NULL, 2, 1, 218, 1, '2023-05-17 14:39:30', '2023-04-28 12:31:43'),
-(4, 'PRO_004', 'inventario', 2, 7, '125', '2023-05-08 00:00:00', '2023-05-08 00:00:00', '2023-05-09 00:00:00', '2023-05-16 00:00:00', '2023-05-09', 'descripción', '0', '', 3, 1, 218, 1, '0000-00-00 00:00:00', '2023-05-08 13:05:35'),
-(5, 'PRO_005', 'desarrollo web sinapsis', 2, 7, '125', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2023-05-15', 'descripción', '0', NULL, 3, 1, 216, 1, '2023-05-15 19:11:22', '2023-05-15 14:09:41');
+(15, 'PRO_015', 'CREACIÓN DE MAIL Y VIDEO, IMPLICAIONES METABOLICAS PARA ABBOTT', 9, 12, '125', '2023-05-24 00:00:00', '2023-05-24 00:00:00', '2023-05-25 00:00:00', '2023-05-26 00:00:00', '2023-05-28', 'descripción', 'dwd', NULL, 3, 1, 216, 1, '0000-00-00 00:00:00', '2023-05-24 09:55:17'),
+(16, 'PRO_016', 'inventario', 6, 11, 'fcwsef', '2023-05-06 00:00:00', '2023-05-25 00:00:00', '2023-05-19 00:00:00', '2023-05-19 00:00:00', '2023-05-25', 'wded', 'git', NULL, 2, 1, 212, 1, '0000-00-00 00:00:00', '2023-05-24 10:16:20');
 
 -- --------------------------------------------------------
 
@@ -708,7 +588,7 @@ CREATE TABLE IF NOT EXISTS `project_product` (
   `Project_productAmount` varchar(10) NOT NULL,
   `Project_id` int UNSIGNED NOT NULL,
   `Prod_id` int UNSIGNED NOT NULL,
-  `Projet_product_percentage` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Project_product_percentage` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `Stat_id` int UNSIGNED NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -716,14 +596,15 @@ CREATE TABLE IF NOT EXISTS `project_product` (
   KEY `project_product_stat` (`Stat_id`),
   KEY `project_product_prod` (`Prod_id`),
   KEY `project_product_project` (`Project_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `project_product`
 --
 
-INSERT INTO `project_product` (`Project_product_id`, `Project_productAmount`, `Project_id`, `Prod_id`, `Projet_product_percentage`, `Stat_id`, `updated_at`, `created_at`) VALUES
-(1, '11', 3, 3, '', 13, '2023-05-10 23:17:27', '2023-04-28 19:20:07');
+INSERT INTO `project_product` (`Project_product_id`, `Project_productAmount`, `Project_id`, `Prod_id`, `Project_product_percentage`, `Stat_id`, `updated_at`, `created_at`) VALUES
+(19, '11', 15, 13, '0', 12, '0000-00-00 00:00:00', '2023-05-24 10:24:38'),
+(20, '1', 15, 14, '0', 12, '0000-00-00 00:00:00', '2023-05-24 10:24:48');
 
 -- --------------------------------------------------------
 
@@ -736,9 +617,18 @@ CREATE TABLE IF NOT EXISTS `project_tracking` (
   `ProjectTrack_id` int NOT NULL AUTO_INCREMENT,
   `ProjectTrack_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `ProjectTrack_description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Project_id` int UNSIGNED DEFAULT NULL,
   `ProjectTrack_date` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  PRIMARY KEY (`ProjectTrack_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`ProjectTrack_id`),
+  KEY `project_tracking_project` (`Project_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `project_tracking`
+--
+
+INSERT INTO `project_tracking` (`ProjectTrack_id`, `ProjectTrack_name`, `ProjectTrack_description`, `Project_id`, `ProjectTrack_date`) VALUES
+(11, 'demo', 'holaaa', 15, '2023-05-25');
 
 -- --------------------------------------------------------
 
@@ -763,7 +653,7 @@ CREATE TABLE IF NOT EXISTS `role` (
 INSERT INTO `role` (`Role_id`, `Role_name`, `Role_description`, `updated_at`, `created_at`) VALUES
 (1, 'Administrator', 'Administrator', NULL, '2023-01-30 21:50:45'),
 (2, 'Cliente', 'Cliente', NULL, '2023-02-27 21:37:10'),
-(7, 'Developer', '', NULL, '2023-03-21 10:20:16'),
+(7, 'Colaborador', '', NULL, '2023-03-21 10:20:16'),
 (8, 'Administrator', '', NULL, '2023-04-19 16:06:49'),
 (9, 'Comercial', '', NULL, '2023-04-26 10:58:37');
 
@@ -782,7 +672,7 @@ CREATE TABLE IF NOT EXISTS `role_module` (
   PRIMARY KEY (`Role_mod_id`),
   KEY `role_module` (`Mod_id`),
   KEY `role_module_role` (`Role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `role_module`
@@ -792,10 +682,10 @@ INSERT INTO `role_module` (`Role_mod_id`, `Role_id`, `Mod_id`, `created_at`) VAL
 (3, 2, 2, '2023-03-17 12:35:11'),
 (4, 2, 1, '2023-03-17 12:35:11'),
 (57, 1, 2, '2023-03-21 01:36:09'),
-(61, 7, 5, '2023-03-21 10:20:24'),
 (62, 8, 1, '2023-04-19 16:06:49'),
 (63, 8, 5, '2023-04-19 16:06:49'),
-(64, 9, 1, '2023-04-26 10:58:37');
+(64, 9, 1, '2023-04-26 10:58:37'),
+(65, 7, 5, '2023-05-23 22:47:20');
 
 -- --------------------------------------------------------
 
@@ -813,7 +703,7 @@ CREATE TABLE IF NOT EXISTS `role_module_permit` (
   PRIMARY KEY (`Role_mod_per_id`),
   KEY `Role_mod_id` (`Role_mod_id`),
   KEY `Perm_id` (`Perm_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `role_module_permit`
@@ -828,9 +718,6 @@ INSERT INTO `role_module_permit` (`Role_mod_per_id`, `Perm_id`, `Role_mod_id`, `
 (132, 2, 57, NULL, '2023-03-21 01:36:09'),
 (133, 3, 57, NULL, '2023-03-21 01:36:09'),
 (134, 4, 57, NULL, '2023-03-21 01:36:09'),
-(143, 2, 61, NULL, '2023-03-21 10:20:24'),
-(144, 4, 61, NULL, '2023-03-21 10:20:24'),
-(145, 3, 61, NULL, '2023-03-21 10:20:24'),
 (146, 1, 62, NULL, '2023-04-19 16:06:49'),
 (147, 2, 62, NULL, '2023-04-19 16:06:49'),
 (148, 3, 63, NULL, '2023-04-19 16:06:49'),
@@ -838,7 +725,10 @@ INSERT INTO `role_module_permit` (`Role_mod_per_id`, `Perm_id`, `Role_mod_id`, `
 (150, 1, 64, NULL, '2023-04-26 10:58:37'),
 (151, 2, 64, NULL, '2023-04-26 10:58:37'),
 (152, 3, 64, NULL, '2023-04-26 10:58:37'),
-(153, 4, 64, NULL, '2023-04-26 10:58:37');
+(153, 4, 64, NULL, '2023-04-26 10:58:37'),
+(154, 2, 65, NULL, '2023-05-23 22:47:20'),
+(155, 4, 65, NULL, '2023-05-23 22:47:20'),
+(156, 3, 65, NULL, '2023-05-23 22:47:20');
 
 -- --------------------------------------------------------
 
@@ -919,10 +809,18 @@ CREATE TABLE IF NOT EXISTS `subactivities` (
   `SubAct_description` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `SubAct_percentage` varchar(15) NOT NULL,
   PRIMARY KEY (`SubAct_id`),
-  KEY `User_id` (`User_id`),
-  KEY `Stat_id` (`Stat_id`),
-  KEY `Activi_id` (`Activi_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `subactivities_user` (`User_id`),
+  KEY `subactivities_stad` (`Stat_id`),
+  KEY `subactivities_activi` (`Activi_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `subactivities`
+--
+
+INSERT INTO `subactivities` (`SubAct_id`, `SubAct_name`, `User_id`, `SubAct_estimatedEndDate`, `Stat_id`, `Activi_id`, `SubAct_description`, `SubAct_percentage`) VALUES
+(1, 'pelicula', 1, '2023-05-25', 12, 22, 'full', '50'),
+(5, 'ESCRIBIR EL GUION DE LA PARTE MEDICA', 1, '2023-05-25', 12, 24, 'full', '100');
 
 -- --------------------------------------------------------
 
@@ -992,8 +890,7 @@ INSERT INTO `user` (`User_id`, `User_email`, `User_password`, `Comp_id`, `Stat_i
 --
 ALTER TABLE `activities`
   ADD CONSTRAINT `activities_project_product` FOREIGN KEY (`Project_product_id`) REFERENCES `project_product` (`Project_product_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `activities_status` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`),
-  ADD CONSTRAINT `activities_user_assigned` FOREIGN KEY (`User_assigned`) REFERENCES `user` (`User_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `activities_status` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`);
 
 --
 -- Filtros para la tabla `brand`
@@ -1041,8 +938,8 @@ ALTER TABLE `manager`
 -- Filtros para la tabla `product`
 --
 ALTER TABLE `product`
+  ADD CONSTRAINT `product_brand` FOREIGN KEY (`Prod_brand_id`) REFERENCES `product_brand` (`Prod_brand_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `product_filing` FOREIGN KEY (`Filing_id`) REFERENCES `filing` (`Filing_id`),
-  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`Brand_id`) REFERENCES `brand` (`Brand_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `product_typeProduct` FOREIGN KEY (`TypePro_id`) REFERENCES `product_type` (`TypePro_id`),
   ADD CONSTRAINT `product_uni` FOREIGN KEY (`Unit_id`) REFERENCES `unit` (`Unit_id`);
 
@@ -1073,6 +970,12 @@ ALTER TABLE `project_product`
   ADD CONSTRAINT `project_product_stat` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
+-- Filtros para la tabla `project_tracking`
+--
+ALTER TABLE `project_tracking`
+  ADD CONSTRAINT `project_tracking_project` FOREIGN KEY (`Project_id`) REFERENCES `project` (`Project_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
 -- Filtros para la tabla `role_module`
 --
 ALTER TABLE `role_module`
@@ -1094,9 +997,9 @@ ALTER TABLE `status`
 -- Filtros para la tabla `subactivities`
 --
 ALTER TABLE `subactivities`
-  ADD CONSTRAINT `subactivities_ibfk_1` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `subactivities_ibfk_2` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `subactivities_ibfk_3` FOREIGN KEY (`Activi_id`) REFERENCES `activities` (`Activi_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `subactivities_activi` FOREIGN KEY (`Activi_id`) REFERENCES `activities` (`Activi_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `subactivities_stad` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `subactivities_user` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Filtros para la tabla `user`

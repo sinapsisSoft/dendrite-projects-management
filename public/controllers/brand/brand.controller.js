@@ -1,32 +1,29 @@
-showPreload();
+// $("#table_obj_Brand").DataTable();
 
-$("#table_obj").DataTable();
+const ruteContentBrand = "brand/";
+const nameModelBrand = 'brands';
+const dataModelBrand = 'data';
+const dataResponseBrand = 'response';
+const dataMessagesBrand = 'message';
+const dataCsrfBrand = 'csrf';
 
-const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', 'Updated user ', 'The user was deleted');
-const ruteContent = "brand/";
-const nameModel = 'brands';
-const dataModel = 'data';
-const dataResponse = 'response';
-const dataMessages = 'message';
-const dataCsrf = 'csrf';
+const primaryIdBrand = 'Brand_id';
+const URL_ROUTEBrand = BASE_URL + ruteContentBrand;
 
-const primaryId = 'Brand_id';
-const URL_ROUTE = BASE_URL + ruteContent;
+const TOASTSBrand = new STtoasts();
+const BrandModal = '#BrandModal';
+const idBrandForm = 'objBrandForm';
 
-const TOASTS = new STtoasts();
-const myModalObjec = '#createUpdateModal';
-const idForm = 'objForm';
+var sTFormBrand = null
+var urlBrand = "";
+var assignmentActionBrand = 0;
+var formDataBrand = new Object();
+var selectInsertOrUpdateBrand = true;
 
-var sTForm = null;
-var url = "";
-var assignmentAction = 0;
-var formData = new Object();
-var selectInsertOrUpdate = true;
-
-function create(formData) {
-    url = URL_ROUTE + arRoutes[0];
-    fetch(url, {
+function createBrand(formData) {
+    urlBrand = URL_ROUTEBrand + arRoutes[0];
+    formData['Client_id'] = document.getElementById('Client_id').value;
+    fetch(urlBrand, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -39,20 +36,21 @@ function create(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-                TOASTS.toastView("", "", arMessages[1], 0);
-                hideModal();
+                TOASTSBrand.toastView("", "", arMessages[1], 0);
+                hidelBrandModal();
                 window.location.reload();
             } else {
                 console.log(arMessages[0]);
             }
-            sTForm.inputButtonEnable();
+            sTFormBrand.inputButtonEnable();
             hidePreload();
         });
 }
 
-function update(formData) {
-    url = URL_ROUTE + arRoutes[2];
-    fetch(url, {
+function updateBrand(formData) {
+    urlBrand = URL_ROUTEBrand + arRoutes[2];
+    formData['Client_id'] = document.getElementById('Client_id').value;
+    fetch(urlBrand, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -65,24 +63,24 @@ function update(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-                TOASTS.toastView("", "", arMessages[3], 0);
-                hideModal();
+                TOASTSBrand.toastView("", "", arMessages[3], 0);
+                hidelBrandModal();
                 window.location.reload();
             } else {
                 console.log(arMessages[0]);
             }
-            sTForm.inputButtonEnable();
+            sTFormBrand.inputButtonEnable();
             hidePreload();
         });
 }
 
-function delete_(id) {
+function deleteBrand(id) {
     let text = "Do you want to carry out this process?\n OK or Cancel.";
     if (confirm(text) == true) {
         showPreload();
-        url = URL_ROUTE + arRoutes[3];
-        formData[primaryId] = id;
-        fetch(url, {
+        urlBrand = URL_ROUTEBrand + arRoutes[3];
+        formData[primaryIdBrand] = id;
+        fetch(urlBrand, {
             method: "POST",
             body: JSON.stringify(formData),
             headers: {
@@ -106,30 +104,30 @@ function delete_(id) {
     }
 }
 
-function sendData(e, formObj) {
+function sendBrandData(e, formObj) {
     debugger;
     let obj = formObj;
-    sTForm = SingletonClassSTForm.getInstance();
-    if (sTForm.validateForm()) {
+    sTFormBrand = SingletonClassSTFormBrand.getInstance();
+    if (sTFormBrand.validateForm()) {
         showPreload();
-        if (selectInsertOrUpdate) {
-            create(sTForm.getDataForm());
+        if (selectInsertOrUpdateBrand) {
+            createBrand(sTFormBrand.getDataForm());
         } else {
-            update(sTForm.getDataForm());
+            updateBrand(sTFormBrand.getDataForm());
         }
-        sTForm.inputButtonDisable();
+        sTFormBrand.inputButtonDisable();
     } else {
-        TOASTS.toastView("", "", arMessages[0], 1);
+        TOASTSBrand.toastView("", "", arMessages[0], 1);
     }
     e.preventDefault();
 }
 
-function detail(idData) {
-    getDataId(idData);
-    toogleDisabledFields();
+function detailBrand(idData) {
+    getBrandDataId(idData);
+    toogleBrandDisabledFields();
 }
 
-function toogleDisabledFields() {
+function toogleBrandDisabledFields() {
     const btnSubmit = document.getElementById('btn-submit');
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => input.classList.add('form-disabled'))
@@ -138,15 +136,15 @@ function toogleDisabledFields() {
     btnSubmit.disabled = true;
 }
 
-function getDataId(idData) {
+function getBrandDataId(idData) {
     showPreload();
-    selectInsertOrUpdate = false;
-    formData[primaryId] = idData;
-    url = URL_ROUTE + arRoutes[4];
-    sTForm = SingletonClassSTForm.getInstance();
-    fetch(url, {
+    selectInsertOrUpdateBrand = false;
+    formDataBrand[primaryIdBrand] = idData;
+    urlBrand = URL_ROUTEBrand + arRoutes[4];
+    sTFormBrand = SingletonClassSTFormBrand.getInstance();
+    fetch(urlBrand, {
         method: "POST",
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formDataBrand),
         headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest"
@@ -156,8 +154,8 @@ function getDataId(idData) {
         .catch(error => console.error('Error:', error))
         .then(response => {
             if (response[dataResponse] == 200) {
-                showModal(0);
-                sTForm.setDataForm(response[dataModel]);
+                showBrandModal(0);
+                sTFormBrand.setDataForm(response[dataModel]);
                 hidePreload();
             } else {
                 console.log(arMessages[0]);
@@ -165,36 +163,31 @@ function getDataId(idData) {
         });
 }
 
-function addData() {
-    selectInsertOrUpdate = true;
-    showModal(1);
+function addBrandData() {
+    selectInsertOrUpdateBrand = true;
+    showBrandModal(1);
 }
 
-function hideModal() {
-    $(myModalObjec).modal("hide");
+function hidelBrandModal() {
+    $(BrandModal).modal("hide");
 }
 
-function showModal(type) {
+function showBrandModal(type) {
+    debugger;
     if (type == 1) {
-        sTForm = SingletonClassSTForm.getInstance();
-        sTForm.inputButtonEnable();
+        sTFormBrand = SingletonClassSTFormBrand.getInstance();
+        sTFormBrand.inputButtonEnable();
     }
-    sTForm.clearDataForm();
-    $(myModalObjec).modal("show");
+    sTFormBrand.clearDataForm();
+    $(BrandModal).modal("show");
 }
 
-function showPreload() {
-    $(".preloader").fadeIn();
-}
 
-function hidePreload() {
-    $(".preloader").fadeOut();
-}
 
-var SingletonClassSTForm = (function () {
+var SingletonClassSTFormBrand = (function () {
     var objInstance;
     function createInstance() {
-        var object = new STForm(idForm);
+        var object = new STForm(idBrandForm);
         return object;
     }
     return {

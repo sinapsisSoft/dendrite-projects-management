@@ -13,7 +13,7 @@ class BrandModel extends Model
     'Brand_id', 
     'Brand_name', 
     'Brand_description', 
-    'Client_id', '
-    updated_at'];
+    'Client_id',
+    'updated_at'];
     protected $updatedField = 'updated_at';
 }

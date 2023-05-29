@@ -21,6 +21,7 @@ var selectInsertOrUpdateTracking = true;
 
 function createTracking(formData) {
     urlTracking = URL_ROUTETracking + arRoutes[0];
+    formData['Project_id'] = document.getElementById('Project_id').value;
     fetch(urlTracking, {
         method: "POST",
         body: JSON.stringify(formData),
@@ -47,6 +48,7 @@ function createTracking(formData) {
 
 function updateTracking(formData) {
     urlTracking = URL_ROUTETracking + arRoutes[2];
+    formData['Project_id'] = document.getElementById('Project_id').value;
     fetch(urlTracking, {
         method: "POST",
         body: JSON.stringify(formData),
@@ -102,7 +104,6 @@ function deleteTracking(id) {
 }
 
 function sendTrackingData(e, formObj) {
-    debugger;
     let obj = formObj;
     sTFormTracking = SingletonClassSTFormTracking.getInstance();
     if (sTFormTracking.validateForm()) {
@@ -119,9 +120,9 @@ function sendTrackingData(e, formObj) {
     e.preventDefault();
 }
 
-function detail(idData) {
-    getDataId(idData);
-    toogleDisabledFields();
+function detailProjectTracking(idData) {
+    getTrackingProjectId(idData);
+    toogleTrackingDisabledFields();
 }
 
 function toogleTrackingDisabledFields() {
@@ -133,15 +134,15 @@ function toogleTrackingDisabledFields() {
     btnSubmit.disabled = true;
 }
 
-function getTrackingDataId(idData) {
+function getTrackingProjectId(idData) {
     showPreload();
     selectInsertOrUpdateTracking = false;
     formDataTracking[primaryIdTracking] = idData;
     urlTracking = URL_ROUTETracking + arRoutes[4];
     sTFormTracking = SingletonClassSTFormTracking.getInstance();
-    fetch(url, {
+    fetch(urlTracking, {
         method: "POST",
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formDataTracking),
         headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest"
@@ -152,7 +153,7 @@ function getTrackingDataId(idData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 showTrackingModal(0);
-                sTForm.setDataForm(response[dataModel]);
+                sTFormTracking.setDataForm(response[dataModel]);
                 hidePreload();
             } else {
                 console.log(arMessages[0]);
@@ -170,7 +171,6 @@ function hidelTrackingModal() {
 }
 
 function showTrackingModal(type) {
-    debugger;
     if (type == 1) {
         sTFormTracking = SingletonClassSTFormTracking.getInstance();
         sTFormTracking.inputButtonEnable();

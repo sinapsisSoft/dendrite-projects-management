@@ -43,9 +43,9 @@ class UserModel extends Model
         return $result;
     }
 
-    function sp_select_all_users_developer()
+    function sp_select_all_users_collaborator()
     {
-        $query = "CALL sp_select_all_users_developer()";
+        $query = "CALL sp_select_all_users_collaborator()";
         $result = $this->db->query($query)->getResult();
         return $result;
     }

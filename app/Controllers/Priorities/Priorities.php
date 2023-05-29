@@ -1,25 +1,25 @@
 <?php
-namespace App\Controllers\ProjectTracking;
+namespace App\Controllers\Priorities;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProjectTrackingModel;
+use App\Models\PrioritiesModel;
 
 
-class ProjectTracking extends BaseController{
+class Priorities extends BaseController{
     private $objModel;
     private $primaryKey;
     private $nameModel;
 
     public function __construct()
     {
-        $this->objModel = new ProjectTrackingModel();
-        $this->primaryKey = 'ProjectTrack_id';
-        $this->nameModel = 'projecttrackings';
+        $this->objModel = new PrioritiesModel();
+        $this->primaryKey = 'Priorities_id';
+        $this->nameModel = 'priorities';
     }
 
     public function show(){
-        $data['title'] = 'Seguimiento del Proyecto';
+        $data['title'] = 'Prioridades';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
@@ -29,7 +29,7 @@ class ProjectTracking extends BaseController{
         $data['footer'] = view('navbar/footer');
 
         $data[$this->nameModel] = $this->objModel->findAll();
-        return view('projecttracking/projecttracking', $data);
+        return view('priorities/priorities', $data);
     }
 
     public function create(){
@@ -115,11 +115,10 @@ class ProjectTracking extends BaseController{
     public function getDataModel($getShares)
     {
         $data = [
-            'ProjectTrack_id' => $getShares,
-            'ProjectTrack_name' => $this->request->getVar('ProjectTrack_name'),
-            'ProjectTrack_description' => $this->request->getVar('ProjectTrack_description'),
-            'Project_id' => $this->request->getVar('Project_id'),
-            'ProjectTrack_date' => $this->request->getVar('ProjectTrack_date'),
+            'Priorities_id' => $getShares,
+            'Priorities_name' => $this->request->getVar('Priorities_name'),
+            'Priorities_color' => $this->request->getVar('Priorities_color'),
+            'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;
     }

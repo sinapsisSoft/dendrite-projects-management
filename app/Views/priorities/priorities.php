@@ -12,80 +12,7 @@
     <title><?= $title ?></title>
     <?= $css ?>
     <!-- Custom CSS -->
-    <style>
-        .circle {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 0;
-        }
 
-        .tab-content {
-            background-color: white;
-            padding: 15px;
-        }
-
-        .table-pp {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-            ;
-        }
-
-        .card-pp {
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-            transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-        }
-
-        .card-details {
-            padding: 15px;
-            background-color: white;
-        }
-
-        .percentaje {
-            padding: 10px;
-
-        }
-
-        .progress-bar {
-            padding-left: 0% !important;
-        }
-
-        .modal-content {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-            width: 130%;
-        }
-
-        .modal-header {
-            background: none;
-            color: #1F0229;
-        }
-
-        .modal-footer {
-            display: block !important;
-            text-align: end;
-        }
-
-        .modal-footer .btn-secondary {
-            width: 100px !important;
-        }
-
-        .modal-footer .btn-primary {
-            width: 100px !important;
-        }
-
-        .form-control {
-            border-radius: 5px;
-        }
-
-        .mb-3 {
-            color: gray;
-            font-size: 13px;
-        }
-
-        input {
-            text-transform: uppercase !important;
-        }
-    </style>
 </head>
 
 <body>
@@ -103,6 +30,7 @@
                 <div class="row">
                     <div class="col-12 d-flex no-block align-items-center">
                         <h4 class="page-title">
+                            NUEVA PRIORIDAD
                             <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-account-plus"></i></button>
                         </h4>
                         <div class="ms-auto text-end">
@@ -125,36 +53,34 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    LISTADO DE MARCAS
+                                  LISTA DE PRIORIDADES
                                 </h5>
                                 <div class="table-responsive">
                                     <table id="table_obj" class="table table-striped table-bordered">
                                         <thead>
-                                            <tr>
+                                        <tr>
                                                 <th>#</th>
                                                 <th>Nombre</th>
-                                                <th>Fecha de creación</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $i = 1 ?>
-                                            <?php foreach ($brands as $obj) : ?>
+                                            <?php foreach ($priorities as $obj) : ?>
                                                 <tr>
                                                     <td><?= $i++; ?></td>
-                                                    <td><?= $obj['Brand_name']; ?></td>
-                                                    <td><?= $obj['created_at']; ?></td>
+                                                    <td><?= $obj['Priorities_name']; ?></td>
                                                     <td>
                                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                            <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj['Brand_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj['Priorities_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                                                 </svg></button>
-                                                            <button type="button" class="btn btn-outline-success" onclick="detail(<?= $obj['Brand_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-outline-success"onclick="detail(<?= $obj['Priorities_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                     <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                                                 </svg></button>
-                                                            <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj['Brand_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj['Priorities_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                                 </svg></button>
                                                         </div>
@@ -166,7 +92,6 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombre</th>
-                                                <th>Fecha de creación</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </tfoot>
@@ -184,42 +109,16 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
-                                    <input type="hidden" class="form-control" id="Brand_id" name="Brand_id" value="0">
+                                <form class="form-horizontal mt-3" id="objForm" action="" onsubmit="sendData(event,this.id)">
+                                    <input type="hidden" class="form-control" id="Priorities_id" name="Priorities_id" value="0">
                                     <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                                    <div class="mb-3 col-4">
-                                        <label for="Brand_name">Nombre</label>
-                                        <input type="text" class="form-control" id="Brand_name" name="Brand_name" required autocomplete="off">
-                                    </div>
-                                    <div class="mb-3 col-4">
-                                        <label for="Manager_id">Gerente</label>
-                                        <select name="Manager_id" id="Manager_id" class="form-control form-select" required>
-                                        <option value="">
-                                                Seleccione...
-                                            </option>
-                                            <?php foreach ($managers as $client) : ?>
-                                                <option value="<?= $client['Manager_id'] ?>">
-                                                    <?= $client['Manager_name'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-4">
-                                        <label for="Client_id">Clientes</label>
-                                        <select name="Client_id" id="Client_id" class="form-control form-select" required>
-                                        <option value="">
-                                                Seleccione...
-                                            </option>
-                                            <?php foreach ($clients as $client) : ?>
-                                                <option value="<?= $client['Client_id'] ?>">
-                                                    <?= $client['Client_name'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                    <div class="mb-3">
+                                        <label for="Priorities_name">Nombre</label>
+                                        <input type="text" class="form-control" id="Priorities_name" name="Priorities_name" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="Brand_description">Descripción</label>
-                                        <input type="text" class="form-control" id="Brand_description" name="Brand_description" required>
+                                        <label for="Priorities_color">Nombre</label>
+                                        <input type="color" class="form-control" id="Priorities_color" name="Priorities_color" required>
                                     </div>
                                 </form>
                             </div>
@@ -236,5 +135,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/brand/brand.controller.js"></script>
+    <script src="../controllers/priorities/priorities.controller.js"></script>
 </body>

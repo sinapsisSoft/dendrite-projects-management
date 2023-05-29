@@ -7,6 +7,7 @@ use App\Models\SubActivitiesModel;
 use App\Models\UserStatusModel;
 use App\Models\UserModel;
 use App\Models\ActivitiesModel;
+use App\Models\PrioritiesModel;
 
 class SubActivities extends BaseController{
     private $objModel;
@@ -24,6 +25,7 @@ class SubActivities extends BaseController{
 
     public function show(){
         $userstatus = new UserStatusModel();
+        $priorities = new PrioritiesModel();
         $user = new UserModel();
 
         $activityId = $this->request->getGet('activitiesId');
@@ -40,8 +42,10 @@ class SubActivities extends BaseController{
 
         $data[$this->nameModel] = $this->objModel->findAll();
         $data['userstatuses'] = $userstatus->where('StatType_id', 4)->find();
-        $data['activity'] = $this->activities->sp_select_all_details_activities($activityId);
+        $data['activity'] = $this->activities->sp_select_all_details_activities($activityId) != null ? $this->activities->sp_select_all_details_activities($activityId)[0] : [];
         $data['subactivities'] = $this->objModel->sp_select_all_sub_actitivites($activityId);
+        $data['collaborators'] = $user->sp_select_all_users_collaborator();
+        $data['priorities'] = $priorities->findAll();
         // $data['subactivitiesDetails'] = $this->objModel->sp_select_all_details_subactivities($subactivityId);
         $data['users'] = $user->sp_select_all_users();
         return view('subactivities/subactivities', $data);
@@ -141,6 +145,7 @@ class SubActivities extends BaseController{
             'SubAct_percentage' => $this->request->getVar('SubAct_percentage'),
             'Stat_id' => $this->request->getVar('Stat_id'),
             'Activi_id' => $this->request->getVar('Activi_id'),
+            'Priorities_id' => $this->request->getVar('Priorities_id'),
             'User_id' => $this->request->getVar('User_id'),
         ];
         return $data;

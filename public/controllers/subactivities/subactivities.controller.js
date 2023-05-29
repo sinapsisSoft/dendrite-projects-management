@@ -182,6 +182,9 @@ function showModal(type) {
     if (type == 1) {
         sTForm = SingletonClassSTForm.getInstance();
         sTForm.inputButtonEnable();
+        document.getElementById('Stat_id').setAttribute('disabled', true)
+    } else {
+        document.getElementById('Stat_id').setAttribute('disabled', false);
     }
     sTForm.clearDataForm();
     $(myModalObjec).modal("show");
@@ -263,3 +266,35 @@ var SingletonClassSTFormFin = (function () {
     }
 })();
 
+function changePercent() {
+    document.getElementById('SubAct_percentage').addEventListener('change', function (e) {
+        const value = +e.target.value;
+        const options = document.getElementById('Stat_id');
+        if (value === 0) {
+            for (let i = 0; i < options.length; i++) {
+                const text = options[i].innerText.trim();
+                if (text === 'Sin asignar') {
+                    options[i].selected = "true";
+                }
+            }
+        } else if (value > 0 && value < 100) {
+            for (let i = 0; i < options.length; i++) {
+                const text = options[i].innerText.trim();
+                if (text === 'Pendiente') {
+                    options[i].selected = "true";
+                }
+            }
+        } else {
+            for (let i = 0; i < options.length; i++) {
+                const text = options[i].innerText.trim();
+                if (text === 'Realizado') {
+                    options[i].selected = "true";
+                }
+            }
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    changePercent();
+})

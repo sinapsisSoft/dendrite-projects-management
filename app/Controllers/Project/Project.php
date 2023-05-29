@@ -11,6 +11,7 @@ use App\Models\UserModel;
 use App\Models\UserStatusModel;
 use App\Models\ManagerModel;
 use App\Models\BrandModel;
+use App\Models\PrioritiesModel;
 
 
 class Project extends BaseController
@@ -28,6 +29,7 @@ class Project extends BaseController
 
     public function show()
     {
+        $priorities = new PrioritiesModel();
         $client = new CLientModel();
         $country = new CountryModel();
         $user = new UserModel();
@@ -44,7 +46,7 @@ class Project extends BaseController
         $data['header'] = view('navbar/header');
         $data['footer'] = view('navbar/footer');
 
-        $data[$this->nameModel] = $this->objModel->findAll();
+        $data[$this->nameModel] = $this->objModel->sp_select_all_project_table();
         $data['clients'] = $client->findAll();
         $data['managers'] = $manager->findAll();
         $data['brands'] = $brand->findAll();
@@ -52,6 +54,7 @@ class Project extends BaseController
         $data['commercial'] = $user->sp_select_all_users_comercial();
         $data['users'] = $user->sp_select_all_users();
         $data['userstatuses'] = $userstatus->sp_select_status_users();
+        $data['priorities'] = $priorities->findAll();
         return view('project/project', $data);
     }
 
@@ -167,6 +170,7 @@ class Project extends BaseController
             'Country_id' => $this->request->getVar('Country_id'),
             'User_id' => $this->request->getVar('User_id'),
             'Stat_id' => $this->request->getVar('Stat_id'),
+            'Priorities_id' => $this->request->getVar('Priorities_id'),
             'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;

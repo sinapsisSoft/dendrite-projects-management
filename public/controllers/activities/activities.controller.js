@@ -1,6 +1,6 @@
 // $("#table_obj_activities").DataTable();
 
-const ruteContentActivites = "activities/";
+const ruteContentActivities = "activities/";
 const nameModelActivities = 'activities';
 const dataModelActivities = 'data';
 const dataResponseActivities = 'response';
@@ -8,7 +8,7 @@ const dataMessagesActivities = 'message';
 const dataCsrfActivities = 'csrf';
 
 const primaryIdActivities = 'Activi_id';
-const URL_ROUTEActivities = BASE_URL + ruteContentActivites;
+const URL_ROUTEActivities = BASE_URL + ruteContentActivities;
 
 const TOASTSActivities = new STtoasts();
 const activitiesModal = '#activitiesModal';

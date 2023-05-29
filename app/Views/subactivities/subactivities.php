@@ -84,6 +84,10 @@
         input {
             text-transform: uppercase !important;
         }
+        .priorities{
+            text-transform: uppercase;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -122,8 +126,8 @@
                             <h6>Datos de Actividad</h6>
                         </div>
                         <div class="progress col-6" style="height: 15px;">
-                            <div id="progressbar" class="progress-bar" role="progressbar" style="width: <?= $activity->Activi_percentage ?>%; " aria-valuenow="<?= $activity->Activi_percentage ?>" aria-valuemin="0" aria-valuemax="100">
-                            <?= $activity->Activi_percentage ?>%
+                            <div id="progressbar" class="progress-bar" role="progressbar" style="width: <?= !is_null($activity) ? $activity->Activi_percentage : '' ?>%; " aria-valuenow="<?= $activity->Activi_percentage ?>" aria-valuemin="0" aria-valuemax="100">
+                            <?= !is_null($activity) ? $activity->Activi_percentage : '' ?>%
                             </div>
                         </div>
                     </div>
@@ -151,10 +155,6 @@
                                 <div class="mb-3 col-4">
                                     <label for="Project_product_name">Producto</label>
                                     <input type="text" class="form-control" disabled id="Project_product_name" name="Project_product_name" value="<?= $activity->Prod_name ?>" value="" required>
-                                </div>
-                                <div class="mb-3 col-4">
-                                    <label for="User_assigned">Nombre del Responsable</label>
-                                    <input type="text" class="form-control" disabled id="User_assigned" name="User_assigned" value="<?= $activity->User_email ?>" required>
                                 </div>
                                 <div class="mb-3 col-4">
                                     <label for="SubAct_estimatedEndDate">Fecha Estimada de Entrega</label>
@@ -198,6 +198,7 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombre</th>
+                                                <th>Prioridad</th>
                                                 <th>Estado</th>
                                                 <th>Semaforo</th>
                                                 <th>Actions</th>
@@ -209,6 +210,7 @@
                                                 <tr>
                                                     <td><?= $i++; ?></td>
                                                     <td><?= $obj->SubAct_name; ?></td>
+                                                    <td class="priorities" style="color: <?= $obj->Priorities_color ?>"><?= $obj->Priorities_name; ?></td>
                                                     <td><?= $obj->Stat_name; ?></td>
                                                     <td>
                                                         <div class="circle" style="background-color:<?= $obj->color; ?>"></div>
@@ -229,6 +231,9 @@
                                                                     <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
                                                                 </svg>
                                                             </button>
+                                                            <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->SubAct_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                </svg></button>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -238,8 +243,9 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombre</th>
-                                                <th>Código</th>
-                                                <th>Fecha de creación</th>
+                                                <th>Prioridad</th>
+                                                <th>Estado</th>
+                                                <th>Semaforo</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </tfoot>
@@ -258,34 +264,44 @@
                                             <div class="row">
                                                 <input type="hidden" class="form-control" id="Activi_id" name="Activi_id" value="<?= $activity->Activi_id; ?>">
                                                 <input type="hidden" class="form-control" id="SubAct_id" name="SubAct_id" value="NULL">
-                                                <div class="mb-3 col-6">
+                                                <div class="mb-3 col-4">
                                                     <label for="SubAct_name">Nombre de Tarea</label>
                                                     <input type="text" class="form-control" id="SubAct_name" name="SubAct_name" required>
                                                 </div>
                                                 <div class="mb-3 col-4">
-                                                    <label for="User_id">Colaborador</label>
-                                                    <select name="User_id" id="User_id" class="form-control" required>
-                                                        <option value="">
-                                                            Seleccione...
-                                                        </option>
-                                                        <?php foreach ($users as $user) : ?>
-                                                            <option value="<?= $user->User_id ?>">
-                                                                <?= $user->User_email  ?>
+                                                        <label for="User_id">Colaboradores</label>
+                                                        <select name="User_id" id="User_id" class="form-control form-select" required>
+                                                            <option value="">
+                                                                Seleccione...
                                                             </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3 col-6">
+                                                            <?php foreach ($collaborators as $user) : ?>
+                                                                <option value="<?= $user->User_id ?>">
+                                                                    <?= $user->User_email  ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                <div class="mb-3 col-4">
                                                     <label for="SubAct_estimatedEndDate">Fecha Estimada de Entrga</label>
                                                     <input type="date" class="form-control" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" required>
                                                 </div>
                                                 <div class="mb-3 col-4">
                                                     <label for="Stat_id">Estado</label>
-                                                    <select class="form-control" id="Stat_id" name="Stat_id" required>
-                                                        <option value="">Seleccione...</option>
+                                                    <select class="form-control form-select" id="Stat_id" name="Stat_id" required>
                                                         <?php foreach ($userstatuses as $userstatus) : ?>
                                                             <option value="<?= $userstatus['Stat_id']; ?>">
                                                                 <?= $userstatus['Stat_name']; ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-4">
+                                                    <label for="Priorities_id">Prioridades</label>
+                                                    <select class="form-control form-select" id="Priorities_id" name="Priorities_id" required>
+                                                        <option value="">Seleccione...</option>
+                                                        <?php foreach ($priorities as $priorities) : ?>
+                                                            <option value="<?= $priorities['Priorities_id']; ?>">
+                                                                <?= $priorities['Priorities_name']; ?>
                                                             </option>
                                                         <?php endforeach; ?>
                                                     </select>

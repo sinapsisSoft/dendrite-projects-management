@@ -24,6 +24,74 @@ var assignmentAction = 0;
 var formData = new Object();
 var selectInsertOrUpdate = true;
 
+function getManagerByClient() {
+    document.getElementById('Client_id')
+        .addEventListener('change', function () {
+            const data = new FormData();
+            const value = document.getElementById('Client_id').value;
+            const url = `${BASE_URL}manager/findByClient`;
+            data['clientId'] = value;
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+                .then(response => response.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => {
+                    if (response[dataResponse] == 200) {
+                        const managers = response[dataModel];
+                        const managerSelect = document.getElementById('Manager_id');
+                        managerSelect.innerHTML = "";
+                        managerSelect.innerHTML += "<option value=''>Seleccione...</option>";
+                        managers.map(item => {
+                            managerSelect.innerHTML += `<option value="${item.Manager_id}">${item.Manager_name}</option>`;
+                        });
+                    } else {
+                        console.log(arMessages[0]);
+                    }
+                    hidePreload();
+                });
+        })
+}
+
+function getBrandByManager() {
+    document.getElementById('Manager_id')
+        .addEventListener('change', function () {
+            const data = new FormData();
+            const value = document.getElementById('Manager_id').value;
+            const url = `${BASE_URL}brand/findByManager`;
+            data['managerId'] = value;
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+                .then(response => response.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => {
+                    if (response[dataResponse] == 200) {
+                        const brands = response[dataModel];
+                        const brandSelect = document.getElementById('Brand_id');
+                        brandSelect.innerHTML = "";
+                        brandSelect.innerHTML += "<option value=''>Seleccione...</option>";
+                        brands.map(item => {
+                            brandSelect.innerHTML += `<option value="${item.Brand_id}">${item.Brand_name}</option>`;
+                        });
+                    } else {
+                        console.log(arMessages[0]);
+                    }
+                    hidePreload();
+                })
+        });
+}
+
 function details(projectId) {
     window.location = `${BASE_URL}details?projectId=${projectId}`
 }
@@ -183,6 +251,9 @@ function showModal(type) {
     if (type == 1) {
         sTForm = SingletonClassSTForm.getInstance();
         sTForm.inputButtonEnable();
+        document.getElementById('Stat_id').setAttribute('disabled', true)
+    } else {
+        document.getElementById('Stat_id').setAttribute('disabled', false)
     }
     sTForm.clearDataForm();
     $(myModalObjec).modal("show");
@@ -211,3 +282,8 @@ var SingletonClassSTForm = (function () {
         }
     }
 })();
+
+document.addEventListener('DOMContentLoaded', function () {
+    getManagerByClient();
+    getBrandByManager();
+})

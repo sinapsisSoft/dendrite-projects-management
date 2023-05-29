@@ -207,6 +207,10 @@
                                         <input type="text" class="form-control" disabled id="Stat_name" name="Stat_name" value="<?= $data["project"]->Stat_name ?>" required>
                                     </div>
                                     <div class="mb-3 col-4">
+                                        <label for="Priorities_id">Prioridad</label>
+                                        <input type="text" class="form-control" disabled id="Priorities_name" name="Priorities_name" value="<?= $data["project"]->Priorities_name ?>" required>
+                                    </div>
+                                    <div class="mb-3 col-12">
                                         <label for="Project_link">Link del proyeto</label>
                                         <input type="text" class="form-control" disabled id="Project_link" value="<?= $data["project"]->Project_link ?>" name="Project_link" required>
                                     </div>
@@ -230,6 +234,7 @@
                                                 <th>#</th>
                                                 <th>Producto</th>
                                                 <th>Cantidad</th>
+                                                <th>Porcentaje</th>
                                                 <th>Estado</th>
                                                 <th>Semaforo</th>
                                                 <th>Acciones</th>
@@ -242,6 +247,7 @@
                                                     <td><?= $i++; ?></td>
                                                     <td><?= $obj->Prod_name; ?></td>
                                                     <td><?= $obj->Project_productAmount; ?></td>
+                                                    <td><?= $obj->Project_product_percentage === "" ? 0 : $obj->Project_product_percentage; ?></td>
                                                     <td><?= $obj->Stat_name; ?></td>
                                                     <td>
                                                         <div class="circle" style="background-color:<?= $obj->color; ?>"></div>
@@ -266,6 +272,7 @@
                                                 <th>#</th>
                                                 <th>Producto</th>
                                                 <th>Cantidad</th>
+                                                <th>Porcentaje</th>
                                                 <th>Estado</th>
                                                 <th>Semaforo</th>
                                                 <th>Acciones</th>
@@ -309,9 +316,6 @@
                                                 <div class="mb-3 col-6">
                                                     <label for="Stat_id">Estado</label>
                                                     <select class="form-control form-select" id="Stat_id" name="Stat_id" required>
-                                                        <option value="">
-                                                            Seleccione...
-                                                        </option>
                                                         <?php foreach ($userstatuses as $userstatus) : ?>
                                                             <option value="<?= $userstatus['Stat_id']; ?>">
                                                                 <?= $userstatus['Stat_name']; ?>
@@ -358,20 +362,20 @@
                                                 <?php foreach ($projecttrackings as $obj) : ?>
                                                     <tr>
                                                         <td><?= $i++; ?></td>
-                                                        <td><?= $obj['ProjectTracking_name']; ?></td>
-                                                        <td><?= $obj['ProjectTracking_description']; ?></td>
-                                                        <td><?= $obj['ProjectTracking_date']; ?></td>
+                                                        <td><?= $obj['ProjectTrack_name']; ?></td>
+                                                        <td><?= $obj['ProjectTrack_description']; ?></td>
+                                                        <td><?= $obj['ProjectTrack_date']; ?></td>
                                                         <td>
                                                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                                <button type="button" class="btn btn-warning" onclick="getActivitiesDataId(<?= $obj['ProjectTracking_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                <button type="button" class="btn btn-outline-warning" onclick="getTrackingProjectId(<?= $obj['ProjectTrack_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                                                     </svg></button>
-                                                                <button type="button" class="btn btn-success" onclick="details(<?= $obj['ProjectTracking_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                <button type="button" class="btn btn-outline-success" onclick="detailProjectTracking(<?= $obj['ProjectTrack_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                                                     </svg></button>
-                                                                <button type="button" class="btn btn-danger" onclick="deleteActivities(<?= $obj['ProjectTracking_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                <button type="button" class="btn btn-outline-danger" onclick="deleteTracking(<?= $obj['ProjectTrack_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                                     </svg></button>
                                                             </div>
@@ -403,7 +407,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form class="form-horizontal mt-3" id="objTrackingForm" action="" onsubmit="sendtrackingData(event,this.id)">
+                                            <form class="form-horizontal mt-3" id="objTrackingForm" action="" onsubmit="sendTrackingData(event,this.id)">
                                                 <div class="row">
                                                     <input type="hidden" class="form-control" id="ProjectTrack_id" name="ProjectTrack_id" value="0">
                                                     <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
@@ -460,20 +464,20 @@
                                                 <?php foreach ($activities as $obj) : ?>
                                                     <tr>
                                                         <td><?= $i++; ?></td>
-                                                        <td><?= $obj['Activi_name']; ?></td>
-                                                        <td><?= $obj['Activi_code']; ?></td>
-                                                        <td><?= $obj['created_at']; ?></td>
+                                                        <td><?= $obj->Activi_name; ?></td>
+                                                        <td><?= $obj->Activi_code; ?></td>
+                                                        <td><?= $obj->created_at; ?></td>
                                                         <td>
                                                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                                <button type="button" class="btn btn-outline-warning" onclick="getActivitiesDataId(<?= $obj['Activi_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                <button type="button" class="btn btn-outline-warning" onclick="getActivitiesDataId(<?= $obj->Activi_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                                                     </svg></button>
-                                                                <button type="button" class="btn btn-outline-success" onclick="details(<?= $obj['Activi_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                <button type="button" class="btn btn-outline-success" onclick="details(<?= $obj->Activi_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                                                     </svg></button>
-                                                                <button type="button" class="btn btn-outline-danger" onclick="deleteActivities(<?= $obj['Activi_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                <button type="button" class="btn btn-outline-danger" onclick="deleteActivities(<?= $obj->Activi_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                                     </svg></button>
                                                             </div>
@@ -519,22 +523,9 @@
                                                             <option value="">
                                                                 Seleccione...
                                                             </option>
-                                                            <?php foreach ($projectProducts as $projectProduct) : ?>
-                                                                <option value="<?= $projectProduct['Project_product_id'] ?>">
-                                                                    <?= $projectProduct['Project_productAmount'] ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3 col-3">
-                                                        <label for="User_assigned">Colaboradores</label>
-                                                        <select name="User_assigned" id="User_assigned" class="form-control">
-                                                            <option value="">
-                                                                Seleccione...
-                                                            </option>
-                                                            <?php foreach ($developers as $user) : ?>
-                                                                <option value="<?= $user->User_id ?>">
-                                                                    <?= $user->User_email  ?>
+                                                            <?php foreach ($data['products'] as $obj) : ?>
+                                                                <option value="<?= $obj->Project_product_id ?>">
+                                                                    <?= $obj->Prod_name; ?>
                                                                 </option>
                                                             <?php endforeach; ?>
                                                         </select>
@@ -549,15 +540,15 @@
                                                     </div>
                                                     <div class="mb-3 col-3">
                                                         <label for="Activi_codeMiigo">Código Miigo</label>
-                                                        <input type="text" class="form-control" id="Activi_codeMiigo" name="Activi_codeMiigo" required>
+                                                        <input type="text" class="form-control" id="Activi_codeMiigo" name="Activi_codeMiigo">
                                                     </div>
                                                     <div class="mb-3 col-3">
                                                         <label for="Activi_codeSpectra">Código Spectra</label>
-                                                        <input type="text" class="form-control" id="Activi_codeSpectra" name="Activi_codeSpectra" required>
+                                                        <input type="text" class="form-control" id="Activi_codeSpectra" name="Activi_codeSpectra">
                                                     </div>
                                                     <div class="mb-3 col-3">
                                                         <label for="Activi_codeDelivery">Código Entregable</label>
-                                                        <input type="text" class="form-control" id="Activi_codeDelivery" name="Activi_codeDelivery" required>
+                                                        <input type="text" class="form-control" id="Activi_codeDelivery" name="Activi_codeDelivery">
                                                     </div>
                                                     <div class="mb-3 col-12">
                                                         <label for="Activi_observation">Observaciones</label>

@@ -5,7 +5,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ProductModel;
 use App\Models\FilingModel;
-use App\Models\BrandModel;
+use App\Models\ProductBrandModel;
 use App\Models\ProducttypeModel;
 use App\Models\UnitModel;
 
@@ -24,7 +24,7 @@ class Product extends BaseController{
 
     public function show(){
         $filing = new FilingModel();
-        $brand = new BrandModel();
+        $productbrand = new ProductBrandModel();
         $producttype = new ProductTypeModel();
         $unit = new UnitModel();
         $data['title'] = 'Productos';
@@ -38,7 +38,7 @@ class Product extends BaseController{
 
         $data[$this->nameModel] = $this->objModel->findAll();
         $data['filings'] = $filing->findAll();
-        $data['brands'] = $brand->findAll();
+        $data['productbrands'] = $productbrand->findAll();
         $data['producttypes'] = $producttype->findAll();
         $data['units'] = $unit->findAll();
         return view('product/product', $data);
@@ -128,11 +128,12 @@ class Product extends BaseController{
     {
         $data = [
             'Prod_id' => $getShares,
+            'Prod_code' => $this->request->getVar('Prod_code'),
             'Prod_name' => $this->request->getVar('Prod_name'),
             'Prod_description' => $this->request->getVar('Prod_description'),
             'Prod_value' => $this->request->getVar('Prod_value'),
             'TypePro_id' => $this->request->getVar('TypePro_id'),
-            'Brand_id' => $this->request->getVar('Brand_id'),
+            'Prod_brand_id' => $this->request->getVar('Prod_brand_id'),
             'Unit_id' => $this->request->getVar('Unit_id'),
             'Filing_id' => $this->request->getVar('Filing_id'),
             'updated_at' => $this->request->getVar('updated_at')

@@ -15,6 +15,7 @@ class SubActivitiesModel extends Model
     'SubAct_estimatedEndDate', 
     'SubAct_percentage', 
     'Stat_id', 
+    'Priorities_id',
     'Activi_id', 
     'User_id'];
     protected $updatedField = 'updated_at';

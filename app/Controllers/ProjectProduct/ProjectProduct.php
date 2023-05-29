@@ -5,9 +5,6 @@ namespace App\Controllers\ProjectProduct;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ProjectProductModel;
-use App\Models\ProductModel;
-use App\Models\ProjectModel;
-use App\Models\UserstatusModel;
 
 class ProjectProduct extends BaseController
 {
@@ -109,7 +106,7 @@ class ProjectProduct extends BaseController
         $data = [
             'Project_product_id' => $getShares,
             'Project_productAmount' => $this->request->getVar('Project_productAmount'),
-            'Project_product_percentage' => $this->request->getVar('Project_product_percentage'),
+            'Project_product_percentage' => $this->request->getVar('Project_product_percentage') == null ? 0 : $this->request->getVar('Project_product_percentage'),
             'Prod_id' => $this->request->getVar('Prod_id'),
             'Project_id' => $this->request->getVar('Project_id'),
             'Stat_id' => $this->request->getVar('Stat_id'),

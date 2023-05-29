@@ -5,7 +5,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\BrandModel;
 use App\Models\ClientModel;
-
+use App\Models\ManagerModel;
 
 class Brand extends BaseController{
     private $objModel;
@@ -21,6 +21,7 @@ class Brand extends BaseController{
 
     public function show(){
         $client = new ClientModel();
+        $manager = new ManagerModel();
         $data['title'] = 'Marca';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
@@ -32,6 +33,7 @@ class Brand extends BaseController{
 
         $data[$this->nameModel] = $this->objModel->findAll();
         $data['clients'] = $client->findAll();
+        $data['managers'] = $manager->findAll();
         return view('brand/brand', $data);
     }
 
@@ -52,6 +54,22 @@ class Brand extends BaseController{
             $data['message'] = 'Error Ajax';
             $data['response'] = ResponseInterface::HTTP_CONFLICT;
             $data['data'] = '';
+        }
+        return json_encode($data);
+    }
+
+    public function findByManager(){
+        try{
+            $managerId = $this->request->getVar('managerId');
+            $brands = $this->objModel->where('Manager_id', $managerId)->find();
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['data'] = $brands;
+            $data['csrf'] = csrf_hash();
+        }catch (\Exception $e) {
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = 'Error';
         }
         return json_encode($data);
     }

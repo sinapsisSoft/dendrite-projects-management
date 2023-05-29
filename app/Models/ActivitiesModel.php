@@ -22,7 +22,6 @@ class ActivitiesModel extends Model
     'Activi_percentage',
     'Stat_id',  
     'Project_product_id', 
-    'User_assigned',
     'updated_at'];
     protected $updatedField = 'updated_at';
 
@@ -35,7 +34,13 @@ class ActivitiesModel extends Model
     function sp_select_all_details_activities($ActivitiesId)
     {
         $query = "CALL sp_select_all_details_activities($ActivitiesId)";
-        $result = $this->db->query($query)->getResult()[0];
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
+
+    function sp_select_activities_project($projectId){
+        $query = "CALL sp_select_activities_project($projectId)";
+        $result = $this->db->query($query)->getResult();
         return $result;
     }
 

@@ -12,7 +12,79 @@
     <title><?= $title ?></title>
     <?= $css ?>
     <!-- Custom CSS -->
+    <style>
+        .circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 0;
+        }
 
+        .tab-content {
+            background-color: white;
+            padding: 15px;
+        }
+
+        .table-pp {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            ;
+        }
+
+        .card-pp {
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+        }
+
+        .card-details {
+            padding: 15px;
+            background-color: white;
+        }
+
+        .percentaje {
+            padding: 10px;
+
+        }
+
+        .progress-bar {
+            padding-left: 0% !important;
+        }
+
+        .modal-content {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            width: 130%;
+        }
+
+        .modal-header {
+            background: none;
+            color: #1F0229;
+        }
+
+        .modal-footer {
+            display: block !important;
+            text-align: end;
+        }
+
+        .modal-footer .btn-secondary {
+            width: 100px !important;
+        }
+
+        .modal-footer .btn-primary {
+            width: 100px !important;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .mb-3 {
+            color: gray;
+            font-size: 13px;
+        }
+        input {
+            text-transform: uppercase !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -81,15 +153,15 @@
                                                     <td><?= $obj['created_at']; ?></td>
                                                     <td>
                                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                            <button type="button" class="btn btn-warning" onclick="getDataId(<?= $obj['Client_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj['Client_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                                                 </svg></button>
-                                                            <button type="button" class="btn btn-success" onclick="detail(<?= $obj['Client_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-outline-success" onclick="details(<?= $obj['Client_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                     <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                                                 </svg></button>
-                                                            <button type="button" class="btn btn-danger" onclick="delete_(<?= $obj['Client_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                            <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj['Client_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                                 </svg></button>
                                                         </div>
@@ -123,68 +195,80 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form class="form-horizontal mt-3" id="objForm" action="" onsubmit="sendData(event,this.id)">
+                                <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
                                     <input type="hidden" class="form-control" id="Client_id" name="Client_id" value="0">
                                     <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="Client_name" name="Client_name" required>
+                                    <div class="fmb-3 col-4">
                                         <label for="Client_name">Nombre</label>
+                                        <input type="text" class="form-control" id="Client_name" name="Client_name" required>
                                     </div>
-                                    <div class="form-floating mb-3">
-                                        <select name="DocType_id" id="DocType_id" class="form-control">
+                                    <div class="mb-3 col-4">
+                                            <label for="DocType_id">Tipo de documento</label>
+                                        <select name="DocType_id" id="DocType_id" class="form-control form-select" required>
+                                            <option value="">
+                                                Seleccione...
+                                            </option>
                                             <?php foreach ($doctypes as $doctype) : ?>
                                                 <option value="<?= $doctype['DocType_id'] ?>">
                                                     <?= $doctype['DocType_name'] ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
-                                        <label for="DocType_id">Tipo de documento</label>
                                     </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="Client_identification" name="Client_identification" required>
+                                    <div class="mb-3 col-4">
                                         <label for="Client_identification">Identificación</label>
+                                        <input type="text" class="form-control" id="Client_identification" name="Client_identification" required>
                                     </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="Client_email" name="Client_email" required>
+                                    <div class="mb-3 col-4">
                                         <label for="Client_email">Correo Electronico</label>
+                                        <input type="text" class="form-control" id="Client_email" name="Client_email" required>
                                     </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="Client_phone" name="Client_phone" required>
+                                    <div class="mb-3 col-4">
                                         <label for="Client_phone">Telefono</label>
+                                        <input type="text" class="form-control" id="Client_phone" name="Client_phone" required>
                                     </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="Client_address" name="Client_address" required>
+                                    <div class="mb-3 col-4">
                                         <label for="Client_address">Dirección</label>
+                                        <input type="text" class="form-control" id="Client_address" name="Client_address" required>
                                     </div>
-                                    <div class="form-floating mb-3">
-                                        <select name="Comp_id" id="Comp_id" class="form-control">
+                                    <div class="mb-3 col-4">
+                                        <label for="Comp_id">Empresa</label>
+                                        <select name="Comp_id" id="Comp_id" class="form-control form-select" required>
+                                            <option value="">
+                                                Seleccione...
+                                            </option>
                                             <?php foreach ($companies as $company) : ?>
                                                 <option value="<?= $company['Comp_id'] ?>">
                                                     <?= $company['Comp_name'] ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
-                                        <label for="Comp_id">Empresa</label>
                                     </div>
-                                    <div class="form-floating mb-3">
-                                        <select name="Stat_id" id="Stat_id" class="form-control">
+                                    <div class="mb-3 col-4">
+                                        <label for="Stat_id">Estado</label>
+                                        <select name="Stat_id" id="Stat_id" class="form-control form-select" required>
+                                            <option value="">
+                                                Seleccione...
+                                            </option>
                                             <?php foreach ($userstatuses as $userstatus) : ?>
                                                 <option value="<?= $userstatus->Stat_id ?>">
                                                     <?= $userstatus->Stat_name  ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
-                                        <label for="Stat_id">Estado</label>
                                     </div>
-                                    <div class="form-floating mb-3">
-                                        <select name="Country_id" id="Country_id" class="form-control">
+                                    <div class=" mb-3 col-4">
+                                        <label for="Country_id">Pais</label>
+                                        <select name="Country_id" id="Country_id" class="form-control form-select" required>
+                                            <option value="">
+                                                Seleccione...
+                                            </option>
                                             <?php foreach ($countries as $country) : ?>
                                                 <option value="<?= $country['Country_id'] ?>">
                                                     <?= $country['Country_name'] ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
-                                        <label for="Country_id">Pais</label>
                                     </div>
                                 </form>
                             </div>

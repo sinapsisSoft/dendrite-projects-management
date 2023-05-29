@@ -1,33 +1,33 @@
-showPreload();
+// $("#table_obj_Manager").DataTable();
 
-$("#table_obj").DataTable();
+const ruteContentManager = "manager/";
+const nameModelManager = 'managers';
+const dataModelManager = 'data';
+const dataResponseManager = 'response';
+const dataMessagesManager = 'message';
+const dataCsrfManager = 'csrf';
 
-const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', 'Updated user ', 'The user was deleted');
-const ruteContent = "manager/";
-const nameModel = 'managers';
-const dataModel = 'data';
-const dataResponse = 'response';
-const dataMessages = 'message';
-const dataCsrf = 'csrf';
+const primaryIdManager = 'Manager_id';
+const URL_ROUTEManager = BASE_URL + ruteContentManager;
 
-const primaryId = 'Manager_id';
-const URL_ROUTE = BASE_URL + ruteContent;
+const TOASTSManager = new STtoasts();
+const ManagerModal = '#ManagerModal';
+const idManagerForm = 'objManagerForm';
 
-const TOASTS = new STtoasts();
-const myModalObjec = '#createUpdateModal';
-const idForm = 'objForm';
+var sTFormManager = null
+var urlManager = "";
+var assignmentActionManager = 0;
+var formDataManager = new Object();
+var selectInsertOrUpdateManager = true;
 
-var sTForm = null;
-var url = "";
-var assignmentAction = 0;
-var formData = new Object();
-var selectInsertOrUpdate = true;
+let brands = [];
 
-function create(formData) {
-    url = URL_ROUTE + arRoutes[0];
-    debugger;
-    fetch(url, {
+
+function createManager(formData) {
+    urlManager = URL_ROUTEManager + arRoutes[0];
+    formData['Client_id'] = document.getElementById('Client_id').value;
+    formData['Brands'] = brands;
+    fetch(urlManager, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -40,22 +40,32 @@ function create(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-                debugger;
-                TOASTS.toastView("", "", arMessages[1], 0);
-                hideModal();
+                TOASTSManager.toastView("", "", arMessages[1], 0);
+                hidelManagerModal();
                 window.location.reload();
             } else {
                 console.log(arMessages[0]);
             }
-            sTForm.inputButtonEnable();
-            debugger;
+            sTFormManager.inputButtonEnable();
             hidePreload();
         });
 }
 
-function update(formData) {
-    url = URL_ROUTE + arRoutes[2];
-    fetch(url, {
+function toggleBrand(brandId) {
+    const isExists = !!brands.find(brand => brand === brandId);
+    if (isExists) {
+        brands = brands.filter(brand => brand !== brandId);
+    }
+    else {
+        brands.push(brandId);
+    }
+}
+
+function updateManager(formData) {
+    urlManager = URL_ROUTEManager + arRoutes[2];
+    formData['Client_id'] = document.getElementById('Client_id').value;
+    formData['Brands'] = brands;
+    fetch(urlManager, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -68,24 +78,24 @@ function update(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-                TOASTS.toastView("", "", arMessages[3], 0);
-                hideModal();
+                TOASTSManager.toastView("", "", arMessages[3], 0);
+                hidelManagerModal();
                 window.location.reload();
             } else {
                 console.log(arMessages[0]);
             }
-            sTForm.inputButtonEnable();
+            sTFormManager.inputButtonEnable();
             hidePreload();
         });
 }
 
-function delete_(id) {
+function deleteManager(id) {
     let text = "Do you want to carry out this process?\n OK or Cancel.";
     if (confirm(text) == true) {
         showPreload();
-        url = URL_ROUTE + arRoutes[3];
-        formData[primaryId] = id;
-        fetch(url, {
+        urlManager = URL_ROUTEManager + arRoutes[3];
+        formData[primaryIdManager] = id;
+        fetch(urlManager, {
             method: "POST",
             body: JSON.stringify(formData),
             headers: {
@@ -109,29 +119,30 @@ function delete_(id) {
     }
 }
 
-function sendData(e, formObj) {
+function sendManagerData(e, formObj) {
+    debugger;
     let obj = formObj;
-    sTForm = SingletonClassSTForm.getInstance();
-    if (sTForm.validateForm()) {
+    sTFormManager = SingletonClassSTFormManager.getInstance();
+    if (sTFormManager.validateForm()) {
         showPreload();
-        if (selectInsertOrUpdate) {
-            create(sTForm.getDataForm());
+        if (selectInsertOrUpdateManager) {
+            createManager(sTFormManager.getDataForm());
         } else {
-            update(sTForm.getDataForm());
+            updateManager(sTFormManager.getDataForm());
         }
-        sTForm.inputButtonDisable();
+        sTFormManager.inputButtonDisable();
     } else {
-        TOASTS.toastView("", "", arMessages[0], 1);
+        TOASTSManager.toastView("", "", arMessages[0], 1);
     }
     e.preventDefault();
 }
 
-function detail(idData) {
-    getDataId(idData);
+function detailManager(idData) {
+    getManagerDataId(idData);
     toogleDisabledFields();
 }
 
-function toogleDisabledFields() {
+function toogleManagerDisabledFields() {
     const btnSubmit = document.getElementById('btn-submit');
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => input.classList.add('form-disabled'))
@@ -140,15 +151,15 @@ function toogleDisabledFields() {
     btnSubmit.disabled = true;
 }
 
-function getDataId(idData) {
+function getManagerDataId(idData) {
     showPreload();
-    selectInsertOrUpdate = false;
-    formData[primaryId] = idData;
-    url = URL_ROUTE + arRoutes[4];
-    sTForm = SingletonClassSTForm.getInstance();
-    fetch(url, {
+    selectInsertOrUpdateManager = false;
+    formDataManager[primaryIdManager] = idData;
+    urlManager = URL_ROUTEManager + arRoutes[4];
+    sTFormManager = SingletonClassSTFormManager.getInstance();
+    fetch(urlManager, {
         method: "POST",
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formDataManager),
         headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest"
@@ -158,8 +169,8 @@ function getDataId(idData) {
         .catch(error => console.error('Error:', error))
         .then(response => {
             if (response[dataResponse] == 200) {
-                showModal(0);
-                sTForm.setDataForm(response[dataModel]);
+                showManagerModal(0);
+                sTFormManager.setDataForm(response[dataModel]);
                 hidePreload();
             } else {
                 console.log(arMessages[0]);
@@ -167,36 +178,31 @@ function getDataId(idData) {
         });
 }
 
-function addData() {
-    selectInsertOrUpdate = true;
-    showModal(1);
+function addManagerData() {
+    selectInsertOrUpdateManager = true;
+    showManagerModal(1);
 }
 
-function hideModal() {
-    $(myModalObjec).modal("hide");
+function hidelManagerModal() {
+    $(ManagerModal).modal("hide");
 }
 
-function showModal(type) {
+function showManagerModal(type) {
+    debugger;
     if (type == 1) {
-        sTForm = SingletonClassSTForm.getInstance();
-        sTForm.inputButtonEnable();
+        sTFormManager = SingletonClassSTFormManager.getInstance();
+        sTFormManager.inputButtonEnable();
     }
-    sTForm.clearDataForm();
-    $(myModalObjec).modal("show");
+    sTFormManager.clearDataForm();
+    $(ManagerModal).modal("show");
 }
 
-function showPreload() {
-    $(".preloader").fadeIn();
-}
 
-function hidePreload() {
-    $(".preloader").fadeOut();
-}
 
-var SingletonClassSTForm = (function () {
+var SingletonClassSTFormManager = (function () {
     var objInstance;
     function createInstance() {
-        var object = new STForm(idForm);
+        var object = new STForm(idManagerForm);
         return object;
     }
     return {

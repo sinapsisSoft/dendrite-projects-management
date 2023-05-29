@@ -21,4 +21,12 @@ class ClientModel extends Model
     'Stat_id', 
     'Country_id'];
     protected $updatedField = 'updated_at';
+
+    function sp_select_all_clients($detailsclientId){
+
+        $query = "CALL sp_select_all_clients($detailsclientId)";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
 }
+

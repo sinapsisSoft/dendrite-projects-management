@@ -49,12 +49,12 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card card-pp">
                             <div class="card-body">
                                 <h5 class="card-title">
                                     LISTA DE PRODUCTOS
                                 </h5>
-                                <div class="table-responsive">
+                                <div class="table-responsive ">
                                     <table id="table_obj" class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -121,6 +121,10 @@
                                     <input type="hidden" class="form-control" id="Prod_id" name="Prod_id" value="0">
                                     <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                                     <div class="mb-3 col-4">
+                                        <label for="Prod_code">ID producto</label>
+                                        <input type="text" class="form-control" id="Prod_code" name="Prod_code" required>
+                                    </div>
+                                    <div class="mb-3 col-4">
                                         <label for="Prod_name">Nombre</label>
                                         <input type="text" class="form-control" id="Prod_name" name="Prod_name" required>
                                     </div>
@@ -137,28 +141,24 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="mb-3 col-4">
-                                        <label for="Brand_id">Marca</label>
-                                        <select name="Brand_id" id="Brand_id" class="form-control form-select" required>
+                                    <div class="mb-3 col-3">
+                                        <label for="Prod_brand_id">Marca</label>
+                                        <select name="Prod_brand_id" id="Prod_brand_id" class="form-control form-select" required>
                                             <option value="">
                                                 Seleccione...
                                             </option>
-                                            <?php foreach ($brands as $brand) : ?>
-                                                <option value="<?= $brand['Brand_id'] ?>">
-                                                    <?= $brand['Brand_name'] ?>
+                                            <?php foreach ($productbrands as $productbrand) : ?>
+                                                <option value="<?= $productbrand['Prod_brand_id'] ?>">
+                                                    <?= $productbrand['Prod_brand_name'] ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="mb-3 col-4">
+                                    <div class="mb-3 col-3">
                                         <label for="Prod_value">Valor</label>
                                         <input type="text" class="form-control" id="Prod_value" name="Prod_value" required>
                                     </div>
-                                    <div class="mb-3 col-12">
-                                        <label for="Prod_description">Descripción</label>
-                                        <input type="text" class="form-control" id="Prod_description" name="Prod_identification" required>
-                                    </div>
-                                    <div class="mb-3 col-4">
+                                    <div class="mb-3 col-3">
                                         <label for="Filings_id">Presentación</label>
                                         <select name="Filing_id" id="Filing_id" class="form-control form-select" required>
                                             <option value="">
@@ -171,7 +171,7 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 col-3">
                                         <label for="Unit_id">Unidad</label>
                                         <select name="Unit_id" id="Unit_id" class="form-contro form-select" required>
                                             <option value="">
@@ -183,6 +183,10 @@
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
+                                    </div>
+                                    <div class="mb-3 col-12">
+                                        <label for="Prod_description">Descripción</label>
+                                        <input type="text" class="form-control" id="Prod_description" name="Prod_identification" required>
                                     </div>
                                 </form>
                             </div>

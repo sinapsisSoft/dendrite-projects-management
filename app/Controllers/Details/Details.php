@@ -26,7 +26,6 @@ class Details extends BaseController{
         $activities = new ActivitiesModel();
         $projectId = $this->request->getGet('projectId');
         $userstatus = new UserStatusModel();
-        $user = new UserModel();
         $approvalcode = new ApprovalCodeModel();
 
         $data['title'] = 'Detalles';
@@ -42,13 +41,10 @@ class Details extends BaseController{
                           'percent' => $project->sp_select_percent_project($projectId)[0],
                          'products' => $projectProduct->sp_select_all_project_product($projectId)];
         $data['products'] = $product->findAll();
-        $data['activities'] = $activities->findAll();
-        $data['projecttrackings'] = $projecttracking->findAll();
+        $data['activities'] = $activities->sp_select_activities_project($projectId);
+        $data['projecttrackings'] = $projecttracking->where('Project_id', $projectId)->find();
         $data['userstatuses'] = $userstatus->where('StatType_id', 4)->find();
-        $data['users'] = $user->sp_select_all_users();
-        $data['developers'] = $user->sp_select_all_users_developer();
         $data['approvalcodes'] = $approvalcode->findAll();
-        $data['projectProducts'] = $projectProduct->findAll();
         return view('details/details', $data);
     }
   

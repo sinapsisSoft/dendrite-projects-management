@@ -58,6 +58,12 @@
                     >
                   </li>
                   <li class="sidebar-item">
+                    <a href="/productbrand" class="sidebar-link"
+                      ><i class="mdi mdi-chevron-right"></i
+                      ><span class="hide-menu">Marca </span></a
+                    >
+                  </li>
+                  <li class="sidebar-item">
                     <a href="/producttype" class="sidebar-link"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Tipo </span></a
@@ -78,34 +84,11 @@
                 </ul>
               </li>
               <li class="sidebar-item">
-                <a
-                  class="sidebar-link has-arrow waves-effect waves-dark"
-                  href="javascript:void(0)"
-                  aria-expanded="false"
-                  ><i class="mdi mdi-account-multiple"></i
-                  ><span class="hide-menu">Gestion de Clientes </span></a
-                >
-                <ul aria-expanded="false" class="collapse first-level color">
-                  <li class="sidebar-item">
                     <a href="/client" class="sidebar-link"
-                      ><i class="mdi mdi-chevron-right"></i
-                      ><span class="hide-menu">Clientes </span></a
+                      ><i class="mdi mdi-account-multiple"></i
+                      ><span class="hide-menu">Gestion de Clientes </span></a
                     >
                   </li>
-                  <li class="sidebar-item">
-                    <a href="/manager" class="sidebar-link"
-                      ><i class="mdi mdi-chevron-right"></i
-                      ><span class="hide-menu">Gerente</span></a
-                    >
-                  </li>
-                  <li class="sidebar-item">
-                    <a href="/brand" class="sidebar-link"
-                      ><i class="mdi mdi-chevron-right"></i
-                      ><span class="hide-menu">Marca </span></a
-                    >
-                  </li>
-                </ul>
-              </li>
               <li class="sidebar-item">
                 <a
                   class="sidebar-link has-arrow waves-effect waves-dark"
@@ -137,15 +120,6 @@
               </li>
               <li class="sidebar-item">
                 <a
-                  class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="/company"
-                  aria-expanded="false"
-                  ><i class="mdi mdi-clipboard"></i
-                  ><span class="hide-menu">Empresas</span></a
-                >
-              </li>
-              <li class="sidebar-item">
-                <a
                   class="sidebar-link has-arrow waves-effect waves-dark"
                   href="javascript:void(0)"
                   aria-expanded="false"
@@ -157,6 +131,12 @@
                     <a href="/doctype" class="sidebar-link"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Tipo de documento </span></a
+                    >
+                  </li>
+                  <li class="sidebar-item">
+                    <a href="/priorities" class="sidebar-link"
+                      ><i class="mdi mdi-chevron-right"></i
+                      ><span class="hide-menu"> Prioridades</span></a
                     >
                   </li>
                   <li class="sidebar-item">
