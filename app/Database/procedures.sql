@@ -1,4 +1,3 @@
-DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_activities_project`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_activities_project` (IN `project_id` INT)   BEGIN
 select 
@@ -16,6 +15,16 @@ DROP PROCEDURE IF EXISTS `sp_select_all_activities`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_activities` ()   BEGIN 
 SELECT A.Activi_id, A.Activi_name, AP.ApprCode_code, A.created_at FROM activities A INNER JOIN approvalcode AP on AP.ApprCode_id = A.ApprCode_id;
 
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_brands_client`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_brands_client` (IN `client_id` INT)   BEGIN
+SELECT 
+	B.Brand_id,
+        B.Brand_name
+FROM brand B
+LEFT JOIN manager_brands MB ON MB.Brand_id = B.Brand_id
+WHERE MB.Brand_id IS NULL AND B.Client_id = client_id;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_all_clients`$$
@@ -92,7 +101,8 @@ P.Project_estimatedEndDate,
 P.Project_activitiEndDate,
 S.Stat_name,
 P.Project_link,
-P.Project_observation
+P.Project_observation,
+PR.Priorities_name
 
 FROM project P
 INNER JOIN client C on C.Client_id = P.Client_id
@@ -101,6 +111,7 @@ INNER JOIN brand B on B.Brand_id = P.Brand_id
 INNER JOIN country CT on CT.Country_id = P.Country_id
 INNER JOIN user U on U.User_id = P.User_id
 INNER JOIN status S on S.Stat_id = P.Stat_id
+INNER JOIN priorities PR on PR.Priorities_id = P.Priorities_id
 
 WHERE P.Project_id = Project_id;
 
@@ -112,7 +123,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_project_product` (IN 
     P.Prod_name,
     PP.Project_productAmount,
     (select round(sum(A.Activi_percentage) / count(*)) from activities A where A.Project_product_id = PP.Project_product_id) as Project_product_percentage,
-    S.Stat_name,
+S.Stat_name,
     CASE 
     	WHEN S.Stat_name LIKE 'Realizado' THEN '#16FF00' 
         WHEN S.Stat_name LIKE 'Pendiente' THEN '#FFD93D'
@@ -122,18 +133,31 @@ INNER JOIN product P ON P.Prod_id = PP.Prod_id
 INNER JOIN status S ON S.Stat_id = PP.Stat_id
 WHERE PP.Project_id = project_id$$
 
+DROP PROCEDURE IF EXISTS `sp_select_all_project_table`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_project_table` ()   BEGIN   
+
+ SELECT PRO.Project_id, PRO.Project_code, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at FROM project PRO
+    INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
+    INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
+    ORDER BY Project_id ASC;
+
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_all_subactivities`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_subactivities` (IN `activity_id` INT)   BEGIN
-SELECT
+ SELECT
  SA.SubAct_id,
  SA.SubAct_name,
  S.Stat_name,
+ PRI.Priorities_name,
+ PRI.Priorities_color,
  CASE 
-    	WHEN S.Stat_name LIKE 'Realizado' THEN '#16FF00' 
-        WHEN S.Stat_name LIKE 'Pendiente' THEN '#FFD93D'
+    	WHEN SA.SubAct_percentage = 100 THEN '#16FF00' 
+        WHEN SA.SubAct_percentage > 0 and SA.SubAct_percentage < 100 THEN '#FFD93D'
         ELSE '#FF0303' END as color
 FROM subactivities SA
 INNER JOIN status S ON S.Stat_id = SA.Stat_id
+INNER JOIN priorities PRI on PRI.Priorities_id = SA.Priorities_id
 WHERE SA.Activi_id = activity_id;
 END$$
 
@@ -179,6 +203,16 @@ INNER JOIN project_product PP ON PP.Project_product_id = A.Project_product_id
 WHERE PP.Project_id = project_id;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_status_project_product`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_status_project_product` (IN `percent` INT)   BEGIN
+ IF percent = 0 THEN
+  SELECT Stat_name FROM status WHERE Stat_name = 'Sin asignar';
+ ELSEIF percent > 100 THEN
+  SELECT Stat_name FROM status WHERE Stat_name = 'Realizado';
+ ELSE SELECT Stat_name FROM status WHERE Stat_name = 'Pendiente';
+END IF;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_status_users`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_status_users` ()   BEGIN
     SELECT Stat_id,Stat_name FROM status WHERE StatType_id=1;
@@ -191,6 +225,3 @@ SELECT @porcent;
 update activities set Activi_percentage = @porcent
 WHERE Activi_id = activity_id;
 END$$
-
-DELIMITER ;
-
