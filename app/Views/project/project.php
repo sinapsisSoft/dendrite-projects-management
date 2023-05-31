@@ -199,8 +199,8 @@
                                         </select>
                                     </div>
                                     <div class="mb-3 col-3">
-                                        <label for="User_id">Nombre del comercial</label>
-                                        <select name="User_id" id="User_id" class="form-control form-select" required>
+                                        <label for="Project_commercial">Nombre del comercial</label>
+                                        <select name="Project_commercial" id="Project_commercial" class="form-control form-select" required>
                                             <option value="">
                                                 Seleccione...
                                             </option>

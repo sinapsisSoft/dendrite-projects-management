@@ -134,6 +134,12 @@
                     >
                   </li>
                   <li class="sidebar-item">
+                    <a href="/email" class="sidebar-link"
+                      ><i class="mdi mdi-chevron-right"></i
+                      ><span class="hide-menu">Credenciales de correo</span></a
+                    >
+                  </li>
+                  <li class="sidebar-item">
                     <a href="/priorities" class="sidebar-link"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Prioridades</span></a

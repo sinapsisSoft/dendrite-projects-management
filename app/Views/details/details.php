@@ -81,6 +81,7 @@
             color: gray;
             font-size: 13px;
         }
+
         input {
             text-transform: uppercase !important;
         }
@@ -123,7 +124,7 @@
                         </div>
                         <div class="progress col-6" style="height: 15px;">
                             <div class="progress-bar" role="progressbar" style="width: <?= $data['percent']->percent ?>%; " aria-valuenow="<?= $data['percent']->percent ?>" aria-valuemin="0" aria-valuemax="100">
-                            <?= $data['percent']->percent ?> %
+                                <?= $data['percent']->percent ?> %
                             </div>
                         </div>
                     </div>
@@ -414,7 +415,7 @@
                                                     <div class="mb-3 col-3">
                                                         <label for="ProjectTrack_name">Nombre</label>
                                                         <input type="text" class="form-control" id="ProjectTrack_name" name="ProjectTrack_name" required>
-                                                    </div>   
+                                                    </div>
                                                     <div class="mb-3 col-3">
                                                         <label for="ProjectTrack_date">Fecha</label>
                                                         <input type="date" class="form-control" id="ProjectTrack_date" name="ProjectTrack_date" required>
@@ -519,7 +520,7 @@
                                                     </div>
                                                     <div class="mb-3 col-3">
                                                         <label for="Project_product_id">Producto</label>
-                                                        <select name="Project_product_id" id="Project_product_id" class="form-control">
+                                                        <select name="Project_product_id" id="Project_product_id" class="form-control" required>
                                                             <option value="">
                                                                 Seleccione...
                                                             </option>
@@ -531,8 +532,12 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3 col-3">
-                                                        <label for="Activi_startDate">Fecha de inicio</label>
+                                                        <label for="Activi_startDate">Fecha estimada de entrega</label>
                                                         <input type="date" class="form-control" id="Activi_startDate" name="Activi_startDate" required>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="Activi_endDate">Fecha de entrega final</label>
+                                                        <input type="date" class="form-control" id="Activi_endDate" name="Activi_endDate">
                                                     </div>
                                                     <div class="mb-3 col-3">
                                                         <label for="Activi_link">Enlace</label>
@@ -549,6 +554,16 @@
                                                     <div class="mb-3 col-3">
                                                         <label for="Activi_codeDelivery">Código Entregable</label>
                                                         <input type="text" class="form-control" id="Activi_codeDelivery" name="Activi_codeDelivery">
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="Stat_id">Estado</label>
+                                                        <select class="form-control form-select Stat_activity" id="Stat_id" name="Stat_id">
+                                                            <?php foreach ($statuses as $status) : ?>
+                                                                <option value="<?= $status->Stat_id; ?>">
+                                                                    <?= $status->Stat_name; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
                                                     </div>
                                                     <div class="mb-3 col-12">
                                                         <label for="Activi_observation">Observaciones</label>

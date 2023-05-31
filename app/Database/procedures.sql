@@ -1,3 +1,7 @@
+DELIMITER $$
+--
+-- Procedimientos
+--
 DROP PROCEDURE IF EXISTS `sp_select_activities_project`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_activities_project` (IN `project_id` INT)   BEGIN
 select 
@@ -58,6 +62,7 @@ A.Activi_id,
     A.Activi_codeSpectra,
     A.Activi_codeDelivery,
     A.Activi_endDate,
+    A.Activi_startDate,
     A.Activi_percentage,
     S.Stat_name,
     P.Prod_name
@@ -102,7 +107,8 @@ P.Project_activitiEndDate,
 S.Stat_name,
 P.Project_link,
 P.Project_observation,
-PR.Priorities_name
+PR.Priorities_name,
+P.Project_commercial
 
 FROM project P
 INNER JOIN client C on C.Client_id = P.Client_id
@@ -225,3 +231,5 @@ SELECT @porcent;
 update activities set Activi_percentage = @porcent
 WHERE Activi_id = activity_id;
 END$$
+
+DELIMITER ;
