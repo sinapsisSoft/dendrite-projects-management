@@ -1,33 +1,33 @@
-// $("#table_obj_activities").DataTable();
+showPreload();
 
-const ruteContentActivities = "activities/";
-const nameModelActivities = 'activities';
-const dataModelActivities = 'data';
-const dataResponseActivities = 'response';
-const dataMessagesActivities = 'message';
-const dataCsrfActivities = 'csrf';
+$("#table_obj").DataTable();
 
-const primaryIdActivities = 'Activi_id';
-const URL_ROUTEActivities = BASE_URL + ruteContentActivities;
+const arRoutes = AR_ROUTES_GENERAL;
+const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', 'Updated user ', 'The user was deleted');
+const ruteContent = "email/";
+const nameModel = 'emails';
+const dataModel = 'data';
+const dataResponse = 'response';
+const dataMessages = 'message';
+const dataCsrf = 'csrf';
 
-const TOASTSActivities = new STtoasts();
-const activitiesModal = '#activitiesModal';
-const idActivitiesForm = 'objActivitiesForm';
+const primaryId = 'Email_id';
+const URL_ROUTE = BASE_URL + ruteContent;
 
-var sTFormActivities = null
-var urlActivities = "";
-var assignmentActionActivities = 0;
-var formDataActivities = new Object();
-var selectInsertOrUpdateActivities = true;
+const TOASTS = new STtoasts();
+const myModalObjec = '#createUpdateModal';
+const idForm = 'objForm';
 
-function details(subactivitiesId) {
-    window.location = `${BASE_URL}subactivities?activitiesId=${subactivitiesId}`
-}
+var sTForm = null;
+var url = "";
+var assignmentAction = 0;
+var formData = new Object();
+var selectInsertOrUpdate = true;
 
-function createActivities(formData) {
-    urlActivities = URL_ROUTEActivities + arRoutes[0];
+function create(formData) {
+    url = URL_ROUTE + arRoutes[0];
     debugger;
-    fetch(urlActivities, {
+    fetch(url, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -40,20 +40,22 @@ function createActivities(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-                TOASTSActivities.toastView("", "", arMessages[1], 0);
-                hidelActivitiesModal();
+                debugger;
+                TOASTS.toastView("", "", arMessages[1], 0);
+                hideModal();
                 window.location.reload();
             } else {
                 console.log(arMessages[0]);
             }
-            sTFormActivities.inputButtonEnable();
+            sTForm.inputButtonEnable();
+            debugger;
             hidePreload();
         });
 }
 
-function updateActivities(formData) {
-    urlActivities = URL_ROUTEActivities + arRoutes[2];
-    fetch(urlActivities, {
+function update(formData) {
+    url = URL_ROUTE + arRoutes[2];
+    fetch(url, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -66,24 +68,24 @@ function updateActivities(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-                TOASTSActivities.toastView("", "", arMessages[3], 0);
-                hidelActivitiesModal();
+                TOASTS.toastView("", "", arMessages[3], 0);
+                hideModal();
                 window.location.reload();
             } else {
                 console.log(arMessages[0]);
             }
-            sTFormActivities.inputButtonEnable();
+            sTForm.inputButtonEnable();
             hidePreload();
         });
 }
 
-function deleteActivities(id) {
+function delete_(id) {
     let text = "Do you want to carry out this process?\n OK or Cancel.";
     if (confirm(text) == true) {
         showPreload();
-        urlActivities = URL_ROUTEActivities + arRoutes[3];
-        formData[primaryIdActivities] = id;
-        fetch(urlActivities, {
+        url = URL_ROUTE + arRoutes[3];
+        formData[primaryId] = id;
+        fetch(url, {
             method: "POST",
             body: JSON.stringify(formData),
             headers: {
@@ -107,30 +109,29 @@ function deleteActivities(id) {
     }
 }
 
-function sendActivitiesData(e, formObj) {
-    debugger;
+function sendData(e, formObj) {
     let obj = formObj;
-    sTFormActivities = SingletonClassSTFormActivities.getInstance();
-    if (sTFormActivities.validateForm()) {
+    sTForm = SingletonClassSTForm.getInstance();
+    if (sTForm.validateForm()) {
         showPreload();
-        if (selectInsertOrUpdateActivities) {
-            createActivities(sTFormActivities.getDataForm());
+        if (selectInsertOrUpdate) {
+            create(sTForm.getDataForm());
         } else {
-            updateActivities(sTFormActivities.getDataForm());
+            update(sTForm.getDataForm());
         }
-        sTFormActivities.inputButtonDisable();
+        sTForm.inputButtonDisable();
     } else {
-        TOASTSActivities.toastView("", "", arMessages[0], 1);
+        TOASTS.toastView("", "", arMessages[0], 1);
     }
     e.preventDefault();
 }
 
-function detailActivities(idData) {
-    getActivitiesDataId(idData);
+function detail(idData) {
+    getDataId(idData);
     toogleDisabledFields();
 }
 
-function toogleActivitiesDisabledFields() {
+function toogleDisabledFields() {
     const btnSubmit = document.getElementById('btn-submit');
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => input.classList.add('form-disabled'))
@@ -139,15 +140,15 @@ function toogleActivitiesDisabledFields() {
     btnSubmit.disabled = true;
 }
 
-function getActivitiesDataId(idData) {
+function getDataId(idData) {
     showPreload();
-    selectInsertOrUpdateActivities = false;
-    formDataActivities[primaryIdActivities] = idData;
-    urlActivities = URL_ROUTEActivities + arRoutes[4];
-    sTFormActivities = SingletonClassSTFormActivities.getInstance();
-    fetch(urlActivities, {
+    selectInsertOrUpdate = false;
+    formData[primaryId] = idData;
+    url = URL_ROUTE + arRoutes[4];
+    sTForm = SingletonClassSTForm.getInstance();
+    fetch(url, {
         method: "POST",
-        body: JSON.stringify(formDataActivities),
+        body: JSON.stringify(formData),
         headers: {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest"
@@ -157,8 +158,8 @@ function getActivitiesDataId(idData) {
         .catch(error => console.error('Error:', error))
         .then(response => {
             if (response[dataResponse] == 200) {
-                showActivitiesModal(0);
-                sTFormActivities.setDataForm(response[dataModel]);
+                showModal(0);
+                sTForm.setDataForm(response[dataModel]);
                 hidePreload();
             } else {
                 console.log(arMessages[0]);
@@ -166,34 +167,36 @@ function getActivitiesDataId(idData) {
         });
 }
 
-function addActivitiesData() {
-    selectInsertOrUpdateActivities = true;
-    showActivitiesModal(1);
+function addData() {
+    selectInsertOrUpdate = true;
+    showModal(1);
 }
 
-function hidelActivitiesModal() {
-    $(activitiesModal).modal("hide");
+function hideModal() {
+    $(myModalObjec).modal("hide");
 }
 
-function showActivitiesModal(type) {
-    debugger;
+function showModal(type) {
     if (type == 1) {
-        sTFormActivities = SingletonClassSTFormActivities.getInstance();
-        sTFormActivities.inputButtonEnable();
-        document.getElementsByClassName('Stat_activity')[0].setAttribute('disabled', true);
-    } else {
-        document.getElementsByClassName('Stat_activity')[0].setAttribute('disabled', false);
+        sTForm = SingletonClassSTForm.getInstance();
+        sTForm.inputButtonEnable();
     }
-    sTFormActivities.clearDataForm();
-    $(activitiesModal).modal("show");
+    sTForm.clearDataForm();
+    $(myModalObjec).modal("show");
 }
 
+function showPreload() {
+    $(".preloader").fadeIn();
+}
 
+function hidePreload() {
+    $(".preloader").fadeOut();
+}
 
-var SingletonClassSTFormActivities = (function () {
+var SingletonClassSTForm = (function () {
     var objInstance;
     function createInstance() {
-        var object = new STForm(idActivitiesForm);
+        var object = new STForm(idForm);
         return object;
     }
     return {

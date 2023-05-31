@@ -153,6 +153,14 @@
                                     <input type="text" class="form-control" disabled value="<?= $activity->Activi_name ?>" required>
                                 </div>
                                 <div class="mb-3 col-4">
+                                    <label for="">Fecha estimada de entrega</label>
+                                    <input type="text" class="form-control" disabled value="<?= $activity->Activi_startDate ?>" required>
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <label for="">Fecha de entrega final</label>
+                                    <input type="text" class="form-control" disabled value="<?= $activity->Activi_endDate ?>" required>
+                                </div>
+                                <div class="mb-3 col-4">
                                     <label for="Project_product_name">Producto</label>
                                     <input type="text" class="form-control" disabled id="Project_product_name" name="Project_product_name" value="<?= $activity->Prod_name ?>" value="" required>
                                 </div>

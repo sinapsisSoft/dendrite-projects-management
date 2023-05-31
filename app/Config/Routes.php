@@ -105,6 +105,14 @@ $routes->group('city', ['namespace' => 'App\Controllers\City'], function ($route
     $routes->post('update', 'City::update');
 });
 
+$routes->group('email', ['namespace' => 'App\Controllers\Email'], function ($routes) {
+    $routes->get('/', 'Email::show');
+    $routes->post('create', 'Email::create');
+    $routes->post('delete', 'Email::delete');
+    $routes->post('edit', 'Email::edit');
+    $routes->post('update', 'Email::update');
+});
+
 $routes->group('company', ['namespace' => 'App\Controllers\Company'], function ($routes) {
     $routes->get('/', 'Company::show');
     $routes->post('create', 'Company::create');

@@ -168,7 +168,7 @@ class Project extends BaseController
             'Manager_id' => $this->request->getVar('Manager_id'),
             'Brand_id' => $this->request->getVar('Brand_id'),
             'Country_id' => $this->request->getVar('Country_id'),
-            'User_id' => $this->request->getVar('User_id'),
+            'Project_commercial' => $this->request->getVar('Project_commercial'),
             'Stat_id' => $this->request->getVar('Stat_id'),
             'Priorities_id' => $this->request->getVar('Priorities_id'),
             'updated_at' => $this->request->getVar('updated_at')

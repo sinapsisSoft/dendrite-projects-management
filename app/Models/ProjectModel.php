@@ -26,6 +26,7 @@ class ProjectModel extends Model{
         'Country_id', 
         'User_id', 
         'Stat_id',
+        'Project_commercial',
         'Priorities_id', 
         'updated_at'
     ];

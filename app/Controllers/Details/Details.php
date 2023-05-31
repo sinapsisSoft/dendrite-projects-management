@@ -26,6 +26,7 @@ class Details extends BaseController{
         $activities = new ActivitiesModel();
         $projectId = $this->request->getGet('projectId');
         $userstatus = new UserStatusModel();
+        $status = new UserStatusModel();
         $approvalcode = new ApprovalCodeModel();
 
         $data['title'] = 'Detalles';
@@ -44,6 +45,7 @@ class Details extends BaseController{
         $data['activities'] = $activities->sp_select_activities_project($projectId);
         $data['projecttrackings'] = $projecttracking->where('Project_id', $projectId)->find();
         $data['userstatuses'] = $userstatus->where('StatType_id', 4)->find();
+        $data['statuses'] = $status->sp_select_status_users();
         $data['approvalcodes'] = $approvalcode->findAll();
         return view('details/details', $data);
     }
