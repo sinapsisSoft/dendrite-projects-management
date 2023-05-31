@@ -6,7 +6,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ProductModel;
 use App\Models\FilingModel;
 use App\Models\ProductBrandModel;
-use App\Models\ProducttypeModel;
+use App\Models\ProductTypeModel;
 use App\Models\UnitModel;
 
 

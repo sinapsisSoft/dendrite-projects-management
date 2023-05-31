@@ -24,10 +24,10 @@
           <!-- Sidebar navigation-->
           <nav class="sidebar-nav">
             <ul id="sidebarnav" class="pt-4 color">
-              <li class="sidebar-item">
+             <li class="sidebar-item">
                 <a
-                  class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="/"
+                  class="sidebar-link waves-effect waves-dark sidebar-link home"
+                  href= "/" 
                   aria-expanded="false"
                   ><i class="mdi mdi-home-outline"></i
                   ><span class="hide-menu">Inicio</span></a
@@ -35,7 +35,7 @@
               </li>
               <li class="sidebar-item">
                 <a
-                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  class="sidebar-link waves-effect waves-dark sidebar-link project"
                   href="/project"
                   aria-expanded="false"
                   ><i class="mdi mdi-content-paste"></i
@@ -52,31 +52,31 @@
                 >
                 <ul aria-expanded="false" class="collapse first-level color">
                   <li class="sidebar-item">
-                    <a href="/product" class="sidebar-link"
+                    <a href="/product" class="sidebar-link product"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu">Productos </span></a
                     >
                   </li>
                   <li class="sidebar-item">
-                    <a href="/productbrand" class="sidebar-link"
+                    <a href="/productbrand" class="sidebar-link productbrand"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu">Marca </span></a
                     >
                   </li>
                   <li class="sidebar-item">
-                    <a href="/producttype" class="sidebar-link"
+                    <a href="/producttype" class="sidebar-link producttype"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Tipo </span></a
                     >
                   </li>
                   <li class="sidebar-item">
-                    <a href="/filing" class="sidebar-link"
+                    <a href="/filing" class="sidebar-link filing"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Presentación </span></a
                     >
                   </li>
                   <li class="sidebar-item">
-                    <a href="/unit" class="sidebar-link"
+                    <a href="/unit" class="sidebar-link unit"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Unidad </span></a
                     >
@@ -84,9 +84,9 @@
                 </ul>
               </li>
               <li class="sidebar-item">
-                    <a href="/client" class="sidebar-link"
+                    <a href="/client" class="sidebar-link client"
                       ><i class="mdi mdi-account-multiple"></i
-                      ><span class="hide-menu">Gestion de Clientes </span></a
+                      ><span class="hide-menu">Gestión de Clientes </span></a
                     >
                   </li>
               <li class="sidebar-item">
@@ -95,23 +95,23 @@
                   href="javascript:void(0)"
                   aria-expanded="false"
                   ><i class="mdi mdi-account"></i
-                  ><span class="hide-menu">Gestión de Usuario </span></a
+                  ><span class="hide-menu">Gestión de Usuarios </span></a
                 >
                <ul aria-expanded="false" class="collapse first-level color">
                 <li class="sidebar-item">
-                    <a href="/user" class="sidebar-link"
+                    <a href="/user" class="sidebar-link user"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Usuario </span></a
                     >
                 </li>
                 <li class="sidebar-item">
-                    <a href="/module" class="sidebar-link"
+                    <a href="/module" class="sidebar-link module"
                       ><i class="mdi mdi-chevron-right"></i
-                      ><span class="hide-menu"> Modulos </span></a
+                      ><span class="hide-menu"> Módulos </span></a
                     >
                 </li>
                 <li class="sidebar-item">
-                    <a href="/role" class="sidebar-link"
+                    <a href="/role" class="sidebar-link role"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Roles </span></a
                     >
@@ -128,31 +128,31 @@
                 >
                 <ul aria-expanded="false" class="collapse first-level color">
                   <li class="sidebar-item">
-                    <a href="/doctype" class="sidebar-link"
+                    <a href="/doctype" class="sidebar-link doctype"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Tipo de documento </span></a
                     >
                   </li>
                   <li class="sidebar-item">
-                    <a href="/priorities" class="sidebar-link"
+                    <a href="/priorities" class="sidebar-link priorities"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Prioridades</span></a
                     >
                   </li>
                   <li class="sidebar-item">
-                    <a href="/country" class="sidebar-link"
+                    <a href="/country" class="sidebar-link country"
                       ><i class="mdi mdi-chevron-right"></i
-                      ><span class="hide-menu"> Pais </span></a
+                      ><span class="hide-menu"> País </span></a
                     >
                   </li>
                   <li class="sidebar-item">
-                    <a href="/city" class="sidebar-link"
+                    <a href="/city" class="sidebar-link city"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Ciudad </span></a
                     >
                   </li>
                   <li class="sidebar-item">
-                    <a href="/userstatus" class="sidebar-link"
+                    <a href="/userstatus" class="sidebar-link userstatus"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Estado </span></a
                     >
@@ -165,3 +165,13 @@
         </div>
         <!-- End Sidebar scroll-->
       </aside>
+
+      <script>
+        window.onload = function(){
+          let links = document.querySelectorAll("aside a");
+          links.forEach(function (element){
+            let className = element.classList;
+            element.href != "javascript:void(0)" ? element.href = BASE_URL + className[className.length-1] : element.href = "javascript:void(0)";
+          })
+        }
+      </script>
