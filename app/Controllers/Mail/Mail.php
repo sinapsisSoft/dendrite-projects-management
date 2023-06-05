@@ -1,24 +1,27 @@
 <?php
-namespace App\Controllers\Email;
+
+namespace App\Controllers\Mail;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\EmailModel;
+use App\Models\MailModel;
 
-class Email extends BaseController{
+class Mail extends BaseController
+{
     private $objModel;
     private $primaryKey;
     private $nameModel;
 
     public function __construct()
     {
-        $this->objModel = new EmailModel();
-        $this->primaryKey = 'Email_id';
-        $this->nameModel = 'emails';
+        $this->objModel = new MailModel();
+        $this->primaryKey = 'Mail_id';
+        $this->nameModel = 'mails';
     }
 
-    public function show(){
-        $data['title'] = 'Correo Electronico';
+    public function show()
+    {
+        $data['title'] = 'Correo';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
@@ -26,16 +29,17 @@ class Email extends BaseController{
         $data['sidebar'] = view('navbar/sidebar');
         $data['header'] = view('navbar/header');
         $data['footer'] = view('navbar/footer');
-        $emails = $this->objModel->first();
-        if (empty($emails)) {
+        $mails = $this->objModel->first();
+        if (empty($mails)) {
             $data[$this->nameModel] = null;
         } else {
-            $data[$this->nameModel] = $emails;
+            $data[$this->nameModel] = $mails;
         }
-        return view('email/email', $data);
+        return view('mail/mail', $data);
     }
 
-    public function create(){
+    public function create()
+    {
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL);
             if ($this->objModel->insert($dataModel)) {
@@ -79,11 +83,8 @@ class Email extends BaseController{
     public function getDataModel($getShares)
     {
         $data = [
-            'Email_id' => $getShares,
-            'Email_user' => $this->request->getVar('Email_user'),
-            'Email_pass' => $this->request->getVar('Email_pass'),
-            'Email_host' => $this->request->getVar('Email_host'),
-            'Email_puerto' => $this->request->getVar('Email_puerto'),
+            'Mail_id' => $getShares,
+            'Mail_user' => $this->request->getVar('Mail_user'),
             'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;

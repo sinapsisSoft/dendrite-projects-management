@@ -81,12 +81,18 @@
             color: gray;
             font-size: 13px;
         }
+
         input {
             text-transform: uppercase !important;
         }
-        .priorities{
+
+        .priorities {
             text-transform: uppercase;
             font-weight: bold;
+        }
+        ul{
+            list-style: none;
+            display: contents;
         }
     </style>
 </head>
@@ -127,7 +133,7 @@
                         </div>
                         <div class="progress col-6" style="height: 15px;">
                             <div id="progressbar" class="progress-bar" role="progressbar" style="width: <?= !is_null($activity) ? $activity->Activi_percentage : '' ?>%; " aria-valuenow="<?= $activity->Activi_percentage ?>" aria-valuemin="0" aria-valuemax="100">
-                            <?= !is_null($activity) ? $activity->Activi_percentage : '' ?>%
+                                <?= !is_null($activity) ? $activity->Activi_percentage : '' ?>%
                             </div>
                         </div>
                     </div>
@@ -277,18 +283,18 @@
                                                     <input type="text" class="form-control" id="SubAct_name" name="SubAct_name" required>
                                                 </div>
                                                 <div class="mb-3 col-4">
-                                                        <label for="User_id">Colaboradores</label>
-                                                        <select name="User_id" id="User_id" class="form-control form-select" required>
-                                                            <option value="">
-                                                                Seleccione...
+                                                    <label for="User_id">Colaboradores</label>
+                                                    <select name="User_id" id="User_id" class="form-control form-select" required>
+                                                        <option value="">
+                                                            Seleccione...
+                                                        </option>
+                                                        <?php foreach ($collaborators as $user) : ?>
+                                                            <option value="<?= $user->User_id ?>">
+                                                                <?= $user->User_email  ?>
                                                             </option>
-                                                            <?php foreach ($collaborators as $user) : ?>
-                                                                <option value="<?= $user->User_id ?>">
-                                                                    <?= $user->User_email  ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
                                                 <div class="mb-3 col-4">
                                                     <label for="SubAct_estimatedEndDate">Fecha Estimada de Entrga</label>
                                                     <input type="date" class="form-control" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" required>
@@ -343,42 +349,37 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body ">
-                                        <form class="form-horizontal mt-3" id="objEmailForm" action="" onsubmit="sendData(event,this.id)">
+                                        <form class="form-horizontal mt-3" id="objEmailForm">
                                             <div class="row">
-                                                <input type="hidden" class="form-control" id="Activi_id" name="Activi_id" value="0">
-                                                <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                                                <div class="mb-3 col-4">
-                                                    <label for="User_id">Colaborador</label>
-                                                    <select name="User_id" id="User_id" class="form-control">
-                                                        <option value="">
-                                                            Seleccione...
-                                                        </option>
-                                                        <?php foreach ($users as $user) : ?>
-                                                            <option value="<?= $user->User_id ?>">
-                                                                <?= $user->User_email  ?>
-                                                            </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
                                                 <div class="mb-3 col-8">
                                                     <label for="SubAct_name">Asunto</label>
-                                                    <input type="text" class="form-control" id="SubAct_name" name="SubAct_name" required>
+                                                    <input type="text" class="form-control" id="subject" name="subject" required>
                                                 </div>
                                                 <div class="mb-3 col-8">
                                                     <label for="SubAct_name">Link</label>
-                                                    <input type="text" class="form-control" id="SubAct_name" name="SubAct_name" required>
+                                                    <input type="text" class="form-control" id="link" name="link" required>
                                                 </div>
-
+                                                <div class="mb-3 col-12">
+                                                    <label for="User_id">Colaboradores</label>
+                                                    <ul class="row">
+                                                        <?php foreach ($users as $user) : ?>
+                                                            <li class="mb-3 col-3">
+                                                                <input type="checkbox" onchange="toogleCollaborator('<?= $user->User_email  ?>')">
+                                                                <?= $user->User_email  ?>
+                                                            </li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                </div>
                                                 <div class="mb-3 col-12 row-3">
                                                     <label for="SubAct_name">Descripción</label>
-                                                    <input type="text" class="form-control" id="SubAct_name" name="SubAct_name" required>
+                                                    <input type="text" class="form-control" id="description" name="description" required>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" id="btn-submit" form="objActivitiesForm" class="btn btn-primary mx-auto w-50">Eviar</button>
+                                        <button type="button" onclick="sendNotification()" id="btn-submit" class="btn btn-primary mx-auto w-50">Enviar</button>
                                     </div>
                                 </div>
                             </div>

@@ -26,6 +26,42 @@ var assignmentAction = 0;
 var formData = new Object();
 var selectInsertOrUpdate = true;
 
+let collaborators = [];
+
+function toogleCollaborator(email) {
+    const isExists = !!collaborators.find(collaborator => collaborator === email);
+    if (isExists) collaborators = collaborators.filter(collaborator => collaborator !== email)
+    else collaborators.push(email);
+}
+
+function sendNotification() {
+    showPreload();
+    url = URL_ROUTE + 'notification';
+    const form = SingletonClassSTFormEmail.getInstance();
+    const formData = form.getDataForm();
+    formData['collaborators'] = collaborators.join(',');
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    }).then(response => response.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            if (response[dataResponse] == 200) {
+                console.log(response[dataModel]);
+                TOASTS.toastView("", "", "Notificacion enviada con éxito", 0);
+                $(emailModal).modal("hide");
+            } else {
+                console.log(arMessages[0]);
+            }
+            form.inputButtonEnable();
+            hidePreload();
+        });
+}
+
 function create(formData) {
     url = URL_ROUTE + arRoutes[0];
     fetch(url, {
@@ -294,6 +330,8 @@ function changePercent() {
         }
     });
 }
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
     changePercent();

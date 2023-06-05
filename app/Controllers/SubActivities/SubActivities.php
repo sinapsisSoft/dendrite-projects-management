@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\SubActivities;
 
 use App\Controllers\BaseController;
@@ -8,8 +9,10 @@ use App\Models\UserStatusModel;
 use App\Models\UserModel;
 use App\Models\ActivitiesModel;
 use App\Models\PrioritiesModel;
+use App\Utils\Email;
 
-class SubActivities extends BaseController{
+class SubActivities extends BaseController
+{
     private $objModel;
     private $primaryKey;
     private $nameModel;
@@ -23,7 +26,8 @@ class SubActivities extends BaseController{
         $this->activities = new ActivitiesModel();
     }
 
-    public function show(){
+    public function show()
+    {
         $userstatus = new UserStatusModel();
         $priorities = new PrioritiesModel();
         $user = new UserModel();
@@ -51,7 +55,32 @@ class SubActivities extends BaseController{
         return view('subactivities/subactivities', $data);
     }
 
-    public function create(){
+    public function sendNotification()
+    {
+        if ($this->request->isAJAX()) {
+            $emailObject = new Email();
+            $subject = $this->request->getVar('subject');
+            $link = $this->request->getVar('link');
+            $description = $this->request->getVar('description');
+            $collaborators = $this->request->getVar('collaborators');
+            $emails = explode(',', $collaborators);
+            $dataEmail = ["subject" => $subject, "message" => $link . "\n" . $description];
+            foreach ($emails as $email) {
+                $emailObject->sendEmail($dataEmail, $email);
+            }
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['csrf'] = csrf_hash();
+        } else {
+            $data['message'] = 'Error Ajax';
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = '';
+        }
+        return json_encode($data);
+    }
+
+    public function create()
+    {
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL);
             if ($this->objModel->insert($dataModel)) {
