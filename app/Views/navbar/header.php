@@ -78,7 +78,7 @@
               <!-- ============================================================== -->
               <!-- create new -->
               <!-- ============================================================== -->
-              <li class="nav-item dropdown">
+              <!-- <li class="nav-item dropdown">
                 <a
                   class="nav-link dropdown-toggle"
                   href="#"
@@ -102,11 +102,11 @@
                     <a class="dropdown-item" href="#">Something else here</a>
                   </li>
                 </ul>
-              </li>
+              </li> -->
               <!-- ============================================================== -->
               <!-- Search -->
               <!-- ============================================================== -->
-              <li class="nav-item search-box">
+              <!-- <li class="nav-item search-box">
                 <a
                   class="nav-link waves-effect waves-dark"
                   href="javascript:void(0)"
@@ -120,7 +120,7 @@
                   />
                   <a class="srh-btn"><i class="mdi mdi-window-close"></i></a>
                 </form>
-              </li>
+              </li> -->
             </ul>
             <!-- ============================================================== -->
             <!-- Right side toggle and nav items -->
