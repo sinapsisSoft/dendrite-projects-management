@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 31-05-2023 a las 19:51:13
+-- Tiempo de generación: 08-06-2023 a las 21:39:13
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.0.26
 
@@ -44,14 +44,15 @@ CREATE TABLE IF NOT EXISTS `activities` (
   KEY `activities_status` (`Stat_id`),
   KEY `activities_project_product` (`Project_product_id`),
   KEY `activities_approvalcode` (`Activi_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `activities`
 --
 
 INSERT INTO `activities` (`Activi_id`, `Activi_name`, `Activi_code`, `Activi_observation`, `Activi_startDate`, `Activi_endDate`, `Activi_link`, `Activi_codeMiigo`, `Activi_codeSpectra`, `Activi_codeDelivery`, `Activi_percentage`, `Stat_id`, `Project_product_id`, `updated_at`, `created_at`) VALUES
-(26, 'sinapsis', 'ACT_026', 'grande', '2023-05-31', '2023-05-17', 'git', '125', '45', 78, '100', 1, 22, '2023-05-31 17:07:19', '2023-05-29 10:54:27');
+(27, 'danna', 'ACT_027', 'grande', '2023-06-02', '2023-06-01', 'git', '125', '45', 78, '100', 1, 23, '0000-00-00 00:00:00', '2023-06-01 14:10:12'),
+(28, 'grabacion', 'ACT_028', 'DESCRIPCION', '2023-06-06', '2023-06-06', 'git', '', '', 0, '100', 1, 24, '0000-00-00 00:00:00', '2023-06-06 11:47:12');
 
 -- --------------------------------------------------------
 
@@ -94,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `brand` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Brand_id`),
   KEY `brand_client` (`Client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `brand`
@@ -103,7 +104,8 @@ CREATE TABLE IF NOT EXISTS `brand` (
 INSERT INTO `brand` (`Brand_id`, `Brand_name`, `Brand_description`, `Client_id`, `updated_at`, `created_at`) VALUES
 (14, 'postobon', 'gaseosas', 2, '0000-00-00 00:00:00', '2023-05-25 15:50:08'),
 (15, 'pepsi', 'fria', 2, '0000-00-00 00:00:00', '2023-05-25 16:03:18'),
-(16, 'cocacola', 'gaseosas', 2, '0000-00-00 00:00:00', '2023-05-25 16:13:34');
+(16, 'cocacola', 'gaseosas', 2, '0000-00-00 00:00:00', '2023-05-25 16:13:34'),
+(18, 'dentrite', 'dettale 1', 19, '0000-00-00 00:00:00', '2023-06-06 11:42:28');
 
 -- --------------------------------------------------------
 
@@ -154,16 +156,17 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `client_docType` (`DocType_id`),
   KEY `client_state` (`Stat_id`),
   KEY `client_contry` (`Country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `client`
 --
 
 INSERT INTO `client` (`Client_id`, `Client_name`, `Client_identification`, `Client_email`, `Client_phone`, `Client_address`, `DocType_id`, `Comp_id`, `Stat_id`, `Country_id`, `updated_at`, `created_at`) VALUES
-(2, 'GIA', '152478930', 'pepe@gmail.com', '3025897144', 'zaragocilla', 1, 1, 1, 1, NULL, '2023-03-23 12:13:46'),
+(2, 'danna', '123', 'sinapsis@gmail.com', '3025897144', 'zaragocilla', 2, 1, 1, 1, NULL, '2023-03-23 12:13:46'),
 (3, 'ABBOT', '90126111', 'ABBOTT@gmail.com', '3025897144', 'zaragocilla', 6, 1, 1, 1, NULL, '2023-05-05 11:08:56'),
-(18, 'abbott', '54', 'sinapsis@gmail.com', '3025897144', 'zaragocilla', 6, 1, 1, 1, NULL, '2023-05-18 19:03:47');
+(19, 'sinapsis', '123459', 'sinapsis34@gmail.com', '6629845', 'bogota', 6, 1, 1, 1, NULL, '2023-06-06 11:41:30'),
+(20, 'Elmys', '901261118', 'elmys@gmail.com', '895', 'zaragocilla', 3, 1, 1, 1, NULL, '2023-06-08 15:58:07');
 
 -- --------------------------------------------------------
 
@@ -312,7 +315,14 @@ CREATE TABLE IF NOT EXISTS `email` (
   `Email_puerto` varchar(150) NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`Email_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `email`
+--
+
+INSERT INTO `email` (`Email_id`, `Email_user`, `Email_pass`, `Email_host`, `Email_puerto`, `updated_at`) VALUES
+(1, 'contacto@restaurantebareltransportador.com', 'Transportador2021*', 'smtp.hostinger.co', '587', '2023-06-04 23:58:38');
 
 -- --------------------------------------------------------
 
@@ -338,6 +348,27 @@ INSERT INTO `filing` (`Filing_id`, `Filing_name`, `Filing_description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `mail`
+--
+
+DROP TABLE IF EXISTS `mail`;
+CREATE TABLE IF NOT EXISTS `mail` (
+  `Mail_id` int NOT NULL AUTO_INCREMENT,
+  `Mail_user` varchar(150) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`Mail_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `mail`
+--
+
+INSERT INTO `mail` (`Mail_id`, `Mail_user`, `updated_at`) VALUES
+(5, 'st.fullstack@gmail.com', '2023-06-04 23:51:40');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `manager`
 --
 
@@ -350,14 +381,15 @@ CREATE TABLE IF NOT EXISTS `manager` (
   `Client_id` int UNSIGNED NOT NULL,
   PRIMARY KEY (`Manager_id`),
   KEY `manager_client` (`Client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `manager`
 --
 
 INSERT INTO `manager` (`Manager_id`, `Manager_name`, `Manager_email`, `Manager_phone`, `Client_id`) VALUES
-(15, 'BEATRIZ GOMEZ', 'BEATRIZ@GMAIL.COM', '123', 2);
+(15, 'BEATRIZ GOMEZ', 'BEATRIZ@GMAIL.COM', '123', 2),
+(16, 'laura', 'laura56@gmail.com', '3046734992', 19);
 
 -- --------------------------------------------------------
 
@@ -373,14 +405,15 @@ CREATE TABLE IF NOT EXISTS `manager_brands` (
   PRIMARY KEY (`Manager_brand_id`),
   KEY `manager_brands_brand` (`Brand_id`),
   KEY `manager_brands_manager` (`Manager_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `manager_brands`
 --
 
 INSERT INTO `manager_brands` (`Manager_brand_id`, `Manager_id`, `Brand_id`) VALUES
-(7, 15, 14);
+(7, 15, 14),
+(8, 16, 18);
 
 -- --------------------------------------------------------
 
@@ -482,14 +515,15 @@ CREATE TABLE IF NOT EXISTS `priorities` (
   `Priorities_name` varchar(100) NOT NULL,
   `Priorities_color` varchar(20) NOT NULL,
   PRIMARY KEY (`Priorities_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `priorities`
 --
 
 INSERT INTO `priorities` (`Priorities_id`, `Priorities_name`, `Priorities_color`) VALUES
-(6, 'importante', '#c92696');
+(6, 'importante', '#c92696'),
+(9, 'media', '#ebfb04');
 
 -- --------------------------------------------------------
 
@@ -515,14 +549,15 @@ CREATE TABLE IF NOT EXISTS `product` (
   KEY `product_uni` (`Unit_id`),
   KEY `product_filing` (`Filing_id`),
   KEY `product_brand` (`Prod_brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `product`
 --
 
 INSERT INTO `product` (`Prod_code`, `Prod_id`, `Prod_name`, `Prod_description`, `Prod_value`, `TypePro_id`, `Unit_id`, `Prod_brand_id`, `Filing_id`, `updated_at`, `created_at`) VALUES
-('PROd_02', 15, 'pagina', 'podcats grabación de audio y video', 20, 5, 1, 2, 1, NULL, '2023-05-28 10:51:26');
+('PROd_02', 15, 'pagina', 'podcats grabación de audio y video', 20, 5, 1, 2, 1, NULL, '2023-05-28 10:51:26'),
+('PROd_03', 16, 'pagina web', 'web', 5, 6, 1, 3, 1, NULL, '2023-06-06 11:40:32');
 
 -- --------------------------------------------------------
 
@@ -536,14 +571,15 @@ CREATE TABLE IF NOT EXISTS `product_brand` (
   `Prod_brand_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Prod_brand_description` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`Prod_brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `product_brand`
 --
 
 INSERT INTO `product_brand` (`Prod_brand_id`, `Prod_brand_name`, `Prod_brand_description`) VALUES
-(2, 'honda', 'motos');
+(2, 'honda', 'motos'),
+(3, 'bellanew', 'anticonceptivo oral');
 
 -- --------------------------------------------------------
 
@@ -557,14 +593,15 @@ CREATE TABLE IF NOT EXISTS `product_type` (
   `TypePro_name` varchar(100) NOT NULL,
   `TypePro_description` varchar(200) NOT NULL,
   PRIMARY KEY (`TypePro_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `product_type`
 --
 
 INSERT INTO `product_type` (`TypePro_id`, `TypePro_name`, `TypePro_description`) VALUES
-(5, 'fisico', 'hola');
+(5, 'fisico', 'hola'),
+(6, 'virtual', 'producto web');
 
 -- --------------------------------------------------------
 
@@ -628,15 +665,15 @@ CREATE TABLE IF NOT EXISTS `project` (
   KEY `project_brand` (`Brand_id`),
   KEY `project_manager` (`Manager_id`),
   KEY `Priorities_id` (`Priorities_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `project`
 --
 
 INSERT INTO `project` (`Project_id`, `Project_code`, `Project_name`, `Manager_id`, `Brand_id`, `Project_purchaseOrder`, `Project_ddtStartDate`, `Project_ddtEndDate`, `Project_startDate`, `Project_estimatedEndDate`, `Project_activitiEndDate`, `Project_observation`, `Project_link`, `Project_percentage`, `Client_id`, `Country_id`, `User_id`, `Project_commercial`, `Stat_id`, `Priorities_id`, `updated_at`, `created_at`) VALUES
-(17, 'PRO_017', 'CREACIÓN DE MAIL Y VIDEO, IMPLICAIONES METABOLICAS PARA ABBOTT', 15, 14, '125', '2023-05-28', '2023-05-28', '2023-05-28', '2023-05-28', '2023-05-28', 'YTG', 'git', NULL, 2, 1, 218, '222', 1, 6, '2023-05-30 06:58:26', '2023-05-28 09:16:09'),
-(18, 'PRO_018', 'inventario', 15, 15, 'fcwsef', '2023-05-11', '2023-05-29', '2023-05-04', '2023-05-06', '2023-05-22', 'descripción', 'git', NULL, 2, 1, 216, '222', 4, 6, '2023-05-30 06:58:58', '2023-05-29 10:42:40');
+(31, 'PRO_031', 'CREACIÓN DE MAIL Y VIDEO, IMPLICAIONES METABOLICAS PARA ABBOTT', 15, 16, '125', '2023-06-15', '2023-06-22', '2023-06-16', '2023-06-17', '2023-06-21', 'descripción', 'git', NULL, 2, 1, 223, '222', 1, 6, '0000-00-00 00:00:00', '2023-06-01 14:05:07'),
+(43, 'PRO_043', 'CREACIÓN DE MAIL Y VIDEO, IMPLICAIONES METABOLICAS PARA ABBOTT', 16, 18, '987', '2023-06-06', '2023-06-06', '2023-06-06', '2023-06-29', '2023-06-23', 'descripción', 'git', NULL, 19, 1, 1, '222', 1, 9, '0000-00-00 00:00:00', '2023-06-06 11:44:53');
 
 -- --------------------------------------------------------
 
@@ -658,14 +695,15 @@ CREATE TABLE IF NOT EXISTS `project_product` (
   KEY `project_product_prod` (`Prod_id`),
   KEY `project_product_project` (`Project_id`),
   KEY `project_product_status` (`Stat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `project_product`
 --
 
 INSERT INTO `project_product` (`Project_product_id`, `Project_productAmount`, `Project_id`, `Prod_id`, `Project_product_percentage`, `Stat_id`, `updated_at`, `created_at`) VALUES
-(22, '11', 17, 15, '0', 12, '0000-00-00 00:00:00', '2023-05-29 10:53:36');
+(23, '11', 31, 15, '0', 12, '0000-00-00 00:00:00', '2023-06-01 14:09:51'),
+(24, '10', 43, 15, '0', 12, '0000-00-00 00:00:00', '2023-06-06 11:46:25');
 
 -- --------------------------------------------------------
 
@@ -863,14 +901,15 @@ CREATE TABLE IF NOT EXISTS `subactivities` (
   KEY `subactivities_stad` (`Stat_id`),
   KEY `subactivities_activi` (`Activi_id`),
   KEY `Priorities_id` (`Priorities_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `subactivities`
 --
 
 INSERT INTO `subactivities` (`SubAct_id`, `SubAct_name`, `User_id`, `SubAct_estimatedEndDate`, `Stat_id`, `Activi_id`, `Priorities_id`, `SubAct_description`, `SubAct_percentage`) VALUES
-(3, 'pelicula', 1, '2023-05-11', 14, 26, 6, 'DESCRIPCIÓN', '100');
+(4, 'pelicula', 1, '2023-06-23', 14, 27, 6, 'DESCRIPCIÓN', '100'),
+(5, 'escribir guion', 1, '2023-06-07', 14, 28, 6, 'DESCRIPCIÓN', '100');
 
 -- --------------------------------------------------------
 
@@ -902,6 +941,7 @@ INSERT INTO `unit` (`Unit_id`, `Unit_name`, `Unit_symbol`) VALUES
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `User_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `User_name` varchar(100) NOT NULL,
   `User_email` varchar(100) NOT NULL,
   `User_password` varchar(255) NOT NULL,
   `Comp_id` int UNSIGNED NOT NULL,
@@ -914,22 +954,19 @@ CREATE TABLE IF NOT EXISTS `user` (
   KEY `user_status` (`Stat_id`),
   KEY `user_company` (`Comp_id`),
   KEY `Role_id` (`Role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=223 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `user`
 --
 
-INSERT INTO `user` (`User_id`, `User_email`, `User_password`, `Comp_id`, `Stat_id`, `Role_id`, `updated_at`, `created_at`) VALUES
-(1, 'dannacontreras53@gmail.com', '$2y$10$Yd4kbZuUh3i2XwORKvx/7eUkF9tcIYCHLVH9F6Gp2IwQ3TOxj5zym', 1, 4, 7, '2023-03-13 15:58:06', '2023-01-30 22:10:44'),
-(212, 'diehercasvan@gmail.com', '$2y$10$KnJWFxVif2qpEOfZVYPYledtmu7wAI6gkgiwCoRKHsS3jiEhOqA3m', 1, 1, 2, NULL, '2023-02-25 22:25:58'),
-(216, 'diehercas@gmail.com', '$2y$10$x1tS3Vn65bSGt4V3F36d/u92/dYbU5ZPm.9Knc0vEzDbuUmd.D/8q', 1, 1, 7, '2023-04-10 21:36:08', '2023-02-27 14:28:28'),
-(217, 'pequitas@gmail.com', '$2y$10$909LAeXkPJhBWpvvvW5pPupoU/bgS9qU5Rtn/bvL5yvGPgggh.HWG', 1, 1, 1, '2023-02-28 03:09:52', '2023-02-27 14:51:10'),
-(218, 'd.sinapsis@sinapsis.com.co', '$2y$10$RQpl4H4/GCcNI0GZUCr8iuDww4bFeEdAtzTYdR/C3s7GklFXh6y1e', 1, 1, 1, NULL, '2023-02-27 21:15:21'),
-(219, 'diegoaaa@gmail.com', '$2y$10$xeIcp/EPluOsmU.m7B1sde.Hcg9tGI2FWuYSWfskuRr95oaxiKGwm', 1, 1, 1, '0000-00-00 00:00:00', '2023-03-07 14:49:03'),
-(220, 'sinapsis@gmail.com', '$2y$10$ediAxyuSP0zWSVXS998XluZ3sAQaBUlzeCo5RfMAq.Rnni1Bhmd2q', 1, 1, 1, '0000-00-00 00:00:00', '2023-03-07 15:10:02'),
-(221, 'sinapsittt@gmail.com', '$2y$10$LfH.q4DpMbBJi7N3m4H/Te5sd6yfkVC6rv5qo3aYKJjDQ4W6fCRvG', 1, 1, 2, '0000-00-00 00:00:00', '2023-03-07 15:10:46'),
-(222, 'andresp@gmail.com', '$2y$10$uXvXZC3To03Dq0Rw3SsaT.spcokgO6ORf1.FJfLSDvV0VcVMXsEiK', 1, 1, 9, '0000-00-00 00:00:00', '2023-04-26 11:29:59');
+INSERT INTO `user` (`User_id`, `User_name`, `User_email`, `User_password`, `Comp_id`, `Stat_id`, `Role_id`, `updated_at`, `created_at`) VALUES
+(1, 'danna contreras', 'dannacontreras53@gmail.com', '$2y$10$ijaEIKR4nrcpVXNGpYfJU.ov27yqnuhMvPmSS7QFj.sMzrsXUvR02', 1, 1, 7, '2023-06-05 14:50:39', '2023-01-30 22:10:44'),
+(212, 'diego casalla', 'diehercasvan@gmail.com', '$2y$10$HIcq9Q75fmXBLLkh3f4Oyew7p4dLfvAFy/d9zEaVld9HxuOyX4wDG', 1, 1, 2, '2023-06-05 14:51:07', '2023-02-25 22:25:58'),
+(218, 'sinapsis', 'd.sinapsis@sinapsis.com.co', '$2y$10$g1az6gGb6GgIvVPpSlspG.7xhuTlv5DRWkf.3U308xCf2S72u8Cxy', 1, 1, 1, '2023-06-05 14:51:46', '2023-02-27 21:15:21'),
+(222, 'andres puello', 'andresp@gmail.com', '$2y$10$bWxxskTxttFmKp1gMKpt1.4p.30Gy2XZAQAAKg1WumjIxQFEg/0BW', 1, 1, 9, '2023-06-05 14:52:29', '2023-04-26 11:29:59'),
+(223, 'andres osorio', 'andrespuello53@gmail.com', '$2y$10$J6aPDvcaBSkU1ldQiSmZduXt0yXIvMHCxal8nQ5FkQf0JIN6rxzoW', 1, 1, 1, '2023-06-05 14:52:47', '2023-06-01 13:15:47'),
+(224, 'antonella', 'antonella@gmail.com', '$2y$10$7U537C5ySlp.TVZJnTftluEZtcJSkYQlqx4toro10A.ZrmMg5Gm2m', 1, 1, 1, '0000-00-00 00:00:00', '2023-06-05 09:23:55');
 
 --
 -- Restricciones para tablas volcadas

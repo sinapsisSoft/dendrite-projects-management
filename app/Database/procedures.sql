@@ -1,4 +1,4 @@
-DELIMITER $$
+
 --
 -- Procedimientos
 --
@@ -100,7 +100,7 @@ P.Project_ddtStartDate,
 CT.Country_name,
 P.Project_ddtEndDate,
 C.Client_name,
-U.User_email,
+U.User_name,
 P.Project_startDate,
 P.Project_estimatedEndDate,
 P.Project_activitiEndDate,
@@ -169,7 +169,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_all_users`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_users` ()   BEGIN
-    SELECT User_id,User_email,CO.Comp_name,ST.Stat_name,RO.Role_name,USU.created_at AS Created_at FROM user USU 
+    SELECT User_id,User_name,User_email,CO.Comp_name,ST.Stat_name,RO.Role_name,USU.created_at AS Created_at FROM user USU 
     INNER JOIN status ST ON USU.Stat_id =ST.Stat_id
     INNER JOIN role RO ON USU.Role_id=RO.Role_id
     INNER JOIN company CO ON USU.Comp_id =CO.Comp_id
@@ -179,14 +179,14 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_select_all_users_collaborator`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_users_collaborator` ()   BEGIN
 
-SELECT U.User_id, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id WHERE R.Role_name = "Colaborador";
+SELECT U.User_id, U.User_name, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id WHERE R.Role_name = "Colaborador";
 
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_all_users_comercial`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_users_comercial` ()   BEGIN
 
-SELECT U.User_id, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id WHERE R.Role_name = "Comercial";
+SELECT U.User_name, U.User_id, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id WHERE R.Role_name = "Comercial";
 
 END$$
 
@@ -231,5 +231,3 @@ SELECT @porcent;
 update activities set Activi_percentage = @porcent
 WHERE Activi_id = activity_id;
 END$$
-
-DELIMITER ;
