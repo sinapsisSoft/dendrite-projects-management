@@ -181,6 +181,11 @@ function showModal(type) {
     if (type == 1) {
         sTForm = SingletonClassSTForm.getInstance();
         sTForm.inputButtonEnable();
+        document.getElementById('Stat_id').setAttribute('disabled', true)
+        document.getElementById('Comp_id').setAttribute('disabled', true)
+    } else {
+        document.getElementById('Stat_id').setAttribute('disabled', false)
+        document.getElementById('Comp_id').setAttribute('disabled', false);
     }
     sTForm.clearDataForm();
     $(myModalObjec).modal("show");

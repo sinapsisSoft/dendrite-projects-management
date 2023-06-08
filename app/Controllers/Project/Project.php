@@ -11,6 +11,7 @@ use App\Models\UserModel;
 use App\Models\UserStatusModel;
 use App\Models\ManagerModel;
 use App\Models\BrandModel;
+use App\Models\MailModel;
 use App\Models\PrioritiesModel;
 use App\Utils\Email;
 
@@ -62,7 +63,9 @@ class Project extends BaseController
     {
         $codeProject = '';
         $user = new UserModel();
+        $mail = new MailModel();
         $emailSetting = new Email();
+        $mainMail = $mail->findAll()[0];
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL, $codeProject);
             if ($this->objModel->insert($dataModel)) {
@@ -76,7 +79,10 @@ class Project extends BaseController
                 $dataEmail = ["subject"=>"Se ha creado un nuevo proyecto","message"=>$message];
                 $dataModel['Project_id'] = $id;
                 $this->objModel->update($id, array_merge($dataModel, ["Project_code" => $codeProject]));
-                $emailSetting->sendEmail($dataEmail, $email);
+                $emailSetting->sendEmail($dataEmail, $email["User_email"]);
+                if($mainMail != null){
+                    $emailSetting->sendEmail($dataEmail, $mainMail["Mail_user"]);
+                }
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['data'] = $dataModel;
@@ -89,7 +95,7 @@ class Project extends BaseController
         } else {
             $data['message'] = 'Error Ajax';
             $data['response'] = ResponseInterface::HTTP_CONFLICT;
-            $data['data'] = '';
+            $data['data'] = $mainMail;
         }
         return json_encode($data);
     }

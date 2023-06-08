@@ -206,7 +206,7 @@
                                             </option>
                                             <?php foreach ($commercial as $user) : ?>
                                                 <option value="<?= $user->User_id; ?>">
-                                                    <?= $user->User_email; ?>
+                                                    <?= $user->User_name; ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
@@ -257,7 +257,7 @@
                                             </option>
                                             <?php foreach ($users as $user) : ?>
                                                 <option value="<?= $user->User_id; ?>">
-                                                    <?= $user->User_email; ?>
+                                                    <?= $user->User_name; ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>

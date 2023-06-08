@@ -64,7 +64,7 @@
                                 <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                                 <div class="mb-3 col-8">
                                     <label for="Email_user">Correo</label>
-                                    <input type="text" class="form-control" id="Email_user" name="Email_user" required value="<?= $emails == null ? '' : $emails['Email_user']?>">
+                                    <input type="email" class="form-control" id="Email_user" name="Email_user" required value="<?= $emails == null ? '' : $emails['Email_user']?>">
                                 </div>
                                 <div class="mb-3 col-4">
                                     <label for="Email_pass">Contraseña</label>

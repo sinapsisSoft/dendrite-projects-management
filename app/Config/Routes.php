@@ -241,7 +241,7 @@ $routes->group('subactivities', ['namespace' => 'App\Controllers\SubActivities']
     $routes->post('edit', 'SubActivities::edit');
     $routes->post('update', 'SubActivities::update');
     $routes->post('notification', 'SubActivities::sendNotification');
-
+    $routes->post('finish', 'SubActivities::finishTask');
 });
 
 $routes->group('priorities', ['namespace' => 'App\Controllers\Priorities'], function ($routes) {

@@ -162,6 +162,7 @@ class User extends BaseController
     {
         $data = [
             'User_id' => $getShares,
+            'User_name' => $this->request->getVar('User_name'),
             'User_email' => $this->request->getVar('User_email'),
             'User_password' => password_hash($this->request->getVar('User_password'), PASSWORD_BCRYPT),
             'Comp_id' => $this->request->getVar('Comp_id'),

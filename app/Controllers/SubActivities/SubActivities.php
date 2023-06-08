@@ -8,6 +8,7 @@ use App\Models\SubActivitiesModel;
 use App\Models\UserStatusModel;
 use App\Models\UserModel;
 use App\Models\ActivitiesModel;
+use App\Models\MailModel;
 use App\Models\PrioritiesModel;
 use App\Utils\Email;
 
@@ -24,6 +25,32 @@ class SubActivities extends BaseController
         $this->primaryKey = 'SubAct_id';
         $this->nameModel = 'subactivities';
         $this->activities = new ActivitiesModel();
+    }
+
+    public function finishTask()
+    {
+        if ($this->request->isAJAX()) {
+            $email = new Email();
+            $mail = new MailModel();
+            $mainMail = $mail->findAll()[0];
+            $status = new UserStatusModel();
+            $activityId = $this->request->getVar('id');
+            $subActivitie = $this->objModel->where('SubAct_id', $activityId)->first();
+            $finishStatus = $status->where('Stat_name', 'Realizado')->first();
+            $subActivitie['Stat_id'] = $finishStatus["Stat_id"];
+            $subActivitie["SubAct_percentage"] = "100";
+            $dataEmail = ["subject" => "Se ha finalizado una subactividad", "message" => "Se ha finalizado la subactividad " . $subActivitie["SubAct_name"]];
+            $email->sendEmail($dataEmail, $mainMail["Mail_user"]);
+            $this->activities->sp_update_percent_activity($subActivitie['Activi_id']);
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['csrf'] = csrf_hash();
+        } else {
+            $data['message'] = 'Error Ajax';
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = '';
+        }
+        return json_encode($data);
     }
 
     public function show()

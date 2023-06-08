@@ -239,7 +239,7 @@
                                                                     <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 4.697v4.974A4.491 4.491 0 0 0 12.5 8a4.49 4.49 0 0 0-1.965.45l-.338-.207L16 4.697Z" />
                                                                     <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5Z" />
                                                                 </svg></button>
-                                                            <button type="button" class="btn btn-outline-primary" onclick="showFinModal(1)">
+                                                            <button type="button" class="btn btn-outline-primary" onclick="getDataIdFinish(<?= $obj->SubAct_id ?>)">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
                                                                     <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
                                                                     <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
@@ -290,7 +290,7 @@
                                                         </option>
                                                         <?php foreach ($collaborators as $user) : ?>
                                                             <option value="<?= $user->User_id ?>">
-                                                                <?= $user->User_email  ?>
+                                                                <?= $user->User_name  ?>
                                                             </option>
                                                         <?php endforeach; ?>
                                                     </select>
@@ -365,7 +365,7 @@
                                                         <?php foreach ($users as $user) : ?>
                                                             <li class="mb-3 col-3">
                                                                 <input type="checkbox" onchange="toogleCollaborator('<?= $user->User_email  ?>')">
-                                                                <?= $user->User_email  ?>
+                                                                <?= $user->User_name  ?>
                                                             </li>
                                                         <?php endforeach; ?>
                                                     </ul>
@@ -395,44 +395,38 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body ">
-                                        <form class="form-horizontal mt-3" id="objFinForm" action="" onsubmit="sendData(event,this.id)">
+                                        <form class="form-horizontal mt-3" id="objFinForm">
                                             <div class="row">
-                                                <input type="hidden" class="form-control" id="subAct_id" name="SubAct_id" value="0">
+                                                <input type="hidden" class="form-control" id="finish_id" name="SubAct_id" value="0">
                                                 <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                                                 <div class="mb-3 col-4">
-                                                    <label for="SubAct_name">Nombre de la tarea</label>
-                                                    <input type="text" class="form-control" disabled id="SubAct_name" name="SubAct_name" value="" required>
+                                                    <label for="finish_name">Nombre de la tarea</label>
+                                                    <input type="text" class="form-control" disabled id="finish_name" name="SubAct_name" value="" required>
                                                 </div>
                                                 <div class="mb-3 col-4">
-                                                    <label for="SubAct_estimatedEndDate">Fecha de entrega</label>
-                                                    <input type="text" class="form-control" disabled id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" value="" required>
+                                                    <label for="finish_estimatedEndDate">Fecha estimada de entrega</label>
+                                                    <input type="date" class="form-control" disabled id="finish_estimatedEndDate" name="SubAct_estimatedEndDate" value="" value="" required>
                                                 </div>
                                                 <div class="mb-3 col-4">
-                                                    <label for="Stat_name">Estado</label>
-                                                    <input type="text" class="form-control" disabled id="Stat_name" name="Stat_name" value="" required>
+                                                    <label for="Stat_id">Estado</label>
+                                                    <select class="form-control form-select" id="finish_stat_id" name="Stat_id" required disabled>
+                                                        <?php foreach ($userstatuses as $userstatus) : ?>
+                                                            <option value="<?= $userstatus['Stat_id']; ?>">
+                                                                <?= $userstatus['Stat_name']; ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
                                                 </div>
                                                 <div class="mb-3 col-12">
-                                                    <label for="SubAct_description">Descripción</label>
-                                                    <input type="text" class="form-control" disabled id="SubAct_description" name="SubAct_description" value="" required>
-                                                </div>
-                                                <div class="mb-3 col-4">
-                                                    <label for="SubAct_estimatedEndDate">Fecha de entrga final </label>
-                                                    <input type="date" class="form-control" disabled id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" required>
-                                                </div>
-                                                <div class="mb-3 col-4">
-                                                    <label for="SubAct_estimatedEndDate">Link documento entrega drive</label>
-                                                    <input type="date" class="form-control" disabled id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" required>
-                                                </div>
-                                                <div class="mb-3 col-4">
-                                                    <label for="SubAct_estimatedEndDate">Hora realizada</label>
-                                                    <input type="date" class="form-control" disabled id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" required>
+                                                    <label for="finish_description">Descripción</label>
+                                                    <input type="text" class="form-control" disabled id="finish_description" name="SubAct_description" value="" required>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" id="btn-submit" form="objActivitiesForm" class="btn btn-primary mx-auto w-50">Guardar</button>
+                                        <button type="submit" onclick="finish()" form="objActivitiesForm" class="btn btn-primary mx-auto w-50">Guardar</button>
                                     </div>
                                 </div>
                             </div>

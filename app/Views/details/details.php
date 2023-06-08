@@ -188,8 +188,8 @@
                                         <input type="text" class="form-control" disabled id="Country_name" name="Country_name" value="<?= $data["project"]->Country_name ?>" required>
                                     </div>
                                     <div class="mb-3 col-3">
-                                        <label for="User_email">Nombre del Comercial</label>
-                                        <input type="text" class="form-control" disabled id="User_email" name="User_email" value="<?= $data["project"]->User_email ?>" required>
+                                        <label for="User_name">Nombre del Comercial</label>
+                                        <input type="text" class="form-control" disabled id="User_name" name="User_name" value="<?= $data["project"]->User_name ?>" required>
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Project_startDate">Fecha de Creación</label>

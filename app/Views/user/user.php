@@ -166,7 +166,11 @@
                                 <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
                                     <input type="hidden" class="form-control" id="User_id" name="User_id" value="0">
                                     <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                                    <div class="mb-3 col-12">
+                                    <div class="mb-3 col-6">
+                                        <label for="User_name">Nombre</label>
+                                        <input type="text" class="form-control" disabled id="User_name" placeholder="nombre" required  >
+                                    </div>
+                                    <div class="mb-3 col-6">
                                         <label for="User_email">Usuario</label>
                                         <input type="email" class="form-control" disabled id="User_email" placeholder="user@example.com" required  >
                                     </div>
@@ -181,7 +185,7 @@
                                     <div class="mb-3 col-4">
                                         <label for="Comp_id">Empresa</label>
                                         <select class="form-select form-select-sm" id="Comp_id" name="Comp_id" aria-label=".form-select-sm " required>
-                                            <option value="" disabled selected>Escoja una opción</option>
+                                            <option value="" disabled selected>Seleccione...</option>
                                             <?php foreach ($companys as $company) : ?>
                                                 <option value="<?= $company['Comp_id']; ?>"> <?= $company['Comp_name']; ?></option>
                                             <?php endforeach; ?>
@@ -190,7 +194,7 @@
                                     <div class="mb-3 col-4">
                                         <label for="Role_id">Rol de usuario</label>
                                         <select class="form-select form-select-sm" id="Role_id" name="Role_id" aria-label=".form-select-sm " required>
-                                            <option value="" disabled selected>Escoja una opción</option>
+                                            <option value="" disabled selected>Seleccione...</option>
                                             <?php foreach ($roles as $role) : ?>
                                                 <option value="<?= $role['Role_id']; ?>"> <?= $role['Role_name']; ?></option>
                                             <?php endforeach; ?>
@@ -199,7 +203,7 @@
                                     <div class="mb-3 col-4">
                                         <label for="Stat_id">Estado de usuario</label>
                                         <select class="form-select form-select-sm" id="Stat_id" name="Stat_id" aria-label=".form-select-sm " required>
-                                            <option value="" disabled selected>Escoja una opción</option>
+                                            <option value="" disabled selected>Seleccione...</option>
                                             <?php foreach ($status as $statu) : ?>
                                                 <option value="<?= $statu->Stat_id; ?>"> <?= $statu->Stat_name; ?></option>
                                             <?php endforeach; ?>
