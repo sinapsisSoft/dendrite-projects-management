@@ -140,6 +140,12 @@
                     >
                   </li>
                   <li class="sidebar-item">
+                    <a href="/mail" class="sidebar-link"
+                      ><i class="mdi mdi-chevron-right"></i
+                      ><span class="hide-menu">Correo de correspondencia</span></a
+                    >
+                  </li>
+                  <li class="sidebar-item">
                     <a href="/priorities" class="sidebar-link"
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu"> Prioridades</span></a

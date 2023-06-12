@@ -4,14 +4,14 @@ $("#table_obj").DataTable();
 
 const arRoutes = AR_ROUTES_GENERAL;
 const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', 'Updated user ', 'The user was deleted');
-const ruteContent = "email/";
-const nameModel = 'emails';
+const ruteContent = "mail/";
+const nameModel = 'mails';
 const dataModel = 'data';
 const dataResponse = 'response';
 const dataMessages = 'message';
 const dataCsrf = 'csrf';
 
-const primaryId = 'Email_id';
+const primaryId = 'Mail_id';
 const URL_ROUTE = BASE_URL + ruteContent;
 
 const TOASTS = new STtoasts();
@@ -82,7 +82,7 @@ function update(formData) {
 function sendData(e, formObj) {
     let obj = formObj;
     sTForm = SingletonClassSTForm.getInstance();
-    selectInsertOrUpdate = document.getElementById("Email_id").value === '';
+    selectInsertOrUpdate = document.getElementById("Mail_id").value === '';
     if (sTForm.validateForm()) {
         showPreload();
         if (selectInsertOrUpdate) {

@@ -143,7 +143,7 @@
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Prod_brand_id">Marca</label>
-                                        <select name="Prod_brand_id" id="Prod_brand_id" class="form-control form-select" required>
+                                        <select name="Prod_brand_id" id="Prod_brand_id" class="form-control form-select">
                                             <option value="">
                                                 Seleccione...
                                             </option>

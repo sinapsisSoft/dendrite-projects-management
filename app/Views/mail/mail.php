@@ -54,30 +54,19 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    CREDENCIALES DE CORREO DE NOTIFICACIÓN
+                                    CORREO DE CORRESPONDENCIA
                                 </h5>
                             </div>
                             <div class="modal-header">
                             </div>
                             <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
-                                <input type="hidden" class="form-control" id="Email_id" name="Email_id" value="<?= $emails == null ? '' : $emails['Email_id']?>">
+                                <input type="hidden" class="form-control" id="Mail_id" name="Mail_id" value="<?= $mails == null ? '' : $mails['Mail_id']?>">
                                 <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                                 <div class="mb-3 col-8">
-                                    <label for="Email_user">Correo</label>
-                                    <input type="email" class="form-control" id="Email_user" name="Email_user" required value="<?= $emails == null ? '' : $emails['Email_user']?>">
+                                    <label for="Mail_user">Correo</label>
+                                    <input type="email" class="form-control" id="Mail_user" name="Mail_user" required value="<?= $mails == null ? '' : $mails['Mail_user'] ?>">
                                 </div>
-                                <div class="mb-3 col-4">
-                                    <label for="Email_pass">Contraseña</label>
-                                    <input type="text" class="form-control" id="Email_pass" name="Email_pass" required value="<?= $emails == null ? '' : $emails['Email_pass']?>">
-                                </div>
-                                <div class="mb-3 col-8">
-                                    <label for="Email_host">Host</label>
-                                    <input type="text" class="form-control" id="Email_host" name="Email_host" required value="<?= $emails == null ? '' : $emails['Email_host']?>">
-                                </div>
-                                <div class="mb-3 col-4">
-                                    <label for="Email_puerto">Puerto</label>
-                                    <input type="text" class="form-control" id="Email_puerto" name="Email_puerto" required value="<?= $emails == null ? '' : $emails['Email_puerto']?>">
-                                </div>
+                            </form>
                             </form>
                             <div class="modal-footer">
                                 <button type="submit" id="btn-submit" form="objForm" class="btn btn-primary mx-auto w-50">Guardar</button>
@@ -91,5 +80,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/email/email.controller.js"></script>
+    <script src="../controllers/mail/mail.controller.js"></script>
 </body>

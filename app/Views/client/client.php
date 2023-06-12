@@ -233,10 +233,7 @@
                                     </div>
                                     <div class="mb-3 col-4">
                                         <label for="Comp_id">Empresa</label>
-                                        <select name="Comp_id" id="Comp_id" class="form-control form-select" required>
-                                            <option value="">
-                                                Seleccione...
-                                            </option>
+                                        <select name="Comp_id" id="Comp_id" class="form-control form-select" required  disabled>
                                             <?php foreach ($companies as $company) : ?>
                                                 <option value="<?= $company['Comp_id'] ?>">
                                                     <?= $company['Comp_name'] ?>
@@ -247,9 +244,6 @@
                                     <div class="mb-3 col-4">
                                         <label for="Stat_id">Estado</label>
                                         <select name="Stat_id" id="Stat_id" class="form-control form-select" required>
-                                            <option value="">
-                                                Seleccione...
-                                            </option>
                                             <?php foreach ($userstatuses as $userstatus) : ?>
                                                 <option value="<?= $userstatus->Stat_id ?>">
                                                     <?= $userstatus->Stat_name  ?>

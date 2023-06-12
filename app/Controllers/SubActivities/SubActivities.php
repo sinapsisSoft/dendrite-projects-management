@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\SubActivities;
 
 use App\Controllers\BaseController;
@@ -7,9 +8,12 @@ use App\Models\SubActivitiesModel;
 use App\Models\UserStatusModel;
 use App\Models\UserModel;
 use App\Models\ActivitiesModel;
+use App\Models\MailModel;
 use App\Models\PrioritiesModel;
+use App\Utils\Email;
 
-class SubActivities extends BaseController{
+class SubActivities extends BaseController
+{
     private $objModel;
     private $primaryKey;
     private $nameModel;
@@ -23,7 +27,34 @@ class SubActivities extends BaseController{
         $this->activities = new ActivitiesModel();
     }
 
-    public function show(){
+    public function finishTask()
+    {
+        if ($this->request->isAJAX()) {
+            $email = new Email();
+            $mail = new MailModel();
+            $mainMail = $mail->findAll()[0];
+            $status = new UserStatusModel();
+            $activityId = $this->request->getVar('id');
+            $subActivitie = $this->objModel->where('SubAct_id', $activityId)->first();
+            $finishStatus = $status->where('Stat_name', 'Realizado')->first();
+            $subActivitie['Stat_id'] = $finishStatus["Stat_id"];
+            $subActivitie["SubAct_percentage"] = "100";
+            $dataEmail = ["subject" => "Se ha finalizado una subactividad", "message" => "Se ha finalizado la subactividad " . $subActivitie["SubAct_name"]];
+            $email->sendEmail($dataEmail, $mainMail["Mail_user"]);
+            $this->activities->sp_update_percent_activity($subActivitie['Activi_id']);
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['csrf'] = csrf_hash();
+        } else {
+            $data['message'] = 'Error Ajax';
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = '';
+        }
+        return json_encode($data);
+    }
+
+    public function show()
+    {
         $userstatus = new UserStatusModel();
         $priorities = new PrioritiesModel();
         $user = new UserModel();
@@ -51,7 +82,32 @@ class SubActivities extends BaseController{
         return view('subactivities/subactivities', $data);
     }
 
-    public function create(){
+    public function sendNotification()
+    {
+        if ($this->request->isAJAX()) {
+            $emailObject = new Email();
+            $subject = $this->request->getVar('subject');
+            $link = $this->request->getVar('link');
+            $description = $this->request->getVar('description');
+            $collaborators = $this->request->getVar('collaborators');
+            $emails = explode(',', $collaborators);
+            $dataEmail = ["subject" => $subject, "message" => $link . "\n" . $description];
+            foreach ($emails as $email) {
+                $emailObject->sendEmail($dataEmail, $email);
+            }
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['csrf'] = csrf_hash();
+        } else {
+            $data['message'] = 'Error Ajax';
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = '';
+        }
+        return json_encode($data);
+    }
+
+    public function create()
+    {
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL);
             if ($this->objModel->insert($dataModel)) {

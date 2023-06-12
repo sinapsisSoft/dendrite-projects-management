@@ -113,6 +113,14 @@ $routes->group('email', ['namespace' => 'App\Controllers\Email'], function ($rou
     $routes->post('update', 'Email::update');
 });
 
+$routes->group('mail', ['namespace' => 'App\Controllers\Mail'], function ($routes) {
+    $routes->get('/', 'Mail::show');
+    $routes->post('create', 'Mail::create');
+    $routes->post('delete', 'Mail::delete');
+    $routes->post('edit', 'Mail::edit');
+    $routes->post('update', 'Mail::update');
+});
+
 $routes->group('company', ['namespace' => 'App\Controllers\Company'], function ($routes) {
     $routes->get('/', 'Company::show');
     $routes->post('create', 'Company::create');
@@ -232,7 +240,8 @@ $routes->group('subactivities', ['namespace' => 'App\Controllers\SubActivities']
     $routes->post('delete', 'SubActivities::delete');
     $routes->post('edit', 'SubActivities::edit');
     $routes->post('update', 'SubActivities::update');
-
+    $routes->post('notification', 'SubActivities::sendNotification');
+    $routes->post('finish', 'SubActivities::finishTask');
 });
 
 $routes->group('priorities', ['namespace' => 'App\Controllers\Priorities'], function ($routes) {

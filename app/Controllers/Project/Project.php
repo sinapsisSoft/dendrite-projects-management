@@ -11,8 +11,9 @@ use App\Models\UserModel;
 use App\Models\UserStatusModel;
 use App\Models\ManagerModel;
 use App\Models\BrandModel;
+use App\Models\MailModel;
 use App\Models\PrioritiesModel;
-
+use App\Utils\Email;
 
 class Project extends BaseController
 {
@@ -61,13 +62,27 @@ class Project extends BaseController
     public function create()
     {
         $codeProject = '';
+        $user = new UserModel();
+        $mail = new MailModel();
+        $emailSetting = new Email();
+        $mainMail = $mail->findAll()[0];
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL, $codeProject);
             if ($this->objModel->insert($dataModel)) {
                 $id = $this->objModel->insertID();
                 $codeProject = $this->generateCode((string) $id);
+                //Aqui se trae el correo de la persona a la cual se va a notificar
+                $email = $user->where("User_id", $dataModel["User_id"])->first();
+                //Aca se crea el mensaje del correo
+                $message = "Se ha creado un proyecto con el nombre: ".$dataModel["Project_name"];
+                //Aqui se crea el parametro para enviar el correo
+                $dataEmail = ["subject"=>"Se ha creado un nuevo proyecto","message"=>$message];
                 $dataModel['Project_id'] = $id;
                 $this->objModel->update($id, array_merge($dataModel, ["Project_code" => $codeProject]));
+                $emailSetting->sendEmail($dataEmail, $email["User_email"]);
+                if($mainMail != null){
+                    $emailSetting->sendEmail($dataEmail, $mainMail["Mail_user"]);
+                }
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['data'] = $dataModel;
@@ -80,7 +95,7 @@ class Project extends BaseController
         } else {
             $data['message'] = 'Error Ajax';
             $data['response'] = ResponseInterface::HTTP_CONFLICT;
-            $data['data'] = '';
+            $data['data'] = $mainMail;
         }
         return json_encode($data);
     }
@@ -170,6 +185,7 @@ class Project extends BaseController
             'Country_id' => $this->request->getVar('Country_id'),
             'Project_commercial' => $this->request->getVar('Project_commercial'),
             'Stat_id' => $this->request->getVar('Stat_id'),
+            'User_id' => $this->request->getVar('User_id'),
             'Priorities_id' => $this->request->getVar('Priorities_id'),
             'updated_at' => $this->request->getVar('updated_at')
         ];

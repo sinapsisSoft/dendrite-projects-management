@@ -26,6 +26,68 @@ var assignmentAction = 0;
 var formData = new Object();
 var selectInsertOrUpdate = true;
 
+let collaborators = [];
+let finishTask = null;
+
+function toogleCollaborator(email) {
+    const isExists = !!collaborators.find(collaborator => collaborator === email);
+    if (isExists) collaborators = collaborators.filter(collaborator => collaborator !== email)
+    else collaborators.push(email);
+}
+
+function finish() {
+    showPreload();
+    url = URL_ROUTE + 'finish';
+    const id = finishTask.SubAct_id;
+    const object = { id };
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(object),
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    }).then(response => response.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            if (response[dataResponse] == 200) {
+                TOASTS.toastView("", "", "Correo enviado con exito", 0);
+                $(finModal).modal("hide");
+            } else {
+                console.log(arMessages[0]);
+            }
+            hidePreload();
+        });
+}
+
+function sendNotification() {
+    showPreload();
+    url = URL_ROUTE + 'notification';
+    const form = SingletonClassSTFormEmail.getInstance();
+    const formData = form.getDataForm();
+    formData['collaborators'] = collaborators.join(',');
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    }).then(response => response.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            if (response[dataResponse] == 200) {
+                console.log(response[dataModel]);
+                TOASTS.toastView("", "", "Notificacion enviada con éxito", 0);
+                $(emailModal).modal("hide");
+            } else {
+                console.log(arMessages[0]);
+            }
+            form.inputButtonEnable();
+            hidePreload();
+        });
+}
+
 function create(formData) {
     url = URL_ROUTE + arRoutes[0];
     fetch(url, {
@@ -141,6 +203,37 @@ function toogleDisabledFields() {
     btnSubmit.disabled = true;
 }
 
+function getDataIdFinish(idData) {
+    showPreload();
+    selectInsertOrUpdate = false;
+    formData[primaryId] = idData;
+    url = URL_ROUTE + arRoutes[4];
+    sTForm = SingletonClassSTFormFin.getInstance();
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    })
+        .then(response => response.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            if (response[dataResponse] == 200) {
+                showFinModal(0);
+                finishTask = response[dataModel];
+                document.getElementById('finish_id').value = finishTask.SubAct_id;
+                document.getElementById('finish_name').value = finishTask.SubAct_name;
+                document.getElementById('finish_estimatedEndDate').value = finishTask.SubAct_estimatedEndDate;
+                document.getElementById('finish_description').value = finishTask.SubAct_description;
+                hidePreload();
+            } else {
+                console.log(arMessages[0]);
+            }
+        });
+}
+
 function getDataId(idData) {
     debugger;
     showPreload();
@@ -241,12 +334,6 @@ var SingletonClassSTFormEmail = (function () {
 })();
 
 function showFinModal(type) {
-    debugger;
-    if (type == 1) {
-        sTFormFin = SingletonClassSTFormFin.getInstance();
-        sTFormFin.inputButtonEnable();
-    }
-    sTFormFin.clearDataForm();
     $(finModal).modal("show");
 }
 
@@ -294,6 +381,8 @@ function changePercent() {
         }
     });
 }
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
     changePercent();
