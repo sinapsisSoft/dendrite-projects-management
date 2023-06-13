@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Product;
 
 use App\Controllers\BaseController;
@@ -10,7 +11,8 @@ use App\Models\ProductTypeModel;
 use App\Models\UnitModel;
 
 
-class Product extends BaseController{
+class Product extends BaseController
+{
     private $objModel;
     private $primaryKey;
     private $nameModel;
@@ -22,7 +24,8 @@ class Product extends BaseController{
         $this->nameModel = 'products';
     }
 
-    public function show(){
+    public function show()
+    {
         $filing = new FilingModel();
         $productbrand = new ProductBrandModel();
         $producttype = new ProductTypeModel();
@@ -44,10 +47,17 @@ class Product extends BaseController{
         return view('product/product', $data);
     }
 
-    public function create(){
+    public function create()
+    {
+
+        $codeProduct = '';
         if ($this->request->isAJAX()) {
-            $dataModel = $this->getDataModel(NULL);
+            $dataModel = $this->getDataModel(NULL, $codeProduct);
             if ($this->objModel->insert($dataModel)) {
+                $id = $this->objModel->insertID();
+                $codeProduct = $this->generateCode((string) $id);
+                $dataModel['Prod_id'] = $id;
+                $this->objModel->update($id, array_merge($dataModel, ["Prod_code" => $codeProduct]));
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['data'] = $dataModel;
@@ -64,6 +74,11 @@ class Product extends BaseController{
         }
         return json_encode($data);
     }
+    public function generateCode($id)
+    {
+        return "PROD_" . str_pad($id, 3, '0', STR_PAD_LEFT);
+    }
+
 
     public function edit()
     {
@@ -87,7 +102,8 @@ class Product extends BaseController{
         try {
             $today = date("Y-m-d H:i:s");
             $id = $this->request->getVar($this->primaryKey);
-            $data = $this->getDataModel($id);
+            $code = $this->generateCode((string) $id);
+            $data = $this->getDataModel($id, $code);
             $data['updated_at'] = $today;
             $this->objModel->update($id, $data);
             $data['message'] = 'success';
@@ -124,11 +140,11 @@ class Product extends BaseController{
         return json_encode($data);
     }
 
-    public function getDataModel($getShares)
+    public function getDataModel($getShares, $code = '')
     {
         $data = [
             'Prod_id' => $getShares,
-            'Prod_code' => $this->request->getVar('Prod_code'),
+            'Prod_code' => $code,
             'Prod_name' => $this->request->getVar('Prod_name'),
             'Prod_description' => $this->request->getVar('Prod_description'),
             'Prod_value' => $this->request->getVar('Prod_value'),

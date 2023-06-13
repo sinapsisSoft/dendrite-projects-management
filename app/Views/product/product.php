@@ -59,6 +59,7 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
+                                                <th>Código</th>
                                                 <th>Nombre</th>
                                                 <th>Descripción</th>
                                                 <th>Valor</th>
@@ -71,6 +72,7 @@
                                             <?php foreach ($products as $obj) : ?>
                                                 <tr>
                                                     <td><?= $i++; ?></td>
+                                                    <td><?= $obj['Prod_code']; ?></td>
                                                     <td><?= $obj['Prod_name']; ?></td>
                                                     <td><?= $obj['Prod_description']; ?></td>
                                                     <td><?= $obj['Prod_value']; ?></td>
@@ -96,6 +98,7 @@
                                         <tfoot>
                                             <tr>
                                                 <th>#</th>
+                                                <th>Código</th>
                                                 <th>Nombre</th>
                                                 <th>Descripción</th>
                                                 <th>Valor</th>
@@ -120,10 +123,6 @@
                                 <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
                                     <input type="hidden" class="form-control" id="Prod_id" name="Prod_id" value="0">
                                     <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                                    <div class="mb-3 col-4">
-                                        <label for="Prod_code">ID producto</label>
-                                        <input type="text" class="form-control" id="Prod_code" name="Prod_code" required>
-                                    </div>
                                     <div class="mb-3 col-4">
                                         <label for="Prod_name">Nombre</label>
                                         <input type="text" class="form-control" id="Prod_name" name="Prod_name" required>

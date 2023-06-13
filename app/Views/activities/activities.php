@@ -141,11 +141,11 @@
                                             <label for="Activi_observation">Observaciones</label>
                                         </div>
                                         <div class="form-floating mb-3 col-3">
-                                            <input type="date" class="form-control" id="Activi_startDate" name="Activi_startDate" required>
+                                            <input type="date" class="form-control" id="Activi_startDate" name="Activi_startDate">
                                             <label for="Activi_startDate">Fecha de inicio</label>
                                         </div>
                                         <div class="form-floating mb-3 col-3">
-                                            <input type="date" class="form-control" id="Activi_endDate" name="Activi_endDate" required>
+                                            <input type="date" class="form-control" id="Activi_endDate" name="Activi_endDate" >
                                             <label for="Activi_endDate">Fecha de cierre</label>
                                         </div>
                                         <div class="form-floating mb-3 col-3">

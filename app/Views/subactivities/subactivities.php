@@ -160,27 +160,19 @@
                                 </div>
                                 <div class="mb-3 col-4">
                                     <label for="">Fecha estimada de entrega</label>
-                                    <input type="text" class="form-control" disabled value="<?= $activity->Activi_startDate ?>" required>
-                                </div>
-                                <div class="mb-3 col-4">
-                                    <label for="">Fecha de entrega final</label>
-                                    <input type="text" class="form-control" disabled value="<?= $activity->Activi_endDate ?>" required>
+                                    <input type="date" class="form-control" disabled value="<?= $activity->Activi_startDate ?>" >
                                 </div>
                                 <div class="mb-3 col-4">
                                     <label for="Project_product_name">Producto</label>
                                     <input type="text" class="form-control" disabled id="Project_product_name" name="Project_product_name" value="<?= $activity->Prod_name ?>" value="" required>
                                 </div>
                                 <div class="mb-3 col-4">
-                                    <label for="SubAct_estimatedEndDate">Fecha Estimada de Entrega</label>
-                                    <input type="date" class="form-control" disabled id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" required>
-                                </div>
-                                <div class="mb-3 col-4">
                                     <label for="Stat_name">Estado</label>
                                     <input type="text" class="form-control" disabled id="Stat_name" name="Stat_name" value="<?= $activity->Stat_name ?>" required>
                                 </div>
                                 <div class="mb-3 col-3">
-                                    <label for="SubAct_estimatedEndDate">Fecha Entrga Final</label>
-                                    <input type="date" class="form-control" disabled id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" required>
+                                    <label for="Activi_endDate">Fecha Entrga Final</label>
+                                    <input type="date" class="form-control" disabled id="Activi_endDate" name="SubAct_estimatedEndDate" value="<?= $activity->Activi_endDate ?>" >
                                 </div>
                                 <div class="mb-3 col-3">
                                     <label for="Activi_codeMiigo">Código Miigo</label>
@@ -297,7 +289,7 @@
                                                 </div>
                                                 <div class="mb-3 col-4">
                                                     <label for="SubAct_estimatedEndDate">Fecha Estimada de Entrga</label>
-                                                    <input type="date" class="form-control" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" required>
+                                                    <input type="date" class="form-control" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" >
                                                 </div>
                                                 <div class="mb-3 col-4">
                                                     <label for="Stat_id">Estado</label>
@@ -404,8 +396,8 @@
                                                     <input type="text" class="form-control" disabled id="finish_name" name="SubAct_name" value="" required>
                                                 </div>
                                                 <div class="mb-3 col-4">
-                                                    <label for="finish_estimatedEndDate">Fecha estimada de entrega</label>
-                                                    <input type="date" class="form-control" disabled id="finish_estimatedEndDate" name="SubAct_estimatedEndDate" value="" value="" required>
+                                                    <label for="SubAct_estimatedEndDate">Fecha estimada de entrega</label>
+                                                    <input type="date" class="form-control" disabled id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" >
                                                 </div>
                                                 <div class="mb-3 col-4">
                                                     <label for="Stat_id">Estado</label>

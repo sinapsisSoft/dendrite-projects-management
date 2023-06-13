@@ -179,11 +179,11 @@
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Project_ddtStartDate">Fecha Inicio DDT</label>
-                                        <input type="date" class="form-control form-disabled" id="Project_ddtStartDate" name="Project_ddtStartDate" required>
+                                        <input type="date" class="form-control form-disabled" id="Project_ddtStartDate" name="Project_ddtStartDate">
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Project_ddtEndDate">Fecha Máxima DDT</label>
-                                        <input type="date" class="form-control form-disabled" id="Project_ddtEndDate" name="Project_ddtEndDate" required>
+                                        <input type="date" class="form-control form-disabled" id="Project_ddtEndDate" name="Project_ddtEndDate">
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Country_id">Pais</label>
@@ -214,15 +214,15 @@
 
                                     <div class="mb-3 col-3">
                                         <label for="Project_startDate">Fecha Inicio Proyecto</label>
-                                        <input type="date" class="form-control form-disabled" id="Project_startDate" name="Project_startDate" required>
+                                        <input type="date" class="form-control form-disabled" id="Project_startDate" name="Project_startDate">
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Project_estimatedEndDate">Fecha Entrega Estimada de Proyecto</label>
-                                        <input type="date" class="form-control form-disabled" id="Project_estimatedEndDate" name="Project_estimatedEndDate" required>
+                                        <input type="date" class="form-control form-disabled" id="Project_estimatedEndDate" name="Project_estimatedEndDate" >
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Project_activitiEndDate">Fecha Finalización de Actividades</label>
-                                        <input type="date" class="form-control form-disabled" id="Project_activitiEndDate" name="Project_activitiEndDate" required>
+                                        <input type="date" class="form-control form-disabled" id="Project_activitiEndDate" name="Project_activitiEndDate" >
                                     </div>
                                     <div class="mb-3 col-6">
                                         <label for="Project_link">Link del Proyecto</label>
