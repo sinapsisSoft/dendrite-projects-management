@@ -35,6 +35,12 @@ class SubActivitiesModel extends Model
         return $result;
     }
 
+    function sp_select_subactivity_info($id){
+        $query = "CALL sp_select_subactivity_info($id)";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
+
 }
 
 

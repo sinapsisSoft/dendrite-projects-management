@@ -167,6 +167,12 @@ INNER JOIN priorities PRI on PRI.Priorities_id = SA.Priorities_id
 WHERE SA.Activi_id = activity_id;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_subactivity_info`$$
+CREATE PROCEDURE `sp_select_subactivity_info` (IN `subactivity_id` INT)
+BEGIN
+SELECT SA.SubAct_name, AC.Activi_name, AC.Activi_id, US.User_id, US.User_name, PJ.Project_id, PJ.Project_name FROM subactivities SA INNER JOIN activities AC ON SA.Activi_id = AC.Activi_id INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id INNER JOIN project PJ ON PP.Project_id = PJ.Project_id INNER JOIN user US ON SA.User_id = US.User_id WHERE SA.SubAct_id = subactivity_id;
+END $$
+
 DROP PROCEDURE IF EXISTS `sp_select_all_users`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_users` ()   BEGIN
     SELECT User_id,User_name,User_email,CO.Comp_name,ST.Stat_name,RO.Role_name,USU.created_at AS Created_at FROM user USU 

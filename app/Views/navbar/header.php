@@ -17,7 +17,7 @@
                 <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                 <!-- Dark Logo icon -->
                 <img
-                  src="<?= base_url() ?>/assets/img/logos/logo_rizoma.png"
+                  src="<?= base_url() ?>/assets/img/logos/logo_slogan.png"
                   alt="homepage"
                   class="light-logo"
                   width="25"
@@ -28,7 +28,7 @@
               <span class="logo-text ms-2">
                 <!-- dark Logo text -->
                 <img
-                src="<?= base_url() ?>/assets/img/logos/logo_rizoma.png"
+                src="<?= base_url() ?>/assets/img/logos/logo_slogan.png"
                   alt="homepage"
                   class="light-logo"
                   width="100px" 

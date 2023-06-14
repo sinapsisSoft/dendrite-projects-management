@@ -40,7 +40,7 @@
         ">
             <div class="auth-box bg-dark border-top border-secondary">
                 <div class="text-center pt-3 pb-3">
-                    <span class="db"><img class="" width="200px" src="<?= base_url() ?>/assets/img/logos/logo_rizoma.png" alt="logo" /></span>
+                    <span class="db"><img class="" width="200px" src="<?= base_url() ?>/assets/img/logos/logo_slogan.png" alt="logo" /></span>
                 </div>
                 <div id="">
 

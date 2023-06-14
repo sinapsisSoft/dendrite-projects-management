@@ -1,6 +1,6 @@
 
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', 'Updated user ', 'The user was deleted');
+const arMessages = new Array('Validate the entered subactivity data', 'A new subactivity was created', 'A subactivity was created', 'Updated subactivity ', 'The subactivity was deleted');
 const ruteContent = "subactivities/";
 const nameModel = 'subactivities';
 const dataModel = 'data';
@@ -172,7 +172,6 @@ function delete_(id) {
 }
 
 function sendData(e, formObj) {
-    debugger;
     let obj = formObj;
     sTForm = SingletonClassSTForm.getInstance();
     if (sTForm.validateForm()) {
@@ -235,7 +234,6 @@ function getDataIdFinish(idData) {
 }
 
 function getDataId(idData) {
-    debugger;
     showPreload();
     selectInsertOrUpdate = false;
     formData[primaryId] = idData;
@@ -307,12 +305,12 @@ var SingletonClassSTForm = (function () {
     }
 })();
 
-function showEmailModal(type) {
-    debugger;
+function showEmailModal(type, idData) {
     if (type == 1) {
         sTFormEmail = SingletonClassSTFormEmail.getInstance();
         sTFormEmail.inputButtonEnable();
-    }
+        document.getElementById('not_subId').value = idData;
+    }    
     sTFormEmail.clearDataForm();
     $(emailModal).modal("show");
 }

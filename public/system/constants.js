@@ -5,8 +5,8 @@
     *Description:General constant variable management functions
     */
    const BASE_URL="http://localhost:8080/";
-   const BASE_URL_IMG="../assets/img/logos/logo_rizoma_small.png";
-   const IMG_DEFAULT="logo_rizoma_small.png";
+   const BASE_URL_IMG="../assets/img/logos/logo_small.png";
+   const IMG_DEFAULT="logo_small.png";
    const ROUTE_FILE_VIEW_UPLOADS='../uploads/crops/';
    const AR_ROUTES_GENERAL = new Array('create', 'show', 'update', 'delete','edit');
 
