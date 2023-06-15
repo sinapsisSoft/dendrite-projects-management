@@ -79,11 +79,11 @@ class Email
     </br>
     <p style="line-height: 140%;"><strong>Notificación </strong></p>
     </br>
-    <p style="line-height: 140%;"><strong>Asunto:</strong> '. $data["subject"] . '</p>
+    <p style="line-height: 140%;"><strong>Asunto:</strong> '. $data[0]->subject . '</p>
     </br>
-    <p style="line-height: 140%;"><strong>Link adjunto: </strong>'. $data["link"] . '</p>
+    <p style="line-height: 140%;"><strong>Link adjunto: </strong>'. $data[0]->link . '</p>
     </br>
-    <p style="line-height: 140%;"><strong>Detalle: </strong>'. $data["message"] . '</p>
+    <p style="line-height: 140%;"><strong>Detalle: </strong>'. $data[0]->message . '</p>
     </br>
     <p style="line-height: 140%;">Revisa las subactividades del proyecto <a href="' . $_SERVER['HTTP_HOST'] . '/subactivities?activitiesId=' . $data[0]->Activi_id . '" target="_blank">aquí</a></p>
       </div>    

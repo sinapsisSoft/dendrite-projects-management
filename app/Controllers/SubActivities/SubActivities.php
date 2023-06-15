@@ -11,6 +11,7 @@ use App\Models\ActivitiesModel;
 use App\Models\MailModel;
 use App\Models\PrioritiesModel;
 use App\Utils\Email;
+use PhpParser\Node\Expr\Cast\Array_;
 
 class SubActivities extends BaseController
 {
@@ -35,25 +36,25 @@ class SubActivities extends BaseController
             $mainMail = $mail->findAll()[0];
             $status = new UserStatusModel();
             $subactivityId = $this->request->getVar('id');
-            $subActivitie = $this->objModel->sp_select_subactivity_info($subactivityId);  
+            $subActivitie = $this->objModel->sp_select_subactivity_info($subactivityId);
             if ($subActivitie != null){
                 $email->sendEmail($subActivitie, $mainMail["Mail_user"], 1);
-                $finishStatus = $status->where('Stat_name', 'Realizado')->first();    
+                $finishStatus = $status->where('Stat_name', 'Realizado')->first();
                 $updateSubactivity = [
                     'Stat_id' => $finishStatus["Stat_id"],
                     'SubAct_percentage' => '100'
-                ];            
+                ];
                 $this->objModel->update($subactivityId, $updateSubactivity);
                 $this->activities->sp_update_percent_activity($subActivitie[0]->Activi_id);
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['csrf'] = csrf_hash();
-            }      
+            }
             else {
-                $data['message'] = 'Subactivity not found';
+                $data['message'] = 'Subactivity information not found';
                 $data['response'] = ResponseInterface::HTTP_CONFLICT;
                 $data['data'] = '';
-            }            
+            }
         } else {
             $data['message'] = 'Error Ajax';
             $data['response'] = ResponseInterface::HTTP_CONFLICT;
@@ -97,28 +98,26 @@ class SubActivities extends BaseController
             $emailObject = new Email();
             $subactivityId = $this->request->getVar('not_subId');
             $subActivitie = $this->objModel->sp_select_subactivity_info($subactivityId);
-            var_dump($subActivitie);
-            $newData = [
-                'subject' => $this->request->getVar('subject'),
-                'link' => $this->request->getVar('link'),
-                'description' => $this->request->getVar('description')
-            ];
-            if($subActivitie =! null){
+            if(count($subActivitie) > 0){
                 $subActivitie[0]->subject = $this->request->getVar('subject');
-                array_push($subActivitie[], $newData);
+                $subActivitie[0]->link = $this->request->getVar('link');
+                $subActivitie[0]->message = $this->request->getVar('description');
+                $collaborators = $this->request->getVar('collaborators');
+                $emails = explode(',', $collaborators);
+                // $dataEmail = ["subject" => $subject, "link" => $link, "message" => $description];
+                foreach ($emails as $email) {
+                    $emailObject->sendEmail($subActivitie, $email, 2);
+                }
+                $data['message'] = 'success';
+                $data['response'] = ResponseInterface::HTTP_OK;
+                $data['csrf'] = csrf_hash();
             }
-            // $subject = $this->request->getVar('subject');
-            // $link = $this->request->getVar('link');
-            // $description = $this->request->getVar('description');
-            $collaborators = $this->request->getVar('collaborators');
-            $emails = explode(',', $collaborators);
-            // $dataEmail = ["subject" => $subject, "link" => $link, "message" => $description];
-            foreach ($emails as $email) {
-                $emailObject->sendEmail($subActivitie, $email, 2);
-            }
-            $data['message'] = 'success';
-            $data['response'] = ResponseInterface::HTTP_OK;
-            $data['csrf'] = csrf_hash();
+            else {
+                $data['message'] = 'Subactivity information not found';
+                $data['response'] = ResponseInterface::HTTP_CONFLICT;
+                $data['data'] = '';
+            }               
+            
         } else {
             $data['message'] = 'Error Ajax';
             $data['response'] = ResponseInterface::HTTP_CONFLICT;
