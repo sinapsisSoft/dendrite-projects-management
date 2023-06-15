@@ -15,13 +15,7 @@
 
     <!-- <link href="/public/assets/css/global.css" rel="stylesheet" type="text/css"> -->
 
-    <style>
     
-    .priorities{
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-</style>
 </head>
 
 <body>

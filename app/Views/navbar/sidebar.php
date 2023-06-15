@@ -140,7 +140,7 @@
                     >
                   </li>
                   <li class="sidebar-item">
-                    <a href="/mail" class="sidebar-link mail"
+                    <a href="/mail" class="sidebar-link mail "
                       ><i class="mdi mdi-chevron-right"></i
                       ><span class="hide-menu">Correo de correspondencia</span></a
                     >

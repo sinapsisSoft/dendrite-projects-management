@@ -12,89 +12,7 @@
     <title><?= $title ?></title>
     <?= $css ?>
     <!-- Custom CSS -->
-    <style>
-        .circle {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 0;
-        }
 
-        .tab-content {
-            background-color: white;
-            padding: 15px;
-        }
-
-        .table-pp {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-            ;
-        }
-
-        .card-pp {
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-            transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-        }
-
-        .card-details {
-            padding: 15px;
-            background-color: white;
-        }
-
-        .percentaje {
-            padding: 10px;
-
-        }
-
-        .progress-bar {
-            padding-left: 0% !important;
-        }
-
-        .modal-content {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-            width: 130%;
-        }
-
-        .modal-header {
-            background: none;
-            color: #1F0229;
-        }
-
-        .modal-footer {
-            display: block !important;
-            text-align: end;
-        }
-
-        .modal-footer .btn-secondary {
-            width: 100px !important;
-        }
-
-        .modal-footer .btn-primary {
-            width: 100px !important;
-        }
-
-        .form-control {
-            border-radius: 5px;
-        }
-
-        .mb-3 {
-            color: gray;
-            font-size: 13px;
-        }
-
-        input {
-            text-transform: uppercase !important;
-        }
-
-        .priorities {
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-        ul{
-            list-style: none;
-            display: contents;
-        }
-    </style>
 </head>
 
 <body>
@@ -160,7 +78,7 @@
                                 </div>
                                 <div class="mb-3 col-4">
                                     <label for="">Fecha estimada de entrega</label>
-                                    <input type="date" class="form-control" disabled value="<?= $activity->Activi_startDate ?>" >
+                                    <input type="date" class="form-control" disabled value="<?= $activity->Activi_startDate ?>">
                                 </div>
                                 <div class="mb-3 col-4">
                                     <label for="Project_product_name">Producto</label>
@@ -172,7 +90,7 @@
                                 </div>
                                 <div class="mb-3 col-3">
                                     <label for="Activi_endDate">Fecha Entrga Final</label>
-                                    <input type="date" class="form-control" disabled id="Activi_endDate" name="SubAct_estimatedEndDate" value="<?= $activity->Activi_endDate ?>" >
+                                    <input type="date" class="form-control" disabled id="Activi_endDate" name="SubAct_estimatedEndDate" value="<?= $activity->Activi_endDate ?>">
                                 </div>
                                 <div class="mb-3 col-3">
                                     <label for="Activi_codeMiigo">Código Miigo</label>
@@ -264,7 +182,6 @@
                         <div class="modal fade" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                                 <div class="modal-content">
-
                                     <div class="modal-body ">
                                         <form class="form-horizontal mt-3" id="objForm" action="" onsubmit="sendData(event,this.id)">
                                             <div class="row">
@@ -289,7 +206,7 @@
                                                 </div>
                                                 <div class="mb-3 col-4">
                                                     <label for="SubAct_estimatedEndDate">Fecha Estimada de Entrga</label>
-                                                    <input type="date" class="form-control" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" >
+                                                    <input type="date" class="form-control" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate">
                                                 </div>
                                                 <div class="mb-3 col-4">
                                                     <label for="Stat_id">Estado</label>
@@ -397,8 +314,8 @@
                                                     <input type="text" class="form-control" disabled id="finish_name" name="SubAct_name" value="" required>
                                                 </div>
                                                 <div class="mb-3 col-4">
-                                                    <label for="finish_estimatedEndDate">Fecha estimada de entrega</label>
-                                                    <input type="date" class="form-control" disabled id="finish_estimatedEndDate" name="finish_estimatedEndDate" value="" >
+                                                    <label for="SubAct_estimatedEndDate">Fecha estimada de entrega</label>
+                                                    <input type="date" class="form-control" disabled id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" >
                                                 </div>
                                                 <div class="mb-3 col-4">
                                                     <label for="Stat_id">Estado</label>
@@ -419,12 +336,15 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" onclick="finish()" form="objActivitiesForm" class="btn btn-primary mx-auto w-50">Guardar</button>
+                                        <button type="submit" onclick="finish()" form="objActivitiesForm" class="btn btn-primary mx-auto w-50">Finalizar</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <h4 class="page-title text-end">
+                        <input type="button" onclick="history.back()" class="btn btn-primary" name="volver atrás" value="volver">
+                    </h4>
                 </div>
             </div>
         </div>

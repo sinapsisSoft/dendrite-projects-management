@@ -61,7 +61,6 @@
                                                 <th>#</th>
                                                 <th>Código</th>
                                                 <th>Nombre</th>
-                                                <th>Descripción</th>
                                                 <th>Valor</th>
                                                 <th>Fecha de creación</th>
                                                 <th>Actions</th>
@@ -74,7 +73,6 @@
                                                     <td><?= $i++; ?></td>
                                                     <td><?= $obj['Prod_code']; ?></td>
                                                     <td><?= $obj['Prod_name']; ?></td>
-                                                    <td><?= $obj['Prod_description']; ?></td>
                                                     <td><?= $obj['Prod_value']; ?></td>
                                                     <td><?= $obj['created_at']; ?></td>
                                                     <td>
@@ -100,7 +98,6 @@
                                                 <th>#</th>
                                                 <th>Código</th>
                                                 <th>Nombre</th>
-                                                <th>Descripción</th>
                                                 <th>Valor</th>
                                                 <th>Fecha de creación</th>
                                                 <th>Actions</th>
@@ -140,7 +137,7 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="mb-3 col-3">
+                                    <div class="mb-3 col-4">
                                         <label for="Prod_brand_id">Marca</label>
                                         <select name="Prod_brand_id" id="Prod_brand_id" class="form-control form-select">
                                             <option value="">
@@ -153,11 +150,11 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="mb-3 col-3">
+                                    <div class="mb-3 col-4">
                                         <label for="Prod_value">Valor</label>
                                         <input type="text" class="form-control" id="Prod_value" name="Prod_value" required>
                                     </div>
-                                    <div class="mb-3 col-3">
+                                    <div class="mb-3 col-4">
                                         <label for="Filings_id">Presentación</label>
                                         <select name="Filing_id" id="Filing_id" class="form-control form-select" required>
                                             <option value="">
@@ -170,7 +167,7 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="mb-3 col-3">
+                                    <div class="mb-3 col-4">
                                         <label for="Unit_id">Unidad</label>
                                         <select name="Unit_id" id="Unit_id" class="form-contro form-select" required>
                                             <option value="">
