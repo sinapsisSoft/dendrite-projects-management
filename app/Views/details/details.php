@@ -12,80 +12,7 @@
     <title><?= $title ?></title>
     <?= $css ?>
     <!-- Custom CSS -->
-    <style>
-        .circle {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 0;
-        }
-
-        .tab-content {
-            background-color: white;
-            padding: 15px;
-        }
-
-        .table-pp {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-            ;
-        }
-
-        .card-pp {
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-            transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-        }
-
-        .card-details {
-            padding: 15px;
-            background-color: white;
-        }
-
-        .percentaje {
-            padding: 10px;
-
-        }
-
-        .progress-bar {
-            padding-left: 0% !important;
-        }
-
-        .modal-content {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-            width: 130%;
-        }
-
-        .modal-header {
-            background: none;
-            color: #1F0229;
-        }
-
-        .modal-footer {
-            display: block !important;
-            text-align: end;
-        }
-
-        .modal-footer .btn-secondary {
-            width: 100px !important;
-        }
-
-        .modal-footer .btn-primary {
-            width: 100px !important;
-        }
-
-        .form-control {
-            border-radius: 5px;
-        }
-
-        .mb-3 {
-            color: gray;
-            font-size: 13px;
-        }
-
-        input {
-            text-transform: uppercase !important;
-        }
-    </style>
+    
 </head>
 
 <body>
@@ -177,11 +104,11 @@
 
                                     <div class="mb-3 col-3">
                                         <label for="Project_ddtStartDate">Fecha Inicio DDT</label>
-                                        <input type="date" class="form-control" disabled id="Project_ddtStartDate" name="Project_ddtStartDate" value="<?= $data["project"]->Project_ddtStartDate ?>" >
+                                        <input type="date" class="form-control" disabled id="Project_ddtStartDate" name="Project_ddtStartDate" value="<?= $data["project"]->Project_ddtStartDate ?>">
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Project_ddtEndDate">Fecha Máxima DDT</label>
-                                        <input type="date" class="form-control" disabled id="Project_ddtEndDate" name="Project_ddtEndDate" value="<?= $data["project"]->Project_ddtEndDate ?>" >
+                                        <input type="date" class="form-control" disabled id="Project_ddtEndDate" name="Project_ddtEndDate" value="<?= $data["project"]->Project_ddtEndDate ?>">
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Country_name">País</label>
@@ -193,15 +120,15 @@
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Project_startDate">Fecha de Creación</label>
-                                        <input type="date" class="form-control" disabled id="Project_startDate" name="Project_startDate" value="<?= $data["project"]->Project_startDate ?>" >
+                                        <input type="date" class="form-control" disabled id="Project_startDate" name="Project_startDate" value="<?= $data["project"]->Project_startDate ?>">
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Project_estimatedEndDate">Fecha Estimada de Entrga</label>
-                                        <input type="date" class="form-control" disabled id="Project_estimatedEndDate" name="Project_estimatedEndDate" value="<?= $data["project"]->Project_estimatedEndDate ?>" >
+                                        <input type="date" class="form-control" disabled id="Project_estimatedEndDate" name="Project_estimatedEndDate" value="<?= $data["project"]->Project_estimatedEndDate ?>">
                                     </div>
                                     <div class="mb-3 col-4">
                                         <label for="Project_activitiStartDate">Fecha Finalización de las actividades</label>
-                                        <input type="date" class="form-control" disabled id="Project_activitiEndDate" name="Project_activitiEndtDate" value="<?= $data["project"]->Project_activitiEndDate ?>" >
+                                        <input type="date" class="form-control" disabled id="Project_activitiEndDate" name="Project_activitiEndtDate" value="<?= $data["project"]->Project_activitiEndDate ?>">
                                     </div>
                                     <div class="mb-3 col-4">
                                         <label for="Stat_name">Estado</label>
@@ -418,7 +345,7 @@
                                                     </div>
                                                     <div class="mb-3 col-3">
                                                         <label for="ProjectTrack_date">Fecha</label>
-                                                        <input type="date" class="form-control" id="ProjectTrack_date" name="ProjectTrack_date" >
+                                                        <input type="date" class="form-control" id="ProjectTrack_date" name="ProjectTrack_date">
                                                     </div>
                                                     <div class="mb-3 col-12">
                                                         <label for="ProjectTrack_description">Descripción</label>
@@ -533,7 +460,7 @@
                                                     </div>
                                                     <div class="mb-3 col-3">
                                                         <label for="Activi_startDate">Fecha estimada de entrega</label>
-                                                        <input type="date" class="form-control" id="Activi_startDate" name="Activi_startDate" >
+                                                        <input type="date" class="form-control" id="Activi_startDate" name="Activi_startDate">
                                                     </div>
                                                     <div class="mb-3 col-3">
                                                         <label for="Activi_endDate">Fecha de entrega final</label>
@@ -581,6 +508,9 @@
                             </div>
                         </div>
                     </div>
+                    <h4 class="page-title text-end">
+                        <input type="button" onclick="history.back()" class="btn btn-primary" name="volver atrás" value="volver">
+                    </h4>
                 </div>
             </div>
             <?= $footer ?>

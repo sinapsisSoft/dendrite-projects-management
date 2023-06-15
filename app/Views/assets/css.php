@@ -87,3 +87,82 @@
     text-transform: uppercase;
   }
 </style>
+<style>
+        .circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 0;
+        }
+
+        .tab-content {
+            background-color: white;
+            padding: 15px;
+        }
+
+        .table-pp {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            ;
+        }
+
+        .card-pp {
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+        }
+
+        .card-details {
+            padding: 15px;
+            background-color: white;
+        }
+
+        .percentaje {
+            padding: 10px;
+
+        }
+
+        .progress-bar {
+            padding-left: 0% !important;
+        }
+
+        .modal-content {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            width: 130%;
+        }
+
+        .modal-header {
+            background: none;
+            color: #1F0229;
+        }
+
+        .modal-footer {
+            display: block !important;
+            text-align: end;
+        }
+
+        .modal-footer .btn-secondary {
+            width: 100px !important;
+        }
+
+        .modal-footer .btn-primary {
+            width: 100px !important;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .mb-3 {
+            color: gray;
+            font-size: 13px;
+        }
+
+        input, select, td{
+            text-transform: uppercase !important;
+        }
+
+        .priorities {
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    </style>

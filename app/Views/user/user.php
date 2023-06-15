@@ -92,8 +92,7 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Usuario</th>
-                                                <th>Empresa</th>
+                                                <th>Nombre</th>
                                                 <th>Estado</th>
                                                 <th>Rol</th>
                                                 <th>Fecha de creación</th>
@@ -106,8 +105,7 @@
 
                                                 <tr>
                                                     <td><?= $i++; ?></td>
-                                                    <td><?= $obj->User_email; ?></td>
-                                                    <td><?= $obj->Comp_name; ?></td>
+                                                    <td><?= $obj->User_name; ?></td>
                                                     <td><?= $obj->Stat_name; ?></td>
                                                     <td><?= $obj->Role_name; ?></td>
                                                     <td><?= $obj->Created_at; ?></td>
@@ -132,8 +130,7 @@
                                         <tfoot>
                                             <tr>
                                             <th>#</th>
-                                                <th>Usuario</th>
-                                                <th>Empresa</th>
+                                                <th>Nombre</th>
                                                 <th>Estado</th>
                                                 <th>Rol</th>
                                                 <th>Fecha de creación</th>
@@ -180,7 +177,7 @@
                                     </div>
                                     <div class="mb-3 col-6">
                                         <label for="confirmPassword">Confirmar contraseña</label>
-                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
+                                        <input type="password" class="form-control"  id="confirmPassword" placeholder="Confirm Password" required>
                                     </div>
                                     <div class="mb-3 col-4">
                                         <label for="Comp_id">Empresa</label>
