@@ -18,4 +18,10 @@ class ManagerBrandsModel extends Model{
         $result = $this->db->query($query)->getResult();
         return $result;
     }
+
+    public function sp_select_brands_client($clientId){
+        $query = "call sp_select_brands_client($clientId)";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
 }

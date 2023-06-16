@@ -234,6 +234,12 @@ $routes->group('detailsclient', ['namespace' => 'App\Controllers\DetailsClient']
     $routes->get('/', 'DetailsClient::show');
 
 });
+
+$routes->group('reports', ['namespace' => 'App\Controllers\Reports'], function ($routes) {
+    $routes->get('/', 'Reports::show');
+
+});
+
 $routes->group('subactivities', ['namespace' => 'App\Controllers\SubActivities'], function ($routes) {
     $routes->get('/', 'SubActivities::show');
     $routes->post('create', 'SubActivities::create');

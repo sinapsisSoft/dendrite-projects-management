@@ -32,6 +32,4 @@ class DetailsClient extends BaseController{
         $data['managerBrands'] = $managerBrands->sp_select_all_brands_client($detailsclientId);
         return view('detailsclient/detailsclient', $data);
     }
-  
-    
 }

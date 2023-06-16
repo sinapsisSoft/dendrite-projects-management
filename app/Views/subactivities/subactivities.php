@@ -247,7 +247,7 @@
                                 </div>
                             </div>
                         </div>
-
+ 
                         <!-- MODAL DE EMAIL -->
 
                         <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">

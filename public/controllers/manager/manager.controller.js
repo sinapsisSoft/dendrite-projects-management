@@ -170,12 +170,46 @@ function getManagerDataId(idData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 showManagerModal(0);
-                sTFormManager.setDataForm(response[dataModel]);
+                const result = response[dataModel];
+                setManagerBrands(result.brands, result.manager['Manager_id']);
+                sTFormManager.setDataForm(result.manager);
                 hidePreload();
             } else {
                 console.log(arMessages[0]);
             }
         });
+}
+
+function setManagerBrands(brands, managerId) {
+    removeElementsFromList();
+    const ul = document.getElementById("managerBrands");
+    const managerBrands = brands.filter(brand => brand["Manager_id"] === null || brand["Manager_id"] == managerId)
+    managerBrands.forEach(managerBrand => {
+        const li = `<li class="col-4">
+            <div class="form-check">
+                <input class="form-check-input" ${managerBrand["Manager_id"] == managerId ? 'checked' : ''} type="checkbox" onchange="toggleBrand(${managerBrand["Brand_id"]})">
+                <label class="form-check-label">${managerBrand["Brand_name"]}</label>
+            </div>
+        </li>`;
+        ul.innerHTML += li;
+    })
+}
+
+function removeElementsFromList() {
+    // Obtén una referencia al elemento 'ul'
+    var ulElement = document.getElementById('managerBrands');
+
+    // Obtén una colección de elementos 'li' dentro del 'ul'
+    var liElements = ulElement.getElementsByTagName('li');
+
+    // Convierte la colección en un array para facilitar la iteración
+    var liArray = Array.from(liElements);
+
+    // Elimina los elementos 'li' uno por uno
+    liArray.forEach(function (li) {
+        ulElement.removeChild(li);
+    });
+
 }
 
 function addManagerData() {

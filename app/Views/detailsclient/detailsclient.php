@@ -301,7 +301,7 @@
                                                 </div>
                                                 <div class="mb-3 col-12">
                                                     <label for="brand_id">Marcas</label>
-                                                    <ul class="row">
+                                                    <ul class="row" id="managerBrands">
                                                         <?php foreach ($managerBrands as $brand) : ?>
                                                             <li class="col-4">
                                                                 <div class="form-check">

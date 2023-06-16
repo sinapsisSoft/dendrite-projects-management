@@ -77,12 +77,14 @@ class Manager extends BaseController{
 
     public function edit()
     {
+        $managerBrands = new ManagerBrandsModel();
         try {
             $id = $this->request->getVar($this->primaryKey);
             $getDataId = $this->objModel->where($this->primaryKey, $id)->first();
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
-            $data['data'] = $getDataId;
+            $brands = $managerBrands->sp_select_brands_client($getDataId['Client_id']);
+            $data['data'] = ["manager" => $getDataId, "brands" => $brands];
             $data['csrf'] = csrf_hash();
         } catch (\Exception $e) {
             $data['message'] = $e;

@@ -38,7 +38,7 @@
                   class="sidebar-link waves-effect waves-dark sidebar-link project"
                   href="/project"
                   aria-expanded="false"
-                  ><i class="mdi mdi-content-paste"></i
+                  ><i class="mdi mdi-folder-open"></i
                   ><span class="hide-menu">Gestión de proyectos</span></a
                 >
               </li>
@@ -87,6 +87,12 @@
                     <a href="/client" class="sidebar-link client"
                       ><i class="mdi mdi-account-multiple"></i
                       ><span class="hide-menu">Gestión de Clientes </span></a
+                    >
+                  </li>
+                  <li class="sidebar-item">
+                    <a href="/reports" class="sidebar-link reports"
+                      ><i class="mdi mdi-content-paste"></i
+                      ><span class="hide-menu">Reportes </span></a
                     >
                   </li>
               <li class="sidebar-item">
