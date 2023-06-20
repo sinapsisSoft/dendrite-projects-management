@@ -77,7 +77,6 @@ function sendNotification() {
         .catch(error => console.error('Error:', error))
         .then(response => {
             if (response[dataResponse] == 200) {
-                console.log(response[dataModel]);
                 TOASTS.toastView("", "", "Notificacion enviada con éxito", 0);
                 $(emailModal).modal("hide");
             } else {
