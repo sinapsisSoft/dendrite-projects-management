@@ -209,6 +209,10 @@
                                                     <input type="date" class="form-control" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate">
                                                 </div>
                                                 <div class="mb-3 col-4">
+                                                    <label for="SubAct_endDate">Fecha Estimada de Entrga</label>
+                                                    <input type="date" class="form-control" id="SubAct_endDate" name="SubAct_endDate">
+                                                </div>
+                                                <div class="mb-3 col-4">
                                                     <label for="Stat_id">Estado</label>
                                                     <select class="form-control form-select" id="Stat_id" name="Stat_id" required>
                                                         <?php foreach ($userstatuses as $userstatus) : ?>
@@ -315,7 +319,7 @@
                                                 </div>
                                                 <div class="mb-3 col-4">
                                                     <label for="SubAct_estimatedEndDate">Fecha estimada de entrega</label>
-                                                    <input type="date" class="form-control" disabled id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" >
+                                                    <input type="date" class="form-control" disabled id="finish_estimatedEndDate" name="SubAct_estimatedEndDate" value="" >
                                                 </div>
                                                 <div class="mb-3 col-4">
                                                     <label for="Stat_id">Estado</label>

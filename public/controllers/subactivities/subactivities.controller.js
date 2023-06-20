@@ -53,11 +53,12 @@ function finish() {
             if (response[dataResponse] == 200) {
                 TOASTS.toastView("", "", "Correo enviado con exito", 0);
                 $(finModal).modal("hide");
+                window.location.reload();
             } else {
                 console.log(arMessages[0]);
             }
             hidePreload();
-        });
+        }).catch(() => hidePreload());
 }
 
 function sendNotification() {
@@ -309,7 +310,7 @@ function showEmailModal(type, idData) {
         sTFormEmail = SingletonClassSTFormEmail.getInstance();
         sTFormEmail.inputButtonEnable();
         document.getElementById('not_subId').value = idData;
-    }    
+    }
     sTFormEmail.clearDataForm();
     $(emailModal).modal("show");
 }
