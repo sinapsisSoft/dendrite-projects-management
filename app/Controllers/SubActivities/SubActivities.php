@@ -11,6 +11,7 @@ use App\Models\ActivitiesModel;
 use App\Models\MailModel;
 use App\Models\PrioritiesModel;
 use App\Utils\Email;
+use DateTime;
 use PhpParser\Node\Expr\Cast\Array_;
 
 class SubActivities extends BaseController
@@ -46,9 +47,11 @@ class SubActivities extends BaseController
                 ];
                 $this->objModel->update($subactivityId, $updateSubactivity);
                 $this->activities->sp_update_percent_activity($subActivitie[0]->Activi_id);
+                $response = $this->updateEndDate(["Activi_id" => $subActivitie[0]->Activi_id]);
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['csrf'] = csrf_hash();
+                $data['data'] = $response;
             }
             else {
                 $data['message'] = 'Subactivity information not found';
@@ -187,6 +190,20 @@ class SubActivities extends BaseController
         return json_encode($data);
     }
 
+    public function updateEndDate($data){
+        $activityModel = new ActivitiesModel();
+        $Activi_id = $data['Activi_id'];
+        $totalFinish = (int) $this->objModel->where('Stat_id', 14)->where('Activi_id', $Activi_id)->countAllResults();
+        $total = (int) $this->objModel->where('Activi_id', $Activi_id)->countAllResults();
+        $date = date('d-m-y h:i:s');;
+        if($totalFinish == $total){
+            $activity = $activityModel->where('Activi_id', $Activi_id)->first();
+            $activity['Activi_endDate'] =  $date;
+            $activityModel->update($Activi_id, $activity);
+        }
+        return [$totalFinish, $total, $Activi_id, $date];
+    }
+
     public function delete()
     {
         try {
@@ -218,6 +235,7 @@ class SubActivities extends BaseController
             'SubAct_name' => $this->request->getVar('SubAct_name'),
             'SubAct_description' => $this->request->getVar('SubAct_description'),
             'SubAct_estimatedEndDate' => $this->request->getVar('SubAct_estimatedEndDate'),
+            'SubAct_endDate' => $this->request->getVar('SubAct_endDate'),
             'SubAct_percentage' => $this->request->getVar('SubAct_percentage'),
             'Stat_id' => $this->request->getVar('Stat_id'),
             'Activi_id' => $this->request->getVar('Activi_id'),

@@ -39,7 +39,7 @@ class Activities extends BaseController{
         $data['projectproducts'] = $projectproduct->findAll();
         return view('activities/activities', $data);
     }
-    
+
 
     public function create()
     {
