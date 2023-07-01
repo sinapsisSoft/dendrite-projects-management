@@ -162,5 +162,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/brand/brand.controller.js"></script>
+    <script src="./controllers/brand/brand.controller.js"></script>
 </body>

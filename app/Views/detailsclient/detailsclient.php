@@ -334,7 +334,7 @@
         </div>.
     </div>
     <?= $js ?>
-    <script src="../controllers/client/client.controller.js"></script>
-    <script src="../controllers/manager/manager.controller.js"></script>
-    <script src="../controllers/brand/brand.controller.js"></script>
+    <script src="./controllers/client/client.controller.js"></script>
+    <script src="./controllers/manager/manager.controller.js"></script>
+    <script src="./controllers/brand/brand.controller.js"></script>
 </body>

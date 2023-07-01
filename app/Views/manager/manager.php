@@ -244,5 +244,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/manager/manager.controller.js"></script>
+    <script src="./controllers/manager/manager.controller.js"></script>
 </body>

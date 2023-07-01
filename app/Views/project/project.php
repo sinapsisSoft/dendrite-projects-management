@@ -15,7 +15,7 @@
 
     <!-- <link href="/public/assets/css/global.css" rel="stylesheet" type="text/css"> -->
 
-    
+
 </head>
 
 <body>
@@ -34,14 +34,17 @@
                     <div class="col-12 d-flex no-block align-items-center">
                         <h4 class="page-title">
                             NUEVO PROYECTO
-                            <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-account-plus"></i></button>
+                            <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)">
+                                <lord-icon src="<?= base_url() ?>/assets/json/system-outline-44-folder.json" trigger="hover" colors="primary:#ffffff" style="width:25px;height:25px">
+                                </lord-icon>
+                            </button>
                         </h4>
                         <div class="ms-auto text-end">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        Library
+                                        <a href="" id="route">Proyectos</a>
                                     </li>
                                 </ol>
                             </nav>
@@ -77,7 +80,7 @@
                                                     <td><?= $i++; ?></td>
                                                     <td><?= $obj->Project_code; ?></td>
                                                     <td><?= $obj->Project_name; ?></td>
-                                                    <td class="priorities" style="color: <?= $obj->Priorities_color ?>"><?= $obj->Priorities_name; ?></td>
+                                                    <td class="priorities-text" style="color: <?= $obj->Priorities_color ?>"><?= $obj->Priorities_name; ?></td>
                                                     <td><?= $obj->Created_at; ?></td>
                                                     <td>
                                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
@@ -212,11 +215,11 @@
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Project_estimatedEndDate">Fecha Entrega Estimada de Proyecto</label>
-                                        <input type="date" class="form-control form-disabled" id="Project_estimatedEndDate" name="Project_estimatedEndDate" >
+                                        <input type="date" class="form-control form-disabled" id="Project_estimatedEndDate" name="Project_estimatedEndDate">
                                     </div>
                                     <div class="mb-3 col-3">
                                         <label for="Project_activitiEndDate">Fecha Finalización de Actividades</label>
-                                        <input type="date" class="form-control form-disabled" id="Project_activitiEndDate" name="Project_activitiEndDate" >
+                                        <input type="date" class="form-control form-disabled" id="Project_activitiEndDate" name="Project_activitiEndDate">
                                     </div>
                                     <div class="mb-3 col-6">
                                         <label for="Project_link">Link del Proyecto</label>
@@ -275,5 +278,9 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/project/project.controller.js"></script>
+    <script src="./controllers/project/project.controller.js"></script>
+    <script>
+        var route = document.getElementById("route");
+        route.href = `${BASE_URL}project`;
+    </script>
 </body>

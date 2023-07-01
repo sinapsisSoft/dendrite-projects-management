@@ -140,5 +140,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/city/city.controller.js"></script>
+    <script src="./controllers/city/city.controller.js"></script>
 </body>

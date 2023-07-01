@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS `activities` (
   `Activi_startDate` date DEFAULT NULL,
   `Activi_endDate` date NOT NULL,
   `Activi_link` varchar(200) NOT NULL,
-  `Activi_codeMiigo` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `Activi_codeSpectra` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Activi_codeMiigo` varchar(30) DEFAULT NULL,
+  `Activi_codeSpectra` varchar(30) DEFAULT NULL,
   `Activi_codeDelivery` int DEFAULT NULL,
   `Activi_percentage` varchar(15) NOT NULL,
   `Stat_id` int UNSIGNED DEFAULT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `activities` (
   KEY `activities_status` (`Stat_id`),
   KEY `activities_project_product` (`Project_product_id`),
   KEY `activities_approvalcode` (`Activi_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `activities`
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `approvalcode` (
   `ApprCode_code` varchar(50) DEFAULT NULL,
   `ApprCode_name` varchar(100) NOT NULL,
   PRIMARY KEY (`ApprCode_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `approvalcode`
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `brand` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Brand_id`),
   KEY `brand_client` (`Client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `brand`
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `city` (
   `City_name` varchar(50) NOT NULL,
   `Country_id` int NOT NULL,
   PRIMARY KEY (`City_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `city`
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `client_docType` (`DocType_id`),
   KEY `client_state` (`Stat_id`),
   KEY `client_contry` (`Country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `client`
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `client_contact` (
   PRIMARY KEY (`Client_contact_id`),
   KEY `client_contact_client` (`Client_id`),
   KEY `client_contact_contact` (`Contact_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -206,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `company` (
   UNIQUE KEY `Comp_email` (`Comp_email`),
   KEY `company_status` (`Stat_id`),
   KEY `company_doctType` (`DocType_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `company`
@@ -229,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `company_contact` (
   PRIMARY KEY (`Comp_contac_id`),
   KEY `company_contact_company` (`Comp_id`),
   KEY `company_contact_contact` (`Contact_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -246,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `Contact_email` varchar(100) NOT NULL,
   PRIMARY KEY (`Contact_id`),
   UNIQUE KEY `Contact_email` (`Contact_email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -259,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `country` (
   `Country_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `Country_name` varchar(100) NOT NULL,
   PRIMARY KEY (`Country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `country`
@@ -284,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `doctype` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`DocType_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `doctype`
@@ -309,13 +309,13 @@ INSERT INTO `doctype` (`DocType_id`, `DocType_name`, `DocType_code`, `updated_at
 DROP TABLE IF EXISTS `email`;
 CREATE TABLE IF NOT EXISTS `email` (
   `Email_id` int NOT NULL AUTO_INCREMENT,
-  `Email_user` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `Email_pass` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Email_user` varchar(100) NOT NULL,
+  `Email_pass` varchar(150) NOT NULL,
   `Email_host` varchar(150) NOT NULL,
   `Email_puerto` varchar(150) NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`Email_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `email`
@@ -336,7 +336,7 @@ CREATE TABLE IF NOT EXISTS `filing` (
   `Filing_name` varchar(100) NOT NULL,
   `Filing_description` varchar(200) NOT NULL,
   PRIMARY KEY (`Filing_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `filing`
@@ -357,7 +357,7 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `Mail_user` varchar(150) NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`Mail_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `mail`
@@ -381,7 +381,7 @@ CREATE TABLE IF NOT EXISTS `manager` (
   `Client_id` int UNSIGNED NOT NULL,
   PRIMARY KEY (`Manager_id`),
   KEY `manager_client` (`Client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `manager`
@@ -405,7 +405,7 @@ CREATE TABLE IF NOT EXISTS `manager_brands` (
   PRIMARY KEY (`Manager_brand_id`),
   KEY `manager_brands_brand` (`Brand_id`),
   KEY `manager_brands_manager` (`Manager_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `manager_brands`
@@ -431,7 +431,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `time` int NOT NULL,
   `batch` int UNSIGNED NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `migrations`
@@ -466,7 +466,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `module`
@@ -491,7 +491,7 @@ CREATE TABLE IF NOT EXISTS `permit` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Perm_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `permit`
@@ -515,7 +515,7 @@ CREATE TABLE IF NOT EXISTS `priorities` (
   `Priorities_name` varchar(100) NOT NULL,
   `Priorities_color` varchar(20) NOT NULL,
   PRIMARY KEY (`Priorities_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `priorities`
@@ -549,7 +549,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   KEY `product_uni` (`Unit_id`),
   KEY `product_filing` (`Filing_id`),
   KEY `product_brand` (`Prod_brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `product`
@@ -568,10 +568,10 @@ INSERT INTO `product` (`Prod_code`, `Prod_id`, `Prod_name`, `Prod_description`, 
 DROP TABLE IF EXISTS `product_brand`;
 CREATE TABLE IF NOT EXISTS `product_brand` (
   `Prod_brand_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `Prod_brand_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `Prod_brand_description` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Prod_brand_name` varchar(100) NOT NULL,
+  `Prod_brand_description` varchar(150) NOT NULL,
   PRIMARY KEY (`Prod_brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `product_brand`
@@ -593,7 +593,7 @@ CREATE TABLE IF NOT EXISTS `product_type` (
   `TypePro_name` varchar(100) NOT NULL,
   `TypePro_description` varchar(200) NOT NULL,
   PRIMARY KEY (`TypePro_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `product_type`
@@ -625,7 +625,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
   PRIMARY KEY (`Profile_id`),
   KEY `profile_user` (`User_id`),
   KEY `profile_doctype` (`DocType_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -636,7 +636,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
 DROP TABLE IF EXISTS `project`;
 CREATE TABLE IF NOT EXISTS `project` (
   `Project_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `Project_code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Project_code` varchar(10) DEFAULT NULL,
   `Project_name` varchar(100) NOT NULL,
   `Manager_id` int NOT NULL,
   `Brand_id` int UNSIGNED NOT NULL,
@@ -648,11 +648,11 @@ CREATE TABLE IF NOT EXISTS `project` (
   `Project_activitiEndDate` date NOT NULL,
   `Project_observation` varchar(300) NOT NULL,
   `Project_link` varchar(150) NOT NULL,
-  `Project_percentage` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Project_percentage` varchar(15) DEFAULT NULL,
   `Client_id` int UNSIGNED NOT NULL,
   `Country_id` int UNSIGNED NOT NULL,
   `User_id` int UNSIGNED NOT NULL,
-  `Project_commercial` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Project_commercial` varchar(50) NOT NULL,
   `Stat_id` int UNSIGNED NOT NULL,
   `Priorities_id` int NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -665,7 +665,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   KEY `project_brand` (`Brand_id`),
   KEY `project_manager` (`Manager_id`),
   KEY `Priorities_id` (`Priorities_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `project`
@@ -687,7 +687,7 @@ CREATE TABLE IF NOT EXISTS `project_product` (
   `Project_productAmount` varchar(10) NOT NULL,
   `Project_id` int UNSIGNED NOT NULL,
   `Prod_id` int UNSIGNED NOT NULL,
-  `Project_product_percentage` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Project_product_percentage` varchar(15) DEFAULT NULL,
   `Stat_id` int UNSIGNED NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -695,7 +695,7 @@ CREATE TABLE IF NOT EXISTS `project_product` (
   KEY `project_product_prod` (`Prod_id`),
   KEY `project_product_project` (`Project_id`),
   KEY `project_product_status` (`Stat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `project_product`
@@ -714,13 +714,13 @@ INSERT INTO `project_product` (`Project_product_id`, `Project_productAmount`, `P
 DROP TABLE IF EXISTS `project_tracking`;
 CREATE TABLE IF NOT EXISTS `project_tracking` (
   `ProjectTrack_id` int NOT NULL AUTO_INCREMENT,
-  `ProjectTrack_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `ProjectTrack_description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `ProjectTrack_name` varchar(100) DEFAULT NULL,
+  `ProjectTrack_description` varchar(200) DEFAULT NULL,
   `Project_id` int UNSIGNED DEFAULT NULL,
-  `ProjectTrack_date` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `ProjectTrack_date` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`ProjectTrack_id`),
   KEY `project_tracking_project` (`Project_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -736,7 +736,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `role`
@@ -764,7 +764,7 @@ CREATE TABLE IF NOT EXISTS `role_module` (
   PRIMARY KEY (`Role_mod_id`),
   KEY `role_module` (`Mod_id`),
   KEY `role_module_role` (`Role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `role_module`
@@ -795,7 +795,7 @@ CREATE TABLE IF NOT EXISTS `role_module_permit` (
   PRIMARY KEY (`Role_mod_per_id`),
   KEY `Role_mod_id` (`Role_mod_id`),
   KEY `Perm_id` (`Perm_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `role_module_permit`
@@ -838,7 +838,7 @@ CREATE TABLE IF NOT EXISTS `status` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Stat_id`),
   KEY `status_StatusType` (`StatType_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `status`
@@ -865,7 +865,7 @@ CREATE TABLE IF NOT EXISTS `statustype` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`StatType_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `statustype`
@@ -894,14 +894,14 @@ CREATE TABLE IF NOT EXISTS `subactivities` (
   `Stat_id` int UNSIGNED NOT NULL,
   `Activi_id` int UNSIGNED NOT NULL,
   `Priorities_id` int NOT NULL,
-  `SubAct_description` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `SubAct_description` varchar(150) NOT NULL,
   `SubAct_percentage` varchar(15) NOT NULL,
   PRIMARY KEY (`SubAct_id`),
   KEY `subactivities_user` (`User_id`),
   KEY `subactivities_stad` (`Stat_id`),
   KEY `subactivities_activi` (`Activi_id`),
   KEY `Priorities_id` (`Priorities_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `subactivities`
@@ -923,7 +923,7 @@ CREATE TABLE IF NOT EXISTS `unit` (
   `Unit_name` varchar(100) NOT NULL,
   `Unit_symbol` varchar(5) NOT NULL,
   PRIMARY KEY (`Unit_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `unit`
@@ -954,7 +954,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   KEY `user_status` (`Stat_id`),
   KEY `user_company` (`Comp_id`),
   KEY `Role_id` (`Role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `user`

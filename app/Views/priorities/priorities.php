@@ -68,7 +68,7 @@
                                             <?php foreach ($priorities as $obj) : ?>
                                                 <tr>
                                                     <td><?= $i++; ?></td>
-                                                    <td class="priorities" style="color: <?= $obj['Priorities_color']; ?>"><?= $obj['Priorities_name']; ?></td>
+                                                    <td class="priorities-text" style="color: <?= $obj['Priorities_color']; ?>"><?= $obj['Priorities_name']; ?></td>
                                                     <td>
                                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                                             <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj['Priorities_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -134,5 +134,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/priorities/priorities.controller.js"></script>
+    <script src="./controllers/priorities/priorities.controller.js"></script>
 </body>

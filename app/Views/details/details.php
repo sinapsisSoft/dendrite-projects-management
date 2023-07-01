@@ -518,7 +518,7 @@
         </div>.
     </div>
     <?= $js ?>
-    <script src="../controllers/details/details.controller.js"></script>
-    <script src="../controllers/activities/activities.controller.js"></script>
-    <script src="../controllers/projecttracking/projecttracking.controller.js"></script>
+    <script src="./controllers/details/details.controller.js"></script>
+    <script src="./controllers/activities/activities.controller.js"></script>
+    <script src="./controllers/projecttracking/projecttracking.controller.js"></script>
 </body>

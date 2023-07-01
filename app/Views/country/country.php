@@ -130,5 +130,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/country/country.controller.js"></script>
+    <script src="./controllers/country/country.controller.js"></script>
 </body>

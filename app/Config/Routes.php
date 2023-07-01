@@ -50,7 +50,7 @@ $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($route
 });
 
 $routes->group('doctype', ['namespace' => 'App\Controllers\DocType'], function ($routes) {
-    $routes->get('/', 'DocType::show');
+    $routes->get('/', 'Doctype::show');
     $routes->post('create', 'DocType::create');
     $routes->post('delete', 'DocType::delete');
     $routes->post('edit', 'DocType::edit');

@@ -137,5 +137,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/unit/unit.controller.js"></script>
+    <script src="./controllers/unit/unit.controller.js"></script>
 </body>

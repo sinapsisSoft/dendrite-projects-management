@@ -261,7 +261,7 @@
     <!-- ============================================================== -->
 
     <!-- ============================================================== -->
-    <script src="../controllers/user/user.controller.js"></script>
+    <script src="./controllers/user/user.controller.js"></script>
 </body>
 
 </html>

@@ -140,5 +140,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/userstatus/userstatus.controller.js"></script>
+    <script src="./controllers/userstatus/userstatus.controller.js"></script>
 </body>

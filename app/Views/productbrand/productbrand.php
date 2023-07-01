@@ -210,5 +210,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/productbrand/productbrand.controller.js"></script>
+    <script src="./controllers/productbrand/productbrand.controller.js"></script>
 </body>

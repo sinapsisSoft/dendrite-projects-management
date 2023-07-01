@@ -229,5 +229,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/activities/activities.controller.js"></script>
+    <script src="./controllers/activities/activities.controller.js"></script>
 </body>

@@ -140,5 +140,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/doctype/doctype.controller.js"></script>
+    <script src="./controllers/doctype/doctype.controller.js"></script>
 </body>

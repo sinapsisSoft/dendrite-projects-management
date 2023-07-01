@@ -152,7 +152,7 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/role/role.controller.js"></script>
+    <script src="./controllers/role/role.controller.js"></script>
 </body>
 
 </html>

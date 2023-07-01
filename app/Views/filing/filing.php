@@ -134,5 +134,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/filing/filing.controller.js"></script>
+    <script src="./controllers/filing/filing.controller.js"></script>
 </body>

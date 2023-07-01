@@ -133,5 +133,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/approvalcode/approvalcode.controller.js"></script>
+    <script src="./controllers/approvalcode/approvalcode.controller.js"></script>
 </body>

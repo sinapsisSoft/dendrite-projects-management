@@ -199,5 +199,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/product/product.controller.js"></script>
+    <script src="./controllers/product/product.controller.js"></script>
 </body>

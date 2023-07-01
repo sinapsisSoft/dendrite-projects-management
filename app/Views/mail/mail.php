@@ -80,5 +80,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/mail/mail.controller.js"></script>
+    <script src="./controllers/mail/mail.controller.js"></script>
 </body>

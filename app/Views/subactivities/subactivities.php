@@ -357,5 +357,5 @@
     </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/subactivities/subactivities.controller.js"></script>
+    <script src="./controllers/subactivities/subactivities.controller.js"></script>
 </body>

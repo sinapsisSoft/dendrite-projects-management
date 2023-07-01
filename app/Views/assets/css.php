@@ -66,7 +66,7 @@
   .btn-circle.btn-lg {
     width: 50px;
     height: 50px;
-    padding: 10px 16px;
+    padding: 10px 10px;
     font-size: 18px;
     line-height: 1.33;
     border-radius: 25px;
@@ -161,7 +161,7 @@
             text-transform: uppercase !important;
         }
 
-        .priorities {
+        .priorities-text {
             text-transform: uppercase;
             font-weight: bold;
         }

@@ -174,5 +174,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/company/company.controller.js"></script>
+    <script src="./controllers/company/company.controller.js"></script>
 </body>

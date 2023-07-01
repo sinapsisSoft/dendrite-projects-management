@@ -201,5 +201,5 @@
         </div>
     </div>
     <?= $js ?>
-    <script src="../controllers/client/client.controller.js"></script>
+    <script src="./controllers/client/client.controller.js"></script>
 </body>
