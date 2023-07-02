@@ -134,7 +134,7 @@
     <!-- ============================================================== -->
     <!-- This page plugin js -->
     <!-- ============================================================== -->
-    <script src="../controllers/auth/login.controller.js"></script>
+    <script src="<?=base_url()?>/controllers/auth/login.controller.js"></script>
     
 </body>
 
