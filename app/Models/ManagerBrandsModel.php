@@ -24,4 +24,10 @@ class ManagerBrandsModel extends Model{
         $result = $this->db->query($query)->getResult();
         return $result;
     }
+
+    public function sp_select_manager_brands($manager){
+        $query = "call sp_select_manager_brands($manager)";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
 }

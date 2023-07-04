@@ -31,6 +31,17 @@ LEFT JOIN manager_brands MB ON MB.Brand_id = B.Brand_id
 WHERE MB.Brand_id IS NULL AND B.Client_id = client_id;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_manager_brands`$$
+CREATE PROCEDURE `sp_select_manager_brands` (IN `ManagerId` INT)   
+BEGIN
+SELECT 
+	MB.Brand_id,
+    B.Brand_name
+FROM manager_brands MB
+INNER JOIN brand B ON MB.Brand_id = B.Brand_id
+WHERE MB.Manager_id = ManagerId;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_all_clients`$$
 CREATE PROCEDURE `sp_select_all_clients` (IN `Client_id` INT)   BEGIN
 SELECT

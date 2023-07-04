@@ -5,6 +5,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\BrandModel;
 use App\Models\ClientModel;
+use App\Models\ManagerBrandsModel;
 use App\Models\ManagerModel;
 
 class Brand extends BaseController{
@@ -61,10 +62,11 @@ class Brand extends BaseController{
     public function findByManager(){
         try{
             $managerId = $this->request->getVar('managerId');
-            $brands = $this->objModel->where('Manager_id', $managerId)->find();
+            $objManagerBrand = new ManagerBrandsModel();
+            $managerBrands = $objManagerBrand->sp_select_manager_brands($managerId);
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
-            $data['data'] = $brands;
+            $data['data'] = $managerBrands;
             $data['csrf'] = csrf_hash();
         }catch (\Exception $e) {
             $data['message'] = $e;

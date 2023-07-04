@@ -130,7 +130,7 @@
     let position = 0;
     links.forEach(function(element) {
       let className = element.classList;
-      ifelement.classList.contains("active") ? position = className.length - 2 : position = className.length - 1;
+      element.classList.contains("active") ? position = className.length - 2 : position = className.length - 1;
       element.href != "javascript:void(0)" ? element.href = BASE_URL + className[position] : element.href = "javascript:void(0)";
     })
   }
