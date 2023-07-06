@@ -135,6 +135,7 @@ $routes->group('client', ['namespace' => 'App\Controllers\Client'], function ($r
     $routes->post('delete', 'Client::delete');
     $routes->post('edit', 'Client::edit');
     $routes->post('update', 'Client::update');
+    $routes->post('findCountry', 'Client::findCountry');
 });
 
 $routes->group('product', ['namespace' => 'App\Controllers\Product'], function ($routes) {

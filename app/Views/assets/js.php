@@ -29,3 +29,4 @@
     <script src="<?=base_url()?>/system/library/st-forms.js"></script>
     <script src="<?=base_url()?>/system/library/st-toasts.js"></script>
     <script src="<?=base_url()?>/assets/js/lordicon-bhenfmcm.js"></script>
+    <script src="<?=base_url()?>/assets/js/sweetalert2.all.min.js"></script>

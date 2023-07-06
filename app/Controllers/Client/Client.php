@@ -124,6 +124,22 @@ class Client extends BaseController{
         return json_encode($data);
     }
 
+    public function findCountry(){
+        try{
+            $clientId = $this->request->getVar('clientId');
+            $city = $this->objModel->sp_select_country_client($clientId);
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['data'] = $city;
+            $data['csrf'] = csrf_hash();
+        }catch (\Exception $e) {
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = 'Error';
+        }
+        return json_encode($data);
+    }
+
     public function getDataModel($getShares)
     {
         $data = [

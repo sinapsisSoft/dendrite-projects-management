@@ -175,7 +175,7 @@
                                             <label for="Stat_id">Estado</label>
                                         </div>
                                         <div class="form-floating mb-3 col-6">
-                                            <select name="Project_product_id" id="Project_product_id" class="form-control">
+                                            <select name="Project_product_id" id="Project_product_id" class="form-control form-select">
                                                 <option value="">
                                                     Seleccione...
                                                 </option>

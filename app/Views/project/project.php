@@ -44,7 +44,7 @@
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    <a href="" id="route">Proyectos</a>
+                    <a href="<?= base_url() ?>project">Proyectos</a>
                   </li>
                 </ol>
               </nav>
@@ -116,7 +116,7 @@
             </div>
           </div>
         </div>
-        <div class="modal fade" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
+        <div class="modal fade"  data-bs-backdrop="static" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content" style="width: 100%;">
               <div class="modal-header">
@@ -134,7 +134,7 @@
                     </div>
                     <div class="col-12 col-md-6 mb-3">
                       <label for="Client_id">Cliente</label>
-                      <select name="Client_id" id="Client_id" class="form-control form-select" required>
+                      <select name="Client_id" id="Client_id" class="form-control form-disabled form-select" required>
                         <option value="">
                           Seleccione...
                         </option>
@@ -147,7 +147,7 @@
                     </div>
                     <div class="col-12 col-md-4 mb-3">
                       <label for="Manager_id">Gerente</label>
-                      <select name="Manager_id" id="Manager_id" class="form-control form-select" required>
+                      <select name="Manager_id" id="Manager_id" class="form-control form-select form-disabled read" disabled required>
                         <option value="">
                           Seleccione...
                         </option>
@@ -160,7 +160,7 @@
                     </div>
                     <div class="col-12 col-md-4 mb-3">
                       <label for="Brand_id">Marca</label>
-                      <select name="Brand_id" id="Brand_id" class="form-control form-select" required>
+                      <select name="Brand_id" id="Brand_id" class="form-control form-disabled form-select read" disabled required>
                         <option value="">
                           Seleccione...
                         </option>
@@ -173,15 +173,15 @@
                     </div>
                     <div class="col-12 col-md-4 mb-3">
                       <label for="Country_id">País</label>
-                      <select name="Country_id" id="Country_id" class="form-control form-select" disabled>
+                      <select name="Country_id" id="Country_id" class="form-control form-disabled form-select read">
                         <option value="">
                           Seleccione...
-                        </option>
+                        </option>  
                         <?php foreach ($countries as $country) : ?>
                           <option value="<?= $country['Country_id'] ?>">
                             <?= $country['Country_name'] ?>
                           </option>
-                        <?php endforeach; ?>
+                        <?php endforeach; ?>                      
                       </select>
                     </div>
                     <div class="col-12 col-md-4 mb-3">
@@ -203,19 +203,19 @@
                     </div>
                     <div class="col-12 col-md-4 mb-3">
                       <label for="Project_ddtStartDate">Fecha Inicio DDT</label>
-                      <input type="date" class="form-control form-disabled" id="Project_ddtStartDate" name="Project_ddtStartDate">
+                      <input type="date" class="form-control" id="Project_ddtStartDate" name="Project_ddtStartDate">
                     </div>
                     <div class="col-12 col-md-3 mb-3">
                       <label for="Project_ddtEndDate">Fecha Máxima DDT</label>
-                      <input type="date" class="form-control form-disabled" id="Project_ddtEndDate" name="Project_ddtEndDate">
+                      <input type="date" class="form-control" id="Project_ddtEndDate" name="Project_ddtEndDate">
                     </div>
                     <div class="col-12 col-md-3 mb-3">
                       <label for="Project_startDate">Fecha Inicio Proyecto</label>
-                      <input type="date" class="form-control form-disabled" id="Project_startDate" name="Project_startDate" required>
+                      <input type="date" class="form-control" id="Project_startDate" name="Project_startDate" required>
                     </div>
                     <div class="col-12 col-md-3 mb-3">
                       <label for="Project_estimatedEndDate">Fecha Finalización Estimada</label>
-                      <input type="date" class="form-control form-disabled" id="Project_estimatedEndDate" name="Project_estimatedEndDate">
+                      <input type="date" class="form-control" id="Project_estimatedEndDate" name="Project_estimatedEndDate">
                     </div>
                     <div class="col-12 col-md-3 mb-3">
                       <label for="User_id">Notificar a:</label>
@@ -243,11 +243,11 @@
                     </div>
                     <div class="col-12 col-md-4 mb-3">
                       <label for="Project_activitiEndDate">Fecha Finalización de Actividades</label>
-                      <input type="date" class="form-control form-disabled" id="Project_activitiEndDate" name="Project_activitiEndDate" disabled>
+                      <input type="date" class="form-control form-disabled read" id="Project_activitiEndDate" name="Project_activitiEndDate">
                     </div>                    
                     <div class="col-12 col-md-4 mb-3">
                       <label for="Stat_id">Estado</label>
-                      <select class="form-control form-select" id="Stat_id" name="Stat_id">
+                      <select class="form-control form-select form-disabled read" id="Stat_id" name="Stat_id">
                         <?php foreach ($userstatuses as $userstatus) : ?>
                           <option value="<?= $userstatus->Stat_id; ?>">
                             <?= $userstatus->Stat_name; ?>
@@ -276,8 +276,4 @@
     </div>
     <?= $js ?>
     <script src="./controllers/project/project.controller.js"></script>
-    <script>
-      var route = document.getElementById("route");
-      route.href = `${BASE_URL}project`;
-    </script>
 </body>

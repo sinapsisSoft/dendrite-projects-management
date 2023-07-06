@@ -11,22 +11,20 @@ class ProjectModel extends Model{
         'Project_id', 
         'Project_code', 
         'Project_name', 
+        'Manager_id',
+        'Brand_id',
         'Project_purchaseOrder', 
         'Project_ddtStartDate', 
         'Project_ddtEndDate', 
         'Project_startDate', 
         'Project_estimatedEndDate', 
         'Project_activitiEndDate',
-        'Project_link', 
-        'Project_percentage',
         'Project_observation', 
+        'Project_percentage',        
         'Client_id', 
-        'Brand_id',
-        'Manager_id',
-        'Country_id', 
         'User_id', 
-        'Stat_id',
         'Project_commercial',
+        'Stat_id',        
         'Priorities_id', 
         'updated_at'
     ];
@@ -57,4 +55,16 @@ class ProjectModel extends Model{
         $result = $this->db->query($query)->getResult();
         return $result;
     }
+
+    function sp_select_info_project($projectId){
+        $query = "call sp_select_info_project($projectId)";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
+
+    // function sp_select_one_project($projectId){
+    //     $query = "call sp_select_one_project($projectId)";
+    //     $result = $this->db->query($query)->getResult();
+    //     return $result;
+    // }
 }

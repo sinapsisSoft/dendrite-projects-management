@@ -92,6 +92,42 @@ class Email
       </tbody>
     </table> ';
     }
+    else if($type == 3){
+      $this->subject =  'Nuevo proyecto creado: ' . $data[0]->Project_name;
+      $this->body = '<table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tbody>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+      <div style="font-size: 16px; color: #000000; line-height: 140%; text-align: left; word-wrap: break-word;">
+        <p style="line-height: 140%;">Hola, se ha creado el proyecto <strong>' . $data[0]->Project_name . '</strong></p>
+      </div>    
+          </td>
+        </tr>
+      </tbody>
+    </table>    
+    <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tbody>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+            
+      <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: left; word-wrap: break-word;">
+        <p style="line-height: 140%;">El proyecto creado es pertenece a la marca <strong>'. $data[0]->Brand_name .'</strong> del gerente <strong>'. $data[0]->Manager_name .'</strong> del cliente <strong>'. $data[0]->Client_name .'</strong></p>
+    </br>
+    <p style="line-height: 140%;"><strong>Detalle del proyecto </strong></p>
+    </br>
+    <p style="line-height: 140%;"><strong>Orden de compra:</strong> '. $data[0]->Project_purchaseOrder . '</p>
+    </br>
+    <p style="line-height: 140%;"><strong>Fecha de inicio del proyecto: </strong>'. $data[0]->Project_startDate . '</p>
+    </br>
+    <p style="line-height: 140%;"><strong>Prioridad: </strong>'. $data[0]->Priorities_name . '</p>
+    </br>
+    <p style="line-height: 140%;">Revisa el proyecto <a href="' . $_SERVER['HTTP_HOST'] . '/details?projectId=' . $data[0]->Project_id . '" target="_blank">aquí</a></p>
+      </div>    
+          </td>
+        </tr>
+      </tbody>
+    </table> ';
+    }
     $this->message = '<!DOCTYPE html>
     <head>
     <!--[if gte mso 9]>

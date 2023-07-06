@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `activities`;
 CREATE TABLE IF NOT EXISTS `activities` (
-  `Activi_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Activi_id` int(11) NOT NULL AUTO_INCREMENT,
   `Activi_name` varchar(100) NOT NULL,
   `Activi_code` varchar(15) NOT NULL,
   `Activi_observation` varchar(200) NOT NULL,
@@ -34,10 +34,10 @@ CREATE TABLE IF NOT EXISTS `activities` (
   `Activi_link` varchar(200) NOT NULL,
   `Activi_codeMiigo` varchar(30) DEFAULT NULL,
   `Activi_codeSpectra` varchar(30) DEFAULT NULL,
-  `Activi_codeDelivery` int DEFAULT NULL,
+  `Activi_codeDelivery` varchar(100) NOT NULL,
   `Activi_percentage` varchar(15) NOT NULL,
-  `Stat_id` int UNSIGNED DEFAULT NULL,
-  `Project_product_id` int UNSIGNED DEFAULT NULL,
+  `Stat_id` int(11) NOT NULL,
+  `Project_product_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Activi_id`),
@@ -62,7 +62,7 @@ INSERT INTO `activities` (`Activi_id`, `Activi_name`, `Activi_code`, `Activi_obs
 
 DROP TABLE IF EXISTS `approvalcode`;
 CREATE TABLE IF NOT EXISTS `approvalcode` (
-  `ApprCode_id` int NOT NULL AUTO_INCREMENT,
+  `ApprCode_id` int(11) NOT NULL AUTO_INCREMENT,
   `ApprCode_code` varchar(50) DEFAULT NULL,
   `ApprCode_name` varchar(100) NOT NULL,
   PRIMARY KEY (`ApprCode_id`)
@@ -87,10 +87,10 @@ INSERT INTO `approvalcode` (`ApprCode_id`, `ApprCode_code`, `ApprCode_name`) VAL
 
 DROP TABLE IF EXISTS `brand`;
 CREATE TABLE IF NOT EXISTS `brand` (
-  `Brand_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Brand_id` int(11) NOT NULL AUTO_INCREMENT,
   `Brand_name` varchar(50) NOT NULL,
   `Brand_description` varchar(100) NOT NULL,
-  `Client_id` int UNSIGNED NOT NULL,
+  `Client_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Brand_id`),
@@ -115,9 +115,9 @@ INSERT INTO `brand` (`Brand_id`, `Brand_name`, `Brand_description`, `Client_id`,
 
 DROP TABLE IF EXISTS `city`;
 CREATE TABLE IF NOT EXISTS `city` (
-  `City_id` int NOT NULL AUTO_INCREMENT,
+  `City_id` int(11) NOT NULL AUTO_INCREMENT,
   `City_name` varchar(50) NOT NULL,
-  `Country_id` int NOT NULL,
+  `Country_id` int(11) NOT NULL,
   PRIMARY KEY (`City_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
@@ -137,16 +137,16 @@ INSERT INTO `city` (`City_id`, `City_name`, `Country_id`) VALUES
 
 DROP TABLE IF EXISTS `client`;
 CREATE TABLE IF NOT EXISTS `client` (
-  `Client_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Client_id` int(11) NOT NULL AUTO_INCREMENT,
   `Client_name` varchar(100) NOT NULL,
   `Client_identification` varchar(20) NOT NULL,
   `Client_email` varchar(100) NOT NULL,
   `Client_phone` varchar(10) NOT NULL,
   `Client_address` varchar(100) NOT NULL,
-  `DocType_id` int UNSIGNED NOT NULL,
-  `Comp_id` int UNSIGNED NOT NULL,
-  `Stat_id` int UNSIGNED NOT NULL,
-  `Country_id` int UNSIGNED NOT NULL,
+  `DocType_id` int(11) NOT NULL,
+  `Comp_id` int(11) NOT NULL,
+  `Stat_id` int(11) NOT NULL,
+  `Country_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Client_id`),
@@ -176,9 +176,9 @@ INSERT INTO `client` (`Client_id`, `Client_name`, `Client_identification`, `Clie
 
 DROP TABLE IF EXISTS `client_contact`;
 CREATE TABLE IF NOT EXISTS `client_contact` (
-  `Client_contact_id` int NOT NULL,
-  `Contact_id` int UNSIGNED NOT NULL,
-  `Client_id` int UNSIGNED NOT NULL,
+  `Client_contact_id` int(11) NOT NULL,
+  `Contact_id` int(11) NOT NULL,
+  `Client_id` int(11) NOT NULL,
   PRIMARY KEY (`Client_contact_id`),
   KEY `client_contact_client` (`Client_id`),
   KEY `client_contact_contact` (`Contact_id`)
@@ -192,13 +192,13 @@ CREATE TABLE IF NOT EXISTS `client_contact` (
 
 DROP TABLE IF EXISTS `company`;
 CREATE TABLE IF NOT EXISTS `company` (
-  `Comp_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Comp_id` int(11) NOT NULL AUTO_INCREMENT,
   `Comp_name` varchar(100) NOT NULL,
   `Comp_identification` varchar(20) NOT NULL,
   `Comp_email` varchar(100) NOT NULL,
   `Comp_phone` varchar(10) NOT NULL,
-  `DocType_id` int UNSIGNED NOT NULL,
-  `Stat_id` int UNSIGNED NOT NULL,
+  `DocType_id` int(11) NOT NULL,
+  `Stat_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Comp_id`),
@@ -223,9 +223,9 @@ INSERT INTO `company` (`Comp_id`, `Comp_name`, `Comp_identification`, `Comp_emai
 
 DROP TABLE IF EXISTS `company_contact`;
 CREATE TABLE IF NOT EXISTS `company_contact` (
-  `Comp_contac_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `Comp_id` int UNSIGNED NOT NULL,
-  `Contact_id` int UNSIGNED NOT NULL,
+  `Comp_contac_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Comp_id` int(11) NOT NULL,
+  `Contact_id` int(11) NOT NULL,
   PRIMARY KEY (`Comp_contac_id`),
   KEY `company_contact_company` (`Comp_id`),
   KEY `company_contact_contact` (`Contact_id`)
@@ -239,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `company_contact` (
 
 DROP TABLE IF EXISTS `contact`;
 CREATE TABLE IF NOT EXISTS `contact` (
-  `Contact_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Contact_id` int(11) NOT NULL AUTO_INCREMENT,
   `Contact_name` varchar(100) NOT NULL,
   `Contact_charge` varchar(50) NOT NULL,
   `Contact_phone` varchar(10) NOT NULL,
@@ -256,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
 
 DROP TABLE IF EXISTS `country`;
 CREATE TABLE IF NOT EXISTS `country` (
-  `Country_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Country_id` int(11) NOT NULL AUTO_INCREMENT,
   `Country_name` varchar(100) NOT NULL,
   PRIMARY KEY (`Country_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -278,7 +278,7 @@ INSERT INTO `country` (`Country_id`, `Country_name`) VALUES
 
 DROP TABLE IF EXISTS `doctype`;
 CREATE TABLE IF NOT EXISTS `doctype` (
-  `DocType_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `DocType_id` int(11) NOT NULL AUTO_INCREMENT,
   `DocType_name` varchar(100) NOT NULL,
   `DocType_code` varchar(10) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -308,7 +308,7 @@ INSERT INTO `doctype` (`DocType_id`, `DocType_name`, `DocType_code`, `updated_at
 
 DROP TABLE IF EXISTS `email`;
 CREATE TABLE IF NOT EXISTS `email` (
-  `Email_id` int NOT NULL AUTO_INCREMENT,
+  `Email_id` int(11) NOT NULL AUTO_INCREMENT,
   `Email_user` varchar(100) NOT NULL,
   `Email_pass` varchar(150) NOT NULL,
   `Email_host` varchar(150) NOT NULL,
@@ -322,7 +322,7 @@ CREATE TABLE IF NOT EXISTS `email` (
 --
 
 INSERT INTO `email` (`Email_id`, `Email_user`, `Email_pass`, `Email_host`, `Email_puerto`, `updated_at`) VALUES
-(1, 'contacto@restaurantebareltransportador.com', 'Transportador2021*', 'smtp.hostinger.co', '587', '2023-06-04 23:58:38');
+(1, 'no-responder@dendrite.com.co', 'Sinapsis2020*', 'smtp.hostinger.co', '587', '2023-06-04 23:58:38');
 
 -- --------------------------------------------------------
 
@@ -332,7 +332,7 @@ INSERT INTO `email` (`Email_id`, `Email_user`, `Email_pass`, `Email_host`, `Emai
 
 DROP TABLE IF EXISTS `filing`;
 CREATE TABLE IF NOT EXISTS `filing` (
-  `Filing_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Filing_id` int(11) NOT NULL AUTO_INCREMENT,
   `Filing_name` varchar(100) NOT NULL,
   `Filing_description` varchar(200) NOT NULL,
   PRIMARY KEY (`Filing_id`)
@@ -353,7 +353,7 @@ INSERT INTO `filing` (`Filing_id`, `Filing_name`, `Filing_description`) VALUES
 
 DROP TABLE IF EXISTS `mail`;
 CREATE TABLE IF NOT EXISTS `mail` (
-  `Mail_id` int NOT NULL AUTO_INCREMENT,
+  `Mail_id` int(11) NOT NULL AUTO_INCREMENT,
   `Mail_user` varchar(150) NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`Mail_id`)
@@ -364,7 +364,7 @@ CREATE TABLE IF NOT EXISTS `mail` (
 --
 
 INSERT INTO `mail` (`Mail_id`, `Mail_user`, `updated_at`) VALUES
-(5, 'st.fullstack@gmail.com', '2023-06-04 23:51:40');
+(5, 'developer.sinapsist@gmail.com', '2023-06-04 23:51:40');
 
 -- --------------------------------------------------------
 
@@ -374,11 +374,11 @@ INSERT INTO `mail` (`Mail_id`, `Mail_user`, `updated_at`) VALUES
 
 DROP TABLE IF EXISTS `manager`;
 CREATE TABLE IF NOT EXISTS `manager` (
-  `Manager_id` int NOT NULL AUTO_INCREMENT,
+  `Manager_id` int(11) NOT NULL AUTO_INCREMENT,
   `Manager_name` varchar(100) NOT NULL,
   `Manager_email` varchar(100) NOT NULL,
   `Manager_phone` varchar(10) NOT NULL,
-  `Client_id` int UNSIGNED NOT NULL,
+  `Client_id` int(11) NOT NULL,
   PRIMARY KEY (`Manager_id`),
   KEY `manager_client` (`Client_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
@@ -399,9 +399,9 @@ INSERT INTO `manager` (`Manager_id`, `Manager_name`, `Manager_email`, `Manager_p
 
 DROP TABLE IF EXISTS `manager_brands`;
 CREATE TABLE IF NOT EXISTS `manager_brands` (
-  `Manager_brand_id` int NOT NULL AUTO_INCREMENT,
-  `Manager_id` int NOT NULL,
-  `Brand_id` int UNSIGNED NOT NULL,
+  `Manager_brand_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Manager_id` int(11) NOT NULL,
+  `Brand_id` int(11) NOT NULL,
   PRIMARY KEY (`Manager_brand_id`),
   KEY `manager_brands_brand` (`Brand_id`),
   KEY `manager_brands_manager` (`Manager_id`)
@@ -423,13 +423,13 @@ INSERT INTO `manager_brands` (`Manager_brand_id`, `Manager_id`, `Brand_id`) VALU
 
 DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE IF NOT EXISTS `migrations` (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `version` varchar(255) NOT NULL,
   `class` varchar(255) NOT NULL,
   `group` varchar(255) NOT NULL,
   `namespace` varchar(255) NOT NULL,
-  `time` int NOT NULL,
-  `batch` int UNSIGNED NOT NULL,
+  `time` int(11) NOT NULL,
+  `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
@@ -459,7 +459,7 @@ INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`
 
 DROP TABLE IF EXISTS `module`;
 CREATE TABLE IF NOT EXISTS `module` (
-  `Mod_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Mod_id` int(11) NOT NULL AUTO_INCREMENT,
   `Mod_name` varchar(50) NOT NULL,
   `Mod_route` varchar(30) NOT NULL,
   `Mod_description` varchar(100) NOT NULL,
@@ -485,7 +485,7 @@ INSERT INTO `module` (`Mod_id`, `Mod_name`, `Mod_route`, `Mod_description`, `upd
 
 DROP TABLE IF EXISTS `permit`;
 CREATE TABLE IF NOT EXISTS `permit` (
-  `Perm_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Perm_id` int(11) NOT NULL AUTO_INCREMENT,
   `Perm_name` varchar(50) NOT NULL,
   `Perm_description` varchar(100) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -511,7 +511,7 @@ INSERT INTO `permit` (`Perm_id`, `Perm_name`, `Perm_description`, `updated_at`, 
 
 DROP TABLE IF EXISTS `priorities`;
 CREATE TABLE IF NOT EXISTS `priorities` (
-  `Priorities_id` int NOT NULL AUTO_INCREMENT,
+  `Priorities_id` int(11) NOT NULL AUTO_INCREMENT,
   `Priorities_name` varchar(100) NOT NULL,
   `Priorities_color` varchar(20) NOT NULL,
   PRIMARY KEY (`Priorities_id`)
@@ -534,14 +534,14 @@ INSERT INTO `priorities` (`Priorities_id`, `Priorities_name`, `Priorities_color`
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE IF NOT EXISTS `product` (
   `Prod_code` varchar(30) NOT NULL,
-  `Prod_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Prod_id` int(11) NOT NULL AUTO_INCREMENT,
   `Prod_name` varchar(100) NOT NULL,
   `Prod_description` varchar(200) NOT NULL,
   `Prod_value` double NOT NULL,
-  `TypePro_id` int UNSIGNED NOT NULL,
-  `Unit_id` int UNSIGNED NOT NULL,
-  `Prod_brand_id` int UNSIGNED NOT NULL,
-  `Filing_id` int UNSIGNED NOT NULL,
+  `TypePro_id` int(11) NOT NULL,
+  `Unit_id` int(11) NOT NULL,
+  `Prod_brand_id` int(11) NOT NULL,
+  `Filing_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Prod_id`),
@@ -567,7 +567,7 @@ INSERT INTO `product` (`Prod_code`, `Prod_id`, `Prod_name`, `Prod_description`, 
 
 DROP TABLE IF EXISTS `product_brand`;
 CREATE TABLE IF NOT EXISTS `product_brand` (
-  `Prod_brand_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Prod_brand_id` int(11) NOT NULL AUTO_INCREMENT,
   `Prod_brand_name` varchar(100) NOT NULL,
   `Prod_brand_description` varchar(150) NOT NULL,
   PRIMARY KEY (`Prod_brand_id`)
@@ -589,7 +589,7 @@ INSERT INTO `product_brand` (`Prod_brand_id`, `Prod_brand_name`, `Prod_brand_des
 
 DROP TABLE IF EXISTS `product_type`;
 CREATE TABLE IF NOT EXISTS `product_type` (
-  `TypePro_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `TypePro_id` int(11) NOT NULL AUTO_INCREMENT,
   `TypePro_name` varchar(100) NOT NULL,
   `TypePro_description` varchar(200) NOT NULL,
   PRIMARY KEY (`TypePro_id`)
@@ -611,15 +611,15 @@ INSERT INTO `product_type` (`TypePro_id`, `TypePro_name`, `TypePro_description`)
 
 DROP TABLE IF EXISTS `profile`;
 CREATE TABLE IF NOT EXISTS `profile` (
-  `Profile_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Profile_id` int(11) NOT NULL AUTO_INCREMENT,
   `Profile_lastName` varchar(100) NOT NULL,
   `Profile_surName` varchar(100) NOT NULL,
   `Profile_img` varchar(150) NOT NULL,
   `Profile_cellphone` varchar(10) NOT NULL,
   `Profile_identification` varchar(10) NOT NULL,
   `Profile_email` varchar(255) NOT NULL,
-  `DocType_id` int UNSIGNED NOT NULL,
-  `User_id` int UNSIGNED NOT NULL,
+  `DocType_id` int(11) NOT NULL,
+  `User_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Profile_id`),
@@ -633,13 +633,12 @@ CREATE TABLE IF NOT EXISTS `profile` (
 -- Estructura de tabla para la tabla `project`
 --
 
-DROP TABLE IF EXISTS `project`;
-CREATE TABLE IF NOT EXISTS `project` (
-  `Project_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `project` (
+  `Project_id` int(11) NOT NULL AUTO_INCREMENT,
   `Project_code` varchar(10) DEFAULT NULL,
   `Project_name` varchar(100) NOT NULL,
-  `Manager_id` int NOT NULL,
-  `Brand_id` int UNSIGNED NOT NULL,
+  `Manager_id` int(11) NOT NULL,
+  `Brand_id` int(11) NOT NULL,
   `Project_purchaseOrder` varchar(10) NOT NULL,
   `Project_ddtStartDate` date DEFAULT NULL,
   `Project_ddtEndDate` date DEFAULT NULL,
@@ -647,33 +646,43 @@ CREATE TABLE IF NOT EXISTS `project` (
   `Project_estimatedEndDate` date DEFAULT NULL,
   `Project_activitiEndDate` date NOT NULL,
   `Project_observation` varchar(300) NOT NULL,
-  `Project_link` varchar(150) NOT NULL,
   `Project_percentage` varchar(15) DEFAULT NULL,
-  `Client_id` int UNSIGNED NOT NULL,
-  `Country_id` int UNSIGNED NOT NULL,
-  `User_id` int UNSIGNED NOT NULL,
-  `Project_commercial` varchar(50) NOT NULL,
-  `Stat_id` int UNSIGNED NOT NULL,
-  `Priorities_id` int NOT NULL,
+  `Client_id` int(11) NOT NULL,
+  `User_id` int(11) NOT NULL,
+  `Project_commercial` int(11) NOT NULL,
+  `Stat_id` int(11) NOT NULL,
+  `Priorities_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`Project_id`),
   KEY `project_stati` (`Stat_id`),
   KEY `project_user` (`User_id`),
   KEY `project_client` (`Client_id`),
-  KEY `project_contry` (`Country_id`),
   KEY `project_brand` (`Brand_id`),
   KEY `project_manager` (`Manager_id`),
+  KEY `project_commercial` (`Project_commercial`),  
   KEY `Priorities_id` (`Priorities_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --
 -- Volcado de datos para la tabla `project`
 --
 
-INSERT INTO `project` (`Project_id`, `Project_code`, `Project_name`, `Manager_id`, `Brand_id`, `Project_purchaseOrder`, `Project_ddtStartDate`, `Project_ddtEndDate`, `Project_startDate`, `Project_estimatedEndDate`, `Project_activitiEndDate`, `Project_observation`, `Project_link`, `Project_percentage`, `Client_id`, `Country_id`, `User_id`, `Project_commercial`, `Stat_id`, `Priorities_id`, `updated_at`, `created_at`) VALUES
-(31, 'PRO_031', 'CREACIÓN DE MAIL Y VIDEO, IMPLICAIONES METABOLICAS PARA ABBOTT', 15, 16, '125', '2023-06-15', '2023-06-22', '2023-06-16', '2023-06-17', '2023-06-21', 'descripción', 'git', NULL, 2, 1, 223, '222', 1, 6, '0000-00-00 00:00:00', '2023-06-01 14:05:07'),
-(43, 'PRO_043', 'CREACIÓN DE MAIL Y VIDEO, IMPLICAIONES METABOLICAS PARA ABBOTT', 16, 18, '987', '2023-06-06', '2023-06-06', '2023-06-06', '2023-06-29', '2023-06-23', 'descripción', 'git', NULL, 19, 1, 1, '222', 1, 9, '0000-00-00 00:00:00', '2023-06-06 11:44:53');
+INSERT INTO `project` (`Project_id`, `Project_code`, `Project_name`, `Manager_id`, `Brand_id`, `Project_purchaseOrder`, `Project_ddtStartDate`, `Project_ddtEndDate`, `Project_startDate`, `Project_estimatedEndDate`, `Project_activitiEndDate`, `Project_observation`, `Project_percentage`, `Client_id`, `User_id`, `Project_commercial`, `Stat_id`, `Priorities_id`, `updated_at`, `created_at`) VALUES
+(17, 'PRO_017', 'CREACIÓN DE MAIL Y VIDEO, IMPLICAIONES METABOLICAS PARA ABBOTT', 15, 14, '125', '2023-05-28', '2023-05-28', '2023-05-28', '2023-05-28', '2023-05-28', 'YTG', NULL, 2, 217, 222, 1, 6, '2023-07-04 23:01:54', '2023-05-28 09:16:09'),
+(18, 'PRO_018', 'inventario', 15, 15, 'fcwsef', '2023-05-11', '2023-05-29', '2023-05-04', '2023-05-06', '2023-05-22', 'descripción', NULL, 2, 216, 222, 4, 6, '2023-05-29 15:43:14', '2023-05-29 10:42:40'),
+(21, 'PRO_021', 'Proyecto ambiente de pruebas', 15, 15, 'dfgdfg123', '0000-00-00', '0000-00-00', '2023-07-05', '0000-00-00', '0000-00-00', '', NULL, 2, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 18:40:29'),
+(22, 'PRO_022', 'Creación de landing 1', 15, 14, 'ccll789', '0000-00-00', '0000-00-00', '2023-07-04', '2023-08-02', '0000-00-00', '', NULL, 2, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 18:50:51'),
+(23, 'PRO_023', 'ENVÍO MASIVO DE CORREOS ABBOTT PERÚ', 19, 21, 'RETSDFS965', '0000-00-00', '0000-00-00', '2023-07-10', '0000-00-00', '0000-00-00', '', NULL, 18, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:04:16'),
+(24, 'PRO_024', 'ENVÍO MASIVO DE MEMBRETES', 16, 19, 'EMDM456', '0000-00-00', '0000-00-00', '2023-07-07', '0000-00-00', '0000-00-00', '', NULL, 3, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:09:05'),
+(25, 'PRO_025', 'CREACIÓN DE MAIL Y VIDEO, IMPLICACIONES EN LA CONCEPCIÓN', 18, 18, 'RTRTY7897', '0000-00-00', '0000-00-00', '2023-07-10', '0000-00-00', '0000-00-00', '', NULL, 3, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:10:48'),
+(26, 'PRO_026', 'Creación de WEB', 20, 20, 'AWERWER789', '0000-00-00', '0000-00-00', '2023-07-04', '0000-00-00', '0000-00-00', '', NULL, 18, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:12:12'),
+(27, 'PRO_027', 'Creación de WEB', 20, 20, 'AWERWER789', '0000-00-00', '0000-00-00', '2023-07-04', '0000-00-00', '0000-00-00', '', NULL, 18, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:13:40'),
+(28, 'PRO_028', 'CREación de página de juego interactivos', 15, 14, 'dsrdf78g94', '0000-00-00', '0000-00-00', '2023-07-01', '0000-00-00', '0000-00-00', '', NULL, 2, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:14:51'),
+(29, 'PRO_029', 'SEGUIMIENTO DE CAMPAÑAS PUBLICITARIAS', 17, 17, 'sdfsdf7777', '0000-00-00', '0000-00-00', '2023-07-04', '0000-00-00', '0000-00-00', '', NULL, 3, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:17:40'),
+(30, 'PRO_030', 'seguimiento de campa{a de marketing', 16, 19, 'etert879', '0000-00-00', '0000-00-00', '2023-07-06', '0000-00-00', '0000-00-00', '', NULL, 3, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:28:22'),
+(31, 'PRO_031', 'SEGUIMIENTO CORREOS', 19, 21, 'DFGTD8888', '0000-00-00', '0000-00-00', '2023-07-10', '0000-00-00', '0000-00-00', '', NULL, 18, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:41:13'),
+(32, 'PRO_032', 'SEGUIMIENTO CORREOS', 17, 17, 'gtyut8869', '0000-00-00', '0000-00-00', '2023-07-14', '0000-00-00', '0000-00-00', '', NULL, 3, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:47:24'),
+(33, 'PRO_033', 'ENVIO DE CAMPAÑAS PUBLICITARIAS', 15, 15, 'DFG89898', '0000-00-00', '0000-00-00', '2023-07-05', '0000-00-00', '0000-00-00', '', NULL, 2, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:51:44');
 
 -- --------------------------------------------------------
 
@@ -683,12 +692,12 @@ INSERT INTO `project` (`Project_id`, `Project_code`, `Project_name`, `Manager_id
 
 DROP TABLE IF EXISTS `project_product`;
 CREATE TABLE IF NOT EXISTS `project_product` (
-  `Project_product_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Project_product_id` int(11) NOT NULL AUTO_INCREMENT,
   `Project_productAmount` varchar(10) NOT NULL,
-  `Project_id` int UNSIGNED NOT NULL,
-  `Prod_id` int UNSIGNED NOT NULL,
+  `Project_id` int(11) NOT NULL,
+  `Prod_id` int(11) NOT NULL,
   `Project_product_percentage` varchar(15) DEFAULT NULL,
-  `Stat_id` int UNSIGNED NOT NULL,
+  `Stat_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Project_product_id`),
@@ -713,10 +722,10 @@ INSERT INTO `project_product` (`Project_product_id`, `Project_productAmount`, `P
 
 DROP TABLE IF EXISTS `project_tracking`;
 CREATE TABLE IF NOT EXISTS `project_tracking` (
-  `ProjectTrack_id` int NOT NULL AUTO_INCREMENT,
+  `ProjectTrack_id` int(11) NOT NULL AUTO_INCREMENT,
   `ProjectTrack_name` varchar(100) DEFAULT NULL,
   `ProjectTrack_description` varchar(200) DEFAULT NULL,
-  `Project_id` int UNSIGNED DEFAULT NULL,
+  `Project_id` int(11) DEFAULT NULL,
   `ProjectTrack_date` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`ProjectTrack_id`),
   KEY `project_tracking_project` (`Project_id`)
@@ -730,7 +739,7 @@ CREATE TABLE IF NOT EXISTS `project_tracking` (
 
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
-  `Role_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Role_id` int(11) NOT NULL AUTO_INCREMENT,
   `Role_name` varchar(50) NOT NULL,
   `Role_description` varchar(100) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -757,9 +766,9 @@ INSERT INTO `role` (`Role_id`, `Role_name`, `Role_description`, `updated_at`, `c
 
 DROP TABLE IF EXISTS `role_module`;
 CREATE TABLE IF NOT EXISTS `role_module` (
-  `Role_mod_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `Role_id` int UNSIGNED NOT NULL,
-  `Mod_id` int UNSIGNED NOT NULL,
+  `Role_mod_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Role_id` int(11) NOT NULL,
+  `Mod_id` int(11) NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Role_mod_id`),
   KEY `role_module` (`Mod_id`),
@@ -787,9 +796,9 @@ INSERT INTO `role_module` (`Role_mod_id`, `Role_id`, `Mod_id`, `created_at`) VAL
 
 DROP TABLE IF EXISTS `role_module_permit`;
 CREATE TABLE IF NOT EXISTS `role_module_permit` (
-  `Role_mod_per_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `Perm_id` int UNSIGNED NOT NULL,
-  `Role_mod_id` int UNSIGNED NOT NULL,
+  `Role_mod_per_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Perm_id` int(11) NOT NULL,
+  `Role_mod_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Role_mod_per_id`),
@@ -830,10 +839,10 @@ INSERT INTO `role_module_permit` (`Role_mod_per_id`, `Perm_id`, `Role_mod_id`, `
 
 DROP TABLE IF EXISTS `status`;
 CREATE TABLE IF NOT EXISTS `status` (
-  `Stat_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Stat_id` int(11) NOT NULL AUTO_INCREMENT,
   `Stat_name` varchar(100) NOT NULL,
   `Stat_description` varchar(200) NOT NULL,
-  `StatType_id` int UNSIGNED NOT NULL,
+  `StatType_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Stat_id`),
@@ -859,7 +868,7 @@ INSERT INTO `status` (`Stat_id`, `Stat_name`, `Stat_description`, `StatType_id`,
 
 DROP TABLE IF EXISTS `statustype`;
 CREATE TABLE IF NOT EXISTS `statustype` (
-  `StatType_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `StatType_id` int(11) NOT NULL AUTO_INCREMENT,
   `StatType_name` varchar(100) NOT NULL,
   `StatType_description` varchar(200) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -887,15 +896,16 @@ INSERT INTO `statustype` (`StatType_id`, `StatType_name`, `StatType_description`
 
 DROP TABLE IF EXISTS `subactivities`;
 CREATE TABLE IF NOT EXISTS `subactivities` (
-  `SubAct_id` int NOT NULL AUTO_INCREMENT,
+  `SubAct_id` int(11) NOT NULL AUTO_INCREMENT,
   `SubAct_name` varchar(100) NOT NULL,
-  `User_id` int UNSIGNED NOT NULL,
+  `User_id` int(11) NOT NULL,
   `SubAct_estimatedEndDate` date NOT NULL,
-  `Stat_id` int UNSIGNED NOT NULL,
-  `Activi_id` int UNSIGNED NOT NULL,
-  `Priorities_id` int NOT NULL,
+  `Stat_id` int(11) NOT NULL,
+  `Activi_id` int(11) NOT NULL,
+  `Priorities_id` int(11) NOT NULL,
   `SubAct_description` varchar(150) NOT NULL,
   `SubAct_percentage` varchar(15) NOT NULL,
+  `SubAct_endDate` varchar(15) NOT NULL,
   PRIMARY KEY (`SubAct_id`),
   KEY `subactivities_user` (`User_id`),
   KEY `subactivities_stad` (`Stat_id`),
@@ -919,7 +929,7 @@ INSERT INTO `subactivities` (`SubAct_id`, `SubAct_name`, `User_id`, `SubAct_esti
 
 DROP TABLE IF EXISTS `unit`;
 CREATE TABLE IF NOT EXISTS `unit` (
-  `Unit_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Unit_id` int(11) NOT NULL AUTO_INCREMENT,
   `Unit_name` varchar(100) NOT NULL,
   `Unit_symbol` varchar(5) NOT NULL,
   PRIMARY KEY (`Unit_id`)
@@ -940,13 +950,13 @@ INSERT INTO `unit` (`Unit_id`, `Unit_name`, `Unit_symbol`) VALUES
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
-  `User_id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `User_id` int(11) NOT NULL AUTO_INCREMENT,
   `User_name` varchar(100) NOT NULL,
   `User_email` varchar(100) NOT NULL,
   `User_password` varchar(255) NOT NULL,
-  `Comp_id` int UNSIGNED NOT NULL,
-  `Stat_id` int UNSIGNED NOT NULL,
-  `Role_id` int UNSIGNED NOT NULL,
+  `Comp_id` int(11) NOT NULL,
+  `Stat_id` int(11) NOT NULL,
+  `Role_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`User_id`),
@@ -1048,27 +1058,27 @@ ALTER TABLE `profile`
 -- Filtros para la tabla `project`
 --
 ALTER TABLE `project`
-  ADD CONSTRAINT `project_brand` FOREIGN KEY (`Brand_id`) REFERENCES `brand` (`Brand_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `project_brand` FOREIGN KEY (`Brand_id`) REFERENCES `brand` (`Brand_id`),
   ADD CONSTRAINT `project_client` FOREIGN KEY (`Client_id`) REFERENCES `client` (`Client_id`),
-  ADD CONSTRAINT `project_country` FOREIGN KEY (`Country_id`) REFERENCES `country` (`Country_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `project_ibfk_1` FOREIGN KEY (`Priorities_id`) REFERENCES `priorities` (`Priorities_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `project_manager` FOREIGN KEY (`Manager_id`) REFERENCES `manager` (`Manager_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `project_stati` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`),
+  ADD CONSTRAINT `project_priorities` FOREIGN KEY (`Priorities_id`) REFERENCES `priorities` (`Priorities_id`),
+  ADD CONSTRAINT `project_manager` FOREIGN KEY (`Manager_id`) REFERENCES `manager` (`Manager_id`),
+  ADD CONSTRAINT `project_stat` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`),
+  ADD CONSTRAINT `project_commercial` FOREIGN KEY (`Project_commercial`) REFERENCES `user` (`User_id`),
   ADD CONSTRAINT `project_user` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);
 
 --
 -- Filtros para la tabla `project_product`
 --
 ALTER TABLE `project_product`
-  ADD CONSTRAINT `project_product_prod` FOREIGN KEY (`Prod_id`) REFERENCES `product` (`Prod_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `project_product_project` FOREIGN KEY (`Project_id`) REFERENCES `project` (`Project_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `project_product_status` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `project_product_prod` FOREIGN KEY (`Prod_id`) REFERENCES `product` (`Prod_id`),
+  ADD CONSTRAINT `project_product_project` FOREIGN KEY (`Project_id`) REFERENCES `project` (`Project_id`),
+  ADD CONSTRAINT `project_product_status` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`);
 
 --
 -- Filtros para la tabla `project_tracking`
 --
 ALTER TABLE `project_tracking`
-  ADD CONSTRAINT `project_tracking_project` FOREIGN KEY (`Project_id`) REFERENCES `project` (`Project_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `project_tracking_project` FOREIGN KEY (`Project_id`) REFERENCES `project` (`Project_id`);
 
 --
 -- Filtros para la tabla `role_module`
@@ -1080,7 +1090,7 @@ ALTER TABLE `role_module`
 -- Filtros para la tabla `role_module_permit`
 --
 ALTER TABLE `role_module_permit`
-  ADD CONSTRAINT `role_module_permit_ibfk_1` FOREIGN KEY (`Role_mod_id`) REFERENCES `role_module` (`Role_mod_id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `role_module_permit_role` FOREIGN KEY (`Role_mod_id`) REFERENCES `role_module` (`Role_mod_id`);
 
 --
 -- Filtros para la tabla `status`
@@ -1092,16 +1102,16 @@ ALTER TABLE `status`
 -- Filtros para la tabla `subactivities`
 --
 ALTER TABLE `subactivities`
-  ADD CONSTRAINT `subactivities_activi` FOREIGN KEY (`Activi_id`) REFERENCES `activities` (`Activi_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `subactivities_ibfk_1` FOREIGN KEY (`Priorities_id`) REFERENCES `priorities` (`Priorities_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `subactivities_stad` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `subactivities_user` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `subactivities_activi` FOREIGN KEY (`Activi_id`) REFERENCES `activities` (`Activi_id`),
+  ADD CONSTRAINT `subactivities_priorities` FOREIGN KEY (`Priorities_id`) REFERENCES `priorities` (`Priorities_id`),
+  ADD CONSTRAINT `subactivities_stad` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`),
+  ADD CONSTRAINT `subactivities_user` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);
 
 --
 -- Filtros para la tabla `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_company` FOREIGN KEY (`Comp_id`) REFERENCES `company` (`Comp_id`),
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`Role_id`) REFERENCES `role` (`Role_id`),
+  ADD CONSTRAINT `user_role` FOREIGN KEY (`Role_id`) REFERENCES `role` (`Role_id`),
   ADD CONSTRAINT `user_status` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`);
 COMMIT;

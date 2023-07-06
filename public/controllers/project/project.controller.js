@@ -31,6 +31,7 @@ function getManagerByClient() {
       const value = document.getElementById('Client_id').value;
       const url = `${BASE_URL}manager/findByClient`;
       data['clientId'] = value;
+      disableFormProject();
       fetch(url, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -45,17 +46,50 @@ function getManagerByClient() {
           if (response[dataResponse] == 200) {
             const managers = response[dataModel];
             const managerSelect = document.getElementById('Manager_id');
+            enableFormProject(managerSelect);            
             managerSelect.innerHTML = "";
             managerSelect.innerHTML += "<option value=''>Seleccione...</option>";
             managers.map(item => {
               managerSelect.innerHTML += `<option value="${item.Manager_id}">${item.Manager_name}</option>`;
             });
+            getCityByClient();
           } else {
             console.log(arMessages[0]);
           }
           hidePreload();
         });
     })
+}
+
+function getCityByClient(){
+  const data = new FormData();
+  const clientId = document.getElementById('Client_id').value;
+  data['clientId'] = clientId;
+  const url = `${BASE_URL}client/findCountry`;
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        let countryClient = response[dataModel];
+        const country = document.getElementById('Country_id');
+        country.innerHTML = "";
+        countryClient.map(item => {
+          country.innerHTML += `<option value="${item.Country_id}" selected>${item.Country_name}</option>`;
+        });
+      } else {
+        console.log(arMessages[0]);
+      }
+      hidePreload();
+    });
+  
 }
 
 function getBrandByManager() {
@@ -79,6 +113,7 @@ function getBrandByManager() {
           if (response[dataResponse] == 200) {
             const brands = response[dataModel];
             const brandSelect = document.getElementById('Brand_id');
+            enableFormProject(brandSelect);
             brandSelect.innerHTML = "";
             brandSelect.innerHTML += "<option value=''>Seleccione...</option>";
             brands.map(item => {
@@ -110,8 +145,6 @@ function create(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        console.log(response[dataModel]);
-        debugger;
         TOASTS.toastView("", "", arMessages[1], 0);
         hideModal();
         window.location.reload();
@@ -119,7 +152,6 @@ function create(formData) {
         console.log(arMessages[0]);
       }
       sTForm.inputButtonEnable();
-      debugger;
       hidePreload();
     });
 }
@@ -138,7 +170,6 @@ function update(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        console.log(response[dataModel]);
         TOASTS.toastView("", "", arMessages[3], 0);
         hideModal();
         window.location.reload();
@@ -151,9 +182,17 @@ function update(formData) {
 }
 
 function delete_(id) {
-  let text = "Do you want to carry out this process?\n OK or Cancel.";
-  if (confirm(text) == true) {
-    showPreload();
+  Swal.fire({
+    title: '¿Está seguro?',
+    text: "¡Esta acción no se puede revertir!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      showPreload();
     url = URL_ROUTE + arRoutes[3];
     formData[primaryId] = id;
     fetch(url, {
@@ -168,8 +207,11 @@ function delete_(id) {
       .catch(error => console.error('Error:', error))
       .then(response => {
         if (response[dataResponse] == 200) {
-          console.log(response[dataModel]);
-          TOASTS.toastView("", "", arMessages[4], 0);
+          Swal.fire(
+            'Eliminado!',
+            'El proyecto ha sido eliminado.',
+            'success'
+          )
           window.location.reload();
 
         } else {
@@ -177,10 +219,11 @@ function delete_(id) {
         }
         hidePreload();
       });
-  }
+    }
+  })
 }
 
-function sendData(e, formObj) {
+function sendData(e, formObj) {  
   let obj = formObj;
   sTForm = SingletonClassSTForm.getInstance();
   if (sTForm.validateForm()) {
@@ -199,7 +242,6 @@ function sendData(e, formObj) {
 
 function detail(idData) {
   getDataId(idData);
-  toogleDisabledFields();
 }
 
 function toogleDisabledFields() {
@@ -249,9 +291,10 @@ function hideModal() {
 
 function showModal(type) {
   if (type == 1) {
+    selectInsertOrUpdate = true;
     sTForm = SingletonClassSTForm.getInstance();
     sTForm.inputButtonEnable();
-    document.getElementById('Stat_id').setAttribute('disabled', true)
+    disableFormProject();
   } else {
     document.getElementById('Stat_id').setAttribute('disabled', false)
   }
@@ -287,3 +330,14 @@ document.addEventListener('DOMContentLoaded', function () {
   getManagerByClient();
   getBrandByManager();
 })
+
+function disableFormProject(){
+  let readInputs = document.getElementsByClassName('read');
+  for(element of readInputs){
+    element.setAttribute("disabled","true");
+  }
+}
+
+function enableFormProject(inputId){
+  inputId.removeAttribute("disabled");
+}

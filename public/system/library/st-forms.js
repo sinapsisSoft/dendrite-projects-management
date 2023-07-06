@@ -188,7 +188,7 @@ class STForm {
         this.dataLengthJson = this.objJson.length;
         for (let i = 0; i < this.dataLengthJson; i++) {
             this.objElementInput = null;
-            this.objElementInput = document.getElementById(this.objJson[i]);
+            this.objElementInput = this.objectForm.querySelector(`#${this.objJson[i]}`);             
             if (i <= this.dataLengthJson) {
                 if ((this.objElementInput) != undefined) {
               

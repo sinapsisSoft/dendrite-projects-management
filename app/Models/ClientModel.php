@@ -28,5 +28,11 @@ class ClientModel extends Model
         $result = $this->db->query($query)->getResult();
         return $result;
     }
+
+    function sp_select_country_client($clientId){
+        $query = "CALL sp_select_country_client($clientId)";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
 }
 

@@ -63,8 +63,20 @@ LEFT JOIN company CO ON CO.Comp_id = C.Comp_id
 WHERE C.Client_id= Client_id;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_country_client`$$
+CREATE PROCEDURE `sp_select_country_client` (IN `clientId` INT)   
+BEGIN
+SELECT
+C.Country_id,
+CY.Country_name
+FROM client C
+INNER JOIN country CY ON CY.Country_id = C.Country_id
+WHERE C.Client_id = clientId;
+END$$
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_details_activities`$$
-CREATE PROCEDURE `sp_select_all_details_activities` (IN `Activi_id` INT)   BEGIN
+CREATE PROCEDURE `sp_select_all_details_activities` (IN `ActiviId` INT)   BEGIN
 SELECT
 A.Activi_id,
     A.Activi_name,
@@ -75,13 +87,15 @@ A.Activi_id,
     A.Activi_endDate,
     A.Activi_startDate,
     A.Activi_percentage,
+    A.Activi_link,
+    A.Activi_observation,
     S.Stat_name,
     P.Prod_name
 FROM activities A
 LEFT JOIN status S ON S.Stat_id = A.Stat_id
 LEFT JOIN project_product PP ON PP.Project_product_id = A.Project_product_id
 LEFT JOIN product P ON P.Prod_id = PP.Prod_id
-WHERE A.Activi_id = Activi_id;
+WHERE A.Activi_id = ActiviId;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_all_details_subactivities`$$
@@ -96,9 +110,10 @@ LEFT JOIN status S ON S.Stat_id = SA.Stat_id
 WHERE SA.SubAct_id = SubAct_id; 
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_project`$$
-CREATE PROCEDURE `sp_select_all_project` (IN `project_id` INT)   BEGIN
-
+CREATE PROCEDURE `sp_select_all_project` (IN `project_id` INT)   
+BEGIN
 SELECT
 P.Project_id,
 P.Project_code,
@@ -110,28 +125,40 @@ P.Project_purchaseOrder,
 P.Project_ddtStartDate,
 CT.Country_name,
 P.Project_ddtEndDate,
-C.Client_name,
-U.User_name,
+U1.User_name,
 P.Project_startDate,
 P.Project_estimatedEndDate,
 P.Project_activitiEndDate,
 S.Stat_name,
-P.Project_link,
 P.Project_observation,
 PR.Priorities_name,
-P.Project_commercial
-
+U2.User_name AS 'Project_commercial'
 FROM project P
 INNER JOIN client C on C.Client_id = P.Client_id
 INNER JOIN manager M on M.Manager_id = P.Manager_id
 INNER JOIN brand B on B.Brand_id = P.Brand_id
-INNER JOIN country CT on CT.Country_id = P.Country_id
-INNER JOIN user U on U.User_id = P.User_id
+INNER JOIN country CT on CT.Country_id = C.Country_id
+INNER JOIN user U1 on P.User_id = U1.User_id
+INNER JOIN user U2 on P.Project_commercial = U2.User_id 
 INNER JOIN status S on S.Stat_id = P.Stat_id
 INNER JOIN priorities PR on PR.Priorities_id = P.Priorities_id
-
 WHERE P.Project_id = Project_id;
+END$$
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_one_project`$$
+CREATE PROCEDURE `sp_select_one_project` (IN `projectId` INT)   
+BEGIN
+SELECT P.Project_id, P.Project_code, P.Project_name, B.Brand_name, M.Manager_name,P.Client_id, C.Client_name, P.Project_purchaseOrder, P.Project_ddtStartDate, P.Project_ddtEndDate, P.Project_startDate, P.Project_estimatedEndDate, P.Project_activitiEndDate, P.Project_observation, P.Project_percentage,P.User_id, U1.User_name AS 'User_name', P.Project_commercial AS 'User_id', U2.User_name AS 'User_name', P.Stat_id, S.Stat_name, P.Priorities_id, PR.Priorities_name
+FROM project P
+INNER JOIN brand B ON P.Brand_id = B.Brand_id
+INNER JOIN manager M ON P.Manager_id = M.Manager_id
+INNER JOIN client C ON P.Client_id = C.Client_id
+INNER JOIN priorities PR ON P.Priorities_id = PR.Priorities_id
+INNER JOIN user U1 ON P.User_id = U1.User_id
+INNER JOIN user U2 ON P.Project_commercial = U2.User_id
+INNER JOIN status S ON P.Stat_id = S.Stat_id
+WHERE P.Project_id = projectId;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_all_project_product`$$
@@ -151,13 +178,12 @@ INNER JOIN status S ON S.Stat_id = PP.Stat_id
 WHERE PP.Project_id = project_id$$
 
 DROP PROCEDURE IF EXISTS `sp_select_all_project_table`$$
-CREATE PROCEDURE `sp_select_all_project_table` ()   BEGIN   
-
+CREATE PROCEDURE `sp_select_all_project_table` ()   
+BEGIN   
  SELECT PRO.Project_id, PRO.Project_code, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at FROM project PRO
     INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
     INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
-    ORDER BY Project_id ASC;
-
+    ORDER BY Project_id DESC;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_all_subactivities`$$
@@ -234,6 +260,24 @@ CREATE PROCEDURE `sp_select_status_project_product` (IN `percent` INT)   BEGIN
   SELECT Stat_name FROM status WHERE Stat_name = 'Realizado';
  ELSE SELECT Stat_name FROM status WHERE Stat_name = 'Pendiente';
 END IF;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_info_project`$$
+CREATE PROCEDURE `sp_select_info_project` (IN `projectId` INT)   
+BEGIN
+SELECT P.Project_id, 
+P.Project_name, 
+B.Brand_name, 
+M.Manager_name, 
+C.Client_name, 
+P.Project_purchaseOrder, 
+P.Project_startDate, 
+PR.Priorities_name FROM project P
+INNER JOIN brand B ON P.Brand_id = B.Brand_id
+INNER JOIN manager M ON P.Manager_id = M.Manager_id
+INNER JOIN client C ON P.Client_id = C.Client_id
+INNER JOIN priorities PR ON P.Priorities_id = PR.Priorities_id
+WHERE P.Project_id = projectId;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_status_users`$$

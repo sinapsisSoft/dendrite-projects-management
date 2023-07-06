@@ -31,17 +31,16 @@ class Project extends BaseController
     public function show()
     {
         $priorities = new PrioritiesModel();
-        $client = new CLientModel();
-        $country = new CountryModel();
+        $client = new CLientModel();        
         $user = new UserModel();
-        $userstatus = new UserStatusModel();
-        $manager = new ManagerModel();
+        $userstatus = new UserStatusModel();  
+        $manager = new ManagerModel();    
         $brand = new BrandModel();
+        $country = new CountryModel();
 
         $data['title'] = 'Proyectos';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
-
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
         $data['header'] = view('navbar/header');
@@ -49,13 +48,13 @@ class Project extends BaseController
 
         $data[$this->nameModel] = $this->objModel->sp_select_all_project_table();
         $data['clients'] = $client->findAll();
-        $data['managers'] = $manager->findAll();
-        $data['brands'] = $brand->findAll();
-        $data['countries'] = $country->findAll();
         $data['commercial'] = $user->sp_select_all_users_comercial();
         $data['users'] = $user->sp_select_all_users();
         $data['userstatuses'] = $userstatus->sp_select_status_users();
         $data['priorities'] = $priorities->findAll();
+        $data['managers'] = $manager->findAll();
+        $data['brands'] = $brand->findAll();
+        $data['countries'] = $country->findAll();
         return view('project/project', $data);
     }
 
@@ -64,31 +63,33 @@ class Project extends BaseController
         $codeProject = '';
         $user = new UserModel();
         $mail = new MailModel();
-        $emailSetting = new Email();
-        $mainMail = $mail->findAll()[0];
+        $email = new Email();
+        $mainMail = $mail->findAll()[0]["Mail_user"];
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL, $codeProject);
             if ($this->objModel->insert($dataModel)) {
                 $id = $this->objModel->insertID();
                 $codeProject = $this->generateCode((string) $id);
                 //Aqui se trae el correo de la persona a la cual se va a notificar
-                $email = $user->where("User_id", $dataModel["User_id"])->first();
-                //Aca se crea el mensaje del correo
-                $message = "Se ha creado un proyecto con el nombre: ".$dataModel["Project_name"];
-                //Aqui se crea el parametro para enviar el correo
-                $dataEmail = ["subject"=>"Se ha creado un nuevo proyecto","message"=>$message];
+                $userEmail = $user->where("User_id", $dataModel["User_id"])->first();
                 $dataModel['Project_id'] = $id;
                 $this->objModel->update($id, array_merge($dataModel, ["Project_code" => $codeProject]));
-                $emailSetting->sendEmail($dataEmail, $email["User_email"]);
-                if($mainMail != null){
-                    $emailSetting->sendEmail($dataEmail, $mainMail["Mail_user"]);
+                $projectInfo = $this->objModel->sp_select_info_project($id);
+                if ($projectInfo != null){
+                    $email->sendEmail($projectInfo, $mainMail, 3);
+                    $data['message'] = 'success';
+                    $data['response'] = ResponseInterface::HTTP_OK;
                 }
-                $data['message'] = 'success';
-                $data['response'] = ResponseInterface::HTTP_OK;
+                else {
+                    $data['message'] = 'Error sending email';
+                    $data['response'] = ResponseInterface::HTTP_NO_CONTENT;
+                    
+                }
                 $data['data'] = $dataModel;
                 $data['csrf'] = csrf_hash();
+                
             } else {
-                $data['message'] = 'Error create user';
+                $data['message'] = 'Error creating project';
                 $data['response'] = ResponseInterface::HTTP_NO_CONTENT;
                 $data['data'] = '';
             }
@@ -102,12 +103,21 @@ class Project extends BaseController
 
     public function edit()
     {
-        try {
+        try {            
+            $manager = new ManagerModel();    
+            $brand = new BrandModel();
+            $client = new ClientModel();
             $id = $this->request->getVar($this->primaryKey);
-            $getDataId = $this->objModel->where($this->primaryKey, $id)->first();
+            $getDataId = $this->objModel->where($this->primaryKey, $id)->first(); 
+            $data['clients'] = $client->findAll();
+            $data['managers'] = $manager->findAll();
+            $data['brands'] = $brand->findAll();
+            $country = $client->select('client.Country_id')
+            ->where("Client_id", $getDataId["Client_id"])->first(); 
+            $data['data'] = $country;
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
-            $data['data'] = $getDataId;
+            $data['data'] += $getDataId;
             $data['csrf'] = csrf_hash();
         } catch (\Exception $e) {
             $data['message'] = $e;
@@ -176,13 +186,11 @@ class Project extends BaseController
             'Project_startDate' => $this->request->getVar('Project_startDate'),
             'Project_estimatedEndDate' => $this->request->getVar('Project_estimatedEndDate'),
             'Project_activitiEndDate' => $this->request->getVar('Project_activitiEndDate'),
-            'Project_link' => $this->request->getVar('Project_link'),
             'Project_percentage' => $this->request->getVar('Project_percentage'),
             'Project_observation' => $this->request->getVar('Project_observation'),
             'Client_id' => $this->request->getVar('Client_id'),
             'Manager_id' => $this->request->getVar('Manager_id'),
             'Brand_id' => $this->request->getVar('Brand_id'),
-            'Country_id' => $this->request->getVar('Country_id'),
             'Project_commercial' => $this->request->getVar('Project_commercial'),
             'Stat_id' => $this->request->getVar('Stat_id'),
             'User_id' => $this->request->getVar('User_id'),
