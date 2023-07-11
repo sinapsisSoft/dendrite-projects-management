@@ -280,7 +280,6 @@ DROP TABLE IF EXISTS `doctype`;
 CREATE TABLE IF NOT EXISTS `doctype` (
   `DocType_id` int(11) NOT NULL AUTO_INCREMENT,
   `DocType_name` varchar(100) NOT NULL,
-  `DocType_code` varchar(10) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`DocType_id`)
@@ -290,15 +289,15 @@ CREATE TABLE IF NOT EXISTS `doctype` (
 -- Volcado de datos para la tabla `doctype`
 --
 
-INSERT INTO `doctype` (`DocType_id`, `DocType_name`, `DocType_code`, `updated_at`, `created_at`) VALUES
-(1, 'Registro civil de nacimiento', '11', NULL, '2023-01-30 21:14:01'),
-(2, 'Tarjeta de identidad', '12', NULL, '2023-01-30 21:14:01'),
-(3, 'Cédula de ciudadanía', '13', NULL, '2023-01-30 21:17:22'),
-(4, 'Tarjeta de extranjería', '21', NULL, '2023-01-30 21:17:22'),
-(5, 'Cédula de extranjería', '22', NULL, '2023-01-30 21:17:42'),
-(6, 'NIT', '31', NULL, '2023-01-30 21:17:42'),
-(7, 'Pasaporte', '41', NULL, '2023-01-30 21:18:04'),
-(8, 'Tipo de documento extranjero', '42', '0000-00-00 00:00:00', '2023-01-30 21:18:04');
+INSERT INTO `doctype` (`DocType_id`, `DocType_name`, `updated_at`, `created_at`) VALUES
+(1, 'Registro civil de nacimiento', NULL, '2023-01-30 21:14:01'),
+(2, 'Tarjeta de identidad', NULL, '2023-01-30 21:14:01'),
+(3, 'Cédula de ciudadanía', NULL, '2023-01-30 21:17:22'),
+(4, 'Tarjeta de extranjería', NULL, '2023-01-30 21:17:22'),
+(5, 'Cédula de extranjería', NULL, '2023-01-30 21:17:42'),
+(6, 'NIT', NULL, '2023-01-30 21:17:42'),
+(7, 'Pasaporte', NULL, '2023-01-30 21:18:04'),
+(8, 'Tipo de documento extranjero', NULL, '2023-01-30 21:18:04');
 
 -- --------------------------------------------------------
 

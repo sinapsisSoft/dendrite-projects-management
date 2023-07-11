@@ -11,7 +11,7 @@ class DocTypeModel extends Model
     protected $allowedFields    = [
     "DocType_id", 
     "DocType_name", 
-    "DocType_code", 
-    "created_at"];
+    "updated_at",
+    "created_at",];
     protected $updatedField = 'updated_at';
 }

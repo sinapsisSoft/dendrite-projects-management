@@ -51,10 +51,10 @@ $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($route
 
 $routes->group('doctype', ['namespace' => 'App\Controllers\DocType'], function ($routes) {
     $routes->get('/', 'Doctype::show');
-    $routes->post('create', 'DocType::create');
-    $routes->post('delete', 'DocType::delete');
-    $routes->post('edit', 'DocType::edit');
-    $routes->post('update', 'DocType::update');
+    $routes->post('create', 'Doctype::create');
+    $routes->post('delete', 'Doctype::delete');
+    $routes->post('edit', 'Doctype::edit');
+    $routes->post('update', 'Doctype::update');
 });
 
 $routes->group('role', ['namespace' => 'App\Controllers\Role'], function ($routes) {
@@ -218,12 +218,12 @@ $routes->group('projecttracking', ['namespace' => 'App\Controllers\ProjectTracki
     $routes->post('update', 'ProjectTracking::update');
 });
 
-$routes->group('projectproduct', ['namespace' => 'App\Controllers\Projectproduct'], function ($routes) {
-    $routes->get('/', 'Projectproduct::show');
-    $routes->post('create', 'Projectproduct::create');
-    $routes->post('delete', 'Projectproduct::delete');
-    $routes->post('edit', 'Projectproduct::edit');
-    $routes->post('update', 'Projectproduct::update');
+$routes->group('projectproduct', ['namespace' => 'App\Controllers\ProjectProduct'], function ($routes) {
+    $routes->get('/', 'ProjectProduct::show');
+    $routes->post('create', 'ProjectProduct::create');
+    $routes->post('delete', 'ProjectProduct::delete');
+    $routes->post('edit', 'ProjectProduct::edit');
+    $routes->post('update', 'ProjectProduct::update');
 });
 
 $routes->group('details', ['namespace' => 'App\Controllers\Details'], function ($routes) {

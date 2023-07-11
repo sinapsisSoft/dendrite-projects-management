@@ -10,6 +10,7 @@ use App\Models\UserModel;
 use App\Models\ActivitiesModel;
 use App\Models\MailModel;
 use App\Models\PrioritiesModel;
+use App\Models\ProjectModel;
 use App\Utils\Email;
 use DateTime;
 use PhpParser\Node\Expr\Cast\Array_;
@@ -33,17 +34,18 @@ class SubActivities extends BaseController
     {
         if ($this->request->isAJAX()) {
             $email = new Email();
-            $mail = new MailModel();
-            $mainMail = $mail->findAll()[0];
+            $mail = new ProjectModel();
             $status = new UserStatusModel();
             $subactivityId = $this->request->getVar('id');
+            $mainMail = $mail->sp_select_user_notification($subactivityId);
             $subActivitie = $this->objModel->sp_select_subactivity_info($subactivityId);
             if ($subActivitie != null){
-                $email->sendEmail($subActivitie, $mainMail["Mail_user"], 1);
+                $email->sendEmail($subActivitie, $mainMail[0]->User_email, 1);
                 $finishStatus = $status->where('Stat_name', 'Realizado')->first();
                 $updateSubactivity = [
                     'Stat_id' => $finishStatus["Stat_id"],
-                    'SubAct_percentage' => '100'
+                    'SubAct_percentage' => '100',
+                    'SubAct_endDate' => date("Y-m-d H:i:s")
                 ];
                 $this->objModel->update($subactivityId, $updateSubactivity);
                 $this->activities->sp_update_percent_activity($subActivitie[0]->Activi_id);
@@ -90,7 +92,6 @@ class SubActivities extends BaseController
         $data['subactivities'] = $this->objModel->sp_select_all_sub_actitivites($activityId);
         $data['collaborators'] = $user->sp_select_all_users_collaborator();
         $data['priorities'] = $priorities->findAll();
-        // $data['subactivitiesDetails'] = $this->objModel->sp_select_all_details_subactivities($subactivityId);
         $data['users'] = $user->sp_select_all_users();
         return view('subactivities/subactivities', $data);
     }
@@ -107,7 +108,6 @@ class SubActivities extends BaseController
                 $subActivitie[0]->message = $this->request->getVar('description');
                 $collaborators = $this->request->getVar('collaborators');
                 $emails = explode(',', $collaborators);
-                // $dataEmail = ["subject" => $subject, "link" => $link, "message" => $description];
                 foreach ($emails as $email) {
                     $emailObject->sendEmail($subActivitie, $email, 2);
                 }
@@ -193,7 +193,7 @@ class SubActivities extends BaseController
     public function updateEndDate($data){
         $activityModel = new ActivitiesModel();
         $Activi_id = $data['Activi_id'];
-        $totalFinish = (int) $this->objModel->where('Stat_id', 14)->where('Activi_id', $Activi_id)->countAllResults();
+        $totalFinish = (int) $this->objModel->where('SubAct_percentage', '100')->where('Activi_id', $Activi_id)->countAllResults();
         $total = (int) $this->objModel->where('Activi_id', $Activi_id)->countAllResults();
         $date = date('d-m-y h:i:s');;
         if($totalFinish == $total){

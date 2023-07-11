@@ -1,7 +1,7 @@
 showPreload();
 
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Validate the entered product information', 'A new product added', 'A new tracking added', 'Product updated', 'The product was deleted', 'Copied', 'Could not be copied', 'A new activity added');
+const arMessages = new Array('Revise la información suministrada', 'Producto agregado exitosamente', 'Seguimiento agregado exitosamente', 'Actividad agregada exitosamente', 'Producto actualizado exitosamente', 'Seguimiento actualizado exitosamente', 'Actividad actualizada exitosamente', 'Producto eliminado del proyecto exitosamente', 'Seguimiento eliminado del proyecto exitosamente', 'Actividad eliminada del proyecto exitosamente', 'El producto no pudo ser eliminado. Revise si éste tiene asociadas actividades', 'El seguimiento no pudo ser eliminado', 'La actividad no pudo ser eliminada. Revise si ésta tiene asociadas subactividades', 'Se ha copiado el link', 'No pudo ser copiado el link');
 const ruteContent = "project/";
 const nameModel = 'projects';
 const dataModel = 'data';
@@ -38,7 +38,11 @@ function sendData(e, formObj) {
     }
     sTForm.inputButtonDisable();
   } else {
-    TOASTS.toastView("", "", arMessages[0], 1);
+    Swal.fire(
+      '¡No pudimos hacer esto!',
+      arMessages[0],
+      'error'
+    );
   }
   e.preventDefault();
 }
@@ -57,11 +61,23 @@ function update(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTS.toastView("", "", arMessages[3], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[4],
+          showConfirmButton: false,
+          timer: 1500
+        });
         hideModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);   
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
       sTForm.inputButtonEnable();
       hidePreload();
@@ -82,11 +98,23 @@ function create(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTS.toastView("", "", arMessages[1], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[1],
+          showConfirmButton: false,
+          timer: 1500
+        });
         hideModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);   
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
       sTForm.inputButtonEnable();
       hidePreload();
@@ -107,11 +135,23 @@ function update(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTS.toastView("", "", arMessages[3], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[4],
+          showConfirmButton: false,
+          timer: 1500
+        });
         hideModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);   
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
       sTForm.inputButtonEnable();
       hidePreload();
@@ -140,7 +180,11 @@ function getDataId(idData) {
         sTForm.setDataForm(response[dataModel]);
         hidePreload();
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
     });
 }
@@ -151,7 +195,7 @@ function delete_(id) {
     text: "¡Esta acción no se puede revertir!",
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
+    confirmButtonColor: '#7460ee',
     cancelButtonColor: '#d33',
     confirmButtonText: 'Si, eliminar!'
   }).then((result) => {
@@ -171,15 +215,22 @@ function delete_(id) {
       .catch(error => console.error('Error:', error))
       .then(response => {
         if (response[dataResponse] == 200) {
-          Swal.fire(
-            'Eliminado!',
-            'El producto ha sido eliminado del proyecto.',
-            'success'
-          )
-          window.location.reload();
-
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: arMessages[7],
+            showConfirmButton: false,
+            timer: 1500
+          });
+          setTimeout(function(){
+            window.location.reload();
+          }, 2000);   
         } else {
-          console.log(arMessages[0]);
+          Swal.fire(
+            '¡No pudimos hacer esto!',
+            arMessages[10],
+            'error'
+          );
         }
         hidePreload();
       });
@@ -191,6 +242,8 @@ function showModal(type) {
   if (type == 1) {
     sTForm = SingletonClassSTForm.getInstance();
     sTForm.inputButtonEnable();
+    disableFormProject();
+    selectInsertOrUpdate = true;
   }
   sTForm.clearDataForm();
   $(myModalObjec).modal("show");
@@ -221,3 +274,10 @@ var SingletonClassSTForm = (function () {
     }
   }
 })();
+
+function disableFormProject() {
+  let readInputs = document.getElementsByClassName('read');
+  for (element of readInputs) {
+    element.setAttribute("disabled", "true");
+  }
+}

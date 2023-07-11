@@ -62,9 +62,9 @@ class ProjectModel extends Model{
         return $result;
     }
 
-    // function sp_select_one_project($projectId){
-    //     $query = "call sp_select_one_project($projectId)";
-    //     $result = $this->db->query($query)->getResult();
-    //     return $result;
-    // }
+    function sp_select_user_notification($subactivityId){
+        $query = "call sp_select_user_notification($subactivityId)";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
 }

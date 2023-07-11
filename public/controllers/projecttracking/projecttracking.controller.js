@@ -9,7 +9,6 @@ const dataCsrfTracking = 'csrf';
 const primaryIdTracking = 'ProjectTrack_id';
 const URL_ROUTETracking = BASE_URL + ruteContentTracking;
 
-const TOASTSTracking = new STtoasts();
 const TrackingModal = '#TrackingModal';
 const idTrackingForm = 'objTrackingForm';
 
@@ -34,11 +33,23 @@ function createTracking(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTSTracking.toastView("", "", arMessages[2], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[2],
+          showConfirmButton: false,
+          timer: 1500
+        })
         hidelTrackingModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);  
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        )
       }
       sTFormTracking.inputButtonEnable();
       hidePreload();
@@ -60,11 +71,23 @@ function updateTracking(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTSTracking.toastView("", "", arMessages[3], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[5],
+          showConfirmButton: false,
+          timer: 1500
+        })
         hidelTrackingModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);  
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        )
       }
       sTFormTracking.inputButtonEnable();
       hidePreload();
@@ -77,7 +100,7 @@ function deleteTracking(id) {
     text: "¡Esta acción no se puede revertir!",
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
+    confirmButtonColor: '#7460ee',
     cancelButtonColor: '#d33',
     confirmButtonText: 'Si, eliminar!'
   }).then((result) => {
@@ -97,14 +120,22 @@ function deleteTracking(id) {
         .catch(error => console.error('Error:', error))
         .then(response => {
           if (response[dataResponse] == 200) {
-            Swal.fire(
-              'Eliminado!',
-              'El seguimiento seleccionado ha sido eliminado del proyecto.',
-              'success'
-            )
-            window.location.reload();
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: arMessages[8],
+              showConfirmButton: false,
+              timer: 1500
+            });
+            setTimeout(function(){
+              window.location.reload();
+            }, 2000);  
           } else {
-            console.log(arMessages[0]);
+            Swal.fire(
+              '¡No pudimos hacer esto!',
+              arMessages[11],
+              'error'
+            )
           }
           hidePreload();
         });
@@ -124,7 +155,11 @@ function sendTrackingData(e, formObj) {
     }
     sTFormTracking.inputButtonDisable();
   } else {
-    TOASTSTracking.toastView("", "", arMessages[0], 1);
+    Swal.fire(
+      '¡No pudimos hacer esto!',
+      arMessages[11],
+      'error'
+    );
   }
   e.preventDefault();
 }
@@ -151,7 +186,11 @@ function getTrackingProjectId(idData) {
         sTFormTracking.setDataForm(response[dataModel]);
         hidePreload();
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
     });
 }

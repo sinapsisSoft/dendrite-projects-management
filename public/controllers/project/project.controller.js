@@ -1,9 +1,13 @@
 showPreload();
 
-$("#table_obj").DataTable();
+$("#table_obj").DataTable({
+  "language": {
+    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+  }
+});
 
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Validate the project data entered information', 'A new project was created', 'A new project was created', 'Project updated', 'The project was deleted');
+const arMessages = new Array('Revise la información suministrada', 'Proyecto creado exitosamente', 'Proyecto actualizado exitosamente', 'Proyecto eliminado exitosamente', 'El proyecto no pudo ser eliminado. Revise si éste ya contiene seguimientos u actividades asociadas');
 const ruteContent = "project/";
 const nameModel = 'projects';
 const dataModel = 'data';
@@ -54,7 +58,11 @@ function getManagerByClient() {
             });
             getCityByClient();
           } else {
-            console.log(arMessages[0]);
+            Swal.fire(
+              '¡No pudimos hacer esto!',
+              arMessages[0],
+              'error'
+            )
           }
           hidePreload();
         });
@@ -85,7 +93,11 @@ function getCityByClient(){
           country.innerHTML += `<option value="${item.Country_id}" selected>${item.Country_name}</option>`;
         });
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        )
       }
       hidePreload();
     });
@@ -120,7 +132,11 @@ function getBrandByManager() {
               brandSelect.innerHTML += `<option value="${item.Brand_id}">${item.Brand_name}</option>`;
             });
           } else {
-            console.log(arMessages[0]);
+            Swal.fire(
+              '¡No pudimos hacer esto!',
+              arMessages[0],
+              'error'
+            )
           }
           hidePreload();
         })
@@ -145,11 +161,23 @@ function create(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTS.toastView("", "", arMessages[1], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[1],
+          showConfirmButton: false,
+          timer: 1500
+        });
         hideModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);   
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        )
       }
       sTForm.inputButtonEnable();
       hidePreload();
@@ -170,11 +198,23 @@ function update(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTS.toastView("", "", arMessages[3], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[2],
+          showConfirmButton: false,
+          timer: 1500
+        })
         hideModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);   
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        )
       }
       sTForm.inputButtonEnable();
       hidePreload();
@@ -187,7 +227,7 @@ function delete_(id) {
     text: "¡Esta acción no se puede revertir!",
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
+    confirmButtonColor: '#7460ee',
     cancelButtonColor: '#d33',
     confirmButtonText: 'Si, eliminar!'
   }).then((result) => {
@@ -207,15 +247,22 @@ function delete_(id) {
       .catch(error => console.error('Error:', error))
       .then(response => {
         if (response[dataResponse] == 200) {
-          Swal.fire(
-            'Eliminado!',
-            'El proyecto ha sido eliminado.',
-            'success'
-          )
-          window.location.reload();
-
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: arMessages[3],
+            showConfirmButton: false,
+            timer: 1500
+          });
+          setTimeout(function(){
+            window.location.reload();
+          }, 2000);   
         } else {
-          console.log(arMessages[0]);
+          Swal.fire(
+            '¡No pudimos hacer esto!',
+            arMessages[0],
+            'error'
+          )
         }
         hidePreload();
       });
@@ -235,22 +282,17 @@ function sendData(e, formObj) {
     }
     sTForm.inputButtonDisable();
   } else {
-    TOASTS.toastView("", "", arMessages[0], 1);
+    Swal.fire(
+      '¡No pudimos hacer esto!',
+      arMessages[0],
+      'error'
+    )
   }
   e.preventDefault();
 }
 
 function detail(idData) {
   getDataId(idData);
-}
-
-function toogleDisabledFields() {
-  const btnSubmit = document.getElementById('btn-submit');
-  const inputs = document.querySelectorAll('input');
-  inputs.forEach(input => input.classList.add('form-disabled'))
-  const selects = document.querySelectorAll('select')
-  selects.forEach(select => select.classList.add('form-disabled'))
-  btnSubmit.disabled = true;
 }
 
 function getDataId(idData) {
@@ -275,7 +317,11 @@ function getDataId(idData) {
         sTForm.setDataForm(response[dataModel]);
         hidePreload();
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        )
       }
     });
 }

@@ -32,10 +32,9 @@ class Email
       <tbody>
         <tr>
           <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
-            
-      <div style="font-size: 16px; color: #000000; line-height: 140%; text-align: left; word-wrap: break-word;">
-        <p style="line-height: 140%;">Hola, se han realizado cambios en el proyecto <strong>' . $data[0]->Project_name . '</strong></p>
-      </div>    
+            <div style="font-size: 16px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;">Hola, queremos mantenerte al día sobre el proyecto <strong>' . $data[0]->Project_name . '</strong></p>
+            </div>    
           </td>
         </tr>
       </tbody>
@@ -44,85 +43,129 @@ class Email
       <tbody>
         <tr>
           <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
-      <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: left; word-wrap: break-word;">
-        <p style="line-height: 140%;">Los cambios efectuados corresponden a la actividad <strong>' . $data[0]->Activi_name . '</strong></p>
-    </br>
-    <p style="line-height: 140%;">La subactividad <strong>'. $data[0]->SubAct_name .'</strong> del colaborador <strong>'. $data[0]->User_name .'</strong> ha sido marcada como finalizada</p>
-    </br>
-    <p style="line-height: 140%;">Revisa las subactividades del proyecto <a href="' . $_SERVER['HTTP_HOST'] . '/subactivities?activitiesId=' . $data[0]->Activi_id . '" target="_blank">aquí</a></p>
-      </div>    
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;">La actividad <strong>' . $data[0]->Activi_name . '</strong> ha registrado cambios en la subactividad <strong>'. $data[0]->SubAct_name .'</strong> asignada al colaborador <strong>'. $data[0]->User_name .'</strong> y ésta ha sido marcada como finalizada. </p>
+            </div>    
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;color: #7460ee;">Recuerda que puedes revisar la actividad del proyecto desde el siguiente botón </p>
+            </div>            
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <button type="button" style="padding: 8px; border-color: #7460ee; background: #7460ee; border-radius: 18px;">
+                <a href="' . base_url(). 'subactivities?activitiesId=' . $data[0]->Activi_id . '" target="_blank" style="color: #ffffff; text-decoration: none;">Revisar actividad</a>
+              </button>
+            </div>            
           </td>
         </tr>
       </tbody>
     </table> ';
     }
     else if($type == 2){
-      $this->subject =  'Notificación del proyecto ' . $data[0]->Project_name;
+      $this->subject =  'Novedades del proyecto ' . $data[0]->Project_name;
       $this->body = '<table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
       <tbody>
         <tr>
           <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
-      <div style="font-size: 16px; color: #000000; line-height: 140%; text-align: left; word-wrap: break-word;">
-        <p style="line-height: 140%;">Hola, se han realizado cambios en el proyecto <strong>' . $data[0]->Project_name . '</strong></p>
-      </div>    
+            <div style="font-size: 16px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;">Hola, queremos mantenerte al día sobre el proyecto <strong>' . $data[0]->Project_name . '</strong></p>
+            </div>    
           </td>
         </tr>
       </tbody>
-    </table>    
+    </table> 
     <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
       <tbody>
         <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;">El colaborador <strong>'. $data[0]->User_name .'</strong> te ha enviado un mensaje sobre la actividad <strong>' . $data[0]->Activi_name . '</strong>.</p>
+            </div>    
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;"><strong>'. $data[0]->subject . '</strong></p>
+              </br>
+              <p style="line-height: 140%;"><strong>Link adjunto: </strong>'. $data[0]->link . '</p>
+              </br>
+              <p style="line-height: 140%;"><strong>Detalle: </strong>'. $data[0]->message . '</p>
+            </div>    
+          </td>
+        </tr>
+        <tr>
           <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
-            
-      <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: left; word-wrap: break-word;">
-        <p style="line-height: 140%;">El colaborador <strong>'. $data[0]->User_name .'</strong> ha enviado una notificación desde la plataforma sobre la actividad <strong>' . $data[0]->Activi_name . '</strong></p>
-    </br>
-    <p style="line-height: 140%;"><strong>Notificación </strong></p>
-    </br>
-    <p style="line-height: 140%;"><strong>Asunto:</strong> '. $data[0]->subject . '</p>
-    </br>
-    <p style="line-height: 140%;"><strong>Link adjunto: </strong>'. $data[0]->link . '</p>
-    </br>
-    <p style="line-height: 140%;"><strong>Detalle: </strong>'. $data[0]->message . '</p>
-    </br>
-    <p style="line-height: 140%;">Revisa las subactividades del proyecto <a href="' . $_SERVER['HTTP_HOST'] . '/subactivities?activitiesId=' . $data[0]->Activi_id . '" target="_blank">aquí</a></p>
-      </div>    
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;color: #7460ee;">Recuerda que puedes revisar la actividad del proyecto desde el siguiente botón </p>
+            </div>            
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <button type="button" style="padding: 8px; border-color: #7460ee; background: #7460ee; border-radius: 18px;">
+                <a href="' . base_url() . 'subactivities?activitiesId=' . $data[0]->Activi_id . '" target="_blank" style="color: #ffffff; text-decoration: none;">Revisar actividad</a>
+              </button>
+            </div>            
           </td>
         </tr>
       </tbody>
     </table> ';
     }
     else if($type == 3){
-      $this->subject =  'Nuevo proyecto creado: ' . $data[0]->Project_name;
+      $this->subject =  'Novedades del proyecto ' . $data[0]->Project_name;
       $this->body = '<table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
       <tbody>
         <tr>
           <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
-      <div style="font-size: 16px; color: #000000; line-height: 140%; text-align: left; word-wrap: break-word;">
-        <p style="line-height: 140%;">Hola, se ha creado el proyecto <strong>' . $data[0]->Project_name . '</strong></p>
+      <div style="font-size: 16px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word;">
+        <p style="line-height: 140%;">Hola, queremos mantenerte al día sobre el proyecto <strong>' . $data[0]->Project_name . '</strong></p>
       </div>    
           </td>
         </tr>
       </tbody>
-    </table>    
+    </table>  
     <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
       <tbody>
         <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;">Se ha creado el proyecto <strong>' . $data[0]->Project_name . '</strong> del cliente <strong>'. $data[0]->Client_name .'</strong>. Éste proyecto está asociado a la marca <strong>'. $data[0]->Brand_name .'</strong> del gerente <strong>'. $data[0]->Manager_name .'</strong>.</p>
+            </div>    
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;"><strong>Orden de compra:</strong> '. $data[0]->Project_purchaseOrder . '</p>
+              </br>
+              <p style="line-height: 140%;"><strong>Fecha de inicio del proyecto: </strong>'. $data[0]->Project_startDate . '</p>
+              </br>
+              <p style="line-height: 140%;"><strong>Prioridad: </strong>'. $data[0]->Priorities_name . '</p>
+            </div>    
+          </td>
+        </tr>
+        <tr>
           <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
-            
-      <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: left; word-wrap: break-word;">
-        <p style="line-height: 140%;">El proyecto creado es pertenece a la marca <strong>'. $data[0]->Brand_name .'</strong> del gerente <strong>'. $data[0]->Manager_name .'</strong> del cliente <strong>'. $data[0]->Client_name .'</strong></p>
-    </br>
-    <p style="line-height: 140%;"><strong>Detalle del proyecto </strong></p>
-    </br>
-    <p style="line-height: 140%;"><strong>Orden de compra:</strong> '. $data[0]->Project_purchaseOrder . '</p>
-    </br>
-    <p style="line-height: 140%;"><strong>Fecha de inicio del proyecto: </strong>'. $data[0]->Project_startDate . '</p>
-    </br>
-    <p style="line-height: 140%;"><strong>Prioridad: </strong>'. $data[0]->Priorities_name . '</p>
-    </br>
-    <p style="line-height: 140%;">Revisa el proyecto <a href="' . $_SERVER['HTTP_HOST'] . '/details?projectId=' . $data[0]->Project_id . '" target="_blank">aquí</a></p>
-      </div>    
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;color: #7460ee;">Recuerda que puedes revisar la actividad del proyecto desde el siguiente botón </p>
+            </div>            
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <button type="button" style="padding: 8px; border-color: #7460ee; background: #7460ee; border-radius: 18px;">
+                <a href="' . base_url() . 'details?projectId=' . $data[0]->Project_id . '" target="_blank" style="color: #ffffff; text-decoration: none;">Revisar actividad</a>
+              </button>
+            </div>            
           </td>
         </tr>
       </tbody>
@@ -251,7 +294,7 @@ class Email
       <tr>
         <td style="padding-right: 0px;padding-left: 0px;" align="center">
           
-          <img align="center" border="0" src="' . $_SERVER['HTTP_HOST'] . '/public/assets/img/logos/logo_slogan.png" alt="" title="Abrir aplicación" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 480px;" width="480"/>
+          <img align="center" border="0" src="' . base_url() . 'assets/img/logos/logo_slogan.png" alt="" title="Abrir aplicación" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 300px;" width="300"/>
           
         </td>
       </tr>

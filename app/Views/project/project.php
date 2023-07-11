@@ -42,7 +42,9 @@
             <div class="ms-auto text-end">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item">
+                    <a href="<?= base_url() ?>home">Home</a>
+                  </li>
                   <li class="breadcrumb-item active" aria-current="page">
                     <a href="<?= base_url() ?>project">Proyectos</a>
                   </li>
@@ -70,7 +72,7 @@
                         <th>Nombre</th>
                         <th>Prioridad</th>
                         <th>Fecha de creación</th>
-                        <th>Actions</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -107,7 +109,7 @@
                         <th>Nombre</th>
                         <th>Prioridad</th>
                         <th>Fecha de creación</th>
-                        <th>Actions</th>
+                        <th>Acciones</th>
                       </tr>
                     </tfoot>
                   </table>

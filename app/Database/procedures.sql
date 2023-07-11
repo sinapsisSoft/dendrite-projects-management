@@ -7,17 +7,20 @@ CREATE PROCEDURE `sp_select_activities_project` (IN `project_id` INT)   BEGIN
 select 
 	A.Activi_id,
     A.Activi_name,
-A.Activi_code,
+    A.Activi_code,
     A.created_at
 FROM
 activities A
 INNER JOIN project_product PP ON PP.Project_product_id = A.Project_product_id
-WHERE PP.Project_id = project_id;
+WHERE PP.Project_id = project_id
+ORDER BY A.Activi_id DESC;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_all_activities`$$
 CREATE PROCEDURE `sp_select_all_activities` ()   BEGIN 
-SELECT A.Activi_id, A.Activi_name, AP.ApprCode_code, A.created_at FROM activities A INNER JOIN approvalcode AP on AP.ApprCode_id = A.ApprCode_id;
+SELECT A.Activi_id, A.Activi_name, AP.ApprCode_code, A.created_at 
+FROM activities A 
+INNER JOIN approvalcode AP on AP.ApprCode_id = A.ApprCode_id;
 
 END$$
 
@@ -145,29 +148,15 @@ INNER JOIN priorities PR on PR.Priorities_id = P.Priorities_id
 WHERE P.Project_id = Project_id;
 END$$
 
-DELIMITER $$
-DROP PROCEDURE IF EXISTS `sp_select_one_project`$$
-CREATE PROCEDURE `sp_select_one_project` (IN `projectId` INT)   
-BEGIN
-SELECT P.Project_id, P.Project_code, P.Project_name, B.Brand_name, M.Manager_name,P.Client_id, C.Client_name, P.Project_purchaseOrder, P.Project_ddtStartDate, P.Project_ddtEndDate, P.Project_startDate, P.Project_estimatedEndDate, P.Project_activitiEndDate, P.Project_observation, P.Project_percentage,P.User_id, U1.User_name AS 'User_name', P.Project_commercial AS 'User_id', U2.User_name AS 'User_name', P.Stat_id, S.Stat_name, P.Priorities_id, PR.Priorities_name
-FROM project P
-INNER JOIN brand B ON P.Brand_id = B.Brand_id
-INNER JOIN manager M ON P.Manager_id = M.Manager_id
-INNER JOIN client C ON P.Client_id = C.Client_id
-INNER JOIN priorities PR ON P.Priorities_id = PR.Priorities_id
-INNER JOIN user U1 ON P.User_id = U1.User_id
-INNER JOIN user U2 ON P.Project_commercial = U2.User_id
-INNER JOIN status S ON P.Stat_id = S.Stat_id
-WHERE P.Project_id = projectId;
-END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_all_project_product`$$
-CREATE PROCEDURE `sp_select_all_project_product` (IN `project_id` INT)   SELECT
-	PP.Project_product_id,
+CREATE PROCEDURE `sp_select_all_project_product` (IN `project_id` INT)   
+BEGIN    	        
+    SELECT PP.Project_product_id,
     P.Prod_name,
     PP.Project_productAmount,
     (select round(sum(A.Activi_percentage) / count(*)) from activities A where A.Project_product_id = PP.Project_product_id) as Project_product_percentage,
-S.Stat_name,
+    S.Stat_name,
     CASE 
     	WHEN S.Stat_name LIKE 'Realizado' THEN '#16FF00' 
         WHEN S.Stat_name LIKE 'Pendiente' THEN '#FFD93D'
@@ -175,7 +164,8 @@ S.Stat_name,
 FROM project_product PP
 INNER JOIN product P ON P.Prod_id = PP.Prod_id
 INNER JOIN status S ON S.Stat_id = PP.Stat_id
-WHERE PP.Project_id = project_id$$
+WHERE PP.Project_id = project_id;
+END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_all_project_table`$$
 CREATE PROCEDURE `sp_select_all_project_table` ()   
@@ -186,12 +176,14 @@ BEGIN
     ORDER BY Project_id DESC;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_subactivities`$$
 CREATE PROCEDURE `sp_select_all_subactivities` (IN `activity_id` INT)   BEGIN
  SELECT
  SA.SubAct_id,
  SA.SubAct_name,
  S.Stat_name,
+ SA.SubAct_percentage,
  PRI.Priorities_name,
  PRI.Priorities_color,
  CASE 
@@ -201,7 +193,8 @@ CREATE PROCEDURE `sp_select_all_subactivities` (IN `activity_id` INT)   BEGIN
 FROM subactivities SA
 INNER JOIN status S ON S.Stat_id = SA.Stat_id
 INNER JOIN priorities PRI on PRI.Priorities_id = SA.Priorities_id
-WHERE SA.Activi_id = activity_id;
+WHERE SA.Activi_id = activity_id
+ORDER BY SA.SubAct_id DESC;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_subactivity_info`$$
@@ -250,6 +243,18 @@ SELECT
 FROM activities A
 INNER JOIN project_product PP ON PP.Project_product_id = A.Project_product_id
 WHERE PP.Project_id = project_id;
+END$$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_user_notification`$$
+CREATE PROCEDURE `sp_select_user_notification` (IN `subactivityId` INT)   
+BEGIN
+    SELECT project.User_id, user.User_email FROM project
+    INNER JOIN project_product ON project_product.Project_id = project.Project_id
+    INNER JOIN user ON user.User_id  = project.User_id
+    INNER JOIN activities ON activities.Project_product_id = project_product.Project_product_id
+    INNER JOIN subactivities ON activities.Activi_id = subactivities.Activi_id
+    WHERE SubAct_id = subactivityId;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_status_project_product`$$

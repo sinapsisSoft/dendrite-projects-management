@@ -10,9 +10,8 @@ const dataCsrfActivities = 'csrf';
 const primaryIdActivities = 'Activi_id';
 const URL_ROUTEActivities = BASE_URL + ruteContentActivities;
 
-const TOASTSActivities = new STtoasts();
 const activitiesModal = '#activitiesModal';
-const idActivitiesForm = 'objActivitiesForm'; //Nombre del formulario
+const idActivitiesForm = 'objActivitiesForm';
 
 var sTFormActivities = null
 var urlActivities = "";
@@ -38,11 +37,23 @@ function createActivities(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTSActivities.toastView("", "", arMessages[7], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[3],
+          showConfirmButton: false,
+          timer: 1500
+        });
         hidelActivitiesModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);  
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        )
       }
       sTFormActivities.inputButtonEnable();
       hidePreload();
@@ -63,11 +74,23 @@ function updateActivities(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTSActivities.toastView("", "", arMessages[3], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[6],
+          showConfirmButton: false,
+          timer: 1500
+        });
         hidelActivitiesModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);  
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
       sTFormActivities.inputButtonEnable();
       hidePreload();
@@ -80,7 +103,7 @@ function deleteActivities(id) {
     text: "¡Esta acción no se puede revertir!",
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
+    confirmButtonColor: '#7460ee',
     cancelButtonColor: '#d33',
     confirmButtonText: 'Si, eliminar!'
   }).then((result) => {
@@ -100,14 +123,22 @@ function deleteActivities(id) {
         .catch(error => console.error('Error:', error))
         .then(response => {
           if (response[dataResponse] == 200) {
-            Swal.fire(
-              'Eliminado!',
-              'La actividad ha sido eliminada del proyecto.',
-              'success'
-            )
-            window.location.reload();  
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: arMessages[9],
+              showConfirmButton: false,
+              timer: 1500
+            });
+            setTimeout(function(){
+              window.location.reload();
+            }, 2000);  
           } else {
-            console.log(arMessages[0]);
+            Swal.fire(
+              '¡No pudimos hacer esto!',
+              arMessages[12],
+              'error'
+            );
           }
           hidePreload();
         });
@@ -127,7 +158,11 @@ function sendActivitiesData(e, formObj) {
     }
     sTFormActivities.inputButtonDisable();
   } else {
-    TOASTSActivities.toastView("", "", arMessages[0], 1);
+    Swal.fire(
+      '¡No pudimos hacer esto!',
+      arMessages[0],
+      'error'
+    );
   }
   e.preventDefault();
 }
@@ -135,15 +170,6 @@ function sendActivitiesData(e, formObj) {
 function detailActivities(idData) {
   getActivitiesDataId(idData);
   toogleDisabledFields();
-}
-
-function toogleActivitiesDisabledFields() {
-  const btnSubmit = document.getElementById('btn-submit');
-  const inputs = document.querySelectorAll('input');
-  inputs.forEach(input => input.classList.add('form-disabled'))
-  const selects = document.querySelectorAll('select')
-  selects.forEach(select => select.classList.add('form-disabled'))
-  btnSubmit.disabled = true;
 }
 
 function getActivitiesDataId(idData) {
@@ -168,7 +194,11 @@ function getActivitiesDataId(idData) {
         sTFormActivities.setDataForm(response[dataModel]);
         hidePreload();
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        )
       }
     });
 }
@@ -221,8 +251,18 @@ document.getElementById("copyToClipboard").addEventListener('click', function ()
   let valueToCopy = document.getElementById("Activi_link").value;
   navigator.clipboard.writeText(valueToCopy)
     .then(() => {
-      TOASTSActivities.toastView("", "", arMessages[5], 0);
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: arMessages[13],
+        showConfirmButton: false,
+        timer: 1500
+      });
     }).catch(err => {
-      TOASTSActivities.toastView("", "", arMessages[6], 0);
+      Swal.fire(
+        '¡No pudimos hacer esto!',
+        arMessages[14],
+        'error'
+      )
     })
 })

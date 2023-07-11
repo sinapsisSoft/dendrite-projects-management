@@ -1,6 +1,6 @@
 
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Validate the entered subactivity data', 'A new subactivity was created', 'A subactivity was created', 'Updated subactivity ', 'The subactivity was deleted', 'Copied', 'Could not be copied');
+const arMessages = new Array('Revise la información suministrada', 'Subactividad creada exitosamente', 'Subactividad actualizada exitosamente', 'Subactividad eliminada exitosamente', 'La subactividad no pudo ser eliminada', 'Se ha copiado el link', 'No pudo ser copiado el link', 'Notificación enviada con éxito', 'E-mail enviado con éxito');
 const ruteContent = "subactivities/";
 const nameModel = 'subactivities';
 const dataModel = 'data';
@@ -11,11 +11,10 @@ const dataCsrf = 'csrf';
 const primaryId = 'SubAct_id';
 const URL_ROUTE = BASE_URL + ruteContent;
 
-const TOASTS = new STtoasts();
 const myModalObjec = '#createUpdateModal';
 const idForm = 'objForm';
 const idEmailForm = 'objEmailForm';
-const idFinForm = 'objEmailForm';
+const idFinForm = 'objFinForm';
 
 
 var sTForm = null;
@@ -27,7 +26,6 @@ var formData = new Object();
 var selectInsertOrUpdate = true;
 
 let collaborators = [];
-let finishTask = null;
 
 function toogleCollaborator(email) {
   const isExists = !!collaborators.find(collaborator => collaborator === email);
@@ -35,10 +33,11 @@ function toogleCollaborator(email) {
   else collaborators.push(email);
 }
 
-function finish() {
+function finish(formId) {
   showPreload();
+  let form = document.getElementById(formId);
   url = URL_ROUTE + 'finish';
-  const id = finishTask.SubAct_id;
+  const id = form.querySelector(`#${primaryId}`).value;
   const object = { id };
   fetch(url, {
     method: "POST",
@@ -51,11 +50,21 @@ function finish() {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTS.toastView("", "", "Correo enviado con exito", 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[8],
+          showConfirmButton: false,
+          timer: 1500
+        });
         $(finModal).modal("hide");
         window.location.reload();
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
       hidePreload();
     }).catch(() => hidePreload());
@@ -78,10 +87,20 @@ function sendNotification() {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTS.toastView("", "", "Notificacion enviada con éxito", 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[7],
+          showConfirmButton: false,
+          timer: 1500
+        });
         $(emailModal).modal("hide");
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
       form.inputButtonEnable();
       hidePreload();
@@ -102,11 +121,23 @@ function create(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTS.toastView("", "", arMessages[1], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[1],
+          showConfirmButton: false,
+          timer: 1500
+        });
         hideModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);  
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
       sTForm.inputButtonEnable();
       hidePreload();
@@ -127,11 +158,23 @@ function update(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        TOASTS.toastView("", "", arMessages[3], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[2],
+          showConfirmButton: false,
+          timer: 1500
+        });
         hideModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);  
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
       sTForm.inputButtonEnable();
       hidePreload();
@@ -139,33 +182,52 @@ function update(formData) {
 }
 
 function delete_(id) {
-  let text = "Do you want to carry out this process?\n OK or Cancel.";
-  if (confirm(text) == true) {
-    showPreload();
-    url = URL_ROUTE + arRoutes[3];
-    formData[primaryId] = id;
-    formData['activityId'] = document.getElementById('Activi_id').value;
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-Type": "application/json",
-        "X-Requested-With": "XMLHttpRequest"
-      }
-    })
-      .then(response => response.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => {
-        if (response[dataResponse] == 200) {
-          TOASTS.toastView("", "", arMessages[4], 0);
-          window.location.reload();
-
-        } else {
-          console.log(arMessages[0]);
+Swal.fire({
+    title: '¿Está seguro?',
+    text: "¡Esta acción no se puede revertir!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#7460ee',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      showPreload();
+      url = URL_ROUTE + arRoutes[3];
+      formData[primaryId] = id;
+      formData['activityId'] = document.getElementById('Activi_id').value;
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
         }
-        hidePreload();
-      });
-  }
+      })
+        .then(response => response.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+          if (response[dataResponse] == 200) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: arMessages[3],
+              showConfirmButton: false,
+              timer: 1500
+            });
+            window.location.reload();
+  
+          } else {
+            Swal.fire(
+              '¡No pudimos hacer esto!',
+              arMessages[4],
+              'error'
+            );
+          }
+          hidePreload();
+        });
+    }
+  })
 }
 
 function sendData(e, formObj) {
@@ -180,24 +242,28 @@ function sendData(e, formObj) {
     }
     sTForm.inputButtonDisable();
   } else {
-    TOASTS.toastView("", "", arMessages[0], 1);
+    Swal.fire(
+      '¡No pudimos hacer esto!',
+      arMessages[0],
+      'error'
+    );
   }
   e.preventDefault();
 }
 
 function detail(idData) {
   getDataId(idData);
-  toogleDisabledFields();
+  // toogleDisabledFields();
 }
 
-function toogleDisabledFields() {
-  const btnSubmit = document.getElementById('btn-submit');
-  const inputs = document.querySelectorAll('input');
-  inputs.forEach(input => input.classList.add('form-disabled'))
-  const selects = document.querySelectorAll('select')
-  selects.forEach(select => select.classList.add('form-disabled'))
-  btnSubmit.disabled = true;
-}
+// function toogleDisabledFields() {
+//   const btnSubmit = document.getElementById('btn-submit');
+//   const inputs = document.querySelectorAll('input');
+//   inputs.forEach(input => input.classList.add('form-disabled'))
+//   const selects = document.querySelectorAll('select')
+//   selects.forEach(select => select.classList.add('form-disabled'))
+//   btnSubmit.disabled = true;
+// }
 
 function getDataIdFinish(idData) {
   showPreload();
@@ -218,14 +284,14 @@ function getDataIdFinish(idData) {
     .then(response => {
       if (response[dataResponse] == 200) {
         showFinModal(0);
-        finishTask = response[dataModel];
-        document.getElementById('finish_id').value = finishTask.SubAct_id;
-        document.getElementById('finish_name').value = finishTask.SubAct_name;
-        document.getElementById('finish_estimatedEndDate').value = finishTask.SubAct_estimatedEndDate;
-        document.getElementById('finish_description').value = finishTask.SubAct_description;
+        sTForm.setDataForm(response[dataModel]);
         hidePreload();
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
     });
 }
@@ -252,7 +318,11 @@ function getDataId(idData) {
         sTForm.setDataForm(response[dataModel]);
         hidePreload();
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
     });
 }
@@ -271,6 +341,7 @@ function showModal(type) {
     sTForm = SingletonClassSTForm.getInstance();
     sTForm.inputButtonEnable();
     disableFormProject();
+    selectInsertOrUpdate = true;
   }
   sTForm.clearDataForm();
   $(myModalObjec).modal("show");
@@ -383,9 +454,19 @@ document.getElementById("copyToClipboard").addEventListener('click', function ()
   let valueToCopy = document.getElementById("Activi_link").value;
   navigator.clipboard.writeText(valueToCopy)
     .then(() => {
-      TOASTS.toastView("", "", arMessages[5], 0);
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: arMessages[5],
+        showConfirmButton: false,
+        timer: 1500
+      });
     }).catch(err => {
-      TOASTS.toastView("", "", arMessages[6], 0);
+      Swal.fire(
+        '¡No pudimos hacer esto!',
+        arMessages[6],
+        'error'
+      )
     })
 })
 

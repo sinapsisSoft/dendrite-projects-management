@@ -153,7 +153,8 @@
               <!-- TABLA DE PROYECT_PRODUCT -->
 
               <div class="card-pp">
-                <h4 class="page-title text-end">
+                <h4 class="page-title text-end">  
+                Agregar Producto                
                   <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-plus"></i></button>
                 </h4>
                 <div class="table-responsive table-pp">
@@ -175,20 +176,24 @@
                           <td><?= $i++; ?></td>
                           <td><?= $obj->Prod_name; ?></td>
                           <td><?= $obj->Project_productAmount; ?></td>
-                          <td><?= $obj->Project_product_percentage === "" ? 0 : $obj->Project_product_percentage; ?></td>
+                          <td><?= $obj->Project_product_percentage == "" ? 0 : $obj->Project_product_percentage; ?></td>
                           <td><?= $obj->Stat_name; ?></td>
                           <td>
                             <div class="circle" style="background-color:<?= $obj->color; ?>"></div>
                           </td>
                           <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                              <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->Project_product_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                              <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->Project_product_id ?>)" <?= $obj->Project_product_percentage != 100 ? "" : "disabled" ?>>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                </svg></button>
-                              <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->Project_product_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                </svg>
+                              </button>
+                              <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->Project_product_id ?>)" <?= $obj->Project_product_percentage != 100 ? "" : "disabled" ?>>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                   <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                </svg></button>
+                                </svg>
+                              </button>
                             </div>
                           </td>
                         </tr>
@@ -241,7 +246,7 @@
                         </div>
                         <div class="col-12 col-md-4 mb-3">
                           <label for="Stat_id">Estado</label>
-                          <select class="form-control form-select" id="Stat_id" name="Stat_id" required>
+                          <select class="form-control form-select form-disabled read" id="Stat_id" name="Stat_id" required>
                             <?php foreach ($userstatuses as $userstatus) : ?>
                               <option value="<?= $userstatus['Stat_id']; ?>">
                                 <?= $userstatus['Stat_name']; ?>
@@ -267,9 +272,9 @@
               <!-- TABLA DE SEGUIMIENTO DE PROYECTO -->
 
               <div class="card-pp">
-                <h4 class="page-title">
-                  <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showTrackingModal(1)"><i class="mdi mdi-plus"></i></button>
+                <h4 class="page-title text-end">
                   Agregar Seguimiento
+                  <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showTrackingModal(1)"><i class="mdi mdi-plus"></i></button>
                 </h4>
                 <div class="card-body">
                   <div class="table-responsive table-pp">
@@ -280,7 +285,7 @@
                           <th>Nombre</th>
                           <th>Descripción</th>
                           <th>Fecha</th>
-                          <th>Actions</th>
+                          <th>Acciones</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -311,7 +316,7 @@
                           <th>Nombre</th>
                           <th>Descripción</th>
                           <th>Fecha</th>
-                          <th>Actions</th>
+                          <th>Acciones</th>
                         </tr>
                       </tfoot>
                     </table>
@@ -365,9 +370,9 @@
               <!-- TABLA DE ACTIVIDADES-->
 
               <div class="card-pp">
-                <h4 class="page-title">
+                <h4 class="page-title text-end">
+                  Agregar Actividad
                   <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showActivitiesModal(1)"><i class="mdi mdi-plus"></i></button>
-                  Asignar Actividad
                 </h4>
                 <div class="card-body">
                   <div class="table-responsive table-pp">
@@ -378,7 +383,7 @@
                           <th>Nombre</th>
                           <th>Código</th>
                           <th>Fecha de creación</th>
-                          <th>Actions</th>
+                          <th>Acciones</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -413,7 +418,7 @@
                           <th>Nombre</th>
                           <th>Código</th>
                           <th>Fecha de creación</th>
-                          <th>Actions</th>
+                          <th>Acciones</th>
                         </tr>
                       </tfoot>
                     </table>
@@ -427,7 +432,7 @@
                 <div class="modal-dialog modal-dialog-scrollable modal-lg">
                   <div class="modal-content" style="width: 100%;">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="createUpdateModalLabel">NUEVA ACTIVIDAD</h5>
+                      <h5 class="modal-title" id="createUpdateModalLabel">AGREGAR ACTIVIDAD</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body ">
