@@ -28,8 +28,6 @@ class Product extends BaseController
     {
         $filing = new FilingModel();
         $productbrand = new ProductBrandModel();
-        $producttype = new ProductTypeModel();
-        $unit = new UnitModel();
         $data['title'] = 'Productos';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
@@ -42,8 +40,6 @@ class Product extends BaseController
         $data[$this->nameModel] = $this->objModel->findAll();
         $data['filings'] = $filing->findAll();
         $data['productbrands'] = $productbrand->findAll();
-        $data['producttypes'] = $producttype->findAll();
-        $data['units'] = $unit->findAll();
         return view('product/product', $data);
     }
 
@@ -147,10 +143,7 @@ class Product extends BaseController
             'Prod_code' => $code,
             'Prod_name' => $this->request->getVar('Prod_name'),
             'Prod_description' => $this->request->getVar('Prod_description'),
-            'Prod_value' => $this->request->getVar('Prod_value'),
-            'TypePro_id' => $this->request->getVar('TypePro_id'),
             'Prod_brand_id' => $this->request->getVar('Prod_brand_id'),
-            'Unit_id' => $this->request->getVar('Unit_id'),
             'Filing_id' => $this->request->getVar('Filing_id'),
             'updated_at' => $this->request->getVar('updated_at')
         ];

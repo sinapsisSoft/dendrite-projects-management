@@ -536,16 +536,11 @@ CREATE TABLE IF NOT EXISTS `product` (
   `Prod_id` int(11) NOT NULL AUTO_INCREMENT,
   `Prod_name` varchar(100) NOT NULL,
   `Prod_description` varchar(200) NOT NULL,
-  `Prod_value` double NOT NULL,
-  `TypePro_id` int(11) NOT NULL,
-  `Unit_id` int(11) NOT NULL,
   `Prod_brand_id` int(11) NOT NULL,
   `Filing_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Prod_id`),
-  KEY `product_typeProduct` (`TypePro_id`),
-  KEY `product_uni` (`Unit_id`),
   KEY `product_filing` (`Filing_id`),
   KEY `product_brand` (`Prod_brand_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
@@ -554,9 +549,9 @@ CREATE TABLE IF NOT EXISTS `product` (
 -- Volcado de datos para la tabla `product`
 --
 
-INSERT INTO `product` (`Prod_code`, `Prod_id`, `Prod_name`, `Prod_description`, `Prod_value`, `TypePro_id`, `Unit_id`, `Prod_brand_id`, `Filing_id`, `updated_at`, `created_at`) VALUES
-('PROd_02', 15, 'pagina', 'podcats grabación de audio y video', 20, 5, 1, 2, 1, NULL, '2023-05-28 10:51:26'),
-('PROd_03', 16, 'pagina web', 'web', 5, 6, 1, 3, 1, NULL, '2023-06-06 11:40:32');
+INSERT INTO `product` (`Prod_code`, `Prod_id`, `Prod_name`, `Prod_description`, `Prod_brand_id`, `Filing_id`, `updated_at`, `created_at`) VALUES
+('PROD_02', 15, 'pagina', 'podcats grabación de audio y video', 1, 1, NULL, '2023-05-28 10:51:26'),
+('PROD_03', 16, 'pagina web', 'web', 1, 1, NULL, '2023-06-06 11:40:32');
 
 -- --------------------------------------------------------
 
@@ -579,28 +574,6 @@ CREATE TABLE IF NOT EXISTS `product_brand` (
 INSERT INTO `product_brand` (`Prod_brand_id`, `Prod_brand_name`, `Prod_brand_description`) VALUES
 (2, 'honda', 'motos'),
 (3, 'bellanew', 'anticonceptivo oral');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `product_type`
---
-
-DROP TABLE IF EXISTS `product_type`;
-CREATE TABLE IF NOT EXISTS `product_type` (
-  `TypePro_id` int(11) NOT NULL AUTO_INCREMENT,
-  `TypePro_name` varchar(100) NOT NULL,
-  `TypePro_description` varchar(200) NOT NULL,
-  PRIMARY KEY (`TypePro_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `product_type`
---
-
-INSERT INTO `product_type` (`TypePro_id`, `TypePro_name`, `TypePro_description`) VALUES
-(5, 'fisico', 'hola'),
-(6, 'virtual', 'producto web');
 
 -- --------------------------------------------------------
 
@@ -923,27 +896,6 @@ INSERT INTO `subactivities` (`SubAct_id`, `SubAct_name`, `User_id`, `SubAct_esti
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `unit`
---
-
-DROP TABLE IF EXISTS `unit`;
-CREATE TABLE IF NOT EXISTS `unit` (
-  `Unit_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Unit_name` varchar(100) NOT NULL,
-  `Unit_symbol` varchar(5) NOT NULL,
-  PRIMARY KEY (`Unit_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `unit`
---
-
-INSERT INTO `unit` (`Unit_id`, `Unit_name`, `Unit_symbol`) VALUES
-(1, 'Unidad', 'UNI');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `user`
 --
 
@@ -1042,9 +994,7 @@ ALTER TABLE `manager_brands`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_brand` FOREIGN KEY (`Prod_brand_id`) REFERENCES `product_brand` (`Prod_brand_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `product_filing` FOREIGN KEY (`Filing_id`) REFERENCES `filing` (`Filing_id`),
-  ADD CONSTRAINT `product_typeProduct` FOREIGN KEY (`TypePro_id`) REFERENCES `product_type` (`TypePro_id`),
-  ADD CONSTRAINT `product_uni` FOREIGN KEY (`Unit_id`) REFERENCES `unit` (`Unit_id`);
+  ADD CONSTRAINT `product_filing` FOREIGN KEY (`Filing_id`) REFERENCES `filing` (`Filing_id`);
 
 --
 -- Filtros para la tabla `profile`

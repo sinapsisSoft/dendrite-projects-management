@@ -24,13 +24,13 @@
     <nav class="sidebar-nav">
       <ul id="sidebarnav" class="pt-4 color">
         <li class="sidebar-item">
-          <a class="sidebar-link waves-effect waves-dark sidebar-link home" href="/" aria-expanded="false">
+          <a class="sidebar-link waves-effect waves-dark home" href="/home" aria-expanded="false">
             <lord-icon src="<?= base_url() ?>/assets/json/system-outline-41-home.json" trigger="hover" colors="primary:#121331" style="width:25px;height:25px">
             </lord-icon>
             <span class="hide-menu">&emsp;Inicio</span></a>
         </li>
         <li class="sidebar-item">
-          <a class="sidebar-link waves-effect waves-dark sidebar-link project" href="/project" aria-expanded="false">
+          <a class="sidebar-link waves-effect waves-dark project" href="/project" aria-expanded="false">
             <lord-icon src="<?= base_url() ?>/assets/json/system-outline-44-folder.json" trigger="hover" colors="primary:#121331" style="width:25px;height:25px">
             </lord-icon>
             <span class="hide-menu">&emsp;Gestión de proyectos</span>
@@ -49,13 +49,7 @@
               <a href="/productbrand" class="sidebar-link productbrand"><i class="mdi mdi-chevron-right"></i><span class="hide-menu">Marca </span></a>
             </li>
             <li class="sidebar-item">
-              <a href="/producttype" class="sidebar-link producttype"><i class="mdi mdi-chevron-right"></i><span class="hide-menu"> Tipo </span></a>
-            </li>
-            <li class="sidebar-item">
               <a href="/filing" class="sidebar-link filing"><i class="mdi mdi-chevron-right"></i><span class="hide-menu"> Presentación </span></a>
-            </li>
-            <li class="sidebar-item">
-              <a href="/unit" class="sidebar-link unit"><i class="mdi mdi-chevron-right"></i><span class="hide-menu"> Unidad </span></a>
             </li>
           </ul>
         </li>
@@ -66,7 +60,7 @@
             <span class="hide-menu">&emsp;Gestión de Clientes </span></a>
         </li>
         <li class="sidebar-item">
-          <a href="/reports" class="sidebar-link reports">
+          <a href="/report" class="sidebar-link report">
           <lord-icon src="<?= base_url() ?>/assets/json/system-outline-43-pie-chart-diagram.json" trigger="hover" colors="primary:#121331" style="width:25px;height:25px">
             </lord-icon>
             <span class="hide-menu">&emsp;Reportes </span></a>

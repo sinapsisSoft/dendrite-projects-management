@@ -157,12 +157,12 @@
   }
 }
 
-@include media-breakpoint-only(md) {
-  #main-wrapper {
-    &[data-sidebartype="mini-sidebar"] {
-      .sidebar-nav ul .sidebar-item {
-        width: 65px;
-      }
-    }
-  }
-}
+// @include media-breakpoint-only(md) {
+//   #main-wrapper {
+//     &[data-sidebartype="mini-sidebar"] {
+//       .sidebar-nav ul .sidebar-item {
+//         width: 65px;
+//       }
+//     }
+//   }
+// }

@@ -14,10 +14,9 @@ class ProductModel extends Model
     'Prod_code', 
     'Prod_name', 
     'Prod_description', 
-    'Prod_value', 
-    'TypePro_id',
     'Prod_brand_id', 
-    'Unit_id', 
-    'Filing_id'];
+    'Filing_id',
+    'created_at',
+    'updated_at'];
     protected $updatedField = 'updated_at';
 }

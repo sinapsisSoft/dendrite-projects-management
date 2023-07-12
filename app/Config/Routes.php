@@ -11,7 +11,7 @@ $routes = Services::routes();
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('Auth');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -29,9 +29,10 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::home');
-
-
+/**Routes groups*/
+$routes->group('home', ['namespace' => 'App\Controllers\Home'], function ($routes) {
+    $routes->get('/', 'Home::show');
+});
 
 /**Routes groups*/
 $routes->group('login', ['namespace' => 'App\Controllers\Auth'], function ($routes) {
@@ -89,14 +90,6 @@ $routes->group('country', ['namespace' => 'App\Controllers\Country'], function (
     $routes->post('update', 'Country::update');
 });
 
-$routes->group('unit', ['namespace' => 'App\Controllers\Unit'], function ($routes) {
-    $routes->get('/', 'Unit::show');
-    $routes->post('create', 'Unit::create');
-    $routes->post('delete', 'Unit::delete');
-    $routes->post('edit', 'Unit::edit');
-    $routes->post('update', 'Unit::update');
-});
-
 $routes->group('city', ['namespace' => 'App\Controllers\City'], function ($routes) {
     $routes->get('/', 'City::show');
     $routes->post('create', 'City::create');
@@ -144,14 +137,6 @@ $routes->group('product', ['namespace' => 'App\Controllers\Product'], function (
     $routes->post('delete', 'Product::delete');
     $routes->post('edit', 'Product::edit');
     $routes->post('update', 'Product::update');
-});
-
-$routes->group('producttype', ['namespace' => 'App\Controllers\ProductType'], function ($routes) {
-    $routes->get('/', 'ProductType::show');
-    $routes->post('create', 'ProductType::create');
-    $routes->post('delete', 'ProductType::delete');
-    $routes->post('edit', 'ProductType::edit');
-    $routes->post('update', 'ProductType::update');
 });
 
 $routes->group('filing', ['namespace' => 'App\Controllers\Filing'], function ($routes) {
@@ -236,8 +221,8 @@ $routes->group('detailsclient', ['namespace' => 'App\Controllers\DetailsClient']
 
 });
 
-$routes->group('reports', ['namespace' => 'App\Controllers\Reports'], function ($routes) {
-    $routes->get('/', 'Reports::show');
+$routes->group('report', ['namespace' => 'App\Controllers\Report'], function ($routes) {
+    $routes->get('/', 'Report::show');
 
 });
 
