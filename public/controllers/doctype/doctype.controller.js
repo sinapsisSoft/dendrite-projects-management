@@ -57,7 +57,7 @@ function create(formData) {
           '¡No pudimos hacer esto!',
           arMessages[0],
           'error'
-        )
+        );
       }
       sTForm.inputButtonEnable();
       hidePreload();
@@ -94,7 +94,7 @@ function update(formData) {
           '¡No pudimos hacer esto!',
           arMessages[0],
           'error'
-        )
+        );
       }
       sTForm.inputButtonEnable();
       hidePreload();
@@ -203,7 +203,7 @@ function getDataId(idData, type) {
           '¡No pudimos hacer esto!',
           arMessages[0],
           'error'
-        )
+        );
       }
     });
 }

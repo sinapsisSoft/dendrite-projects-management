@@ -6,8 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Matrix lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Matrix admin lite design, Matrix admin lite dashboard bootstrap 5 dashboard template" />
-  <meta name="description" content="Matrix Admin Lite Free Version is powerful and clean admin dashboard template, inpired from Bootstrap Framework" />
+  <meta name="keywords" content="Made in casa, Market Support" />
+  <meta name="description" content="Made in Casa - Construyendo el futuro. Plataforma de gestión proyectos." />
   <meta name="robots" content="noindex,nofollow" />
   <title><?= $title ?></title>
   <?= $css ?>
@@ -32,7 +32,9 @@
             <div class="ms-auto text-end">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item">
+                    <a href="<?= base_url() ?>home">Inicio</a>
+                  </li>
                   <li class="breadcrumb-item active" aria-current="page">
                     <a href="<?= base_url() ?>project">Proyectos</a>
                   </li>

@@ -42,43 +42,8 @@ CREATE TABLE IF NOT EXISTS `activities` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Activi_id`),
   KEY `activities_status` (`Stat_id`),
-  KEY `activities_project_product` (`Project_product_id`),
-  KEY `activities_approvalcode` (`Activi_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `activities`
---
-
-INSERT INTO `activities` (`Activi_id`, `Activi_name`, `Activi_code`, `Activi_observation`, `Activi_startDate`, `Activi_endDate`, `Activi_link`, `Activi_codeMiigo`, `Activi_codeSpectra`, `Activi_codeDelivery`, `Activi_percentage`, `Stat_id`, `Project_product_id`, `updated_at`, `created_at`) VALUES
-(27, 'danna', 'ACT_027', 'grande', '2023-06-02', '2023-06-01', 'git', '125', '45', 78, '100', 1, 23, '0000-00-00 00:00:00', '2023-06-01 14:10:12'),
-(28, 'grabacion', 'ACT_028', 'DESCRIPCION', '2023-06-06', '2023-06-06', 'git', '', '', 0, '100', 1, 24, '0000-00-00 00:00:00', '2023-06-06 11:47:12');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `approvalcode`
---
-
-DROP TABLE IF EXISTS `approvalcode`;
-CREATE TABLE IF NOT EXISTS `approvalcode` (
-  `ApprCode_id` int(11) NOT NULL AUTO_INCREMENT,
-  `ApprCode_code` varchar(50) DEFAULT NULL,
-  `ApprCode_name` varchar(100) NOT NULL,
-  PRIMARY KEY (`ApprCode_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `approvalcode`
---
-
-INSERT INTO `approvalcode` (`ApprCode_id`, `ApprCode_code`, `ApprCode_name`) VALUES
-(2, 'Act_002', 'ptoyecto0'),
-(3, 'Act_003', 'ptoyecto'),
-(4, 'Act_004', 'contabilidad'),
-(5, 'Act_005', 'desarrollo'),
-(6, 'Act_006', 'desarrollar pagina');
-
+  KEY `activities_project_product` (`Project_product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
 --
@@ -95,17 +60,7 @@ CREATE TABLE IF NOT EXISTS `brand` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Brand_id`),
   KEY `brand_client` (`Client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `brand`
---
-
-INSERT INTO `brand` (`Brand_id`, `Brand_name`, `Brand_description`, `Client_id`, `updated_at`, `created_at`) VALUES
-(14, 'postobon', 'gaseosas', 2, '0000-00-00 00:00:00', '2023-05-25 15:50:08'),
-(15, 'pepsi', 'fria', 2, '0000-00-00 00:00:00', '2023-05-25 16:03:18'),
-(16, 'cocacola', 'gaseosas', 2, '0000-00-00 00:00:00', '2023-05-25 16:13:34'),
-(18, 'dentrite', 'dettale 1', 19, '0000-00-00 00:00:00', '2023-06-06 11:42:28');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -119,15 +74,7 @@ CREATE TABLE IF NOT EXISTS `city` (
   `City_name` varchar(50) NOT NULL,
   `Country_id` int(11) NOT NULL,
   PRIMARY KEY (`City_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `city`
---
-
-INSERT INTO `city` (`City_id`, `City_name`, `Country_id`) VALUES
-(5, 'maracaibo', 2),
-(4, 'Cartagena', 1);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -156,17 +103,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `client_docType` (`DocType_id`),
   KEY `client_state` (`Stat_id`),
   KEY `client_contry` (`Country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `client`
---
-
-INSERT INTO `client` (`Client_id`, `Client_name`, `Client_identification`, `Client_email`, `Client_phone`, `Client_address`, `DocType_id`, `Comp_id`, `Stat_id`, `Country_id`, `updated_at`, `created_at`) VALUES
-(2, 'danna', '123', 'sinapsis@gmail.com', '3025897144', 'zaragocilla', 2, 1, 1, 1, NULL, '2023-03-23 12:13:46'),
-(3, 'ABBOT', '90126111', 'ABBOTT@gmail.com', '3025897144', 'zaragocilla', 6, 1, 1, 1, NULL, '2023-05-05 11:08:56'),
-(19, 'sinapsis', '123459', 'sinapsis34@gmail.com', '6629845', 'bogota', 6, 1, 1, 1, NULL, '2023-06-06 11:41:30'),
-(20, 'Elmys', '901261118', 'elmys@gmail.com', '895', 'zaragocilla', 3, 1, 1, 1, NULL, '2023-06-08 15:58:07');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -206,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `company` (
   UNIQUE KEY `Comp_email` (`Comp_email`),
   KEY `company_status` (`Stat_id`),
   KEY `company_doctType` (`DocType_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `company`
@@ -259,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `country` (
   `Country_id` int(11) NOT NULL AUTO_INCREMENT,
   `Country_name` varchar(100) NOT NULL,
   PRIMARY KEY (`Country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `country`
@@ -283,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `doctype` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`DocType_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `doctype`
@@ -335,14 +272,7 @@ CREATE TABLE IF NOT EXISTS `filing` (
   `Filing_name` varchar(100) NOT NULL,
   `Filing_description` varchar(200) NOT NULL,
   PRIMARY KEY (`Filing_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `filing`
---
-
-INSERT INTO `filing` (`Filing_id`, `Filing_name`, `Filing_description`) VALUES
-(1, 'Virtual ', 'Virtual ');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -356,14 +286,14 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `Mail_user` varchar(150) NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`Mail_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `mail`
 --
 
 INSERT INTO `mail` (`Mail_id`, `Mail_user`, `updated_at`) VALUES
-(5, 'developer.sinapsist@gmail.com', '2023-06-04 23:51:40');
+(1, 'developer.sinapsist@gmail.com', '2023-06-04 23:51:40');
 
 -- --------------------------------------------------------
 
@@ -380,15 +310,7 @@ CREATE TABLE IF NOT EXISTS `manager` (
   `Client_id` int(11) NOT NULL,
   PRIMARY KEY (`Manager_id`),
   KEY `manager_client` (`Client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `manager`
---
-
-INSERT INTO `manager` (`Manager_id`, `Manager_name`, `Manager_email`, `Manager_phone`, `Client_id`) VALUES
-(15, 'BEATRIZ GOMEZ', 'BEATRIZ@GMAIL.COM', '123', 2),
-(16, 'laura', 'laura56@gmail.com', '3046734992', 19);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -404,15 +326,7 @@ CREATE TABLE IF NOT EXISTS `manager_brands` (
   PRIMARY KEY (`Manager_brand_id`),
   KEY `manager_brands_brand` (`Brand_id`),
   KEY `manager_brands_manager` (`Manager_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `manager_brands`
---
-
-INSERT INTO `manager_brands` (`Manager_brand_id`, `Manager_id`, `Brand_id`) VALUES
-(7, 15, 14),
-(8, 16, 18);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -465,16 +379,30 @@ CREATE TABLE IF NOT EXISTS `module` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `module`
 --
 
 INSERT INTO `module` (`Mod_id`, `Mod_name`, `Mod_route`, `Mod_description`, `updated_at`, `created_at`) VALUES
-(1, 'HOME', 'home/home', 'Is Home', NULL, '2023-01-30 21:42:37'),
-(2, 'USER', 'user/user', 'USER', NULL, '2023-01-30 22:28:31'),
-(5, 'inventario', '5', 'a', NULL, '2023-03-21 10:19:48');
+(1, 'INICIO', 'home/home', 'Is Home', NULL, '2023-01-30 21:42:37'),
+(2, 'GESTIÓN DE PROYECTOS', 'project/project', 'USER', NULL, '2023-01-30 22:28:31'),
+(3, 'PRODUCTOS', 'product/product', 'a', NULL, '2023-03-21 10:19:48'),
+(4, 'MARCA DE PRODUCTOS', 'productbrand/productbrand', 'a', NULL, '2023-03-21 10:19:48'),
+(5, 'PRESENTACIÓN DE PRODUCTOS', 'filing/filing', 'a', NULL, '2023-03-21 10:19:48'),
+(6, 'CLIENTES', 'client/client', 'a', NULL, '2023-03-21 10:19:48'),
+(7, 'REPORTES', 'report/report', 'a', NULL, '2023-03-21 10:19:48'),
+(8, 'USUARIOS', 'user/user', 'a', NULL, '2023-03-21 10:19:48'),
+(9, 'MÓDULOS', 'module/module', 'a', NULL, '2023-03-21 10:19:48'),
+(10, 'ROLES', 'role/role', 'a', NULL, '2023-03-21 10:19:48'),
+(11, 'TIPO DE DOCUMENTO', 'doctype/doctype', 'a', NULL, '2023-03-21 10:19:48'),
+(12, 'CREDENCIALES DE CORREO', 'email/email', 'a', NULL, '2023-03-21 10:19:48'),
+(13, 'CORREO DE CORRESPONDENCIA', 'mail/mail', 'a', NULL, '2023-03-21 10:19:48'),
+(14, 'PRIORIDADES', 'priorities/priorities', 'a', NULL, '2023-03-21 10:19:48'),
+(15, 'PAÍS', 'country/country', 'a', NULL, '2023-03-21 10:19:48'),
+(16, 'CIUDAD', 'city/city', 'a', NULL, '2023-03-21 10:19:48'),
+(17, 'ESTADOS DE USUARIO', 'userstatus/userstatus', 'a', NULL, '2023-03-21 10:19:48');
 
 -- --------------------------------------------------------
 
@@ -514,15 +442,8 @@ CREATE TABLE IF NOT EXISTS `priorities` (
   `Priorities_name` varchar(100) NOT NULL,
   `Priorities_color` varchar(20) NOT NULL,
   PRIMARY KEY (`Priorities_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `priorities`
---
-
-INSERT INTO `priorities` (`Priorities_id`, `Priorities_name`, `Priorities_color`) VALUES
-(6, 'importante', '#c92696'),
-(9, 'media', '#ebfb04');
 
 -- --------------------------------------------------------
 
@@ -543,15 +464,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   PRIMARY KEY (`Prod_id`),
   KEY `product_filing` (`Filing_id`),
   KEY `product_brand` (`Prod_brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `product`
---
-
-INSERT INTO `product` (`Prod_code`, `Prod_id`, `Prod_name`, `Prod_description`, `Prod_brand_id`, `Filing_id`, `updated_at`, `created_at`) VALUES
-('PROD_02', 15, 'pagina', 'podcats grabación de audio y video', 1, 1, NULL, '2023-05-28 10:51:26'),
-('PROD_03', 16, 'pagina web', 'web', 1, 1, NULL, '2023-06-06 11:40:32');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -565,15 +478,7 @@ CREATE TABLE IF NOT EXISTS `product_brand` (
   `Prod_brand_name` varchar(100) NOT NULL,
   `Prod_brand_description` varchar(150) NOT NULL,
   PRIMARY KEY (`Prod_brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `product_brand`
---
-
-INSERT INTO `product_brand` (`Prod_brand_id`, `Prod_brand_name`, `Prod_brand_description`) VALUES
-(2, 'honda', 'motos'),
-(3, 'bellanew', 'anticonceptivo oral');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -635,26 +540,6 @@ CREATE TABLE `project` (
   KEY `project_commercial` (`Project_commercial`),  
   KEY `Priorities_id` (`Priorities_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
---
--- Volcado de datos para la tabla `project`
---
-
-INSERT INTO `project` (`Project_id`, `Project_code`, `Project_name`, `Manager_id`, `Brand_id`, `Project_purchaseOrder`, `Project_ddtStartDate`, `Project_ddtEndDate`, `Project_startDate`, `Project_estimatedEndDate`, `Project_activitiEndDate`, `Project_observation`, `Project_percentage`, `Client_id`, `User_id`, `Project_commercial`, `Stat_id`, `Priorities_id`, `updated_at`, `created_at`) VALUES
-(17, 'PRO_017', 'CREACIÓN DE MAIL Y VIDEO, IMPLICAIONES METABOLICAS PARA ABBOTT', 15, 14, '125', '2023-05-28', '2023-05-28', '2023-05-28', '2023-05-28', '2023-05-28', 'YTG', NULL, 2, 217, 222, 1, 6, '2023-07-04 23:01:54', '2023-05-28 09:16:09'),
-(18, 'PRO_018', 'inventario', 15, 15, 'fcwsef', '2023-05-11', '2023-05-29', '2023-05-04', '2023-05-06', '2023-05-22', 'descripción', NULL, 2, 216, 222, 4, 6, '2023-05-29 15:43:14', '2023-05-29 10:42:40'),
-(21, 'PRO_021', 'Proyecto ambiente de pruebas', 15, 15, 'dfgdfg123', '0000-00-00', '0000-00-00', '2023-07-05', '0000-00-00', '0000-00-00', '', NULL, 2, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 18:40:29'),
-(22, 'PRO_022', 'Creación de landing 1', 15, 14, 'ccll789', '0000-00-00', '0000-00-00', '2023-07-04', '2023-08-02', '0000-00-00', '', NULL, 2, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 18:50:51'),
-(23, 'PRO_023', 'ENVÍO MASIVO DE CORREOS ABBOTT PERÚ', 19, 21, 'RETSDFS965', '0000-00-00', '0000-00-00', '2023-07-10', '0000-00-00', '0000-00-00', '', NULL, 18, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:04:16'),
-(24, 'PRO_024', 'ENVÍO MASIVO DE MEMBRETES', 16, 19, 'EMDM456', '0000-00-00', '0000-00-00', '2023-07-07', '0000-00-00', '0000-00-00', '', NULL, 3, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:09:05'),
-(25, 'PRO_025', 'CREACIÓN DE MAIL Y VIDEO, IMPLICACIONES EN LA CONCEPCIÓN', 18, 18, 'RTRTY7897', '0000-00-00', '0000-00-00', '2023-07-10', '0000-00-00', '0000-00-00', '', NULL, 3, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:10:48'),
-(26, 'PRO_026', 'Creación de WEB', 20, 20, 'AWERWER789', '0000-00-00', '0000-00-00', '2023-07-04', '0000-00-00', '0000-00-00', '', NULL, 18, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:12:12'),
-(27, 'PRO_027', 'Creación de WEB', 20, 20, 'AWERWER789', '0000-00-00', '0000-00-00', '2023-07-04', '0000-00-00', '0000-00-00', '', NULL, 18, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:13:40'),
-(28, 'PRO_028', 'CREación de página de juego interactivos', 15, 14, 'dsrdf78g94', '0000-00-00', '0000-00-00', '2023-07-01', '0000-00-00', '0000-00-00', '', NULL, 2, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:14:51'),
-(29, 'PRO_029', 'SEGUIMIENTO DE CAMPAÑAS PUBLICITARIAS', 17, 17, 'sdfsdf7777', '0000-00-00', '0000-00-00', '2023-07-04', '0000-00-00', '0000-00-00', '', NULL, 3, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:17:40'),
-(30, 'PRO_030', 'seguimiento de campa{a de marketing', 16, 19, 'etert879', '0000-00-00', '0000-00-00', '2023-07-06', '0000-00-00', '0000-00-00', '', NULL, 3, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:28:22'),
-(31, 'PRO_031', 'SEGUIMIENTO CORREOS', 19, 21, 'DFGTD8888', '0000-00-00', '0000-00-00', '2023-07-10', '0000-00-00', '0000-00-00', '', NULL, 18, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:41:13'),
-(32, 'PRO_032', 'SEGUIMIENTO CORREOS', 17, 17, 'gtyut8869', '0000-00-00', '0000-00-00', '2023-07-14', '0000-00-00', '0000-00-00', '', NULL, 3, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:47:24'),
-(33, 'PRO_033', 'ENVIO DE CAMPAÑAS PUBLICITARIAS', 15, 15, 'DFG89898', '0000-00-00', '0000-00-00', '2023-07-05', '0000-00-00', '0000-00-00', '', NULL, 2, 226, 222, 1, 6, '0000-00-00 00:00:00', '2023-07-04 19:51:44');
 
 -- --------------------------------------------------------
 
@@ -676,15 +561,7 @@ CREATE TABLE IF NOT EXISTS `project_product` (
   KEY `project_product_prod` (`Prod_id`),
   KEY `project_product_project` (`Project_id`),
   KEY `project_product_status` (`Stat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `project_product`
---
-
-INSERT INTO `project_product` (`Project_product_id`, `Project_productAmount`, `Project_id`, `Prod_id`, `Project_product_percentage`, `Stat_id`, `updated_at`, `created_at`) VALUES
-(23, '11', 31, 15, '0', 12, '0000-00-00 00:00:00', '2023-06-01 14:09:51'),
-(24, '10', 43, 15, '0', 12, '0000-00-00 00:00:00', '2023-06-06 11:46:25');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -701,7 +578,7 @@ CREATE TABLE IF NOT EXISTS `project_tracking` (
   `ProjectTrack_date` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`ProjectTrack_id`),
   KEY `project_tracking_project` (`Project_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -717,7 +594,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `role`
@@ -726,9 +603,9 @@ CREATE TABLE IF NOT EXISTS `role` (
 INSERT INTO `role` (`Role_id`, `Role_name`, `Role_description`, `updated_at`, `created_at`) VALUES
 (1, 'Administrator', 'Administrator', NULL, '2023-01-30 21:50:45'),
 (2, 'Cliente', 'Cliente', NULL, '2023-02-27 21:37:10'),
-(7, 'Colaborador', '', NULL, '2023-03-21 10:20:16'),
-(8, 'Administrator', '', NULL, '2023-04-19 16:06:49'),
-(9, 'Comercial', '', NULL, '2023-04-26 10:58:37');
+(3, 'Colaborador', '', NULL, '2023-03-21 10:20:16'),
+(4, 'Administrator', '', NULL, '2023-04-19 16:06:49'),
+(5, 'Comercial', '', NULL, '2023-04-26 10:58:37');
 
 -- --------------------------------------------------------
 
@@ -745,20 +622,7 @@ CREATE TABLE IF NOT EXISTS `role_module` (
   PRIMARY KEY (`Role_mod_id`),
   KEY `role_module` (`Mod_id`),
   KEY `role_module_role` (`Role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `role_module`
---
-
-INSERT INTO `role_module` (`Role_mod_id`, `Role_id`, `Mod_id`, `created_at`) VALUES
-(3, 2, 2, '2023-03-17 12:35:11'),
-(4, 2, 1, '2023-03-17 12:35:11'),
-(57, 1, 2, '2023-03-21 01:36:09'),
-(62, 8, 1, '2023-04-19 16:06:49'),
-(63, 8, 5, '2023-04-19 16:06:49'),
-(64, 9, 1, '2023-04-26 10:58:37'),
-(65, 7, 5, '2023-05-23 22:47:20');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -776,32 +640,7 @@ CREATE TABLE IF NOT EXISTS `role_module_permit` (
   PRIMARY KEY (`Role_mod_per_id`),
   KEY `Role_mod_id` (`Role_mod_id`),
   KEY `Perm_id` (`Perm_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `role_module_permit`
---
-
-INSERT INTO `role_module_permit` (`Role_mod_per_id`, `Perm_id`, `Role_mod_id`, `updated_at`, `created_at`) VALUES
-(7, 2, 3, NULL, '2023-03-17 12:35:11'),
-(8, 3, 3, NULL, '2023-03-17 12:35:11'),
-(9, 2, 4, NULL, '2023-03-17 12:35:11'),
-(10, 3, 4, NULL, '2023-03-17 12:35:11'),
-(131, 1, 57, NULL, '2023-03-21 01:36:09'),
-(132, 2, 57, NULL, '2023-03-21 01:36:09'),
-(133, 3, 57, NULL, '2023-03-21 01:36:09'),
-(134, 4, 57, NULL, '2023-03-21 01:36:09'),
-(146, 1, 62, NULL, '2023-04-19 16:06:49'),
-(147, 2, 62, NULL, '2023-04-19 16:06:49'),
-(148, 3, 63, NULL, '2023-04-19 16:06:49'),
-(149, 4, 63, NULL, '2023-04-19 16:06:49'),
-(150, 1, 64, NULL, '2023-04-26 10:58:37'),
-(151, 2, 64, NULL, '2023-04-26 10:58:37'),
-(152, 3, 64, NULL, '2023-04-26 10:58:37'),
-(153, 4, 64, NULL, '2023-04-26 10:58:37'),
-(154, 2, 65, NULL, '2023-05-23 22:47:20'),
-(155, 4, 65, NULL, '2023-05-23 22:47:20'),
-(156, 3, 65, NULL, '2023-05-23 22:47:20');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -819,7 +658,7 @@ CREATE TABLE IF NOT EXISTS `status` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Stat_id`),
   KEY `status_StatusType` (`StatType_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `status`
@@ -827,10 +666,10 @@ CREATE TABLE IF NOT EXISTS `status` (
 
 INSERT INTO `status` (`Stat_id`, `Stat_name`, `Stat_description`, `StatType_id`, `updated_at`, `created_at`) VALUES
 (1, 'Activo', 'Status Active', 1, NULL, '2023-01-27 22:03:01'),
-(4, 'Inactivo', '', 1, NULL, '2023-03-13 10:57:20'),
-(12, 'Sin asignar', 'Activo de proyecto', 4, NULL, '2023-03-28 13:10:52'),
-(13, 'Pendiente', '', 4, NULL, '2023-04-18 01:15:33'),
-(14, 'Realizado', '', 4, NULL, '2023-04-18 01:16:20');
+(2, 'Inactivo', '', 1, NULL, '2023-03-13 10:57:20'),
+(3, 'Asignado', 'Activo de proyecto', 4, NULL, '2023-03-28 13:10:52'),
+(4, 'Pendiente', '', 4, NULL, '2023-04-18 01:15:33'),
+(5, 'Realizado', '', 4, NULL, '2023-04-18 01:16:20');
 
 -- --------------------------------------------------------
 
@@ -883,15 +722,7 @@ CREATE TABLE IF NOT EXISTS `subactivities` (
   KEY `subactivities_stad` (`Stat_id`),
   KEY `subactivities_activi` (`Activi_id`),
   KEY `Priorities_id` (`Priorities_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `subactivities`
---
-
-INSERT INTO `subactivities` (`SubAct_id`, `SubAct_name`, `User_id`, `SubAct_estimatedEndDate`, `Stat_id`, `Activi_id`, `Priorities_id`, `SubAct_description`, `SubAct_percentage`) VALUES
-(4, 'pelicula', 1, '2023-06-23', 14, 27, 6, 'DESCRIPCIÓN', '100'),
-(5, 'escribir guion', 1, '2023-06-07', 14, 28, 6, 'DESCRIPCIÓN', '100');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -915,20 +746,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   KEY `user_status` (`Stat_id`),
   KEY `user_company` (`Comp_id`),
   KEY `Role_id` (`Role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `user`
 --
 
 INSERT INTO `user` (`User_id`, `User_name`, `User_email`, `User_password`, `Comp_id`, `Stat_id`, `Role_id`, `updated_at`, `created_at`) VALUES
-(1, 'danna contreras', 'dannacontreras53@gmail.com', '$2y$10$ijaEIKR4nrcpVXNGpYfJU.ov27yqnuhMvPmSS7QFj.sMzrsXUvR02', 1, 1, 7, '2023-06-05 14:50:39', '2023-01-30 22:10:44'),
-(212, 'diego casalla', 'diehercasvan@gmail.com', '$2y$10$HIcq9Q75fmXBLLkh3f4Oyew7p4dLfvAFy/d9zEaVld9HxuOyX4wDG', 1, 1, 2, '2023-06-05 14:51:07', '2023-02-25 22:25:58'),
-(218, 'sinapsis', 'd.sinapsis@sinapsis.com.co', '$2y$10$g1az6gGb6GgIvVPpSlspG.7xhuTlv5DRWkf.3U308xCf2S72u8Cxy', 1, 1, 1, '2023-06-05 14:51:46', '2023-02-27 21:15:21'),
-(222, 'andres puello', 'andresp@gmail.com', '$2y$10$bWxxskTxttFmKp1gMKpt1.4p.30Gy2XZAQAAKg1WumjIxQFEg/0BW', 1, 1, 9, '2023-06-05 14:52:29', '2023-04-26 11:29:59'),
-(223, 'andres osorio', 'andrespuello53@gmail.com', '$2y$10$J6aPDvcaBSkU1ldQiSmZduXt0yXIvMHCxal8nQ5FkQf0JIN6rxzoW', 1, 1, 1, '2023-06-05 14:52:47', '2023-06-01 13:15:47'),
-(224, 'antonella', 'antonella@gmail.com', '$2y$10$7U537C5ySlp.TVZJnTftluEZtcJSkYQlqx4toro10A.ZrmMg5Gm2m', 1, 1, 1, '0000-00-00 00:00:00', '2023-06-05 09:23:55');
-
+(1, 'Dev Sinapsist', 'developer.sinapsist@gmail.com', '$2y$10$ijaEIKR4nrcpVXNGpYfJU.ov27yqnuhMvPmSS7QFj.sMzrsXUvR02', 1, 1, 3, '2023-06-05 14:50:39', '2023-01-30 22:10:44');
 --
 -- Restricciones para tablas volcadas
 --
@@ -980,20 +805,20 @@ ALTER TABLE `company_contact`
 -- Filtros para la tabla `manager`
 --
 ALTER TABLE `manager`
-  ADD CONSTRAINT `manager_client` FOREIGN KEY (`Client_id`) REFERENCES `client` (`Client_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `manager_client` FOREIGN KEY (`Client_id`) REFERENCES `client` (`Client_id`);
 
 --
 -- Filtros para la tabla `manager_brands`
 --
 ALTER TABLE `manager_brands`
-  ADD CONSTRAINT `manager_brands_brand` FOREIGN KEY (`Brand_id`) REFERENCES `brand` (`Brand_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `manager_brands_manager` FOREIGN KEY (`Manager_id`) REFERENCES `manager` (`Manager_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `manager_brands_brand` FOREIGN KEY (`Brand_id`) REFERENCES `brand` (`Brand_id`),
+  ADD CONSTRAINT `manager_brands_manager` FOREIGN KEY (`Manager_id`) REFERENCES `manager` (`Manager_id`);
 
 --
 -- Filtros para la tabla `product`
 --
 ALTER TABLE `product`
-  ADD CONSTRAINT `product_brand` FOREIGN KEY (`Prod_brand_id`) REFERENCES `product_brand` (`Prod_brand_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `product_brand` FOREIGN KEY (`Prod_brand_id`) REFERENCES `product_brand` (`Prod_brand_id`),
   ADD CONSTRAINT `product_filing` FOREIGN KEY (`Filing_id`) REFERENCES `filing` (`Filing_id`);
 
 --
@@ -1033,7 +858,8 @@ ALTER TABLE `project_tracking`
 -- Filtros para la tabla `role_module`
 --
 ALTER TABLE `role_module`
-  ADD CONSTRAINT `role_module_role` FOREIGN KEY (`Role_id`) REFERENCES `role` (`Role_id`);
+  ADD CONSTRAINT `role_module_role` FOREIGN KEY (`Role_id`) REFERENCES `role` (`Role_id`),
+  ADD CONSTRAINT `role_module_module` FOREIGN KEY (`Mod_id`) REFERENCES `module` (`Mod_id`);
 
 --
 -- Filtros para la tabla `role_module_permit`
