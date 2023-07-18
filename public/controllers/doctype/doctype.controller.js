@@ -166,7 +166,7 @@ function sendData(e, formObj) {
       '¡No pudimos hacer esto!',
       arMessages[0],
       'error'
-    )
+    );
   }
   e.preventDefault();
 }

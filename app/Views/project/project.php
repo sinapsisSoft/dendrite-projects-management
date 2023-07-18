@@ -118,7 +118,7 @@
             </div>
           </div>
         </div>
-        <div class="modal fade"  data-bs-backdrop="static" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
+        <div class="modal fade" data-bs-backdrop="static" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content" style="width: 100%;">
               <div class="modal-header">

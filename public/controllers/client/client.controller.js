@@ -1,9 +1,13 @@
 showPreload();
 
-$("#table_obj").DataTable();
+$("#table_obj").DataTable({
+  "language": {
+    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+  }
+});
 
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', 'Updated user ', 'The user was deleted');
+const arMessages = new Array('Revise la información suministrada', 'Cliente creado exitosamente', 'Cliente actualizado exitosamente', 'Cliente eliminado exitosamente', 'El cliente no pudo ser eliminado. Revise si éste está siendo usado en algún proyecto.');
 const ruteContent = "client/";
 const nameModel = 'clients';
 const dataModel = 'data';
@@ -25,192 +29,233 @@ var formData = new Object();
 var selectInsertOrUpdate = true;
 
 function details(detailsclientId) {
-    window.location = `${BASE_URL}detailsclient?detailsclientId=${detailsclientId}`
+  window.location = `${BASE_URL}detailsclient?detailsclientId=${detailsclientId}`
 }
 
 function create(formData) {
-    url = URL_ROUTE + arRoutes[0];
-    fetch(url, {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest"
-        }
-    })
-        .then(response => response.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => {
-            if (response[dataResponse] == 200) {
-                console.log(response[dataModel]);
-                TOASTS.toastView("", "", arMessages[1], 0);
-                hideModal();
-                window.location.reload();
-            } else {
-                console.log(arMessages[0]);
-            }
-            sTForm.inputButtonEnable();
-            hidePreload();
+  url = URL_ROUTE + arRoutes[0];
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[1],
+          showConfirmButton: false,
+          timer: 1500
         });
+        hideModal();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000); 
+      } else {
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
+      }
+      sTForm.inputButtonEnable();
+      hidePreload();
+    });
 }
 
 function update(formData) {
-    url = URL_ROUTE + arRoutes[2];
-    fetch(url, {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest"
-        }
-    })
-        .then(response => response.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => {
-            if (response[dataResponse] == 200) {
-                console.log(response[dataModel]);
-                TOASTS.toastView("", "", arMessages[3], 0);
-                hideModal();
-                window.location.reload();
-            } else {
-                console.log(arMessages[0]);
-            }
-            sTForm.inputButtonEnable();
-            hidePreload();
+  url = URL_ROUTE + arRoutes[2];
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[2],
+          showConfirmButton: false,
+          timer: 1500
         });
+        hideModal();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000); 
+      } else {
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
+      }
+      sTForm.inputButtonEnable();
+      hidePreload();
+    });
 }
 
 function delete_(id) {
-    let text = "Do you want to carry out this process?\n OK or Cancel.";
-    if (confirm(text) == true) {
-        showPreload();
-        url = URL_ROUTE + arRoutes[3];
-        formData[primaryId] = id;
-        fetch(url, {
-            method: "POST",
-            body: JSON.stringify(formData),
-            headers: {
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest"
-            }
-        })
-            .then(response => response.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => {
-                if (response[dataResponse] == 200) {
-                    console.log(response[dataModel]);
-                    TOASTS.toastView("", "", arMessages[4], 0);
-                    window.location.reload();
-
-                } else {
-                    console.log(arMessages[0]);
-                }
-                hidePreload();
-            });
-    }
-}
-
-function sendData(e, formObj) {
-    let obj = formObj;
-    sTForm = SingletonClassSTForm.getInstance();
-    if (sTForm.validateForm()) {
-        showPreload();
-        if (selectInsertOrUpdate) {
-            create(sTForm.getDataForm());
-        } else {
-            update(sTForm.getDataForm());
-        }
-        sTForm.inputButtonDisable();
-    } else {
-        TOASTS.toastView("", "", arMessages[0], 1);
-    }
-    e.preventDefault();
-}
-
-function detail(idData) {
-    getDataId(idData);
-    toogleDisabledFields();
-}
-
-function toogleDisabledFields() {
-    const btnSubmit = document.getElementById('btn-submit');
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach(input => input.classList.add('form-disabled'))
-    const selects = document.querySelectorAll('select')
-    selects.forEach(select => select.classList.add('form-disabled'))
-    btnSubmit.disabled = true;
-}
-
-function getDataId(idData) {
-    showPreload();
-    selectInsertOrUpdate = false;
-    formData[primaryId] = idData;
-    url = URL_ROUTE + arRoutes[4];
-    sTForm = SingletonClassSTForm.getInstance();
-    fetch(url, {
+  Swal.fire({
+    title: '¿Está seguro?',
+    text: "¡Esta acción no se puede revertir!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#7460ee',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      showPreload();
+      url = URL_ROUTE + arRoutes[3];
+      formData[primaryId] = id;
+      fetch(url, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest"
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
         }
-    })
+      })
         .then(response => response.json())
         .catch(error => console.error('Error:', error))
         .then(response => {
-            if (response[dataResponse] == 200) {
-                showModal(0);
-                sTForm.setDataForm(response[dataModel]);
-                hidePreload();
-            } else {
-                console.log(arMessages[0]);
-            }
+          if (response[dataResponse] == 200) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: arMessages[3],
+              showConfirmButton: false,
+              timer: 1500
+            });
+            setTimeout(function(){
+              window.location.reload();
+            }, 2000);  
+          } else {
+            Swal.fire(
+              '¡No pudimos hacer esto!',
+              arMessages[4],
+              'error'
+            );
+          }
+          hidePreload();
         });
+    }
+  })
 }
 
-function addData() {
-    selectInsertOrUpdate = true;
-    showModal(1);
+function sendData(e, formObj) {
+  let obj = formObj;
+  sTForm = SingletonClassSTForm.getInstance();
+  if (sTForm.validateForm()) {
+    showPreload();
+    if (selectInsertOrUpdate) {
+      create(sTForm.getDataForm());
+    } else {
+      update(sTForm.getDataForm());
+    }
+    sTForm.inputButtonDisable();
+  } else {
+    Swal.fire(
+      '¡No pudimos hacer esto!',
+      arMessages[0],
+      'error'
+    );
+  }
+  e.preventDefault();
+}
+
+function getDataId(idData, type) {
+  showPreload();
+  selectInsertOrUpdate = false;
+  formData[primaryId] = idData;
+  url = URL_ROUTE + arRoutes[4];
+  sTForm = SingletonClassSTForm.getInstance();
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        showModal(0);
+        sTForm.setDataForm(response[dataModel]);
+        if(type == 0){
+          sTForm.inputButtonDisable();
+        }
+        else if(type == 1){
+          sTForm.inputButtonEnable();
+        }   
+        hidePreload();
+      } else {
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
+      }
+    });
 }
 
 function hideModal() {
-    $(myModalObjec).modal("hide");
+  $(myModalObjec).modal("hide");
 }
 
 function showModal(type) {
-    if (type == 1) {
-        sTForm = SingletonClassSTForm.getInstance();
-        sTForm.inputButtonEnable();
-        document.getElementById('Stat_id').setAttribute('disabled', true)
-        document.getElementById('Comp_id').setAttribute('disabled', true)
-    } else {
-        document.getElementById('Stat_id').setAttribute('disabled', false)
-        document.getElementById('Comp_id').setAttribute('disabled', false);
-    }
-    sTForm.clearDataForm();
-    $(myModalObjec).modal("show");
+  if (type == 1) {
+    sTForm = SingletonClassSTForm.getInstance();
+    sTForm.inputButtonEnable();    
+    selectInsertOrUpdate = true;
+    sTForm.FormEnableEdit();
+    disableFormProject();
+  }
+  sTForm.clearDataForm();
+  $(myModalObjec).modal("show");
 }
 
 function showPreload() {
-    $(".preloader").fadeIn();
+  $(".preloader").fadeIn();
 }
 
 function hidePreload() {
-    $(".preloader").fadeOut();
+  $(".preloader").fadeOut();
 }
 
 var SingletonClassSTForm = (function () {
-    var objInstance;
-    function createInstance() {
-        var object = new STForm(idForm);
-        return object;
+  var objInstance;
+  function createInstance() {
+    var object = new STForm(idForm);
+    return object;
+  }
+  return {
+    getInstance: function () {
+      if (!objInstance) {
+        objInstance = createInstance();
+      }
+      return objInstance;
     }
-    return {
-        getInstance: function () {
-            if (!objInstance) {
-                objInstance = createInstance();
-            }
-            return objInstance;
-        }
-    }
+  }
 })();
+
+function disableFormProject(){
+  let readInputs = document.getElementsByClassName('read');
+  for(element of readInputs){
+    element.setAttribute("disabled","true");
+  }
+}

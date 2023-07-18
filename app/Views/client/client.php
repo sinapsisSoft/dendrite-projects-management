@@ -30,7 +30,11 @@
         <div class="row">
           <div class="col-12 d-flex no-block align-items-center">
             <h4 class="page-title">
-              <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-account-plus"></i></button>
+              NUEVO CLIENTE  
+              <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)">
+                <lord-icon src="<?= base_url() ?>/assets/json/system-outline-2-accessibility.json" trigger="hover" colors="primary:#ffffff" style="width:30px;height:30px">
+                </lord-icon>
+              </button>            
             </h4>
             <div class="ms-auto text-end">
               <nav aria-label="breadcrumb">
@@ -39,7 +43,7 @@
                     <a href="<?= base_url() ?>home">Inicio</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    Library
+                    <a href="<?= base_url() ?>client">Clientes</a>
                   </li>
                 </ol>
               </nav>
@@ -63,9 +67,9 @@
                         <th>#</th>
                         <th>Nombre</th>
                         <th>Identificación</th>
-                        <th>Telefono</th>
+                        <th>Teléfono</th>
                         <th>Fecha de creación</th>
-                        <th>Actions</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -79,11 +83,11 @@
                           <td><?= $obj['created_at']; ?></td>
                           <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                              <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj['Client_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                              <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj['Client_id'] ?>, 1)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                 </svg></button>
-                              <button type="button" class="btn btn-outline-success" onclick="details(<?= $obj['Client_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                              <button type="button" class="btn btn-outline-success" onclick="getDataId(<?= $obj['Client_id'] ?>, 0)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                   <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                   <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                 </svg></button>
@@ -100,9 +104,9 @@
                         <th>#</th>
                         <th>Nombre</th>
                         <th>Identificación</th>
-                        <th>Telefono</th>
+                        <th>Teléfono</th>
                         <th>Fecha de creación</th>
-                        <th>Actions</th>
+                        <th>Acciones</th>
                       </tr>
                     </tfoot>
                   </table>
@@ -111,9 +115,9 @@
             </div>
           </div>
         </div>
-        <div class="modal fade" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
+        <div class="modal fade" id="createUpdateModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 100%;">
               <div class="modal-header">
                 <h5 class="modal-title" id="createUpdateModalLabel">DATOS</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -122,11 +126,11 @@
                 <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
                   <input type="hidden" class="form-control" id="Client_id" name="Client_id" value="0">
                   <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                  <div class="fmb-3 col-4">
+                  <div class="col-12 col-md-8 mb-3">
                     <label for="Client_name">Nombre</label>
                     <input type="text" class="form-control" id="Client_name" name="Client_name" required>
                   </div>
-                  <div class="mb-3 col-4">
+                  <div class="col-12 col-md-4 mb-3">
                     <label for="DocType_id">Tipo de documento</label>
                     <select name="DocType_id" id="DocType_id" class="form-control form-select" required>
                       <option value="">
@@ -139,44 +143,24 @@
                       <?php endforeach; ?>
                     </select>
                   </div>
-                  <div class="mb-3 col-4">
+                  <div class="col-12 col-md-3 mb-3">
                     <label for="Client_identification">Identificación</label>
                     <input type="text" class="form-control" id="Client_identification" name="Client_identification" required>
                   </div>
-                  <div class="mb-3 col-4">
-                    <label for="Client_email">Correo Electronico</label>
-                    <input type="text" class="form-control" id="Client_email" name="Client_email" required>
-                  </div>
-                  <div class="mb-3 col-4">
-                    <label for="Client_phone">Telefono</label>
+                  <div class="col-12 col-md-4 mb-3">
+                    <label for="Client_phone">Teléfono</label>
                     <input type="text" class="form-control" id="Client_phone" name="Client_phone" required>
                   </div>
-                  <div class="mb-3 col-4">
+                  <div class="col-12 col-md-5 mb-3">
+                    <label for="Client_email">Correo Electrónico</label>
+                    <input type="text" class="form-control" id="Client_email" name="Client_email" required>
+                  </div>                  
+                  <div class="col-12 col-md-6 mb-3">
                     <label for="Client_address">Dirección</label>
                     <input type="text" class="form-control" id="Client_address" name="Client_address" required>
                   </div>
-                  <div class="mb-3 col-4">
-                    <label for="Comp_id">Empresa</label>
-                    <select name="Comp_id" id="Comp_id" class="form-control form-select" required disabled>
-                      <?php foreach ($companies as $company) : ?>
-                        <option value="<?= $company['Comp_id'] ?>">
-                          <?= $company['Comp_name'] ?>
-                        </option>
-                      <?php endforeach; ?>
-                    </select>
-                  </div>
-                  <div class="mb-3 col-4">
-                    <label for="Stat_id">Estado</label>
-                    <select name="Stat_id" id="Stat_id" class="form-control form-select" required>
-                      <?php foreach ($userstatuses as $userstatus) : ?>
-                        <option value="<?= $userstatus->Stat_id ?>">
-                          <?= $userstatus->Stat_name  ?>
-                        </option>
-                      <?php endforeach; ?>
-                    </select>
-                  </div>
-                  <div class=" mb-3 col-4">
-                    <label for="Country_id">Pais</label>
+                  <div class=" col-12 col-md-3 mb-3">
+                    <label for="Country_id">País</label>
                     <select name="Country_id" id="Country_id" class="form-control form-select" required>
                       <option value="">
                         Seleccione...
@@ -184,6 +168,26 @@
                       <?php foreach ($countries as $country) : ?>
                         <option value="<?= $country['Country_id'] ?>">
                           <?= $country['Country_name'] ?>
+                        </option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-3 mb-3">
+                    <label for="Stat_id">Estado</label>
+                    <select name="Stat_id" id="Stat_id" class="form-control form-select read" required>
+                      <?php foreach ($userstatuses as $userstatus) : ?>
+                        <option value="<?= $userstatus->Stat_id ?>">
+                          <?= $userstatus->Stat_name  ?>
+                        </option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-8 mb-3 d-none">
+                    <label for="Comp_id">Empresa</label>
+                    <select name="Comp_id" id="Comp_id" class="form-control form-select" required disabled>
+                      <?php foreach ($companies as $company) : ?>
+                        <option value="<?= $company['Comp_id'] ?>">
+                          <?= $company['Comp_name'] ?>
                         </option>
                       <?php endforeach; ?>
                     </select>
