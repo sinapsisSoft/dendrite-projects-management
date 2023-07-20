@@ -43,12 +43,23 @@ function create(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        console.log(response[dataModel]);
-        TOASTS.toastView("", "", arMessages[1], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[1],
+          showConfirmButton: false,
+          timer: 1500
+        });
         hideModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);  
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
       sTForm.inputButtonEnable();
       hidePreload();
@@ -69,12 +80,23 @@ function update(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        console.log(response[dataModel]);
-        TOASTS.toastView("", "", arMessages[3], 0);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[2],
+          showConfirmButton: false,
+          timer: 1500
+        });
         hideModal();
-        window.location.reload();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);   
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
       sTForm.inputButtonEnable();
       hidePreload();
@@ -82,33 +104,52 @@ function update(formData) {
 }
 
 function delete_(id) {
-  let text = "Do you want to carry out this process?\n OK or Cancel.";
-  if (confirm(text) == true) {
-    showPreload();
-    url = URL_ROUTE + arRoutes[3];
-    formData[primaryId] = id;
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-Type": "application/json",
-        "X-Requested-With": "XMLHttpRequest"
-      }
-    })
-      .then(response => response.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => {
-        if (response[dataResponse] == 200) {
-          console.log(response[dataModel]);
-          TOASTS.toastView("", "", arMessages[4], 0);
-          window.location.reload();
-
-        } else {
-          console.log(arMessages[0]);
+  Swal.fire({
+    title: '¿Está seguro?',
+    text: "¡Esta acción no se puede revertir!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#7460ee',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      showPreload();
+      url = URL_ROUTE + arRoutes[3];
+      formData[primaryId] = id;
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
         }
-        hidePreload();
-      });
-  }
+      })
+        .then(response => response.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+          if (response[dataResponse] == 200) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: arMessages[3],
+              showConfirmButton: false,
+              timer: 1500
+            });
+            setTimeout(function(){
+              window.location.reload();
+            }, 2000);   
+          } else {
+            Swal.fire(
+              '¡No pudimos hacer esto!',
+              arMessages[4],
+              'error'
+            );
+          }
+          hidePreload();
+        });
+    }
+  })
 }
 
 function sendData(e, formObj) {
@@ -123,26 +164,16 @@ function sendData(e, formObj) {
     }
     sTForm.inputButtonDisable();
   } else {
-    TOASTS.toastView("", "", arMessages[0], 1);
+    Swal.fire(
+      '¡No pudimos hacer esto!',
+      arMessages[0],
+      'error'
+    );
   }
   e.preventDefault();
 }
 
-function detail(idData) {
-  getDataId(idData);
-  toogleDisabledFields();
-}
-
-function toogleDisabledFields() {
-  const btnSubmit = document.getElementById('btn-submit');
-  const inputs = document.querySelectorAll('input');
-  inputs.forEach(input => input.classList.add('form-disabled'))
-  const selects = document.querySelectorAll('select')
-  selects.forEach(select => select.classList.add('form-disabled'))
-  btnSubmit.disabled = true;
-}
-
-function getDataId(idData) {
+function getDataId(idData, type) {
   showPreload();
   selectInsertOrUpdate = false;
   formData[primaryId] = idData;
@@ -162,16 +193,21 @@ function getDataId(idData) {
       if (response[dataResponse] == 200) {
         showModal(0);
         sTForm.setDataForm(response[dataModel]);
+        if(type == 0){
+          sTForm.inputButtonDisable();
+        }
+        else if(type == 1){
+          sTForm.inputButtonEnable();
+        }   
         hidePreload();
       } else {
-        console.log(arMessages[0]);
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
       }
     });
-}
-
-function addData() {
-  selectInsertOrUpdate = true;
-  showModal(1);
 }
 
 function hideModal() {
@@ -182,6 +218,8 @@ function showModal(type) {
   if (type == 1) {
     sTForm = SingletonClassSTForm.getInstance();
     sTForm.inputButtonEnable();
+    selectInsertOrUpdate = true;
+    sTForm.FormEnableEdit();
   }
   sTForm.clearDataForm();
   $(myModalObjec).modal("show");
