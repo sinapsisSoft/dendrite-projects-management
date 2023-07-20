@@ -9,6 +9,7 @@
 <link href="<?= base_url() ?>assets/matrix-admin-bt5/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css">
 <link href="<?= base_url() ?>assets/css/sweetalert2.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/bootstrap-icons.css" rel="stylesheet" />
 
 
 

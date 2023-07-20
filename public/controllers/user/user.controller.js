@@ -14,14 +14,18 @@ showPreload();
 /****************************************
 *       Basic Table                   *
 ****************************************/
-$("#table_obj").DataTable();
+$("#table_obj").DataTable({
+  "language": {
+    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+  }
+});
 
 // ==============================================================
 // This is Variable  
 // ==============================================================
 
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Validate the entered username and password data', 'A new user was created', 'A new user was created', 'Updated user ', 'The user was deleted');
+const arMessages = new Array('Revise la información suministrada', 'Usuario creado exitosamente', 'Usuario actualizado exitosamente', 'Usuario eliminado exitosamente', 'El usuario no pudo ser eliminado. Revise si éste está siendo usado en algún proyecto.');
 const ruteContent = "user/";
 const nameModel = 'users';
 const dataModel = 'data';
@@ -48,6 +52,9 @@ var url = "";
 var assignmentAction = 0;
 var formData = new Object();
 var selectInsertOrUpdate = true;
+var userPassword = document.getElementById("User_password");
+var confirmPassword = document.getElementById("confirmPassword");
+
 
 // ==============================================================
 // Functions 
@@ -60,32 +67,40 @@ var selectInsertOrUpdate = true;
 *Description:This function create users
 */
 function create(formData) {
-    url = URL_ROUTE + arRoutes[0];
-    debugger;
-    fetch(url, {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest"
-        }
-    })
-        .then(response => response.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => {
-            if (response[dataResponse] == 200) {
-                console.log(response[dataModel]);
-                debugger;
-                TOASTS.toastView("", "", arMessages[1], 0);
-                hideModal();
-                window.location.reload();
-            } else {
-                console.log(arMessages[0]);
-            }
-            sTForm.inputButtonEnable();
-            debugger;
-            hidePreload();
+  url = URL_ROUTE + arRoutes[0];
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[1],
+          showConfirmButton: false,
+          timer: 1500
         });
+        hideModal();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000); 
+      } else {
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
+      }
+      sTForm.inputButtonEnable();
+      hidePreload();
+    });
 }
 /*
 *Ahutor:DIEGO CASALLAS
@@ -94,29 +109,40 @@ function create(formData) {
 *Description:This function update users
 */
 function update(formData) {
-    url = URL_ROUTE + arRoutes[2];
-    fetch(url, {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest"
-        }
-    })
-        .then(response => response.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => {
-            if (response[dataResponse] == 200) {
-                console.log(response[dataModel]);
-                TOASTS.toastView("", "", arMessages[3], 0);
-                hideModal();
-                window.location.reload();
-            } else {
-                console.log(arMessages[0]);
-            }
-            sTForm.inputButtonEnable();
-            hidePreload();
+  url = URL_ROUTE + arRoutes[2];
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[2],
+          showConfirmButton: false,
+          timer: 1500
         });
+        hideModal();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);   
+      } else {
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
+      }
+      sTForm.inputButtonEnable();
+      hidePreload();
+    });
 }
 
 /*
@@ -126,33 +152,52 @@ function update(formData) {
 *Description:This function delete users
 */
 function delete_(id) {
-    let text = "Do you want to carry out this process?\n OK or Cancel.";
-    if (confirm(text) == true) {
-        showPreload();
-        url = URL_ROUTE + arRoutes[3];
-        formData[primaryId] = id;
-        fetch(url, {
-            method: "POST",
-            body: JSON.stringify(formData),
-            headers: {
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest"
-            }
-        })
-            .then(response => response.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => {
-                if (response[dataResponse] == 200) {
-                    console.log(response[dataModel]);
-                    TOASTS.toastView("", "", arMessages[4], 0);
-                    window.location.reload();
-
-                } else {
-                    console.log(arMessages[0]);
-                }
-                hidePreload();
-            });
+  Swal.fire({
+    title: '¿Está seguro?',
+    text: "¡Esta acción no se puede revertir!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#7460ee',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      showPreload();
+    url = URL_ROUTE + arRoutes[3];
+    formData[primaryId] = id;
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+        "X-Requested-With": "XMLHttpRequest"
+      }
+    })
+      .then(response => response.json())
+      .catch(error => console.error('Error:', error))
+      .then(response => {
+        if (response[dataResponse] == 200) {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: arMessages[3],
+            showConfirmButton: false,
+            timer: 1500
+          });
+          setTimeout(function(){
+            window.location.reload();
+          }, 2000);  
+        } else {
+          Swal.fire(
+            '¡No pudimos hacer esto!',
+            arMessages[4],
+            'error'
+          );
+        }
+        hidePreload();
+      });
     }
+  })
 }
 /*
 *Ahutor:DIEGO CASALLAS
@@ -161,81 +206,78 @@ function delete_(id) {
 *Description:This functions is general for the operations of users
 */
 function sendData(e, formObj) {
-    let obj = formObj;
-    sTForm = SingletonClassSTForm.getInstance();
-    if (sTForm.validateConfirmationsPassword()) {
-        if (sTForm.validateForm()) {
-            showPreload();
-            if (selectInsertOrUpdate) {
-                create(sTForm.getDataForm());
-            } else {
-                update(sTForm.getDataForm());
-            }
-            sTForm.inputButtonDisable();
+  userPassword.type = 'password';
+  confirmPassword.type = 'password';
+  let obj = formObj;
+  sTForm = SingletonClassSTForm.getInstance();
+    if (sTForm.validateForm()) {
+      showPreload();
+      sTForm.inputButtonDisable();
+      if (selectInsertOrUpdate) {
+        if(sTForm.validateConfirmationsPassword()){
+          create(sTForm.getDataForm());
+        }      
+        else {
+          Swal.fire(
+            '¡No pudimos hacer esto!',
+            'Las contraseñas no coinciden',
+            'error'
+          );
+          hidePreload();
         }
-    } else {
-        TOASTS.toastView("", "", arMessages[0], 1);
+      } else {
+        update(sTForm.getDataForm());
+      }
+    }else {
+    Swal.fire(
+      '¡No pudimos hacer esto!',
+      arMessages[0],
+      'error'
+    );
+    hidePreload();
+  }
+  e.preventDefault();
+  hidePreload();
+  sTForm.inputButtonEnable();
+}
+
+function getDataId(idData, type) {
+  showPreload();
+  selectInsertOrUpdate = false;
+  formData[primaryId] = idData;
+  url = URL_ROUTE + arRoutes[4];
+  sTForm = SingletonClassSTForm.getInstance();
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
     }
-    e.preventDefault();
-}
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/02/2023
-*Description:This function get data id user
-*/
-
-function detail(idData) {
-    getDataId(idData);
-    toogleDisabledFields();
-}
-
-function toogleDisabledFields() {
-    const btnSubmit = document.getElementById('btn-submit');
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach(input => input.classList.add('form-disabled'))
-    const selects = document.querySelectorAll('select')
-    selects.forEach(select => select.classList.add('form-disabled'))
-    btnSubmit.disabled = true;
-}
-
-function getDataId(idData) {
-    showPreload();
-    selectInsertOrUpdate = false;
-    formData[primaryId] = idData;
-    url = URL_ROUTE + arRoutes[4];
-    sTForm = SingletonClassSTForm.getInstance();
-    fetch(url, {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest"
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        showModal(0);
+        sTForm.setDataForm(response[dataModel]);
+        if(type == 0){
+          sTForm.inputButtonDisable();
         }
-    })
-        .then(response => response.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => {
-            if (response[dataResponse] == 200) {
-                showModal(0);
-                sTForm.setDataForm(response[dataModel]);
-                hidePreload();
-            } else {
-                console.log(arMessages[0]);
-            }
-        });
+        else if(type == 1){
+          sTForm.inputButtonEnable();
+        } 
+        hidePreload();
+      } else {
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
+      }
+    });
 }
 
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:25/02/2023
-*Description:This function to hide user modal 
-*/
-function addData() {
-    selectInsertOrUpdate = true;
-    showModal(1);
-}
 /*
 *Ahutor:DIEGO CASALLAS
 *Busines: SINAPSIS TECHNOLOGIES
@@ -244,7 +286,7 @@ function addData() {
 */
 
 function hideModal() {
-    $(myModalObjec).modal("hide");
+  $(myModalObjec).modal("hide");
 }
 
 /*
@@ -254,12 +296,19 @@ function hideModal() {
 *Description:This function to show user modal 
 */
 function showModal(type) {
-    if (type == 1) {
-        sTForm = SingletonClassSTForm.getInstance();
-        sTForm.inputButtonEnable();
-    }
-    sTForm.clearDataForm();
-    $(myModalObjec).modal("show");
+  if (type == 1) {
+    sTForm = SingletonClassSTForm.getInstance();
+    sTForm.inputButtonEnable();
+    selectInsertOrUpdate = true;
+    passwordInputHide(1);
+    sTForm.FormEnableEdit();
+    disableFormProject();
+  }
+  else {
+    passwordInputHide(0);
+  }
+  sTForm.clearDataForm();
+  $(myModalObjec).modal("show");
 }
 /*
 *Ahutor:DIEGO CASALLAS
@@ -268,7 +317,7 @@ function showModal(type) {
 *Description:This function to show preload
 */
 function showPreload() {
-    $(".preloader").fadeIn();
+  $(".preloader").fadeIn();
 }
 /*
 *Ahutor:DIEGO CASALLAS
@@ -277,7 +326,7 @@ function showPreload() {
 *Description:This function to hide preload
 */
 function hidePreload() {
-    $(".preloader").fadeOut();
+  $(".preloader").fadeOut();
 }
 
 /*
@@ -287,17 +336,64 @@ function hidePreload() {
 *Description:This functions singleton STForm class
 */
 var SingletonClassSTForm = (function () {
-    var objInstance;
-    function createInstance() {
-        var object = new STForm(idForm);
-        return object;
+  var objInstance;
+  function createInstance() {
+    var object = new STForm(idForm);
+    return object;
+  }
+  return {
+    getInstance: function () {
+      if (!objInstance) {
+        objInstance = createInstance();
+      }
+      return objInstance;
     }
-    return {
-        getInstance: function () {
-            if (!objInstance) {
-                objInstance = createInstance();
-            }
-            return objInstance;
-        }
-    }
+  }
 })();
+
+document.getElementById("showPassword").addEventListener('click', showHiddePassword);
+
+
+function showHiddePassword(){
+  // let userPassword = document.getElementById("User_password");
+  // let confirmPassword = document.getElementById("confirmPassword");
+  let btnShow = document.getElementById("showPassword");
+  if (userPassword.type === 'password'){
+    userPassword.type = 'text';
+    confirmPassword.type = 'text';
+    btnShow.firstElementChild.classList.add('bi-eye-slash');
+    btnShow.firstElementChild.classList.remove('bi-eye');
+  }
+  else {
+    userPassword.type = 'password';
+    confirmPassword.type = 'password';
+    btnShow.firstElementChild.classList.remove('bi-eye-slash');
+    btnShow.firstElementChild.classList.add('bi-eye');
+  }
+}
+
+function passwordInputHide(type){  
+  var inputHide = Array.from(document.getElementsByClassName('user-password'));
+  
+  if(type == 0){
+    inputHide.forEach(element => {
+      element.classList.add('d-none');
+    });
+    userPassword.removeAttribute("required");
+    confirmPassword.removeAttribute("required");
+  }
+  else {
+    inputHide.forEach(element => {
+      element.classList.remove('d-none');
+    });
+    userPassword.setAttribute("required", "true");
+    confirmPassword.setAttribute("required", "true");
+  }  
+}
+
+function disableFormProject(){
+  let readInputs = document.getElementsByClassName('read');
+  for(element of readInputs){
+    element.setAttribute("disabled","true");
+  }
+}

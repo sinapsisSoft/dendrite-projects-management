@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `activities` (
 DROP TABLE IF EXISTS `brand`;
 CREATE TABLE IF NOT EXISTS `brand` (
   `Brand_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Brand_name` varchar(50) NOT NULL,
+  `Brand_name` varchar(100) NOT NULL UNIQUE,
   `Brand_description` varchar(100) NOT NULL,
   `Client_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -304,7 +304,7 @@ INSERT INTO `mail` (`Mail_id`, `Mail_user`, `updated_at`) VALUES
 DROP TABLE IF EXISTS `manager`;
 CREATE TABLE IF NOT EXISTS `manager` (
   `Manager_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Manager_name` varchar(100) NOT NULL,
+  `Manager_name` varchar(100) NOT NULL UNIQUE,
   `Manager_email` varchar(100) NOT NULL,
   `Manager_phone` varchar(10) NOT NULL,
   `Client_id` int(11) NOT NULL,

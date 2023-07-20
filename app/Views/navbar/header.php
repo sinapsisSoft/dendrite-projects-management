@@ -239,7 +239,7 @@
         <!-- End Messages -->
         <!-- ============================================================== -->
         <li class="nav-item">
-          <a class="nav-link text-muted waves-effect waves-dark pro-pic d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a id="btn-info" href="#" target="_blank" class="nav-link text-muted waves-effect waves-dark pro-pic d-flex align-items-center">
                   <lord-icon src="<?= base_url() ?>/assets/json/system-outline-140-help-center.json" trigger="hover" colors="primary:#ffffff" style="width:30px;height:30px">
             </lord-icon>
           </a>

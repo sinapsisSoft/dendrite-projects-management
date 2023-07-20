@@ -34,7 +34,7 @@ class User extends BaseController
         $role = new UserRole();
         $status = new UserStatusModel();
         $company = new CompanyModel();
-        $data['title'] = 'USERS';
+        $data['title'] = 'Usuarios';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
         

@@ -36,7 +36,10 @@
                     <a href="<?= base_url() ?>home">Inicio</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    Library
+                    <a href="<?= base_url() ?>client">Clientes</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Detalle del cliente
                   </li>
                 </ol>
               </nav>
@@ -121,9 +124,9 @@
               <!-- TABLA DE MARCA-->
 
               <div class="card-app">
-                <h4 class="page-title">
-                  <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showBrandModal(1)"><i class="mdi mdi-plus"></i></button>
+                <h4 class="page-title text-end">
                   Agregar Marca
+                  <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showBrandModal(1)"><i class="mdi mdi-plus"></i></button>
                 </h4>
                 <div class="card-body">
                   <h5 class="card-title">
@@ -136,7 +139,7 @@
                           <th>#</th>
                           <th>Nombre</th>
                           <th>Fecha de creación</th>
-                          <th>Actions</th>
+                          <th>Acciones</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -148,11 +151,11 @@
                             <td><?= $obj['created_at']; ?></td>
                             <td>
                               <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <button type="button" class="btn btn-outline-warning" onclick="getBrandDataId(<?= $obj['Brand_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <button type="button" class="btn btn-outline-warning" onclick="getBrandDataId(<?= $obj['Brand_id'] ?>, 1)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                   </svg></button>
-                                <button type="button" class="btn btn-outline-success" onclick="detailBrand(<?= $obj['Brand_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                <button type="button" class="btn btn-outline-success" onclick="getBrandDataId(<?= $obj['Brand_id'] ?>, 0)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                     <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                   </svg></button>
@@ -169,7 +172,7 @@
                           <th>#</th>
                           <th>Nombre</th>
                           <th>Fecha de creación</th>
-                          <th>Actions</th>
+                          <th>Acciones</th>
                         </tr>
                       </tfoot>
                     </table>
@@ -179,9 +182,9 @@
 
               <!-- MODAL DE MARCA -->
 
-              <div class="modal fade" id="BrandModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
+              <div class="modal fade" id="BrandModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                  <div class="modal-content">
+                  <div class="modal-content" style="width: 100%;">
                     <div class="modal-header">
                       <h5 class="modal-title" id="createUpdateModalLabel">DATOS</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -190,13 +193,13 @@
                       <form class="form-horizontal mt-3 row" id="objBrandForm" action="" onsubmit="sendBrandData(event,this.id)">
                         <input type="hidden" class="form-control" id="Brand_id" name="Brand_id" value="0">
                         <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                        <div class="mb-3 col-4">
+                        <div class="col-12 mb-3">
                           <label for="Brand_name">Nombre</label>
                           <input type="text" class="form-control" id="Brand_name" name="Brand_name" required autocomplete="off">
                         </div>
-                        <div class="mb-3">
+                        <div class="col-12 mb-3">
                           <label for="Brand_description">Descripción</label>
-                          <input type="text" class="form-control" id="Brand_description" name="Brand_description" required>
+                          <input type="text" class="form-control" id="Brand_description" name="Brand_description">
                         </div>
                       </form>
                     </div>
@@ -217,9 +220,9 @@
               <!-- TABLA DE GERENTE DE MARCA-->
 
               <div class="card-app row">
-                <h4 class="page-title col-6">
-                  <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showManagerModal(1)"><i class="mdi mdi-plus"></i></button>
+                <h4 class="page-title text-end">
                   Agregar Gerente
+                  <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showManagerModal(1)"><i class="mdi mdi-plus"></i></button>
                 </h4>
                 <div class="card-body">
                   <h5 class="card-title">
@@ -233,7 +236,7 @@
                           <th>Nombre</th>
                           <th>Correo</th>
                           <th>Telefono</th>
-                          <th>Actions</th>
+                          <th>Acciones</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -246,11 +249,11 @@
                             <td><?= $obj['Manager_phone']; ?></td>
                             <td>
                               <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <button type="button" class="btn btn-outline-warning" onclick="getManagerDataId(<?= $obj['Manager_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <button type="button" class="btn btn-outline-warning" onclick="getManagerDataId(<?= $obj['Manager_id'] ?>, 1)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                   </svg></button>
-                                <button type="button" class="btn btn-outline-success" onclick="detail(<?= $obj['Manager_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                <button type="button" class="btn btn-outline-success" onclick="getManagerDataId(<?= $obj['Manager_id'] ?>, 0)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                     <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                   </svg></button>
@@ -268,7 +271,7 @@
                           <th>Nombre</th>
                           <th>Correo</th>
                           <th>Telefono</th>
-                          <th>Actions</th>
+                          <th>Acciones</th>
                         </tr>
                       </tfoot>
                     </table>
@@ -278,32 +281,32 @@
 
               <!-- MODAL DE GERENTE DE MARCA-->
 
-              <div class="modal fade" id="ManagerModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
+              <div class="modal fade" id="ManagerModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                  <div class="modal-content card-pp">
+                  <div class="modal-content card-pp" style="width: 100%;">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="createUpdateModalLabel">DATOS</h5>
+                      <h5 class="modal-title" id="createUpdateModalLabel">AGREGAR GERENTE</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                       <form class="form-horizontal mt-3 row" id="objManagerForm" action="" onsubmit="sendManagerData(event,this.id)">
                         <input type="hidden" class="form-control" id="Manager_id" name="Manager_id" value="0">
                         <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                        <div class="mb-3 col-6">
+                        <div class="col-12 mb-3">
                           <label for="Manager_name">Nombre</label>
                           <input type="text" class="form-control" id="Manager_name" name="Manager_name" required>
                         </div>
-                        <div class="mb-3 col-6">
+                        <div class="col-12 col-md-6 mb-3">
                           <label for="Manager_email">Correo</label>
                           <input type="text" class="form-control" id="Manager_email" name="Manager_email" required>
                         </div>
-                        <div class="mb-3 col-4">
-                          <label for="Manager_phone">Telefono</label>
+                        <div class="col-12 col-md-6 mb-3">
+                          <label for="Manager_phone">Teléfono</label>
                           <input type="text" class="form-control" id="Manager_phone" name="Manager_phone" required>
                         </div>
-                        <div class="mb-3 col-12">
+                        <div class="col-12 mb-3">
                           <label for="brand_id">Marcas</label>
-                          <ul class="row" id="managerBrands">
+                          <ul class="row" id="managerBrands" style="list-style-type: none;">
                             <?php foreach ($managerBrands as $brand) : ?>
                               <li class="col-4">
                                 <div class="form-check">

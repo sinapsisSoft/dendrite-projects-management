@@ -6,8 +6,6 @@ use App\Models\ProjectModel;
 use App\Models\ProjectProductModel;
 use App\Models\ProductModel;
 use App\Models\UserStatusModel;
-use App\Models\UserModel;
-use App\Models\ApprovalCodeModel;
 use App\Models\ActivitiesModel;
 use App\Models\ProjectTrackingModel;
 
@@ -27,7 +25,6 @@ class Details extends BaseController{
         $projectId = $this->request->getGet('projectId');
         $userstatus = new UserStatusModel();
         $status = new UserStatusModel();
-        $approvalcode = new ApprovalCodeModel();
 
         $data['title'] = 'Detalles';
         $data['css'] = view('assets/css');
@@ -62,7 +59,6 @@ class Details extends BaseController{
         $data['projecttrackings'] = $projecttracking->where('Project_id', $projectId)->find();
         $data['userstatuses'] = $userstatus->where('StatType_id', 4)->find();
         $data['statuses'] = $status->sp_select_status_users();
-        $data['approvalcodes'] = $approvalcode->findAll();
         return view('details/details', $data);
     }
   

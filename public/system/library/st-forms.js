@@ -371,14 +371,15 @@ class STForm {
     validateConfirmationsPassword() {
 
         let obj = this.objectForm.querySelectorAll("input[type='password']");
-        if (obj[0].value == obj[1].value) {
-            this.vaslidateInput = true;
-        } else {
-            obj[1].focus;
-            this.vaslidateInput = false;
+        if(obj.length > 0){
+            if (!!obj[0].value == !!obj[1].value) {
+                this.vaslidateInput = true;
+            } else {
+                obj[1].focus;
+                this.vaslidateInput = false;
+            }
+            return this.vaslidateInput;
         }
-        return this.vaslidateInput;
-
     }
     /*
     *Ahutor:DIEGO CASALLAS

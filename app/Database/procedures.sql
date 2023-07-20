@@ -34,6 +34,15 @@ LEFT JOIN manager_brands MB ON MB.Brand_id = B.Brand_id
 WHERE MB.Brand_id IS NULL AND B.Client_id = client_id;
 END$$
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_brands_client`$$
+CREATE PROCEDURE `sp_select_brands_client` (IN `clientId` INT)   
+BEGIN
+SELECT B.Brand_id, B.Brand_name, 
+       (SELECT Manager_id FROM manager_brands MB WHERE B.Brand_id = MB.Brand_id) AS Manager_id 
+FROM brand B;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_manager_brands`$$
 CREATE PROCEDURE `sp_select_manager_brands` (IN `ManagerId` INT)   
 BEGIN
@@ -210,7 +219,8 @@ BEGIN
     INNER JOIN status ST ON USU.Stat_id = ST.Stat_id
     INNER JOIN role RO ON USU.Role_id = RO.Role_id
     INNER JOIN company CO ON USU.Comp_id = CO.Comp_id
-    WHERE ST.Stat_id = 1 ORDER BY User_id ASC;
+    -- WHERE ST.Stat_id = 1 
+    ORDER BY User_id ASC;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_all_users_collaborator`$$

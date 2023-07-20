@@ -7,7 +7,7 @@ $("#table_obj").DataTable({
 });
 
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Revise la información suministrada', 'Cliente creado exitosamente', 'Cliente actualizado exitosamente', 'Cliente eliminado exitosamente', 'El cliente no pudo ser eliminado. Revise si éste está siendo usado en algún proyecto.');
+const arMessages = new Array('Revise la información suministrada', 'Cliente creado exitosamente', 'Cliente actualizado exitosamente', 'Cliente eliminado exitosamente', 'El cliente no pudo ser eliminado. Revise si éste está siendo usado en algún proyecto.', 'Marca creada exitosamente', 'Marca actualizada exitosamente', 'Marca eliminada exitosamente', 'La marca no pudo ser eliminada. Revise si ésta está asociada a algún gerente.', 'Gerente de marca creado exitosamente', 'Gerente de marca actualizado exitosamente', 'Gerente de marca eliminado exitosamente', 'El gerente de marca no pudo ser eliminado. Revise si ésta está asociado a algún proyecto.');
 const ruteContent = "client/";
 const nameModel = 'clients';
 const dataModel = 'data';

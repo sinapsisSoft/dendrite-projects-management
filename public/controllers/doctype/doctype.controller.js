@@ -20,6 +20,7 @@ const URL_ROUTE = BASE_URL + ruteContent;
 
 const myModalObjec = '#createUpdateModal';
 const idForm = 'objForm';
+const infoUrl = 'https://ior.ad/9khb';
 
 var sTForm = null;
 var url = "";
@@ -246,3 +247,5 @@ var SingletonClassSTForm = (function () {
     }
   }
 })();
+
+document.getElementById('btn-info').href = infoUrl;
