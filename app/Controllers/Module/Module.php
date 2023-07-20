@@ -19,7 +19,7 @@ class Module extends BaseController{
     }
 
     public function show(){
-        $data['title'] = 'Modulos';
+        $data['title'] = 'Módulos';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 

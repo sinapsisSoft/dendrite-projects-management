@@ -77,7 +77,7 @@ class Role extends BaseController
         try {
             $today = date("Y-m-d H:i:s");
             $id = $this->request->getVar($this->primaryKey);
-            $this->delete_module_role($id);
+            $this->roleModule->sp_delete_role_module($id);
             $data = $this->getDataModel($id);
             $this->save_module_role($id);
             $data['updated_at'] = $today;
@@ -129,7 +129,7 @@ class Role extends BaseController
     {
         try {
             $id = $this->request->getVar($this->primaryKey);
-            $this->delete_module_role($id);
+            $this->roleModule->sp_delete_role_module($id);
             if ($this->objModel->where($this->primaryKey, $id)->delete($id)) {
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
@@ -146,17 +146,6 @@ class Role extends BaseController
             $data['data'] = 'Error';
         }
         return json_encode($data);
-    }
-
-    public function delete_module_role($roleId){
-        $this->roleModule->delete([$this->primaryKey => $roleId]);
-        $roleModules = $this->roleModule->where($this->primaryKey, $roleId)->findAll();
-        foreach($roleModules as $roleModule){
-            $roleModIdColumn = 'Role_mod_id';
-            $roleModId = $roleModule[$roleModIdColumn];
-            //$this->roleModulePermit->where($roleModIdColumn, $roleModId)->delete($roleModId);
-            $this->roleModule->where($roleModIdColumn, $roleModId)->delete($roleModId);
-        }
     }
 
     public function getDataModel($getShares)

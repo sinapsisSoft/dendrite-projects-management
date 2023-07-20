@@ -308,3 +308,14 @@ SELECT @porcent;
 update activities set Activi_percentage = @porcent
 WHERE Activi_id = activity_id;
 END$$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_delete_role_module`$$
+CREATE PROCEDURE `sp_delete_role_module` (IN `roleId` INT)   
+BEGIN
+    DELETE role_module_permit FROM role_module_permit
+    INNER JOIN role_module RM ON role_module_permit.Role_mod_id = RM.Role_mod_id
+    WHERE RM.Role_id = roleId;
+    DELETE FROM role_module
+    WHERE role_module.Role_id = roleId;
+END $$

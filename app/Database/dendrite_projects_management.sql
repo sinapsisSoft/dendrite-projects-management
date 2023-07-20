@@ -604,8 +604,7 @@ INSERT INTO `role` (`Role_id`, `Role_name`, `Role_description`, `updated_at`, `c
 (1, 'Administrator', 'Administrator', NULL, '2023-01-30 21:50:45'),
 (2, 'Cliente', 'Cliente', NULL, '2023-02-27 21:37:10'),
 (3, 'Colaborador', '', NULL, '2023-03-21 10:20:16'),
-(4, 'Administrator', '', NULL, '2023-04-19 16:06:49'),
-(5, 'Comercial', '', NULL, '2023-04-26 10:58:37');
+(4, 'Comercial', '', NULL, '2023-04-19 16:06:49');
 
 -- --------------------------------------------------------
 
@@ -865,7 +864,8 @@ ALTER TABLE `role_module`
 -- Filtros para la tabla `role_module_permit`
 --
 ALTER TABLE `role_module_permit`
-  ADD CONSTRAINT `role_module_permit_role` FOREIGN KEY (`Role_mod_id`) REFERENCES `role_module` (`Role_mod_id`);
+  ADD CONSTRAINT `role_module_permit_role` FOREIGN KEY (`Role_mod_id`) REFERENCES `role_module` (`Role_mod_id`),
+  ADD CONSTRAINT `role_module_permit_permit` FOREIGN KEY (`Perm_id`) REFERENCES `permit` (`Perm_id`);
 
 --
 -- Filtros para la tabla `status`

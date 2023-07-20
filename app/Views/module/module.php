@@ -41,7 +41,7 @@
                     <a href="<?= base_url() ?>home">Inicio</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    <a href="<?= base_url() ?>doctype">Módulos</a>
+                    <a href="<?= base_url() ?>module">Módulos</a>
                   </li>
                 </ol>
               </nav>

@@ -14,4 +14,10 @@ class RoleModuleModel extends Model{
     'updated_at'];
 
     protected $updatedField = 'updated_at';
+
+    function sp_delete_role_module($roleId){
+        $query = "CALL sp_delete_role_module($roleId)";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
 }

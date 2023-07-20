@@ -26,8 +26,10 @@
         <div class="row">
           <div class="col-12 d-flex no-block align-items-center">
             <h4 class="page-title">
-              <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-account-plus"></i></button>
+            NUEVO ROL
             </h4>
+            <lord-icon src="<?= base_url() ?>/assets/json/wired-flat-49-plus-circle.json" trigger="hover" colors="primary:#ffffff" style="width:60px; height:60px; cursor: pointer;" onclick="showModal(1)">
+            </lord-icon>
             <div class="ms-auto text-end">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -35,7 +37,7 @@
                     <a href="<?= base_url() ?>home">Inicio</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    Library
+                    <a href="<?= base_url() ?>role">Roles</a>
                   </li>
                 </ol>
               </nav>
@@ -58,7 +60,7 @@
                         <th>#</th>
                         <th>Nombre</th>
                         <th>Fecha de creación</th>
-                        <th>Actions</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -70,7 +72,7 @@
                           <td><?= $obj['created_at']; ?></td>
                           <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                              <button type="button" onclick="getDataId(<?= $obj['Role_id'] ?>)" class="btn btn-outline-warning"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                              <button type="button" onclick="getDataId(<?= $obj['Role_id'] ?>, 1)" class="btn btn-outline-warning"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                 </svg></button>
@@ -91,7 +93,7 @@
                         <th>#</th>
                         <th>Nombre</th>
                         <th>Fecha de creación</th>
-                        <th>Actions</th>
+                        <th>Acciones</th>
                       </tr>
                     </tfoot>
                   </table>
@@ -100,11 +102,11 @@
             </div>
           </div>
         </div>
-        <div class="modal fade" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
+        <div class="modal fade" id="createUpdateModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 100%;">
               <div class="modal-header">
-                <h5 class="modal-title" id="createUpdateModalLabel">DATOS</h5>
+                <h5 class="modal-title" id="createUpdateModalLabel">NUEVO ROL</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -112,7 +114,7 @@
                   <input type="hidden" class="form-control" id="Role_id" name="Role_id" value="0">
                   <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                   <div class="mb-3">
-                    <label for="DocType_name">Nombre</label>
+                    <label for="DocType_name">Nombre del rol</label>
                     <input type="text" class="form-control" id="Role_name" name="Role_name" required>
                   </div>
                   <div class=" mb-3">
