@@ -20,7 +20,7 @@ class Country extends BaseController{
 
     public function show(){
 
-        $data['title'] = 'Paises';
+        $data['title'] = 'Países';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 

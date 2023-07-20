@@ -114,7 +114,10 @@
                     <a href="<?= base_url() ?>home">Inicio</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    <a href="<?= base_url() ?>productbrand">Marca de productos</a>
+                    Productos / Servicios
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    <a href="<?= base_url() ?>productbrand">Marca</a>
                   </li>
                 </ol>
               </nav>

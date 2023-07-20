@@ -186,7 +186,7 @@
                 <div class="modal-dialog modal-dialog-scrollable modal-lg">
                   <div class="modal-content" style="width: 100%;">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="createUpdateModalLabel">DATOS</h5>
+                      <h5 class="modal-title" id="createUpdateModalLabel">NUEVA MARCA</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -311,7 +311,7 @@
                               <li class="col-4">
                                 <div class="form-check">
                                   <input class="form-check-input" type="checkbox" onchange="toggleBrand(<?= $brand->Brand_id ?>)">
-                                  <label class="form-check-label"><?= $brand->Brand_name ?></label>
+                                  <label class="form-check-label text-break"><?= $brand->Brand_name ?></label>
                                 </div>
                               </li>
                             <?php endforeach; ?>

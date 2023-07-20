@@ -244,7 +244,7 @@ function setManagerBrands(brands, managerId) {
     li += `<li class="col-4">
             <div class="form-check">              
                 <input class="form-check-input" ${checked} type="checkbox" onchange="toggleBrand(${managerBrand["Brand_id"]})">
-                <label class="form-check-label">${managerBrand["Brand_name"]}</label>
+                <label class="form-check-label text-break">${managerBrand["Brand_name"]}</label>
             </div>
         </li>`;    
   });

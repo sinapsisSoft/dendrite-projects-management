@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
 DROP TABLE IF EXISTS `country`;
 CREATE TABLE IF NOT EXISTS `country` (
   `Country_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Country_name` varchar(100) NOT NULL,
+  `Country_name` varchar(100) NOT NULL UNIQUE,
   PRIMARY KEY (`Country_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

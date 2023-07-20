@@ -43,6 +43,9 @@
                     <a href="<?= base_url() ?>home">Inicio</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
+                    Productos / Servicios
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
                     <a href="<?= base_url() ?>product">Productos</a>
                   </li>
                 </ol>

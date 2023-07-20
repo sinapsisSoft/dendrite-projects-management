@@ -41,6 +41,9 @@
                     <a href="<?= base_url() ?>home">Inicio</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
+                    Gestión de usuarios
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
                     <a href="<?= base_url() ?>module">Módulos</a>
                   </li>
                 </ol>
