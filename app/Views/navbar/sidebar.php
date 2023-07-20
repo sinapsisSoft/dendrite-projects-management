@@ -80,6 +80,9 @@
             <li class="sidebar-item">
               <a href="/role" class="sidebar-link role"><i class="mdi mdi-chevron-right"></i><span class="hide-menu"> Roles </span></a>
             </li>
+            <li class="sidebar-item">
+              <a href="/userstatus" class="sidebar-link userstatus"><i class="mdi mdi-chevron-right"></i><span class="hide-menu"> Estado </span></a>
+            </li>
           </ul>
         </li>
         <li class="sidebar-item">
@@ -105,10 +108,7 @@
             </li>
             <li class="sidebar-item">
               <a href="/city" class="sidebar-link city"><i class="mdi mdi-chevron-right"></i><span class="hide-menu"> Ciudad </span></a>
-            </li>
-            <li class="sidebar-item">
-              <a href="/userstatus" class="sidebar-link userstatus"><i class="mdi mdi-chevron-right"></i><span class="hide-menu"> Estado </span></a>
-            </li>
+            </li>            
           </ul>
         </li>
       </ul>

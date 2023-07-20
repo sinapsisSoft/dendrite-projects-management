@@ -19,8 +19,6 @@ class UserStatus extends BaseController{
     }
 
     public function show(){
-        $statusTypes = new StatusType();
-
         $data['title'] = 'Estado de usuario';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
@@ -31,7 +29,6 @@ class UserStatus extends BaseController{
         $data['footer'] = view('navbar/footer');
 
         $data[$this->nameModel] = $this->objModel->sp_select_status_users();
-        $data['statusTypes'] = $statusTypes->findAll();
 
         return view('userstatus/userstatus', $data);
     }

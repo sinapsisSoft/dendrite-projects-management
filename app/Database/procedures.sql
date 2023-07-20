@@ -298,7 +298,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_status_users`$$
 CREATE PROCEDURE `sp_select_status_users` ()   BEGIN
-    SELECT Stat_id,Stat_name FROM status WHERE StatType_id=1;
+    SELECT Stat_id,Stat_name FROM status WHERE StatType_id = 1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_percent_activity`$$
