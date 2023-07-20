@@ -30,8 +30,9 @@
           <div class="col-12 d-flex no-block align-items-center">
             <h4 class="page-title">
               NUEVA PRIORIDAD
-              <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-account-plus"></i></button>
             </h4>
+            <lord-icon src="<?= base_url() ?>/assets/json/wired-flat-49-plus-circle.json" trigger="hover" colors="primary:#ffffff" style="width:60px; height:60px; cursor: pointer;" onclick="showModal(1)">
+            </lord-icon>
             <div class="ms-auto text-end">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -39,7 +40,7 @@
                     <a href="<?= base_url() ?>home">Inicio</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    Library
+                    <a href="<?= base_url() ?>priorities">Prioridades</a>
                   </li>
                 </ol>
               </nav>
@@ -62,7 +63,7 @@
                       <tr>
                         <th>#</th>
                         <th>Nombre</th>
-                        <th>Actions</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -93,7 +94,7 @@
                       <tr>
                         <th>#</th>
                         <th>Nombre</th>
-                        <th>Actions</th>
+                        <th>Acciones</th>
                       </tr>
                     </tfoot>
                   </table>
@@ -102,30 +103,32 @@
             </div>
           </div>
         </div>
-        <div class="modal fade" id="createUpdateModal" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
+        <div class="modal fade" id="createUpdateModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 100%;">
               <div class="modal-header">
-                <h5 class="modal-title" id="createUpdateModalLabel">DATOS</h5>
+                <h5 class="modal-title" id="createUpdateModalLabel">NUEVA PRIORIDAD</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form class="form-horizontal mt-3" id="objForm" action="" onsubmit="sendData(event,this.id)">
-                  <input type="hidden" class="form-control" id="Priorities_id" name="Priorities_id" value="0">
-                  <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                  <div class="mb-3">
-                    <label for="Priorities_name">Nombre</label>
-                    <input type="text" class="form-control" id="Priorities_name" name="Priorities_name" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="Priorities_color">Nombre</label>
-                    <input type="color" class="form-control" id="Priorities_color" name="Priorities_color" required>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" id="btn-submit" form="objForm" class="btn btn-primary mx-auto w-50">Guardar</button>
+                <div class="row">
+                  <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
+                    <input type="hidden" class="form-control" id="Priorities_id" name="Priorities_id" value="0">
+                    <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
+                    <div class="col-12 col-md-9 mb-3">
+                      <label for="Priorities_name">Nombre</label>
+                      <input type="text" class="form-control" id="Priorities_name" name="Priorities_name" required>
+                    </div>
+                    <div class="col-12 col-md-3 mb-3">
+                      <label for="Priorities_color">Color</label>
+                      <input type="color" class="form-control" id="Priorities_color" name="Priorities_color" required>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="submit" id="btn-submit" form="objForm" class="btn btn-primary mx-auto w-50">Guardar</button>
+                </div>
               </div>
             </div>
           </div>

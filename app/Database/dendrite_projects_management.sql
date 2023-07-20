@@ -216,7 +216,7 @@ INSERT INTO `country` (`Country_id`, `Country_name`) VALUES
 DROP TABLE IF EXISTS `doctype`;
 CREATE TABLE IF NOT EXISTS `doctype` (
   `DocType_id` int(11) NOT NULL AUTO_INCREMENT,
-  `DocType_name` varchar(100) NOT NULL,
+  `DocType_name` varchar(100) NOT NULL UNIQUE,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`DocType_id`)
@@ -227,14 +227,8 @@ CREATE TABLE IF NOT EXISTS `doctype` (
 --
 
 INSERT INTO `doctype` (`DocType_id`, `DocType_name`, `updated_at`, `created_at`) VALUES
-(1, 'Registro civil de nacimiento', NULL, '2023-01-30 21:14:01'),
-(2, 'Tarjeta de identidad', NULL, '2023-01-30 21:14:01'),
-(3, 'Cédula de ciudadanía', NULL, '2023-01-30 21:17:22'),
-(4, 'Tarjeta de extranjería', NULL, '2023-01-30 21:17:22'),
-(5, 'Cédula de extranjería', NULL, '2023-01-30 21:17:42'),
-(6, 'NIT', NULL, '2023-01-30 21:17:42'),
-(7, 'Pasaporte', NULL, '2023-01-30 21:18:04'),
-(8, 'Tipo de documento extranjero', NULL, '2023-01-30 21:18:04');
+(1, 'NIT', NULL, '2023-01-30 21:14:01'),
+(2, 'Cédula de ciudadanía', NULL, '2023-01-30 21:17:22');
 
 -- --------------------------------------------------------
 
@@ -439,7 +433,7 @@ INSERT INTO `permit` (`Perm_id`, `Perm_name`, `Perm_description`, `updated_at`, 
 DROP TABLE IF EXISTS `priorities`;
 CREATE TABLE IF NOT EXISTS `priorities` (
   `Priorities_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Priorities_name` varchar(100) NOT NULL,
+  `Priorities_name` varchar(100) NOT NULL UNIQUE,
   `Priorities_color` varchar(20) NOT NULL,
   PRIMARY KEY (`Priorities_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -589,7 +583,7 @@ CREATE TABLE IF NOT EXISTS `project_tracking` (
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
   `Role_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Role_name` varchar(50) NOT NULL,
+  `Role_name` varchar(50) NOT NULL UNIQUE,
   `Role_description` varchar(100) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,

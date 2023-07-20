@@ -213,22 +213,6 @@ function sendData(e, formObj) {
   e.preventDefault();
 }
 
-function detail(idData) {
-  getDataId(idData, 0);
-  toogleDisabledFields();
-}
-
-function toogleDisabledFields() {
-  const btnSubmit = document.getElementById('btn-submit');
-  const inputs = document.querySelectorAll('input');
-  inputs.forEach(input => input.classList.add('form-disabled'))
-  const selects = document.querySelectorAll('select')
-  selects.forEach(select => select.classList.add('form-disabled'))
-  btnSubmit.disabled = true;
-  const checkbox = document.querySelectorAll('input[type="checkbox"]');
-  checkbox.forEach(checkbox => checkbox.setAttribute('disabled', true))
-}
-
 function getDataId(idData, type) {
   showPreload();
   selectInsertOrUpdate = false;
@@ -262,6 +246,7 @@ function getDataId(idData, type) {
         }
         else if(type == 1){
           sTForm.inputButtonEnable();
+          idData > 0 && idData < 5 ? document.getElementById("Role_name").setAttribute("disabled", true) : document.getElementById("Role_name").removeAttribute("disabled");
         } 
         hidePreload();
       } else {
@@ -333,3 +318,4 @@ var SingletonClassSTForm = (function () {
   }
 })();
 
+// Los primeros 4 roles no puedan ser eliminados ni cambiados el nombre

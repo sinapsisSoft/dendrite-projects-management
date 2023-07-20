@@ -44,7 +44,7 @@
                     Configuración
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    <a href="" id="route">Credenciales</a>
+                    <a href="<?= base_url() ?>email" >Credenciales</a>
                   </li>
                 </ol>
               </nav>

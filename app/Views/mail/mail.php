@@ -40,8 +40,11 @@
                   <li class="breadcrumb-item">
                     <a href="<?= base_url() ?>home">Inicio</a>
                   </li>
+                  <li class="breadcrumb-item" aria-current="page">
+                    Configuración
+                  </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    Library
+                    <a href="<?= base_url() ?>mail" >Correspondencia</a>
                   </li>
                 </ol>
               </nav>

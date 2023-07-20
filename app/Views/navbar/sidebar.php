@@ -92,7 +92,7 @@
               <a href="/doctype" class="sidebar-link doctype"><i class="mdi mdi-chevron-right"></i><span class="hide-menu"> Tipo de documento </span></a>
             </li>
             <li class="sidebar-item">
-              <a href="/email" class="sidebar-link email"><i class="mdi mdi-chevron-right"></i><span class="hide-menu">Credenciales de correo</span></a>
+              <a href="/email" class="sidebar-link email"><i class="mdi mdi-chevron-right"></i><span class="hide-menu">Correo para notificaciones</span></a>
             </li>
             <li class="sidebar-item">
               <a href="/mail" class="sidebar-link mail "><i class="mdi mdi-chevron-right"></i><span class="hide-menu">Correo de correspondencia</span></a>
