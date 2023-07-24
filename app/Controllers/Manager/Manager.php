@@ -7,6 +7,8 @@ use App\Models\ManagerModel;
 use App\Models\BrandModel;
 use App\Models\ClientModel;
 use App\Models\ManagerBrandsModel;
+use App\Models\UserManager;
+use App\Models\UserModel;
 
 
 class Manager extends BaseController{
@@ -14,6 +16,8 @@ class Manager extends BaseController{
     private $primaryKey;
     private $nameModel;
     private $managerBrandModel;
+    private $usermanagerModel;
+    private $userModel;
 
     public function __construct()
     {
@@ -21,6 +25,8 @@ class Manager extends BaseController{
         $this->primaryKey = 'Manager_id';
         $this->nameModel = 'managers';
         $this->managerBrandModel = new ManagerBrandsModel();
+        $this->usermanagerModel = new UserManager();
+        $this->userModel = new UserModel();
     }
 
     public function show(){
@@ -115,10 +121,11 @@ class Manager extends BaseController{
         try {
             $today = date("Y-m-d H:i:s");
             $id = $this->request->getVar($this->primaryKey);
-            $data = $this->getDataModel($id);
-            $this->delete_brands_by_manager($id);
-            $data['updated_at'] = $today;
-            $this->objModel->update($id, $data);
+            $dataModel = $this->getDataModel($id);
+            $this->delete_brands_by_manager($id);            
+            $dataModel['updated_at'] = $today;
+            $this->objModel->update($id, $dataModel);
+            $this->usermanagerModel->sp_update_user_email($id);
             $this->save_brands($id);
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
@@ -147,6 +154,72 @@ class Manager extends BaseController{
                 $data['response'] = ResponseInterface::HTTP_CONFLICT;
                 $data['data'] = 'error';
             }
+        } catch (\Exception $e) {
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = 'Error';
+        }
+        return json_encode($data);
+    }
+
+    public function findUser()
+    {
+        try {
+            
+            $id = $this->request->getVar($this->primaryKey);
+            $getDataId = $this->usermanagerModel->sp_select_user_manager($id);
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['data'] = $getDataId;
+            $data['csrf'] = csrf_hash();
+        } catch (\Exception $e) {
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = 'Error';
+        }
+        return json_encode($data);
+    }
+
+    public function createUser()
+    {
+        try {            
+            $id = $this->request->getVar($this->primaryKey);
+            $pass = password_hash($this->request->getVar('User_password'), PASSWORD_BCRYPT);
+            $getDataId = $this->usermanagerModel->sp_insert_user_manager($id);
+            $data['User_password'] = $pass;
+            $this->userModel->update($getDataId[0]->User_id, $data);
+            $usermanagerData = [
+                'User_id' => $getDataId[0]->User_id,
+                'Manager_id' => $id
+            ];
+            $this->usermanagerModel->insert($usermanagerData);
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['data'] = $getDataId;
+            $data['csrf'] = csrf_hash();
+        } catch (\Exception $e) {
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = 'Error';
+        }
+        return json_encode($data);
+    }
+
+    public function updateUser()
+    {
+        try {
+            $today = date("Y-m-d H:i:s");
+            $id = $this->request->getVar($this->primaryKey);
+            $status = $this->request->getVar('Stat_id');
+            $userId = $this->usermanagerModel->sp_update_user_status($id, $status);            
+            $dataUser['updated_at'] = $today;
+            $this->userModel->update($userId[0]->User_id, $dataUser);
+            $this->usermanagerModel->update($userId[0]->User_id, $dataUser);
+            $data['message'] = $dataUser;
+            // $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['data'] = $id;
+            $data['csrf'] = csrf_hash();
         } catch (\Exception $e) {
             $data['message'] = $e;
             $data['response'] = ResponseInterface::HTTP_CONFLICT;

@@ -174,20 +174,6 @@ function sendManagerData(e, formObj) {
   e.preventDefault();
 }
 
-function detailManager(idData) {
-  getManagerDataId(idData);
-  toogleDisabledFields();
-}
-
-function toogleManagerDisabledFields() {
-  const btnSubmit = document.getElementById('btn-submit');
-  const inputs = document.querySelectorAll('input');
-  inputs.forEach(input => input.classList.add('form-disabled'))
-  const selects = document.querySelectorAll('select')
-  selects.forEach(select => select.classList.add('form-disabled'))
-  btnSubmit.disabled = true;
-}
-
 function getManagerDataId(idData, type) {
   showPreload();
   selectInsertOrUpdateManager = false;
@@ -287,8 +273,6 @@ function showManagerModal(type) {
   sTFormManager.clearDataForm();
   $(ManagerModal).modal("show");
 }
-
-
 
 var SingletonClassSTFormManager = (function () {
   var objInstance;

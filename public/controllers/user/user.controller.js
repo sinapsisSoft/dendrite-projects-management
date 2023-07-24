@@ -355,8 +355,6 @@ document.getElementById("showPassword").addEventListener('click', showHiddePassw
 
 
 function showHiddePassword(){
-  // let userPassword = document.getElementById("User_password");
-  // let confirmPassword = document.getElementById("confirmPassword");
   let btnShow = document.getElementById("showPassword");
   if (userPassword.type === 'password'){
     userPassword.type = 'text';

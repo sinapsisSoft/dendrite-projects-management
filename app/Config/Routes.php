@@ -170,6 +170,9 @@ $routes->group('manager', ['namespace' => 'App\Controllers\Manager'], function (
     $routes->post('edit', 'Manager::edit');
     $routes->post('update', 'Manager::update');
     $routes->post('findByClient', 'Manager::findByClient');
+    $routes->post('findUser', 'Manager::findUser');
+    $routes->post('createUser', 'Manager::createUser');
+    $routes->post('updateUser', 'Manager::updateUser');
 });
 
 $routes->group('project', ['namespace' => 'App\Controllers\Project'], function ($routes) {
@@ -178,14 +181,6 @@ $routes->group('project', ['namespace' => 'App\Controllers\Project'], function (
     $routes->post('delete', 'Project::delete');
     $routes->post('edit', 'Project::edit');
     $routes->post('update', 'Project::update');
-});
-
-$routes->group('approvalcode', ['namespace' => 'App\Controllers\ApprovalCode'], function ($routes) {
-    $routes->get('/', 'ApprovalCode::show');
-    $routes->post('create', 'ApprovalCode::create');
-    $routes->post('delete', 'ApprovalCode::delete');
-    $routes->post('edit', 'ApprovalCode::edit');
-    $routes->post('update', 'ApprovalCode::update');
 });
 
 $routes->group('activities', ['namespace' => 'App\Controllers\Activities'], function ($routes) {
@@ -212,8 +207,7 @@ $routes->group('projectproduct', ['namespace' => 'App\Controllers\ProjectProduct
 });
 
 $routes->group('details', ['namespace' => 'App\Controllers\Details'], function ($routes) {
-    $routes->get('/', 'Details::show');
-
+    $routes->get('/', 'Details::show'); 
 });
 
 $routes->group('detailsclient', ['namespace' => 'App\Controllers\DetailsClient'], function ($routes) {

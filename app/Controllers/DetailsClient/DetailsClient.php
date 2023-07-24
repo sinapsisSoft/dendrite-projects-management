@@ -6,6 +6,7 @@ use App\Models\ManagerModel;
 use App\Models\ClientModel;
 use App\Models\BrandModel;
 use App\Models\ManagerBrandsModel;
+use App\Models\UserStatusModel;
 
 class DetailsClient extends BaseController{
 
@@ -15,6 +16,7 @@ class DetailsClient extends BaseController{
         $client = new ClientModel();
         $brand = new BrandModel();
         $managerBrands = new ManagerBrandsModel();
+        $status = new UserStatusModel();
         $detailsclientId = $this->request->getGet('detailsclientId');
 
         $data['title'] = 'Detalles';
@@ -29,6 +31,7 @@ class DetailsClient extends BaseController{
         $data['managers'] = $manager->where('Client_id', $detailsclientId)->find();
         $data['clients'] = $client->sp_select_all_clients($detailsclientId)[0];
         $data['brands'] = $brand->where('Client_id', $detailsclientId)->find();
+        $data['status'] = $status->sp_select_status_users();
         $data['managerBrands'] = $managerBrands->sp_select_all_brands_client($detailsclientId);
         return view('detailsclient/detailsclient', $data);
     }

@@ -319,3 +319,58 @@ BEGIN
     DELETE FROM role_module
     WHERE role_module.Role_id = roleId;
 END $$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_user_manager`$$
+CREATE PROCEDURE `sp_select_user_manager` (IN `managerId` INT)   
+BEGIN
+    SET @exist = (SELECT COUNT(UserManager_id) FROM user_manager WHERE Manager_id = managerId);
+    IF @exist > 0 THEN
+        SELECT UM.UserManager_id, UM.Manager_id, U.User_email, U.User_password, U.Stat_id, UM.Manager_id 
+        FROM user U
+        INNER JOIN user_manager UM ON U.User_id = UM.User_id
+        WHERE UM.Manager_id = managerId;
+    ELSE 
+        SELECT Manager_id, Manager_email AS 'User_email' FROM manager
+        WHERE Manager_id = managerId;
+    END IF;    
+END $$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_insert_user_manager`$$
+CREATE PROCEDURE `sp_insert_user_manager` (IN `managerId` INT)   
+BEGIN
+    INSERT INTO user(User_name, User_email, User_password, Comp_id, Stat_id, Role_id)
+    SELECT M.Manager_name, M.Manager_email, '', C.Comp_id, 1, 5
+    FROM manager M
+    INNER JOIN client CL ON M.Client_id = CL.Client_id
+    INNER JOIN company C ON CL.Comp_id = C.Comp_id
+    WHERE Manager_id = managerId;
+    SELECT LAST_INSERT_ID() AS 'User_id';
+END $$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_update_user_email`$$
+CREATE PROCEDURE `sp_update_user_email` (IN `managerId` INT)   
+BEGIN
+    UPDATE user U
+    INNER JOIN user_manager UM ON U.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    SET U.User_email = M.Manager_email    
+    WHERE M.Manager_id = managerId;
+END $$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_update_user_status`$$
+CREATE PROCEDURE `sp_update_user_status` (IN `managerId` INT, IN `statusId` INT)   
+BEGIN
+    UPDATE user U
+    INNER JOIN user_manager UM ON U.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    SET U.Stat_id = statusId    
+    WHERE M.Manager_id = managerId;
+    SELECT U.User_id FROM user U
+    INNER JOIN user_manager UM ON U.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    WHERE M.Manager_id = managerId;
+END $$

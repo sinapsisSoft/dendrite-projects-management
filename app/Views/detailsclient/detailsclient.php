@@ -235,7 +235,7 @@
                           <th>#</th>
                           <th>Nombre</th>
                           <th>Correo</th>
-                          <th>Telefono</th>
+                          <th>Teléfono</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
@@ -257,9 +257,16 @@
                                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                     <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                   </svg></button>
+                                <button type="button" class="btn btn-outline-info" onclick="activeUser(<?= $obj['Manager_id'] ?>)">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-check" viewBox="0 0 16 16">
+                                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
+                                  </svg>
+                                </button>
                                 <button type="button" class="btn btn-outline-danger" onclick="deleteManager(<?= $obj['Manager_id'] ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                  </svg></button>
+                                  </svg>
+                                </button>
                               </div>
                             </td>
                           </tr>
@@ -270,7 +277,7 @@
                           <th>#</th>
                           <th>Nombre</th>
                           <th>Correo</th>
-                          <th>Telefono</th>
+                          <th>Teléfono</th>
                           <th>Acciones</th>
                         </tr>
                       </tfoot>
@@ -326,6 +333,54 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Modal usuario -->
+              <div class="modal fade" id="userModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                  <div class="modal-content card-pp" style="width: 100%;">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="userModalLabel">ACTIVAR USUARIO PARA GERENTE</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form class="form-horizontal mt-3 row" id="objUserForm" action="" onsubmit="sendUserData(event,this.id)">
+                        <input type="hidden" class="form-control" id="UserManager_id" name="UserManager_id" value="0">
+                        <input type="hidden" class="form-control" id="Manager_id" name="Manager_id" value="0">
+                        <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
+                        <div class="col-12 col-md-6 mb-3">
+                          <label for="User_email">Correo</label>
+                          <input type="text" class="form-control form-disabled" id="User_email" name="User_email" required>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                          <label for="Stat_id">Estado de usuario</label>
+                          <select class="form-select form-select-sm read" id="Stat_id" name="Stat_id" aria-label=".form-select-sm " required>
+                            <?php foreach ($status as $statu) : ?>
+                              <option value="<?= $statu->Stat_id; ?>"> <?= $statu->Stat_name; ?></option>
+                            <?php endforeach; ?>
+                          </select>
+                        </div>
+                        <div id="userPassword-div" class="col-12 col-md-6 mb-3 user-password">
+                          <label for="User_password">Contraseña</label>
+                          <input type="password" class="form-control" id="User_password" name="User_password" placeholder="Contraseña" required>
+                        </div>
+                        <div id="userPassword-div" class="col-12 col-md-5 mb-3 user-password">
+                          <label for="confirmPassword">Confirmar contraseña</label>
+                          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña" required>
+                        </div>
+                        <div id="userPassword-div" class="col-1 mb-3 align-self-end user-password">
+                          <button type="button" class="btn btn-outline-primary" id="showPassword" name="showPassword" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver/Ocultar" style="border: none;">
+                            <i class="bi bi-eye" style="font-size: 1.6rem;"></i>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
+                      <button type="submit" id="btn-submit" form="objUserForm" class="btn btn-primary mx-auto w-50">Guardar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -341,5 +396,6 @@
   <?= $js ?>
   <script src="./controllers/client/client.controller.js"></script>
   <script src="./controllers/manager/manager.controller.js"></script>
+  <script src="./controllers/usermanager/usermanager.controller.js"></script>
   <script src="./controllers/brand/brand.controller.js"></script>
 </body>

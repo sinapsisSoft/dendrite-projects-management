@@ -299,7 +299,7 @@ DROP TABLE IF EXISTS `manager`;
 CREATE TABLE IF NOT EXISTS `manager` (
   `Manager_id` int(11) NOT NULL AUTO_INCREMENT,
   `Manager_name` varchar(100) NOT NULL UNIQUE,
-  `Manager_email` varchar(100) NOT NULL,
+  `Manager_email` varchar(100) NOT NULL UNIQUE,
   `Manager_phone` varchar(10) NOT NULL,
   `Client_id` int(11) NOT NULL,
   PRIMARY KEY (`Manager_id`),
@@ -747,6 +747,24 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`User_id`, `User_name`, `User_email`, `User_password`, `Comp_id`, `Stat_id`, `Role_id`, `updated_at`, `created_at`) VALUES
 (1, 'Dev Sinapsist', 'developer.sinapsist@gmail.com', '$2y$10$ijaEIKR4nrcpVXNGpYfJU.ov27yqnuhMvPmSS7QFj.sMzrsXUvR02', 1, 1, 3, '2023-06-05 14:50:39', '2023-01-30 22:10:44');
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_manager`
+--
+
+DROP TABLE IF EXISTS `user_manager`;
+CREATE TABLE IF NOT EXISTS `user_manager` (
+  `UserManager_id` int(11) NOT NULL AUTO_INCREMENT, 
+  `User_id` int(11) NOT NULL, 
+  `Manager_id` int(11) NOT NULL, 
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP, 
+  `updated_at` DATETIME DEFAULT NULL, 
+  PRIMARY KEY (`UserManager_id`),
+  KEY `usermanager_user` (`User_id`),
+  KEY `usermanager_manager` (`Manager_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Restricciones para tablas volcadas
 --
@@ -883,4 +901,11 @@ ALTER TABLE `user`
   ADD CONSTRAINT `user_company` FOREIGN KEY (`Comp_id`) REFERENCES `company` (`Comp_id`),
   ADD CONSTRAINT `user_role` FOREIGN KEY (`Role_id`) REFERENCES `role` (`Role_id`),
   ADD CONSTRAINT `user_status` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`);
+
+--
+-- Filtros para la tabla `user_manager`
+--
+ALTER TABLE `user_manager`
+  ADD CONSTRAINT `usermanager_user` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`),
+  ADD CONSTRAINT `usermanager_manager` FOREIGN KEY (`Manager_id`) REFERENCES `manager` (`Manager_id`);
 COMMIT;
