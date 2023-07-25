@@ -39,8 +39,9 @@ DROP PROCEDURE IF EXISTS `sp_select_brands_client`$$
 CREATE PROCEDURE `sp_select_brands_client` (IN `clientId` INT)   
 BEGIN
 SELECT B.Brand_id, B.Brand_name, 
-       (SELECT Manager_id FROM manager_brands MB WHERE B.Brand_id = MB.Brand_id) AS Manager_id 
-FROM brand B;
+       (SELECT Manager_id FROM manager_brands MB WHERE B.Brand_id = MB.Brand_id LIMIT 1) AS Manager_id 
+FROM brand B
+WHERE B.Client_id = clientId;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_manager_brands`$$

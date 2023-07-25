@@ -62,16 +62,24 @@ function createManager(formData) {
     });
 }
 
-function toggleBrand(brandId) {
-  const isExists = !!brands.find(brand => brand == brandId);
-  if (!isExists) {
-    brands.push(brandId);
-  }
+function selectedBrand() {
+  objForm = document.getElementById(idManagerForm);
+  let arrBrands = objForm.querySelectorAll('input[type="checkbox"]');
+  let elementId = "";
+  arrBrands.forEach(function (element) {
+    if(element.checked){
+      elementId = element.id;
+      elementId = elementId.split("brand-");
+      brands.push(parseInt(elementId[1]));
+    }
+  });
+  return brands;
 }
 
 function updateManager(formData) {
   urlManager = URL_ROUTEManager + arRoutes[2];
   formData['Client_id'] = document.getElementById('Client_id').value;
+  selectedBrand();
   formData['Brands'] = brands;
   fetch(urlManager, {
     method: "POST",
@@ -169,7 +177,11 @@ function sendManagerData(e, formObj) {
     }
     sTFormManager.inputButtonDisable();
   } else {
-    TOASTSManager.toastView("", "", arMessages[0], 1);
+    Swal.fire(
+      '¡No pudimos hacer esto!',
+      arMessages[0],
+      'error'
+    );
   }
   e.preventDefault();
 }
@@ -198,9 +210,11 @@ function getManagerDataId(idData, type) {
         sTFormManager.setDataForm(result.manager);
         if (type == 0) {
           sTFormManager.inputButtonDisable();
+            toggleManagerBrands(result.brands, 1);          
         }
         else if (type == 1) {
           sTFormManager.inputButtonEnable();
+          toggleManagerBrands(result.brands, 0);
         }       
         hidePreload();
       } else {
@@ -217,19 +231,24 @@ function getManagerDataId(idData, type) {
 function setManagerBrands(brands, managerId) {
   // removeElementsFromList();
   const ul = document.getElementById("managerBrands");
-  const managerBrands = brands.filter(brand => brand["Manager_id"] === null || brand["Manager_id"] == managerId)
-  let li = "", checked = "";
-  managerBrands.forEach(managerBrand => {
+  // const managerBrands = brands.filter(brand => brand["Manager_id"] === null || brand["Manager_id"] == managerId)
+  let li = "", checked = "", visible = "";
+  brands.forEach(managerBrand => {
     if(managerBrand["Manager_id"] == managerId){
       checked = 'checked';
-      toggleBrand(parseInt(managerBrand["Brand_id"]));
+      visible = '';
+    }
+    else if(managerBrand["Manager_id"] != managerId && managerBrand["Manager_id"] > 0){
+      checked = '';
+      visible = 'd-none';
     }
     else {
       checked = '';
+      visible = '';
     }
-    li += `<li class="col-4">
+    li += `<li class="col-4 ${visible}">
             <div class="form-check">              
-                <input class="form-check-input" ${checked} type="checkbox" onchange="toggleBrand(${managerBrand["Brand_id"]})">
+                <input id="brand-${managerBrand["Brand_id"]}" class="form-check-input" ${checked} type="checkbox">
                 <label class="form-check-label text-break">${managerBrand["Brand_name"]}</label>
             </div>
         </li>`;    
@@ -268,7 +287,7 @@ function showManagerModal(type) {
     sTFormManager.inputButtonEnable();
     selectInsertOrUpdateManager = true;
     sTFormManager.FormEnableEdit();
-    removeElementsFromList();
+    // removeElementsFromList();
   }
   sTFormManager.clearDataForm();
   $(ManagerModal).modal("show");
@@ -289,3 +308,20 @@ var SingletonClassSTFormManager = (function () {
     }
   }
 })();
+
+function toggleManagerBrands(brands, type) {
+  dataLengthJson = brands.length;
+  objForm = document.getElementById(idManagerForm);
+  type == 0 ? attribute = false : attribute = true;
+  for (let i = 0; i < dataLengthJson; i++) {
+    objElementInput = null;
+    objElementInput = objForm.querySelector(`#brand-${brands[i]["Brand_id"]}`);
+    if (i <= dataLengthJson) {
+      if ((objElementInput) != undefined) {
+          objElementInput.disabled = attribute;
+      }
+    }
+  }
+  let modal = document.querySelector(ManagerModal);
+  modal.querySelector('#btn-submit').disabled = attribute;
+}

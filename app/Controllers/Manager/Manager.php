@@ -23,7 +23,7 @@ class Manager extends BaseController{
     {
         $this->objModel = new ManagerModel();
         $this->primaryKey = 'Manager_id';
-        $this->nameModel = 'managers';
+        $this->nameModel = 'manager';
         $this->managerBrandModel = new ManagerBrandsModel();
         $this->usermanagerModel = new UserManager();
         $this->userModel = new UserModel();
@@ -87,7 +87,7 @@ class Manager extends BaseController{
         try {
             $id = $this->request->getVar($this->primaryKey);
             $getDataId = $this->objModel->where($this->primaryKey, $id)->first();
-            $data['message'] = 'success';
+            $data['message'] = 'success';            
             $data['response'] = ResponseInterface::HTTP_OK;
             $brands = $managerBrands->sp_select_brands_client($getDataId['Client_id']);
             $data['data'] = ["manager" => $getDataId, "brands" => $brands];

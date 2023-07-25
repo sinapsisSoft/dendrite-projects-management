@@ -78,6 +78,7 @@ class UserModel extends Model
         }
         return $user;
     }
+    
     public function findUserByEmailPassword(string $emailAddress, string $password)
     {
         $this->select('User_id');
