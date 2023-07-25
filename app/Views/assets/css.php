@@ -53,9 +53,9 @@
     font-size: 13px;
   }
 
-  input {
+  /* input {
     text-transform: uppercase !important;
-  }
+  } */
 
   .btn-circle {
     width: 30px;
@@ -161,9 +161,9 @@
             font-size: 13px;
         }
 
-        input, select, td{
+        /* input, select, td{
             text-transform: uppercase !important;
-        }
+        } */
 
         .priorities-text {
             text-transform: uppercase;

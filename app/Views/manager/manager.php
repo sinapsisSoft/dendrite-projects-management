@@ -83,9 +83,9 @@
       font-size: 13px;
     }
 
-    input {
+    /* input {
       text-transform: uppercase !important;
-    }
+    } */
   </style>
 </head>
 

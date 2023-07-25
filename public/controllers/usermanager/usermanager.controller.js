@@ -135,7 +135,7 @@ function createUser(formData) {
         Swal.fire({
           position: 'top-end',
           icon: 'success',
-          title: arMessages[1],
+          title: arMessages[13],
           showConfirmButton: false,
           timer: 1500
         });
@@ -173,7 +173,7 @@ function updateUser(formData) {
         Swal.fire({
           position: 'top-end',
           icon: 'success',
-          title: arMessages[2],
+          title: arMessages[14],
           showConfirmButton: false,
           timer: 1500
         });
