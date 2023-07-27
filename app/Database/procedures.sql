@@ -375,3 +375,42 @@ BEGIN
     INNER JOIN manager M ON UM.Manager_id = M.Manager_id
     WHERE M.Manager_id = managerId;
 END $$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_projectrequest_all`$$
+CREATE PROCEDURE `sp_select_projectrequest_all` ()   
+BEGIN
+    SELECT PR.ProjReq_id, PR.User_id, U.User_name, PR.Brand_id, B.Brand_name, PR.created_at, C.Client_name
+    FROM project_request PR
+    INNER JOIN user U ON PR.User_id = U.User_id
+    INNER JOIN brand B ON PR.Brand_id = B.Brand_id
+    INNER JOIN user_manager UM ON U.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    INNER JOIN client C ON M.Client_id = C.Client_id;
+END $$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_projectrequest_detail`$$
+CREATE PROCEDURE `sp_select_projectrequest_detail` (IN projReqId INT)   
+BEGIN
+    SELECT ProjReq_id, PR.User_id, U.User_name, ProjReq_name, PR.Brand_id, B.Brand_name, ProjReq_observation, PR.created_at, PR.updated_at, C.Client_name, CT.City_name 
+    FROM project_request PR
+    INNER JOIN user U ON PR.User_id = U.User_id
+    INNER JOIN brand B ON PR.Brand_id = B.Brand_id
+    INNER JOIN user_manager UM ON U.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    INNER JOIN client C ON M.Client_id = C.Client_id
+    INNER JOIN city CT ON C.City_id = CT.City_id 
+    WHERE ProjReq_id = projReqId;
+END $$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_projectrequest_product`$$
+CREATE PROCEDURE `sp_select_projectrequest_product` (IN projReqId INT)   
+BEGIN
+    SELECT ProjReq_product_id, PRP.Prod_id, P.Prod_name, ProjReq_product_amount 
+    FROM project_request_product PRP
+    INNER JOIN product P ON PRP.Prod_id = P.Prod_id
+    WHERE ProjReq_id = projReqId;
+END $$
+

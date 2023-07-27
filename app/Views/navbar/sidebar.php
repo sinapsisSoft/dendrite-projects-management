@@ -30,11 +30,22 @@
             <span class="hide-menu">&emsp;Inicio</span></a>
         </li>
         <li class="sidebar-item">
-          <a class="sidebar-link waves-effect waves-dark project" href="/project" aria-expanded="false">
+          <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
             <lord-icon src="<?= base_url() ?>/assets/json/system-outline-44-folder.json" trigger="hover" colors="primary:#121331" style="width:25px;height:25px">
             </lord-icon>
-            <span class="hide-menu">&emsp;Gestión de proyectos</span>
+            <span class="hide-menu">&emsp;Gestión de proyectos </span>
           </a>
+          <ul aria-expanded="false" class="collapse first-level color">
+            <li class="sidebar-item">
+              <a href="/project" class="sidebar-link project"><i class="mdi mdi-chevron-right"></i><span class="hide-menu">Proyectos</span></a>
+            </li>
+            <li class="sidebar-item">
+              <a href="/projectrequest" class="sidebar-link projectrequest"><i class="mdi mdi-chevron-right"></i><span class="hide-menu">Solicitudes de proyectos</span></a>
+            </li>
+            <li class="sidebar-item">
+              <a href="/projectuser" class="sidebar-link projectuser"><i class="mdi mdi-chevron-right"></i><span class="hide-menu">Crear solicitud de proyecto</span></a>
+            </li>
+          </ul>
         </li>
         <li class="sidebar-item">
           <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">

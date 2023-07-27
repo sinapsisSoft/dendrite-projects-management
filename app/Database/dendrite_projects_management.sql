@@ -370,33 +370,41 @@ CREATE TABLE IF NOT EXISTS `module` (
   `Mod_name` varchar(50) NOT NULL,
   `Mod_route` varchar(30) NOT NULL,
   `Mod_description` varchar(100) NOT NULL,
+  `Mod_icon` varchar(300) DEFAULT NULL,
+  `Mod_parent` int(11) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `module`
 --
 
-INSERT INTO `module` (`Mod_id`, `Mod_name`, `Mod_route`, `Mod_description`, `updated_at`, `created_at`) VALUES
-(1, 'INICIO', 'home/home', 'Is Home', NULL, '2023-01-30 21:42:37'),
-(2, 'GESTIÓN DE PROYECTOS', 'project/project', 'USER', NULL, '2023-01-30 22:28:31'),
-(3, 'PRODUCTOS', 'product/product', 'a', NULL, '2023-03-21 10:19:48'),
-(4, 'MARCA DE PRODUCTOS', 'productbrand/productbrand', 'a', NULL, '2023-03-21 10:19:48'),
-(5, 'PRESENTACIÓN DE PRODUCTOS', 'filing/filing', 'a', NULL, '2023-03-21 10:19:48'),
-(6, 'CLIENTES', 'client/client', 'a', NULL, '2023-03-21 10:19:48'),
-(7, 'REPORTES', 'report/report', 'a', NULL, '2023-03-21 10:19:48'),
-(8, 'USUARIOS', 'user/user', 'a', NULL, '2023-03-21 10:19:48'),
-(9, 'MÓDULOS', 'module/module', 'a', NULL, '2023-03-21 10:19:48'),
-(10, 'ROLES', 'role/role', 'a', NULL, '2023-03-21 10:19:48'),
-(11, 'TIPO DE DOCUMENTO', 'doctype/doctype', 'a', NULL, '2023-03-21 10:19:48'),
-(12, 'CREDENCIALES DE CORREO', 'email/email', 'a', NULL, '2023-03-21 10:19:48'),
-(13, 'CORREO DE CORRESPONDENCIA', 'mail/mail', 'a', NULL, '2023-03-21 10:19:48'),
-(14, 'PRIORIDADES', 'priorities/priorities', 'a', NULL, '2023-03-21 10:19:48'),
-(15, 'PAÍS', 'country/country', 'a', NULL, '2023-03-21 10:19:48'),
-(16, 'CIUDAD', 'city/city', 'a', NULL, '2023-03-21 10:19:48'),
-(17, 'ESTADOS DE USUARIO', 'userstatus/userstatus', 'a', NULL, '2023-03-21 10:19:48');
+INSERT INTO `module` (`Mod_id`, `Mod_name`, `Mod_route`, `Mod_description`, `Mod_icon`, `Mod_parent`, `updated_at`, `created_at`) VALUES
+(1, 'Inicio', 'home', 'Página de inicio', 'assets/json/system-outline-41-home.json', NULL, NULL, '2023-01-30 21:42:37'),
+(2, 'Gestión de proyectos', '', 'Módulo de gestión de proyectos', 'assets/json/system-outline-44-folder.json', NULL, NULL, '2023-01-30 22:28:31'),
+(3, 'Proyectos', 'project', 'Gestión de proyectos', NULL, 2, NULL, '2023-07-27 11:20:27'),
+(4, 'Solicitudes de proyectos', 'projectrequest', 'Listado de solicitudes de proyectos', NULL, 2, NULL, '2023-07-27 11:22:07'),
+(5, 'Crear solicitud de proyecto', 'projectuser', 'Creación de solicitudes de proyecto', NULL, 2, NULL, '2023-07-27 11:22:07'),
+(6, 'Productos / Servicios', '', 'Gestión de productos y servicios', 'assets/json/system-outline-64-shopping-bag.json', NULL, NULL, '2023-07-27 11:24:44'),
+(7, 'Productos', 'product', 'Gestión de productos', NULL, 6, NULL, '2023-07-27 11:24:44'),
+(8, 'Marca', 'productbrand', 'Gestión de marca de productos', NULL, 6, NULL, '2023-07-27 11:24:44'),
+(9, 'Presentación', 'filing', 'Gestión de presentaciones de los productos', NULL, 6, NULL, '2023-07-27 11:24:44'),
+(10, 'Gestión de clientes', 'client', 'Gestión de clientes', 'assets/json/system-outline-2-accessibility.json', NULL, NULL, '2023-07-27 11:26:13'),
+(11, 'Reportes', 'report', 'Visualización de reportes', 'assets/json/system-outline-43-pie-chart-diagram.json', NULL, NULL, '2023-07-27 11:26:13'),
+(12, 'Gestión de usuarios', '', 'Gestión de usuarios del sistema', 'assets/json/system-outline-8-account.json', NULL, NULL, '2023-07-27 11:29:14'),
+(13, 'Usuarios', 'user', 'Gestión de usuarios', NULL, 12, NULL, '2023-07-27 11:29:14'),
+(14, 'Módulos', 'module', 'Gestión de módulos', NULL, 12, NULL, '2023-07-27 11:29:14'),
+(15, 'Roles', 'role', 'Gestión de roles y permisos', NULL, 12, NULL, '2023-07-27 11:29:14'),
+(16, 'Estado', 'userstatus', 'Gestión de estado de usuarios', NULL, 12, NULL, '2023-07-27 11:29:14'),
+(17, 'Configuración', '', 'Gestión de configuraciones básicas del sistema', 'assets/json/system-outline-63-settings-cog.json', NULL, NULL, '2023-07-27 11:33:51'),
+(18, 'Tipo de documento', 'doctype', 'Gestión de tipos de documento', NULL, 17, NULL, '2023-07-27 11:33:51'),
+(19, 'Correo para notificaciones', 'email', 'Gestión de credenciales para el correo de envío de notificaciones', NULL, 17, NULL, '2023-07-27 11:33:51'),
+(20, 'Correo de correspondencia', 'mail', 'Gestión de correo para envío de notificaciones de cambio de estado', NULL, 17, NULL, '2023-07-27 11:33:51'),
+(21, 'Prioridades', 'priorities', 'Gestión de prioridades para los proyectos', NULL, 17, NULL, '2023-07-27 11:33:51'),
+(22, 'País', 'country', 'Gestión de países', NULL, 17, NULL, '2023-07-27 11:33:51'),
+(23, 'Ciudad', 'city', 'Gestión de ciudades de los países', NULL, 17, NULL, '2023-07-27 11:33:51');
 
 -- --------------------------------------------------------
 
@@ -556,6 +564,44 @@ CREATE TABLE IF NOT EXISTS `project_product` (
   KEY `project_product_project` (`Project_id`),
   KEY `project_product_status` (`Stat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `project_request`
+--
+
+DROP TABLE IF EXISTS `project_request`;
+CREATE TABLE IF NOT EXISTS `project_request` (
+  `ProjReq_id` int(11) NOT NULL AUTO_INCREMENT,
+  `User_id` int(11) NOT NULL,
+  `ProjReq_name` varchar(100) NOT NULL,
+  `Brand_id` int(11) NOT NULL,
+  `ProjReq_observation` varchar(300) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`ProjReq`),
+  KEY `project_request_user` (`User_id`),
+  KEY `project_request_brand` (`Brand_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `project_request_product`
+--
+
+DROP TABLE IF EXISTS `project_request_product`;
+CREATE TABLEIF NOT EXISTS `project_request_product` (
+  `ProjReq_product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ProjReq_id` int(11) NOT NULL,
+  `Prod_id` int(11) NOT NULL,
+  `ProjReq_product_amount` varchar(10) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`ProjReq_product_id`),
+  KEY `project_request_product_project_request` (`ProjReq_id`),
+  KEY `project_request_product_product` (`Prod_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf;
+
 
 -- --------------------------------------------------------
 
@@ -858,6 +904,20 @@ ALTER TABLE `project_product`
   ADD CONSTRAINT `project_product_prod` FOREIGN KEY (`Prod_id`) REFERENCES `product` (`Prod_id`),
   ADD CONSTRAINT `project_product_project` FOREIGN KEY (`Project_id`) REFERENCES `project` (`Project_id`),
   ADD CONSTRAINT `project_product_status` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`);
+
+--
+-- Filtros para la tabla `project_request`
+--
+ALTER TABLE `project_request`
+  ADD CONSTRAINT `project_request_brand` FOREIGN KEY (`Brand_id`) REFERENCES `brand` (`Brand_id`),
+  ADD CONSTRAINT `project_request_user` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);
+
+--
+-- Filtros para la tabla `project_request_product`
+--
+ALTER TABLE `project_request_product`
+  ADD CONSTRAINT `project_request_product_product` FOREIGN KEY (`Prod_id`) REFERENCES `product` (`Prod_id`),
+  ADD CONSTRAINT `project_request_product_project_request` FOREIGN KEY (`ProjReq_id`) REFERENCES `project_request` (`ProjReq_id`);
 
 --
 -- Filtros para la tabla `project_tracking`

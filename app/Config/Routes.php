@@ -183,6 +183,22 @@ $routes->group('project', ['namespace' => 'App\Controllers\Project'], function (
     $routes->post('update', 'Project::update');
 });
 
+$routes->group('projectrequest', ['namespace' => 'App\Controllers\ProjectRequest'], function ($routes) {
+    $routes->get('/', 'ProjectRequest::show');
+    // $routes->post('create', 'Project::create');
+    // $routes->post('delete', 'Project::delete');
+    // $routes->post('edit', 'Project::edit');
+    // $routes->post('update', 'Project::update');
+});
+
+$routes->group('projectrequestproduct', ['namespace' => 'App\Controllers\ProjectRequestProduct'], function ($routes) {
+    $routes->get('/', 'ProjectRequestProduct::show');
+    // $routes->post('create', 'Project::create');
+    // $routes->post('delete', 'Project::delete');
+    // $routes->post('edit', 'Project::edit');
+    // $routes->post('update', 'Project::update');
+});
+
 $routes->group('activities', ['namespace' => 'App\Controllers\Activities'], function ($routes) {
     $routes->get('/', 'Activities::show');
     $routes->post('create', 'Activities::create');
