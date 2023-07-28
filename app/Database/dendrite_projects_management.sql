@@ -579,7 +579,7 @@ CREATE TABLE IF NOT EXISTS `project_request` (
   `ProjReq_observation` varchar(300) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`ProjReq`),
+  PRIMARY KEY (`ProjReq_id`),
   KEY `project_request_user` (`User_id`),
   KEY `project_request_brand` (`Brand_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

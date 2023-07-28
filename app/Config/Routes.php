@@ -191,12 +191,8 @@ $routes->group('projectrequest', ['namespace' => 'App\Controllers\ProjectRequest
     // $routes->post('update', 'Project::update');
 });
 
-$routes->group('projectrequestproduct', ['namespace' => 'App\Controllers\ProjectRequestProduct'], function ($routes) {
-    $routes->get('/', 'ProjectRequestProduct::show');
-    // $routes->post('create', 'Project::create');
-    // $routes->post('delete', 'Project::delete');
-    // $routes->post('edit', 'Project::edit');
-    // $routes->post('update', 'Project::update');
+$routes->group('projectrequestdetail', ['namespace' => 'App\Controllers\DetailProjectRequest'], function ($routes) {
+    $routes->get('/', 'DetailProjectRequest::show');
 });
 
 $routes->group('activities', ['namespace' => 'App\Controllers\Activities'], function ($routes) {

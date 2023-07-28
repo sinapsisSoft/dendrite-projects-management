@@ -122,7 +122,7 @@
           <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content" style="width: 100%;">
               <div class="modal-header">
-                <h5 class="modal-title" id="createUpdateModalLabel">DATOS</h5>
+                <h5 class="modal-title" id="createUpdateModalLabel">NUEVO PROYECTO</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">

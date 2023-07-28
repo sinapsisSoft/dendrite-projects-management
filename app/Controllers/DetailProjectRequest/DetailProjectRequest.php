@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers\Details;
+namespace App\Controllers\DetailProjectRequest;
 
 use App\Controllers\BaseController;
 use App\Models\ProjectRequestModel;
@@ -13,14 +13,14 @@ use App\Models\ProjectTrackingModel;
 
 
 
-class Details extends BaseController{
+class DetailProjectRequest extends BaseController{
 
 
     public function show(){
         $projectRequest = new ProjectRequestModel();
         $projectRequestProduct = new ProjectRequestProductModel();
         $product = new ProductModel();
-        $projectRequestId = $this->request->getGet('projectId');
+        $projectRequestId = $this->request->getGet('projectRequestId');
 
         $data['title'] = 'Detalles de la solicitud';
         $data['css'] = view('assets/css');
@@ -30,7 +30,6 @@ class Details extends BaseController{
         $data['sidebar'] = view('navbar/sidebar');
         $data['header'] = view('navbar/header');
         $data['footer'] = view('navbar/footer');
-
         $data['data'] = ['projectrequest' => $projectRequest->sp_select_projectrequest_detail($projectRequestId)[0],
                          'projectrequestproducts' => $projectRequestProduct->sp_select_projectrequest_product($projectRequestId)];
         return view('detailsprojectrequest/detailsprojectrequest', $data);

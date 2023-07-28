@@ -24,8 +24,8 @@ class ProjectRequestModel extends Model{
         return $result;
     }
 
-    function sp_select_projectrequest_detail(){
-        $query = "CALL sp_select_projectrequest_detail()";
+    function sp_select_projectrequest_detail($projectRequestId){
+        $query = "CALL sp_select_projectrequest_detail(" . $projectRequestId .")";
         $result = $this->db->query($query)->getResult();
         return $result;
     }

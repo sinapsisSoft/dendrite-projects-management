@@ -2,6 +2,7 @@
 --
 -- Procedimientos
 --
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_activities_project`$$
 CREATE PROCEDURE `sp_select_activities_project` (IN `project_id` INT)   BEGIN
 select 
@@ -16,14 +17,15 @@ WHERE PP.Project_id = project_id
 ORDER BY A.Activi_id DESC;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_activities`$$
 CREATE PROCEDURE `sp_select_all_activities` ()   BEGIN 
 SELECT A.Activi_id, A.Activi_name, AP.ApprCode_code, A.created_at 
 FROM activities A 
 INNER JOIN approvalcode AP on AP.ApprCode_id = A.ApprCode_id;
-
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_brands_client`$$
 CREATE PROCEDURE `sp_select_all_brands_client` (IN `client_id` INT)   BEGIN
 SELECT 
@@ -44,6 +46,7 @@ FROM brand B
 WHERE B.Client_id = clientId;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_manager_brands`$$
 CREATE PROCEDURE `sp_select_manager_brands` (IN `ManagerId` INT)   
 BEGIN
@@ -55,6 +58,7 @@ INNER JOIN brand B ON MB.Brand_id = B.Brand_id
 WHERE MB.Manager_id = ManagerId;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_clients`$$
 CREATE PROCEDURE `sp_select_all_clients` (IN `Client_id` INT)   BEGIN
 SELECT
@@ -76,6 +80,7 @@ LEFT JOIN company CO ON CO.Comp_id = C.Comp_id
 WHERE C.Client_id= Client_id;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_country_client`$$
 CREATE PROCEDURE `sp_select_country_client` (IN `clientId` INT)   
 BEGIN
@@ -111,6 +116,7 @@ LEFT JOIN product P ON P.Prod_id = PP.Prod_id
 WHERE A.Activi_id = ActiviId;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_details_subactivities`$$
 CREATE PROCEDURE `sp_select_all_details_subactivities` (IN `SubAct_id` INT)   BEGIN
 SELECT
@@ -158,7 +164,7 @@ INNER JOIN priorities PR on PR.Priorities_id = P.Priorities_id
 WHERE P.Project_id = Project_id;
 END$$
 
-
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_project_product`$$
 CREATE PROCEDURE `sp_select_all_project_product` (IN `project_id` INT)   
 BEGIN    	        
@@ -177,6 +183,7 @@ INNER JOIN status S ON S.Stat_id = PP.Stat_id
 WHERE PP.Project_id = project_id;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_project_table`$$
 CREATE PROCEDURE `sp_select_all_project_table` ()   
 BEGIN   
@@ -207,12 +214,14 @@ WHERE SA.Activi_id = activity_id
 ORDER BY SA.SubAct_id DESC;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_subactivity_info`$$
 CREATE PROCEDURE `sp_select_subactivity_info` (IN `subactivity_id` INT)
 BEGIN
 SELECT SA.SubAct_name, AC.Activi_name, AC.Activi_id, US.User_id, US.User_name, PJ.Project_id, PJ.Project_name FROM subactivities SA INNER JOIN activities AC ON SA.Activi_id = AC.Activi_id INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id INNER JOIN project PJ ON PP.Project_id = PJ.Project_id INNER JOIN user US ON SA.User_id = US.User_id WHERE SA.SubAct_id = subactivity_id;
 END $$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_users`$$
 CREATE PROCEDURE `sp_select_all_users`()   
 BEGIN
@@ -224,20 +233,21 @@ BEGIN
     ORDER BY User_id ASC;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_users_collaborator`$$
-CREATE PROCEDURE `sp_select_all_users_collaborator` ()   BEGIN
-
+CREATE PROCEDURE `sp_select_all_users_collaborator` ()   
+BEGIN
 SELECT U.User_id, U.User_name, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id WHERE R.Role_name = "Colaborador";
-
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_users_comercial`$$
-CREATE PROCEDURE `sp_select_all_users_comercial` ()   BEGIN
-
+CREATE PROCEDURE `sp_select_all_users_comercial` ()   
+BEGIN
 SELECT U.User_name, U.User_id, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id WHERE R.Role_name = "Comercial";
-
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_modules_role`$$
 CREATE PROCEDURE `sp_select_modules_role` (IN `role_id` INT)   BEGIN
 select 
@@ -245,9 +255,9 @@ select
     (select group_concat(rmp.Perm_id) from role_module_permit rmp 
 where rmp.Role_mod_id = rm.Role_mod_id) as permits
 from role_module rm where rm.Role_id = role_id;
-
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_percent_project`$$
 CREATE PROCEDURE `sp_select_percent_project` (IN `project_id` INT)   BEGIN
 SELECT 
@@ -269,6 +279,7 @@ BEGIN
     WHERE SubAct_id = subactivityId;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_status_project_product`$$
 CREATE PROCEDURE `sp_select_status_project_product` (IN `percent` INT)   BEGIN
  IF percent = 0 THEN
@@ -279,6 +290,7 @@ CREATE PROCEDURE `sp_select_status_project_product` (IN `percent` INT)   BEGIN
 END IF;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_info_project`$$
 CREATE PROCEDURE `sp_select_info_project` (IN `projectId` INT)   
 BEGIN
@@ -297,11 +309,13 @@ INNER JOIN priorities PR ON P.Priorities_id = PR.Priorities_id
 WHERE P.Project_id = projectId;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_status_users`$$
 CREATE PROCEDURE `sp_select_status_users` ()   BEGIN
     SELECT Stat_id,Stat_name FROM status WHERE StatType_id = 1;
 END$$
 
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_update_percent_activity`$$
 CREATE PROCEDURE `sp_update_percent_activity` (IN `activity_id` INT)   BEGIN
 SELECT @porcent := ROUND(SUM(SubAct_percentage) / COUNT(*)) as porcent FROM subactivities WHERE Activi_id = activity_id;
@@ -393,14 +407,14 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_projectrequest_detail`$$
 CREATE PROCEDURE `sp_select_projectrequest_detail` (IN projReqId INT)   
 BEGIN
-    SELECT ProjReq_id, PR.User_id, U.User_name, ProjReq_name, PR.Brand_id, B.Brand_name, ProjReq_observation, PR.created_at, PR.updated_at, C.Client_name, CT.City_name 
+    SELECT ProjReq_id, PR.User_id, U.User_name, ProjReq_name, PR.Brand_id, B.Brand_name, ProjReq_observation, PR.created_at, PR.updated_at, C.Client_name, CT.Country_name 
     FROM project_request PR
     INNER JOIN user U ON PR.User_id = U.User_id
     INNER JOIN brand B ON PR.Brand_id = B.Brand_id
     INNER JOIN user_manager UM ON U.User_id = UM.User_id
     INNER JOIN manager M ON UM.Manager_id = M.Manager_id
     INNER JOIN client C ON M.Client_id = C.Client_id
-    INNER JOIN city CT ON C.City_id = CT.City_id 
+    INNER JOIN country CT ON C.Country_id = CT.Country_id 
     WHERE ProjReq_id = projReqId;
 END $$
 
@@ -413,4 +427,3 @@ BEGIN
     INNER JOIN product P ON PRP.Prod_id = P.Prod_id
     WHERE ProjReq_id = projReqId;
 END $$
-

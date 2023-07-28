@@ -1,10 +1,10 @@
 showPreload();
 
-$("#table_obj").DataTable({
-  "language": {
-    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-  }
-});
+// $("#table_obj").DataTable({
+//   "language": {
+//     "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+//   }
+// });
 
 const arRoutes = AR_ROUTES_GENERAL;
 const arMessages = new Array('Revise la información suministrada', 'Proyecto creado exitosamente', 'Proyecto actualizado exitosamente', 'Proyecto eliminado exitosamente', 'El proyecto no pudo ser eliminado. Revise si éste ya contiene seguimientos u actividades asociadas');
@@ -143,8 +143,8 @@ function getBrandByManager() {
     });
 }
 
-function details(projectId) {
-  window.location = `${BASE_URL}details?projectId=${projectId}`
+function details(projectRequestId) {
+  window.location = `${BASE_URL}projectrequestdetail?projectRequestId=${projectRequestId}`
 }
 
 function create(formData) {
