@@ -103,7 +103,6 @@
                         <th>#</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
-                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -113,15 +112,6 @@
                           <td><?= $i++; ?></td>
                           <td><?= $obj->Prod_name; ?></td>
                           <td><?= $obj->ProjReq_product_amount; ?></td>
-                          <td>
-                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                              <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->ProjReq_product_id ?>)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                </svg>
-                              </button>
-                            </div>
-                          </td>
                         </tr>
                       <?php endforeach; ?>
                     </tbody>
@@ -130,7 +120,6 @@
                         <th>#</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
-                        <th>Acciones</th>
                       </tr>
                     </tfoot>
                   </table>
@@ -144,24 +133,77 @@
             </h4>
             <div class="col-8 text-end">
               <div class="row justify-content-end">
-              <h6 class="page-title">
-                APROBAR
-                <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)">
-                  <lord-icon src="<?= base_url() ?>/assets/json/system-outline-31-check.json" trigger="hover" colors="primary:#ffffff" style="width: 30px;px;height:30px">
-                  </lord-icon>
-                </button>
-              </h6>
-              <h6 class="page-title">
-                RECHAZAR
-                <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)">
-                  <lord-icon src="<?= base_url() ?>/assets/json/system-outline-29-cross.json" trigger="hover" colors="primary:#ffffff" style="width:30px;height:30px">
-                  </lord-icon>
-                </button>
-              </h6>
+                <h6 class="page-title">
+                  APROBAR
+                  <button type="button" class="btn btn-primary btn-circle btn-lg btn-approved" onclick="showModal(1)">
+                    <lord-icon src="<?= base_url() ?>/assets/json/system-outline-31-check.json" trigger="hover" colors="primary:#ffffff" style="width: 30px;px;height:30px">
+                    </lord-icon>
+                  </button>
+                </h6>
+                <h6 class="page-title">
+                  RECHAZAR
+                  <button type="button" class="btn btn-primary btn-circle btn-lg btn-refused" onclick="showModal(1)">
+                    <lord-icon src="<?= base_url() ?>/assets/json/system-outline-29-cross.json" trigger="hover" colors="primary:#ffffff" style="width:30px;height:30px">
+                    </lord-icon>
+                  </button>
+                </h6>
               </div>
-
             </div>
-
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="createModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+          <div class="modal-content" style="width: 100%;">
+            <div class="modal-header">
+              <h5 class="modal-title" id="createModalLabel">CREAR PRODUCTO</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal mt-3 row" id="objForm" action="POST" onsubmit="sendData(event,this.id)">
+                <div class="col-12 col-md-4 mb-3">
+                  <label for="Project_commercial">Nombre del comercial</label>
+                  <select name="Project_commercial" id="Project_commercial" class="form-control form-select" required>
+                    <option value="">
+                      Seleccione...
+                    </option>
+                    <?php foreach ($commercial as $user) : ?>
+                      <option value="<?= $user->User_id; ?>">
+                        <?= $user->User_name; ?>
+                      </option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <div class="col-12 col-md-3 mb-3">
+                  <label for="User_id">Notificar a:</label>
+                  <select name="User_id" id="User_id" class="form-control form-select" required>
+                    <option value="">
+                      Seleccione...
+                    </option>
+                    <?php foreach ($users as $user) : ?>
+                      <option value="<?= $user->User_id; ?>">
+                        <?= $user->User_name; ?>
+                      </option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                  <label for="Priorities_id">Prioridad</label>
+                  <select class="form-control form-select" id="Priorities_id" name="Priorities_id" required>
+                    <option value="">Seleccione...</option>
+                    <?php foreach ($priorities as $priorities) : ?>
+                      <option value="<?= $priorities['Priorities_id']; ?>">
+                        <?= $priorities['Priorities_name']; ?>
+                      </option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
+              <button type="submit" id="btn-submit" form="objForm" class="btn btn-primary mx-auto w-50">Guardar</button>
+            </div>
           </div>
         </div>
       </div>

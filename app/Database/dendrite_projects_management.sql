@@ -511,7 +511,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
 --
 -- Estructura de tabla para la tabla `project`
 --
-
+DROP TABLE IF EXISTS `project`;
 CREATE TABLE `project` (
   `Project_id` int(11) NOT NULL AUTO_INCREMENT,
   `Project_code` varchar(10) DEFAULT NULL,
@@ -527,10 +527,10 @@ CREATE TABLE `project` (
   `Project_observation` varchar(300) NOT NULL,
   `Project_percentage` varchar(15) DEFAULT NULL,
   `Client_id` int(11) NOT NULL,
-  `User_id` int(11) NOT NULL,
-  `Project_commercial` int(11) NOT NULL,
+  `User_id` int(11) DEFAULT NULL,
+  `Project_commercial` int(11) DEFAULT NULL,
   `Stat_id` int(11) NOT NULL,
-  `Priorities_id` int(11) NOT NULL,
+  `Priorities_id` int(11) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`Project_id`),
@@ -577,11 +577,15 @@ CREATE TABLE IF NOT EXISTS `project_request` (
   `ProjReq_name` varchar(100) NOT NULL,
   `Brand_id` int(11) NOT NULL,
   `ProjReq_observation` varchar(300) DEFAULT NULL,
+  `Stat_id` datetime DEFAULT NULL,
+  `Project_id` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ProjReq_id`),
   KEY `project_request_user` (`User_id`),
-  KEY `project_request_brand` (`Brand_id`)
+  KEY `project_request_brand` (`Brand_id`),
+  KEY `project_request_project` (`Project_id`),
+  KEY `project_request_status` (`Stat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -590,7 +594,7 @@ CREATE TABLE IF NOT EXISTS `project_request` (
 --
 
 DROP TABLE IF EXISTS `project_request_product`;
-CREATE TABLEIF NOT EXISTS `project_request_product` (
+CREATE TABLE IF NOT EXISTS `project_request_product` (
   `ProjReq_product_id` int(11) NOT NULL AUTO_INCREMENT,
   `ProjReq_id` int(11) NOT NULL,
   `Prod_id` int(11) NOT NULL,
@@ -600,7 +604,7 @@ CREATE TABLEIF NOT EXISTS `project_request_product` (
   PRIMARY KEY (`ProjReq_product_id`),
   KEY `project_request_product_project_request` (`ProjReq_id`),
   KEY `project_request_product_product` (`Prod_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- --------------------------------------------------------
@@ -697,7 +701,7 @@ CREATE TABLE IF NOT EXISTS `status` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Stat_id`),
   KEY `status_StatusType` (`StatType_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `status`
@@ -708,7 +712,9 @@ INSERT INTO `status` (`Stat_id`, `Stat_name`, `Stat_description`, `StatType_id`,
 (2, 'Inactivo', '', 1, NULL, '2023-03-13 10:57:20'),
 (3, 'Asignado', 'Activo de proyecto', 4, NULL, '2023-03-28 13:10:52'),
 (4, 'Pendiente', '', 4, NULL, '2023-04-18 01:15:33'),
-(5, 'Realizado', '', 4, NULL, '2023-04-18 01:16:20');
+(5, 'Realizado', '', 4, NULL, '2023-04-18 01:16:20'),
+(6, 'Creado', '', 7, NULL, '2023-04-18 01:16:20'),
+(7, 'Rechazado', '', 7, NULL, '2023-04-18 01:16:20');
 
 -- --------------------------------------------------------
 
@@ -724,7 +730,7 @@ CREATE TABLE IF NOT EXISTS `statustype` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`StatType_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `statustype`
@@ -736,7 +742,8 @@ INSERT INTO `statustype` (`StatType_id`, `StatType_name`, `StatType_description`
 (3, 'Client', 'Status Client', NULL, '2023-02-20 02:21:22'),
 (4, 'Proyect', 'Status Project', NULL, '2023-03-28 13:10:18'),
 (5, 'Activities', 'Status Activities', NULL, '2023-04-05 09:30:25'),
-(6, 'Productos', 'Estado de productos', NULL, '2023-04-10 16:31:05');
+(6, 'Productos', 'Estado de productos', NULL, '2023-04-10 16:31:05'),
+(7, 'Solicitudes proyecto', 'Estados de las solicitudes de proyecto', NULL, '2023-04-10 16:31:05');
 
 -- --------------------------------------------------------
 
@@ -910,6 +917,8 @@ ALTER TABLE `project_product`
 --
 ALTER TABLE `project_request`
   ADD CONSTRAINT `project_request_brand` FOREIGN KEY (`Brand_id`) REFERENCES `brand` (`Brand_id`),
+  ADD CONSTRAINT `project_request_project` FOREIGN KEY (`Project_id`) REFERENCES `project` (`Project_id`),
+  ADD CONSTRAINT `project_request_status` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`),
   ADD CONSTRAINT `project_request_user` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);
 
 --

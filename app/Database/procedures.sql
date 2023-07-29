@@ -427,3 +427,18 @@ BEGIN
     INNER JOIN product P ON PRP.Prod_id = P.Prod_id
     WHERE ProjReq_id = projReqId;
 END $$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_insert_projectRequest`$$
+CREATE PROCEDURE `sp_insert_projectRequest` (IN projectRequestId INT)   
+BEGIN
+    INSERT INTO project(Project_name, Manager_id, Brand_id, Client_id, Stat_id, Project_observation)
+    SELECT ProjReq_name, UM.Manager_id, PR.Brand_id, C.Client_id, 1, ProjReq_observation
+    FROM project_request PR
+    INNER JOIN user_manager UM ON PR.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    INNER JOIN client C ON M.Client_id = C.Client_id
+    WHERE ProjReq_id = projectRequestId;
+    SELECT LAST_INSERT_ID() AS 'Project_id';
+END $$
+

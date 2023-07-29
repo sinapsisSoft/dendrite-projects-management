@@ -13,6 +13,8 @@ class ProjectRequestModel extends Model{
         'ProjReq_name', 
         'Brand_id',
         'ProjReq_observation',
+        'Stat_id',
+        'Project_id',
         'created_at',
         'updated_at'
     ];
@@ -26,6 +28,12 @@ class ProjectRequestModel extends Model{
 
     function sp_select_projectrequest_detail($projectRequestId){
         $query = "CALL sp_select_projectrequest_detail(" . $projectRequestId .")";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
+
+    function sp_insert_projectRequest($projectRequestId){
+        $query = "CALL sp_insert_projectRequest(" . $projectRequestId .")";
         $result = $this->db->query($query)->getResult();
         return $result;
     }
