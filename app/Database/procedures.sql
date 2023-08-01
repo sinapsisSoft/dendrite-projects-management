@@ -439,6 +439,10 @@ BEGIN
     INNER JOIN manager M ON UM.Manager_id = M.Manager_id
     INNER JOIN client C ON M.Client_id = C.Client_id
     WHERE ProjReq_id = projectRequestId;
-    SELECT LAST_INSERT_ID() AS 'Project_id';
+    SET @projectId = (SELECT LAST_INSERT_ID() AS 'Project_id');
+    INSERT INTO project_product(`Project_productAmount`,`Project_id`,`Prod_id`, Project_product_percentage,`Stat_id`)
+    SELECT ProjReq_product_amount, @projectId, Prod_id, 0, 4 FROM project_request_product
+    WHERE ProjReq_id = projectRequestId;
+    SELECT @projectId AS 'Project_id';
 END $$
 
