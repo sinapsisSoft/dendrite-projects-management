@@ -394,13 +394,16 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_projectrequest_all`$$
 CREATE PROCEDURE `sp_select_projectrequest_all` ()   
 BEGIN
-    SELECT PR.ProjReq_id, PR.User_id, U.User_name, PR.Brand_id, B.Brand_name, PR.created_at, C.Client_name
+    SELECT PR.ProjReq_id, PR.User_id, U.User_name, PR.Brand_id, B.Brand_name, PR.created_at, C.Client_name, PR.Stat_id, S.Stat_name, PR.Project_id, P.Project_code
     FROM project_request PR
     INNER JOIN user U ON PR.User_id = U.User_id
     INNER JOIN brand B ON PR.Brand_id = B.Brand_id
     INNER JOIN user_manager UM ON U.User_id = UM.User_id
     INNER JOIN manager M ON UM.Manager_id = M.Manager_id
-    INNER JOIN client C ON M.Client_id = C.Client_id;
+    INNER JOIN status S ON PR.Stat_id = S.Stat_id
+    INNER JOIN client C ON M.Client_id = C.Client_id
+    LEFT JOIN project P ON PR.Project_id = P.Project_id
+    ORDER BY PR.ProjReq_id DESC;
 END $$
 
 DELIMITER $$
@@ -446,3 +449,19 @@ BEGIN
     SELECT @projectId AS 'Project_id';
 END $$
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_projectrequest_user`$$
+CREATE PROCEDURE `sp_select_projectrequest_user` (IN userId INT)   
+BEGIN
+    SELECT PR.ProjReq_id, PR.User_id, U.User_name, PR.Brand_id, B.Brand_name, PR.created_at, C.Client_name, PR.Stat_id, S.Stat_name, PR.Project_id, P.Project_code
+    FROM project_request PR
+    INNER JOIN user U ON PR.User_id = U.User_id
+    INNER JOIN brand B ON PR.Brand_id = B.Brand_id
+    INNER JOIN user_manager UM ON U.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    INNER JOIN status S ON PR.Stat_id = S.Stat_id
+    INNER JOIN client C ON M.Client_id = C.Client_id
+    LEFT JOIN project P ON PR.Project_id = P.Project_id
+    WHERE UM.User_id = userId
+    ORDER BY PR.ProjReq_id DESC;
+END $$

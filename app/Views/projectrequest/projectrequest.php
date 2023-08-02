@@ -70,18 +70,37 @@
                         <th>Gerente</th>
                         <th>Marca</th>
                         <th>Fecha de creación</th>
+                        <th>Estado</th>
+                        <th></th>
+                        <th>Código Proyecto</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php $i = 1 ?>
                       <?php foreach ($projectrequest as $obj) : ?>
+                        <?php switch ($obj->Stat_id) : 
+                          case 6:
+                            $color = '#FFD93D';
+                            break;
+                          case 7:                            
+                            $color = '#16FF00';
+                            break;
+                          case 8:
+                            $color = '#FF0303';
+                            break;
+                          endswitch;?>
                         <tr>
                           <td><?= $i++; ?></td>
                           <td><?= $obj->Client_name; ?></td>
                           <td><?= $obj->User_name; ?></td>
                           <td><?= $obj->Brand_name; ?></td>
                           <td><?= $obj->created_at; ?></td>
+                          <td><?= $obj->Stat_name; ?></td>
+                          <td>
+                            <div class="circle" style="background-color:<?= $color; ?>"></div>
+                          </td>
+                          <td><?= $obj->Project_code == NULL ? 'NO APLICA' : $obj->Project_code ?></td>
                           <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                               <button type="button" class="btn btn-outline-success" onclick="details(<?= $obj->ProjReq_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -100,6 +119,9 @@
                         <th>Gerente</th>
                         <th>Marca</th>
                         <th>Fecha de creación</th>
+                        <th>Estado</th>
+                        <th></th>
+                        <th>Código Proyecto</th>
                         <th>Acciones</th>
                       </tr>
                     </tfoot>

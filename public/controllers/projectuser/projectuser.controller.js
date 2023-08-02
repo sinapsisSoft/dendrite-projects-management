@@ -17,7 +17,7 @@ const dataCsrf = 'csrf';
 
 const primaryId = 'ProjReq_id';
 const URL_ROUTE = BASE_URL + ruteContent;
-const myModalObjec = '#createModal';
+const myModalObjec = '#createUpdateModal';
 
 const idForm = 'objForm';
 

@@ -7,7 +7,7 @@ use App\Models\ManagerModel;
 use App\Models\BrandModel;
 use App\Models\ClientModel;
 use App\Models\ManagerBrandsModel;
-use App\Models\UserManager;
+use App\Models\UserManagerModel;
 use App\Models\UserModel;
 
 
@@ -25,7 +25,7 @@ class Manager extends BaseController{
         $this->primaryKey = 'Manager_id';
         $this->nameModel = 'manager';
         $this->managerBrandModel = new ManagerBrandsModel();
-        $this->usermanagerModel = new UserManager();
+        $this->usermanagerModel = new UserManagerModel();
         $this->userModel = new UserModel();
     }
 

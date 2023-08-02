@@ -3,7 +3,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserManager extends Model{
+class UserManagerModel extends Model{
 
     protected $table ='user_manager';
     protected $primaryKey='UserManager_id';

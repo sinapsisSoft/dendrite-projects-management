@@ -97,7 +97,7 @@
 
               <div class="card-pp">
                 <div class="table-responsive table-pp">
-                  <table id="table_obj" class="table table-striped table-bordered">
+                  <table id="table_product" class="table table-striped table-bordered">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -127,13 +127,14 @@
               </div>
             </div>
           </div>
+          <?php if($data["projectrequest"]->Stat_id == 6): ?>
           <div class="row">
             <h4 class="col-4 page-title ">
               <input type="button" onclick="history.back()" class="btn btn-primary" name="volver atrás" value="VOLVER">
-            </h4>
+            </h4>            
             <div class="col-8 text-end">
               <div class="row justify-content-end">
-                <h6 class="page-title">
+                <h6 class="page-title">                  
                   APROBAR
                   <button type="button" class="btn btn-primary btn-circle btn-lg btn-approved" onclick="showModal(1)">
                     <lord-icon src="<?= base_url() ?>/assets/json/system-outline-31-check.json" trigger="hover" colors="primary:#ffffff" style="width: 30px;px;height:30px">
@@ -142,14 +143,21 @@
                 </h6>
                 <h6 class="page-title">
                   RECHAZAR
-                  <button type="button" class="btn btn-primary btn-circle btn-lg btn-refused" onclick="showModal(1)">
+                  <button type="button" class="btn btn-primary btn-circle btn-lg btn-refused" onclick="delete_()">
                     <lord-icon src="<?= base_url() ?>/assets/json/system-outline-29-cross.json" trigger="hover" colors="primary:#ffffff" style="width:30px;height:30px">
                     </lord-icon>
                   </button>
-                </h6>
+                </h6>                
               </div>
-            </div>
-          </div>
+            </div>            
+          </div>          
+          <?php else: ?> 
+            <div class="row text-end">
+            <h4 class="col-12 page-title ">
+              <input type="button" onclick="history.back()" class="btn btn-primary" name="volver atrás" value="VOLVER">
+            </h4>            
+          </div> 
+          <?php endif ?> 
         </div>
       </div>
       <div class="modal fade" id="createModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">

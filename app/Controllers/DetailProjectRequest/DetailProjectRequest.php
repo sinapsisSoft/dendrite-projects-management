@@ -66,14 +66,32 @@ class DetailProjectRequest extends BaseController
             $projectModel->update($projectId, $dataProject);
             $dataRequest = [
                 'Stat_id' => 7,
-                'Proj_id' => $projectId
+                'Project_id' => $projectId
             ];
             $this->objModel->update($projectRequestId, $dataRequest);
-            //Añadir sp que consulte los productos del ProjREq_id y los copie a project_product
-            //En la vista de projectrequestdetail traer el estado, pintarlo en un input y si es 7, no mostrar botones de aprobar y rechazar
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
-            $data['data'] = $projectId;
+            $data['data'] = $codeProject;
+            $data['csrf'] = csrf_hash();
+        } catch (\Exception $e) {
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = 'Error';
+        }
+        return json_encode($data);
+    }
+
+    public function delete()
+    {
+        try {
+            $projectRequestId = $this->request->getVar('ProjReq_id');
+            $dataProjectReq = [
+                'Stat_id' => 8
+            ];
+            $this->objModel->update($projectRequestId, $dataProjectReq);
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['data'] = $projectRequestId;
             $data['csrf'] = csrf_hash();
         } catch (\Exception $e) {
             $data['message'] = $e;

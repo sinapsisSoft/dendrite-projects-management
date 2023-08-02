@@ -37,4 +37,10 @@ class ProjectRequestModel extends Model{
         $result = $this->db->query($query)->getResult();
         return $result;
     }
+
+    function sp_select_projectrequest_user($userId){
+        $query = "CALL sp_select_projectrequest_user(" . $userId .")";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
 }
