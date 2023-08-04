@@ -53,7 +53,7 @@ class DetailProjectRequest extends BaseController
     {
         try {
             $projectModel = new ProjectModel();
-            $projectRequestId = $this->request->getVar('ProjReq_id');
+            $projectRequestId = $this->request->getVar($this->primaryKey);
             $result = $this->objModel->sp_insert_projectRequest($projectRequestId);
             $projectId = $result[0]->Project_id;            
             $codeProject = $this->generateCode((string)$projectId);
@@ -84,7 +84,7 @@ class DetailProjectRequest extends BaseController
     public function delete()
     {
         try {
-            $projectRequestId = $this->request->getVar('ProjReq_id');
+            $projectRequestId = $this->request->getVar($this->primaryKey);
             $dataProjectReq = [
                 'Stat_id' => 8
             ];

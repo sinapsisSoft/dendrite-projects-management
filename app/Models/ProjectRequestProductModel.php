@@ -5,10 +5,10 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 class ProjectRequestProductModel extends Model{
-    protected $table = 'project_request';
-    protected $primaryKey = 'project_request_product';
+    protected $table = 'project_request_product';
+    protected $primaryKey = 'ProjReq_product_id';
     protected $allowedFields = [
-        'project_request_product', 
+        'ProjReq_product_id', 
         'ProjReq_id', 
         'Prod_id', 
         'ProjReq_product_amount',

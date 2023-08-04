@@ -96,10 +96,12 @@
               <!-- TABLA DE PROYECT_PRODUCT -->
 
               <div class="card-pp">
+                <?php if($data['projectrequest']->Stat_id == 6): ?>
                 <h4 class="page-title text-end">
                   Agregar Producto
                   <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-plus"></i></button>
                 </h4>
+                <?php endif; ?>
                 <div class="table-responsive table-pp">
                   <table id="table_product" class="table table-striped table-bordered">
                     <thead>
@@ -107,6 +109,7 @@
                         <th>#</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -116,6 +119,31 @@
                           <td><?= $i++; ?></td>
                           <td><?= $obj->Prod_name; ?></td>
                           <td><?= $obj->ProjReq_product_amount; ?></td>
+                          <td>
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                              <?php if ($data['projectrequest']->Stat_id == 6) : ?>
+                                <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->ProjReq_product_id ?>, 1)">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                  </svg>
+                                </button>
+                              <?php endif; ?>
+                              <button type="button" class="btn btn-outline-success" onclick="getDataId(<?= $obj->ProjReq_product_id ?>, 0)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                  <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                </svg>
+                              </button>
+                              <?php if ($data['projectrequest']->Stat_id == 6) : ?>
+                                <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->ProjReq_product_id ?>)">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
+                                  </svg>
+                                </button>
+                              <?php endif; ?>
+                            </div>
+                          </td>
                         </tr>
                       <?php endforeach; ?>
                     </tbody>
@@ -124,6 +152,7 @@
                         <th>#</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
+                        <th>Acciones</th>
                       </tr>
                     </tfoot>
                   </table>
@@ -150,7 +179,8 @@
               <form class="form-horizontal mt-3 row" id="objForm" action="POST" onsubmit="sendData(event,this.id)">
                 <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                 <input type="hidden" class="form-control" id="ProjReq_product_id" name="Project_product_id" value="NULL">
-                <div class="col-12 col-md-6 mb-3">
+                <input type="hidden" class="form-control" id="ProjReq_id" name="ProjReq_id" value="<?= $data['projectrequest']->ProjReq_id ?>">
+                <div class="col-12 col-md-8 mb-3">
                   <label for="Prod_id">Producto</label>
                   <select class="form-control form-select" name="Prod_id" id="Prod_id" required>
                     <option value="">
@@ -163,9 +193,9 @@
                     <?php endforeach; ?>
                   </select>
                 </div>
-                <div class="col-12 col-md-2 mb-3">
-                  <label for="Project_productAmount">Cantidad</label>
-                  <input type="text" class="form-control" id="Project_productAmount" name="Project_productAmount" required>
+                <div class="col-12 col-md-4 mb-3">
+                  <label for="ProjReq_product_amount">Cantidad</label>
+                  <input type="number" class="form-control" id="ProjReq_product_amount" name="ProjReq_product_amount" min="1" required>
                 </div>
               </form>
             </div>
@@ -181,5 +211,5 @@
     </div>.
   </div>
   <?= $js ?>
-  <script src="./controllers/projectuser/projectuser.controller.js"></script>
+  <script src="./controllers/detailprojectuser/detailprojectuser.controller.js"></script>
 </body>

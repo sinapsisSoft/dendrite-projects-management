@@ -68,6 +68,7 @@
                     <thead>
                       <tr>
                         <th>#</th>
+                        <th>Nombre proyecto</th>
                         <th>Marca</th>
                         <th>Fecha de creación</th>
                         <th>Estado</th>
@@ -92,6 +93,7 @@
                         endswitch; ?>
                         <tr>
                           <td><?= $i++; ?></td>
+                          <td><?= $obj->ProjReq_name; ?></td>
                           <td><?= $obj->Brand_name; ?></td>
                           <td><?= $obj->created_at; ?></td>
                           <td><?= $obj->Stat_name; ?></td>
@@ -121,11 +123,13 @@
                                   <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
                                 </svg>
                               </button>
-                              <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->ProjReq_id ?>)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
-                                </svg>
-                              </button>
+                              <?php if ($obj->Stat_id == 6) : ?>
+                                <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->ProjReq_id ?>)">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
+                                  </svg>
+                                </button>
+                              <?php endif; ?>
                             </div>
                           </td>
                         </tr>
@@ -134,6 +138,7 @@
                     <tfoot>
                       <tr>
                         <th>#</th>
+                        <th>Nombre proyecto</th>
                         <th>Marca</th>
                         <th>Fecha de creación</th>
                         <th>Estado</th>
@@ -159,6 +164,7 @@
                 <div class="row">
                   <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
                     <input type="hidden" class="form-control" id="ProjReq_id" name="ProjReq_id" value="0">
+                    <input type="hidden" class="form-control" id="ProjReq_product_id" name="ProjReq_product_id" value="0">
                     <input type="hidden" class="form-control" id="User_id" name="User_id" value="0">
                     <input type="hidden" class="form-control" id="Stat_id" name="Stat_id" value="0">
                     <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">

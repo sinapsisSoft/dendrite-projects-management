@@ -68,6 +68,7 @@
                         <th>#</th>
                         <th>Cliente</th>
                         <th>Gerente</th>
+                        <th>Proyecto</th>
                         <th>Marca</th>
                         <th>Fecha de creación</th>
                         <th>Estado</th>
@@ -94,6 +95,7 @@
                           <td><?= $i++; ?></td>
                           <td><?= $obj->Client_name; ?></td>
                           <td><?= $obj->User_name; ?></td>
+                          <td><?= $obj->ProjReq_name; ?></td>
                           <td><?= $obj->Brand_name; ?></td>
                           <td><?= $obj->created_at; ?></td>
                           <td><?= $obj->Stat_name; ?></td>
@@ -117,6 +119,7 @@
                         <th>#</th>
                         <th>Cliente</th>
                         <th>Gerente</th>
+                        <th>Proyecto</th>
                         <th>Marca</th>
                         <th>Fecha de creación</th>
                         <th>Estado</th>

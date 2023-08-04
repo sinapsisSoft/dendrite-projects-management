@@ -204,8 +204,10 @@ $routes->group('projectuser', ['namespace' => 'App\Controllers\ProjectUser'], fu
 
 $routes->group('projectuserdetail', ['namespace' => 'App\Controllers\DetailProjectUser'], function ($routes) {
     $routes->get('/', 'DetailProjectUser::show');
-    // $routes->post('create', 'DetailProjectUser::create');
-    // $routes->post('delete', 'DetailProjectUser::delete');
+    $routes->post('create', 'DetailProjectUser::create');
+    $routes->post('edit', 'DetailProjectUser::edit');
+    $routes->post('update', 'DetailProjectUser::update');
+    $routes->post('delete', 'DetailProjectUser::delete');
     // $routes->post('createrequest', 'DetailProjectRequest::createrequest');
 });
 
