@@ -7,9 +7,9 @@ $("#table_obj").DataTable({
 });
 
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Se presentó un error, vuelva a intentarlo','Se ha creado el proyecto a partir de la solicitud exitosamente.', 'El proyecto se ha rechazado exitosamente.');
-const ruteContent = "projectrequestdetail/";
-const nameModel = 'projectrequestdetail';
+const arMessages = new Array('Se presentó un error, vuelva a intentarlo','Solicitud creada exitosamente.', 'Solicitud actualizada exitosamente.','Solicitud eliminada exitosamente', 'La solicitud no pudo ser eliminada. Revise si éste está tiene productos asociados');
+const ruteContent = "projectuser/";
+// const nameModel = 'projectrequestdetail';
 const dataModel = 'data';
 const dataResponse = 'response';
 const dataMessages = 'message';
@@ -23,23 +23,14 @@ const idForm = 'objForm';
 
 var sTForm = null;
 var url = "";
-var assignmentAction = 0;
 var formData = new Object();
 var selectInsertOrUpdate = true;
 
 function details(projectRequestId) {
-  window.location = `${BASE_URL}projectrequestdetail?projectRequestId=${projectRequestId}`
-}
-
-function getGetParameter(){
-  let url = window.location.href;
-  url = url.split("?");
-  projectId = url[1].split("=");
-  return projectId[1];
+  window.location = `${BASE_URL}projectuserdetail?projectRequestId=${projectRequestId}`
 }
 
 function create(formData) {  
-  formData['ProjReq_id'] = getGetParameter();
   url = `${URL_ROUTE}${arRoutes[0]}`;
   fetch(url, {
     method: "POST",
@@ -56,7 +47,7 @@ function create(formData) {
         Swal.fire({
           position: 'top-end',
           icon: 'success',
-          title: `${arMessages[1]} Código del proyecto: ${response[dataModel]}`,
+          title: arMessages[1],
           showConfirmButton: false,
           timer: 2500
         });
@@ -75,7 +66,44 @@ function create(formData) {
     });
 }
 
-function delete_() {
+function update(formData) {
+  url = URL_ROUTE + arRoutes[2];
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[2],
+          showConfirmButton: false,
+          timer: 1500
+        })
+        hideModal();
+        setTimeout(function(){
+          window.location.reload();
+        }, 2000);   
+      } else {
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        )
+      }
+      sTForm.inputButtonEnable();
+      hidePreload();
+    });
+}
+
+function delete_(id) {
   Swal.fire({
     title: '¿Está seguro?',
     text: "¡Esta acción no se puede revertir!",
@@ -83,20 +111,20 @@ function delete_() {
     showCancelButton: true,
     confirmButtonColor: '#7460ee',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Si, rechazar!'
+    confirmButtonText: 'Si, eliminar!'
   }).then((result) => {
     if (result.isConfirmed) {
       showPreload();
-    url = URL_ROUTE + arRoutes[3];
-    formData[primaryId] = getGetParameter();
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-Type": "application/json",
-        "X-Requested-With": "XMLHttpRequest"
-      }
-    })
+      url = URL_ROUTE + arRoutes[3];
+      formData[primaryId] = id;
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
       .then(response => response.json())
       .catch(error => console.error('Error:', error))
       .then(response => {
@@ -104,7 +132,7 @@ function delete_() {
           Swal.fire({
             position: 'top-end',
             icon: 'success',
-            title: arMessages[2],
+            title: arMessages[3],
             showConfirmButton: false,
             timer: 1500
           });
@@ -114,7 +142,7 @@ function delete_() {
         } else {
           Swal.fire(
             '¡No pudimos hacer esto!',
-            arMessages[0],
+            arMessages[4],
             'error'
           );
         }
@@ -129,8 +157,11 @@ function sendData(e, formObj) {
   sTForm = SingletonClassSTForm.getInstance();
   if (sTForm.validateForm()) {
     showPreload();
-    create(sTForm.getDataForm());
-    sTForm.inputButtonDisable();
+    if (selectInsertOrUpdate) {
+      create(sTForm.getDataForm());
+    } else {
+      update(sTForm.getDataForm());
+    }
   } else {
     Swal.fire(
       '¡No pudimos hacer esto!',
@@ -141,8 +172,9 @@ function sendData(e, formObj) {
   e.preventDefault();
 }
 
-function showModal(type) {
+function showModal(type) {  
   if (type == 1) {
+    selectInsertOrUpdate = true;
     sTForm = SingletonClassSTForm.getInstance();
     sTForm.inputButtonEnable();
   }
@@ -177,3 +209,40 @@ var SingletonClassSTForm = (function () {
     }
   }
 })();
+
+function getDataId(idData, type) {
+  showPreload();
+  selectInsertOrUpdate = false;
+  formData[primaryId] = idData;
+  url = `${URL_ROUTE}${arRoutes[4]}`;
+  sTForm = SingletonClassSTForm.getInstance();
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        showModal(0);
+        sTForm.setDataForm(response[dataModel]);
+        if(type == 0){
+          sTForm.inputButtonDisable();
+        }
+        else if(type == 1){
+          sTForm.inputButtonEnable();
+        }
+        hidePreload();
+      } else {
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
+      }
+    });
+}
