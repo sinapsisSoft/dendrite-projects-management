@@ -5,12 +5,7 @@ namespace App\Controllers\ProjectUser;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ProjectRequestModel;
-use App\Models\ProjectRequestProductModel;
-use App\Models\ClientModel;
-use App\Models\CountryModel;
 use App\Models\ManagerBrandsModel;
-use App\Models\BrandModel;
-use App\Models\UserModel;
 use App\Models\UserManagerModel;
 
 class ProjectUser extends BaseController
@@ -25,7 +20,7 @@ class ProjectUser extends BaseController
         $this->objModel = new ProjectRequestModel();
         $this->primaryKey = 'ProjReq_id';
         $this->nameModel = 'projectrequest';
-        $this->userId = 24; //Id del usuario logueado
+        $this->userId = 9; //Id del usuario logueado
     }
 
     public function show()

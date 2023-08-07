@@ -410,12 +410,13 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_projectrequest_detail`$$
 CREATE PROCEDURE `sp_select_projectrequest_detail` (IN projReqId INT)   
 BEGIN
-    SELECT ProjReq_id, PR.User_id, U.User_name, ProjReq_name, PR.Brand_id, B.Brand_name, ProjReq_observation, PR.created_at, PR.updated_at, C.Client_name, CT.Country_name 
+    SELECT ProjReq_id, PR.User_id, U.User_name, ProjReq_name, PR.Brand_id, B.Brand_name, ProjReq_observation, PR.created_at, PR.updated_at, C.Client_name, CT.Country_name, PR.Stat_id, S.Stat_name
     FROM project_request PR
     INNER JOIN user U ON PR.User_id = U.User_id
     INNER JOIN brand B ON PR.Brand_id = B.Brand_id
     INNER JOIN user_manager UM ON U.User_id = UM.User_id
     INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    INNER JOIN status S ON PR.Stat_id = S.Stat_id
     INNER JOIN client C ON M.Client_id = C.Client_id
     INNER JOIN country CT ON C.Country_id = CT.Country_id 
     WHERE ProjReq_id = projReqId;

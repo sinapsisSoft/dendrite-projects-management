@@ -37,7 +37,7 @@
                     <a href="<?= base_url() ?>home">Inicio</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    Library
+                  <a href="<?= base_url() ?>report">Reporte General</a>                    
                   </li>
                 </ol>
               </nav>
@@ -49,13 +49,12 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-            <div class="card">
+            <div class="card" style="height: 555px;">
               <div class="card-body">
                 <h5 class="card-title">
-                  REPORTES
+                  REPORTE GENERAL
                 </h5>
-              </div>
-              <div class="modal-header">
+                <iframe width="100%" height="450" src="https://lookerstudio.google.com/embed/reporting/e1cf5df6-4547-41c0-8af1-d42b60ab0a3c/page/AjZRD" frameborder="0" style="border:0" allowfullscreen></iframe>
               </div>
             </div>
           </div>

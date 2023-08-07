@@ -715,7 +715,8 @@ INSERT INTO `status` (`Stat_id`, `Stat_name`, `Stat_description`, `StatType_id`,
 (4, 'Pendiente', '', 4, NULL, '2023-04-18 01:15:33'),
 (5, 'Realizado', '', 4, NULL, '2023-04-18 01:16:20'),
 (6, 'Creado', '', 7, NULL, '2023-04-18 01:16:20'),
-(7, 'Rechazado', '', 7, NULL, '2023-04-18 01:16:20');
+(7, 'Proyecto creado', '', 7, NULL, '2023-04-18 01:16:20'),
+(8, 'Rechazado', '', 7, NULL, '2023-04-18 01:16:20');
 
 -- --------------------------------------------------------
 
