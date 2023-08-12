@@ -32,6 +32,7 @@ $routes->set404Override();
 /**Routes groups*/
 $routes->group('home', ['namespace' => 'App\Controllers\Home'], function ($routes) {
     $routes->get('/', 'Home::show');
+    $routes->post('chart', 'Home::chart');
 });
 
 /**Routes groups*/
