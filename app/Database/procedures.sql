@@ -543,3 +543,9 @@ BEGIN
     END IF;
 END$$
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_select_user_role$$
+CREATE PROCEDURE sp_select_user_role(IN UserId INT)
+BEGIN
+SELECT Role_id FROM user WHERE User_id=UserId;
+END$$

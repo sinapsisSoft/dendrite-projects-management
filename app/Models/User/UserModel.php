@@ -109,4 +109,11 @@ class UserModel extends Model
         $result = $this->db->query($query)->getResult();
         return $result;
     }
+    public function sp_select_user_role(int $userId)
+    {
+        $query = "CALL sp_select_user_role($userId)";
+        $result = $this->db->query($query)->getResult();
+    
+        return $result[0];
+    }
 }
