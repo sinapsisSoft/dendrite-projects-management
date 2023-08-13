@@ -377,7 +377,7 @@
             </div>
           </div>
           <h4 class="page-title text-end">
-            <input type="button" onclick="history.back()" class="btn btn-primary" name="volver atrás" value="volver">
+            <input type="button" onclick="history.back()" class="btn btn-primary" name="volver atrás" value="VOLVER">
           </h4>
         </div>
       </div>

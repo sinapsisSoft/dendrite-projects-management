@@ -67,4 +67,10 @@ class ProjectModel extends Model{
         $result = $this->db->query($query)->getResult();
         return $result;
     }
+
+    function sp_create_general_chart($userId, $roleId, $initialDate, $finalDate){
+        $query = "call sp_create_general_chart($userId, $roleId, '$initialDate', '$finalDate')";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
 }

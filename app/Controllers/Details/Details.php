@@ -9,10 +9,6 @@ use App\Models\UserStatusModel;
 use App\Models\ActivitiesModel;
 use App\Models\ProjectTrackingModel;
 
-
-
-
-
 class Details extends BaseController{
 
 

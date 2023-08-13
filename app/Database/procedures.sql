@@ -187,7 +187,7 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_project_table`$$
 CREATE PROCEDURE `sp_select_all_project_table` ()   
 BEGIN   
- SELECT PRO.Project_id, PRO.Project_code, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at FROM project PRO
+ SELECT PRO.Project_id, PRO.Project_code, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
     INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
     INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
     ORDER BY Project_id DESC;
@@ -259,12 +259,15 @@ END$$
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_percent_project`$$
-CREATE PROCEDURE `sp_select_percent_project` (IN `project_id` INT)   BEGIN
-SELECT 
-	ROUND(SUM(A.Activi_percentage) / COUNT(*)) as percent
+CREATE PROCEDURE `sp_select_percent_project` (IN `projectId` INT)   
+BEGIN
+SET @percent = (SELECT 
+	ROUND(SUM(A.Activi_percentage) / COUNT(*))
 FROM activities A
 INNER JOIN project_product PP ON PP.Project_product_id = A.Project_product_id
-WHERE PP.Project_id = project_id;
+WHERE PP.Project_id = projectId);
+UPDATE project SET Project_percentage = @percent WHERE Project_id = projectId;
+SELECT @percent AS percent;
 END$$
 
 DELIMITER $$
@@ -317,11 +320,22 @@ END$$
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_update_percent_activity`$$
-CREATE PROCEDURE `sp_update_percent_activity` (IN `activity_id` INT)   BEGIN
-SELECT @porcent := ROUND(SUM(SubAct_percentage) / COUNT(*)) as porcent FROM subactivities WHERE Activi_id = activity_id;
-SELECT @porcent;
-update activities set Activi_percentage = @porcent
-WHERE Activi_id = activity_id;
+CREATE PROCEDURE `sp_update_percent_activity` (IN `activityId` INT)   
+BEGIN
+SET @porcent = (SELECT ROUND(SUM(SubAct_percentage) / COUNT(*)) as porcent FROM subactivities WHERE Activi_id = activityId);
+UPDATE activities SET Activi_percentage = @porcent
+WHERE Activi_id = activityId;
+SET @projectId = (SELECT PP.Project_id FROM project_product PP
+                INNER JOIN activities A ON PP.Project_product_id = A.Project_product_id 
+                WHERE A.Activi_id = activityId);
+SET @projectPercent = (SELECT ROUND(SUM(Activi_percentage) / COUNT(*)) as porcent FROM activities A
+                INNER JOIN project_product PP ON A.Project_product_id = PP.Project_product_id
+                WHERE PP.Project_id = @projectId);
+UPDATE project SET Project_percentage = @projectPercent WHERE Project_id = @projectId;
+IF @projectPercent = 100 THEN
+    UPDATE project SET Project_activitiEndDate = NOW() WHERE Project_id = @projectId;
+END IF;
+SELECT @porcent; 
 END$$
 
 DELIMITER $$
@@ -505,3 +519,27 @@ INNER JOIN role_module RM ON RM.Role_mod_id=RMP.Role_mod_id
 WHERE RM.Role_id=(SELECT Role_id FROM USER WHERE User_id=UserId) AND RM.Mod_id=(SELECT Mod_id FROM module WHERE Mod_route=ModRoute);
 END$$
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `sp_create_general_chart`$$
+CREATE PROCEDURE `sp_create_general_chart` (IN userId INT, IN roleId INT, IN initialDate DATE, IN finalDate DATE)   
+BEGIN   
+    SET lc_time_names = 'es_CO';
+    IF roleId = 1 THEN
+        SELECT COUNT(Project_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Client_id, C.Client_name 
+        FROM project P
+        INNER JOIN client C ON P.Client_id = C.Client_id
+        WHERE P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
+        GROUP BY Project_month, C.Client_name
+        ORDER BY P.Project_startDate ASC;
+    ELSE     
+        IF roleId = 4 THEN
+            SELECT COUNT(Project_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Client_id, C.Client_name 
+            FROM project P
+            INNER JOIN client C ON P.Client_id = C.Client_id
+            WHERE Project_commercial = userId AND P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
+            GROUP BY Project_month, C.Client_name
+            ORDER BY P.Project_startDate ASC;                
+        END IF;
+    END IF;
+END$$
+

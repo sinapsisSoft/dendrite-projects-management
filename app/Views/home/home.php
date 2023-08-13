@@ -50,7 +50,30 @@
                 <h5 class="card-title">
                   INICIO
                 </h5>
-                <h6 class="mt-4">Vista en construcción</h6>
+                <form class="form-horizontal mt-3 row justify-content-center" id="objForm">
+                    <div class="col-12 my-4">
+                      <h6 class="m-0 font-weight-bold text-primary">Seleccione el rango de fechas para generar el reporte</h6>
+                    </div>
+                    <div class="col-12 col-md-5">
+                      <label for="initialDate">Fecha Inicial </label>
+                      <input type="date" id="initialDate" value="" class="form-control bg-light border-0">
+                    </div>
+                    <div class="col-10 col-md-5">
+                      <label for="finalDate">Fecha Final </label>
+                      <input type="date" id="finalDate" value="" class="form-control bg-light border-0">
+                    </div>
+                    <div class="col-auto align-self-end">
+                      <button type="submit" class="btn btn-primary" onclick="sendData(event);return false">
+                        <i class="fas fa-search fa-sm"></i>
+                        <div class="ripple-container"></div>
+                      </button>
+                    </div>                    
+                </form>
+                <div class="row reportChart my-4 justify-content-center">
+                  <div id="chart1Report" class="col-sm-12 col-md-10">
+                    <canvas id="chart1" style="width: 100%;"></canvas>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -79,5 +102,10 @@
     </div>
   </div>
   <?= $js ?>
+  <script src="./assets/js/char.min.js"></script>
   <script src="./controllers/home/home.controller.js"></script>
+  <script>
+    var dataJson = [];
+    dataJson = <?= $chart ?>    
+  </script>
 </body>
