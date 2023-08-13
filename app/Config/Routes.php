@@ -36,12 +36,13 @@ $routes->group('home', ['namespace' => 'App\Controllers\Home'], function ($route
 });
 
 /**Routes groups*/
-$routes->group('login', ['namespace' => 'App\Controllers\Auth'], function ($routes) {
+    $routes->group('login', ['namespace' => 'App\Controllers\Auth'], function ($routes) {
     $routes->get('/', 'Login::show');
     //$routes->post('login', 'Login::login');
     $routes->post('check', 'Login::signin', ['as' => 'signin']);
     $routes->post('checkUserEmail', 'Login::validateUserEmail', ['as' => 'validateUserEmail']);
     $routes->get('logout', 'Login::signout', ['as' => 'signout']);
+    $routes->get('passwChange', 'Login::changePassword', ['as' => 'changePassword']);
 });
 
 /**Routes groups*/

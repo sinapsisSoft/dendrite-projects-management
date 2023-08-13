@@ -65,7 +65,7 @@ class Login extends BaseController
         $userEmail = trim($this->request->getVar('User_email'));
         $userPassword = trim($this->request->getVar('User_password'));
 
-        $model = model('UserModel');
+        $model=new UserModel();
         if (!$user = $model->getUserBy('User_email', $userEmail)) {
             return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Usuario no registrado en el sistema']);
         } else {
@@ -96,7 +96,7 @@ class Login extends BaseController
         }
         $userEmail = trim($this->request->getVar('User_email'));
 
-        $model = model('UserModel');
+        $model = new UserModel();
         if (!$user = $model->getUserBy('User_email', $userEmail)) {
 
             $data['message'] = 'success';
@@ -110,19 +110,18 @@ class Login extends BaseController
             $date = new DateTimeImmutable();
             $expire_at = $date->modify('+6 minutes')->getTimestamp(); // Add 60 seconds
             $domainName = "https://www.sinapsist.com.co";
-            $username = "sinapsist";
+            $userId = $user['User_id'];
             $payload = [
                 'iat'  => $date->getTimestamp(),         // Issued at: time when the token was generated
                 'iss'  => $domainName,                   // Issuer
                 'nbf'  => $date->getTimestamp(),         // Not before
                 'exp'  => $expire_at,                    // Expire
-                'userName' => $username,                 // User name
+                'User_id' => $userId,                    // User id
             ];
 
             $jwt = JWT::encode($payload, $key, 'HS256');
             
-            // $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
-            //print_r($decoded);
+           
             
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
@@ -139,5 +138,21 @@ class Login extends BaseController
     {
         session()->destroy();
         return redirect()->route('login');
+    }
+
+    public function changePassword(){
+        $key = 'example_key';
+       // if (!session()->is_logged) {
+            $data['token'] =$this->request->getVar('changePassword');  
+            $data['title'] = 'Change Password';
+            $data['meta'] = view('assets/meta');
+            $data['css'] = view('assets/css');
+            $data['js'] = view('assets/js');
+           // return view('auth/changePassword', $data);
+    
+            $decoded = JWT::decode($data['token'], new Key($key, 'HS256'));
+            print_r($decoded);
+        //}
+        //return redirect()->route('dashboard');
     }
 }
