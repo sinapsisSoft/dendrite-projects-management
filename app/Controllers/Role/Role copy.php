@@ -4,9 +4,11 @@ namespace App\Controllers\Role;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\Role\RoleModel;
-
-
+use App\Models\UserRole\UserRoleModel;
+use App\Models\RoleModule\RoleModuleModel;
+use App\Models\RoleModulePermit\RoleModulePermitModel;
+use App\Models\Permit\PermitModel;
+use App\Models\Module\ModuleModel;
 
 class Role extends BaseController
 {
@@ -18,14 +20,17 @@ class Role extends BaseController
 
     public function __construct()
     {
-        $this->objModel = new RoleModel();
+        $this->objModel = new UserRoleModel();
+        $this->roleModule = new RoleModuleModel();
+        $this->roleModulePermit = new RoleModulePermitModel();
         $this->primaryKey = "Role_id";
         $this->nameModel = "roles";
     }
 
     public function show()
     {
-       
+        $permits = new PermitModel();
+        $modules = new ModuleModel();
 
         $data['title'] = 'Roles';
         $data['meta'] = view('assets/meta');
@@ -37,8 +42,10 @@ class Role extends BaseController
         $data['header'] = view('header/header');
         $data['footer'] = view('footer/footer');
 
-        $data[$this->nameModel] = $this->objModel->getRoleAll();
-          
+        $data[$this->nameModel] = $this->objModel->findAll();
+        $data['permits'] = $permits->findAll();
+        $data['modules'] = $modules->findAll();
+
         return view('role/role', $data);
     }
 
@@ -47,6 +54,8 @@ class Role extends BaseController
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL);
             if ($this->objModel->insert($dataModel)) {
+                $roleId = $this->objModel->insertID();
+                $this->save_module_role($roleId);
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['data'] = $dataModel;
@@ -69,7 +78,9 @@ class Role extends BaseController
         try {
             $today = date("Y-m-d H:i:s");
             $id = $this->request->getVar($this->primaryKey);
+            $this->roleModule->sp_delete_role_module($id);
             $data = $this->getDataModel($id);
+            $this->save_module_role($id);
             $data['updated_at'] = $today;
             $this->objModel->update($id, $data);
             $data['message'] = 'success';
@@ -84,14 +95,28 @@ class Role extends BaseController
         return json_encode($data);
     }
 
+    public function save_module_role($roleId)
+    {
+        $modules = $this->request->getVar('modules');
+        foreach ($modules as $module) {
+            $object = explode(";", $module);
+            $this->roleModule->insert(["Role_id" => $roleId, "Mod_id" => $object[0]]);
+            $roleModuleId = $this->roleModule->insertID();
+            $permits = explode(",", $object[1]);
+            foreach ($permits as $permit) {
+                $this->roleModulePermit->insert(["Perm_id" => $permit, "Role_mod_id" => $roleModuleId]);
+            }
+        }
+    }
+
     public function edit()
     {
         try {
             $id = $this->request->getVar($this->primaryKey);
-            $getDataRole = $this->objModel->where($this->primaryKey, $id)->first();
+            $getDataId = $this->objModel->where($this->primaryKey, $id)->first();
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
-            $data['data'] = $getDataRole;
+            $data['data'] = ["role" => $getDataId, "modules" => $this->objModel->sp_select_modules_role($id)];
             $data['csrf'] = csrf_hash();
         } catch (\Exception $e) {
             $data['message'] = $e;
@@ -105,6 +130,7 @@ class Role extends BaseController
     {
         try {
             $id = $this->request->getVar($this->primaryKey);
+            $this->roleModule->sp_delete_role_module($id);
             if ($this->objModel->where($this->primaryKey, $id)->delete($id)) {
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
@@ -128,7 +154,6 @@ class Role extends BaseController
         $data = [
             'Role_id' => $getShares,
             'Role_name' => $this->request->getVar('Role_name'),
-            'Role_description' => $this->request->getVar('Role_description'),
             'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;

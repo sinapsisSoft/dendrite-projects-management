@@ -143,7 +143,7 @@ class Login extends BaseController
     public function changePassword(){
         $key = 'example_key';
        // if (!session()->is_logged) {
-            $data['token'] =$this->request->getVar('changePassword');  
+        if(!empty($data['token'] =$this->request->getVar('changePassword'))){  
             $data['title'] = 'Change Password';
             $data['meta'] = view('assets/meta');
             $data['css'] = view('assets/css');
@@ -151,7 +151,8 @@ class Login extends BaseController
            // return view('auth/changePassword', $data);
     
             $decoded = JWT::decode($data['token'], new Key($key, 'HS256'));
-            print_r($decoded);
+            var_dump($decoded);
+        }
         //}
         //return redirect()->route('dashboard');
     }
