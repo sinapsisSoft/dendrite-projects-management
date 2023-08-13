@@ -4,10 +4,10 @@ namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\UserModel;
-use App\Models\UserRole;
-use App\Models\UserStatusModel;
-use App\Models\CompanyModel;
+use App\Models\User\UserModel;
+use App\Models\UserRole\UserRoleModel;
+use App\Models\UserStatus\UserStatusModel;
+use App\Models\Company\CompanyModel;
 
 
 class User extends BaseController
@@ -19,7 +19,7 @@ class User extends BaseController
 
     public function __construct()
     {
-        $this->objModel = new UserModel();
+       $this->objModel = new UserModel();
         $this->primaryKey = 'User_id';
         $this->nameModel = 'users';
     }
@@ -31,19 +31,20 @@ class User extends BaseController
 */
     public function show()
     {
-        $role = new UserRole();
+        $role = new UserRoleModel();
         $status = new UserStatusModel();
         $company = new CompanyModel();
         $data['title'] = 'Usuarios';
+        $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
         
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
 
-        $data[$this->nameModel] = $this->objModel->sp_select_all_users();
+       $data[$this->nameModel] = $this->objModel->sp_select_all_users();
         
         $data['roles'] = $role->orderBy('Role_id', 'ASC')->findAll();
         $data['status'] = $status->sp_select_status_users();

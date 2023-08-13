@@ -3,7 +3,7 @@ namespace App\Controllers\Email;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\EmailModel;
+use App\Models\Email\EmailModel;
 
 class Email extends BaseController{
     private $objModel;
@@ -19,13 +19,14 @@ class Email extends BaseController{
 
     public function show(){
         $data['title'] = 'Correo Electronico';
+        $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
-        $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+      $data['sidebar'] = view('navbar/sidebar');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
         $emails = $this->objModel->first();
         if (empty($emails)) {
             $data[$this->nameModel] = null;

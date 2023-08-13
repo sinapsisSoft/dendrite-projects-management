@@ -31,14 +31,16 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 /**Routes groups*/
 $routes->group('home', ['namespace' => 'App\Controllers\Home'], function ($routes) {
-    $routes->get('/', 'Home::show');
+    $routes->get('/', 'Home::show',['as'=>'dashboard']);
 });
 
 /**Routes groups*/
 $routes->group('login', ['namespace' => 'App\Controllers\Auth'], function ($routes) {
     $routes->get('/', 'Login::show');
-    $routes->post('login', 'Login::login');
-    //$routes->post("api/login", "Login::index");
+    //$routes->post('login', 'Login::login');
+    $routes->post('check', 'Login::signin', ['as' => 'signin']);
+    $routes->post('checkUserEmail', 'Login::validateUserEmail', ['as' => 'validateUserEmail']);
+    $routes->get('logout', 'Login::signout', ['as' => 'signout']);
 });
 
 /**Routes groups*/
@@ -235,7 +237,7 @@ $routes->group('projectproduct', ['namespace' => 'App\Controllers\ProjectProduct
 });
 
 $routes->group('details', ['namespace' => 'App\Controllers\Details'], function ($routes) {
-    $routes->get('/', 'Details::show'); 
+    $routes->get('/', 'Details::show');
 });
 
 $routes->group('detailsclient', ['namespace' => 'App\Controllers\DetailsClient'], function ($routes) {
@@ -270,8 +272,8 @@ $routes->group('priorities', ['namespace' => 'App\Controllers\Priorities'], func
 // $routes->group('/', ['namespace' => 'App\Controllers\Home'], function ($routes) {
 //     $routes->get('/', 'Home::show');
 // });
- 
- 
+
+
 
 
 

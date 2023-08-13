@@ -3,7 +3,7 @@ namespace App\Controllers\Priorities;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\PrioritiesModel;
+use App\Models\Priorities\PrioritiesModel;
 
 
 class Priorities extends BaseController{
@@ -20,13 +20,14 @@ class Priorities extends BaseController{
 
     public function show(){
         $data['title'] = 'Prioridades';
+        $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
 
         $data[$this->nameModel] = $this->objModel->findAll();
         return view('priorities/priorities', $data);

@@ -4,15 +4,16 @@ namespace App\Controllers\Project;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProjectModel;
-use App\Models\ClientModel;
-use App\Models\CountryModel;
-use App\Models\UserModel;
-use App\Models\UserStatusModel;
-use App\Models\ManagerModel;
-use App\Models\BrandModel;
-use App\Models\MailModel;
-use App\Models\PrioritiesModel;
+use App\Models\Project\ProjectModel;
+use App\Models\Client\ClientModel;
+use App\Models\Country\CountryModel;
+use App\Models\User\UserModel;
+use App\Models\UserStatus\UserStatusModel;
+
+use App\Models\Manager\ManagerModel;
+use App\Models\Brand\BrandModel;
+use App\Models\Mail\MailModel;
+use App\Models\Priorities\PrioritiesModel;
 use App\Utils\Email;
 
 class Project extends BaseController
@@ -39,12 +40,13 @@ class Project extends BaseController
         $country = new CountryModel();
 
         $data['title'] = 'Proyectos';
+        $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
 
         $data[$this->nameModel] = $this->objModel->sp_select_all_project_table();
         $data['clients'] = $client->findAll();

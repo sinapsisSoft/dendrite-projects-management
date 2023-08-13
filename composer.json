@@ -7,7 +7,7 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "codeigniter4/framework": "^4.3",
-        "firebase/php-jwt": "^6.3",
+        "firebase/php-jwt": "^6.8",
         "phpmailer/phpmailer": "^6.8.0"
     },
     "require-dev": {
