@@ -21,4 +21,5 @@ class RoleModel extends Model{
         $result = $this->db->query($query)->getResult();
         return $result;
     }
+    
 }

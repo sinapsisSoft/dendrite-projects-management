@@ -70,6 +70,15 @@ $routes->group('role', ['namespace' => 'App\Controllers\Role'], function ($route
     $routes->post('update', 'Role::update');
 });
 
+$routes->group('rolepermissions', ['namespace' => 'App\Controllers\RolePermissions'], function ($routes) {
+    $routes->get('/', 'RolePermissions::show');
+    //$routes->post('create', 'RolePermissions::create');
+    //$routes->post('delete', 'RolePermissions::delete');
+    //$routes->post('edit', 'RolePermissions::edit');
+    //$routes->post('update', 'RolePermissions::update');
+     $routes->post('getModules', 'RolePermissions::getModules');
+});
+
 $routes->group('module', ['namespace' => 'App\Controllers\Module'], function ($routes) {
     $routes->get('/', 'Module::show');
     $routes->post('create', 'Module::create');
@@ -271,9 +280,7 @@ $routes->group('priorities', ['namespace' => 'App\Controllers\Priorities'], func
 
 });
 
-// $routes->group('/', ['namespace' => 'App\Controllers\Home'], function ($routes) {
-//     $routes->get('/', 'Home::show');
-// });
+
 
 
 

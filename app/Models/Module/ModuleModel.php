@@ -12,6 +12,18 @@ class ModuleModel extends Model{
     "Mod_name", 
     "Mod_description", 
     "Mod_route", 
+    "updated_at",
     "created_at"];
     protected $updatedField = 'updated_at';
+
+    function getModuleAll(){
+        $query = "SELECT * FROM module WHERE Mod_parent IS NULL ORDER BY Mod_name;";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
+    function sp_select_module_id($idModule){
+        $query = "CALL sp_select_module_id($idModule)";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
 }

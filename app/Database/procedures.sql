@@ -549,3 +549,11 @@ CREATE PROCEDURE sp_select_user_role(IN UserId INT)
 BEGIN
 SELECT Role_id FROM user WHERE User_id=UserId;
 END$$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_select_module_id$$
+CREATE PROCEDURE sp_select_module_id(IN ModId INT)
+BEGIN
+SELECT * FROM module WHERE Mod_parent=ModId OR Mod_id=ModId 
+ORDER BY Mod_parent ASC;
+END$$
