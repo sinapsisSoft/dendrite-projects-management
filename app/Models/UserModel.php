@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use CodeIgniter\HTTP\ResponseInterface;
-
 use CodeIgniter\Model;
 use Exception;
 
@@ -13,14 +12,15 @@ class UserModel extends Model
     protected $table = 'user';
     protected $primaryKey = 'User_id';
     protected $allowedFields = [
-    'User_id', 
-    'User_name',
-    'User_email', 
-    'User_password', 
-    'Comp_id', 
-    'Stat_id', 
-    'Role_id',
-    'updated_at'];
+        'User_id',
+        'User_name',
+        'User_email',
+        'User_password',
+        'Comp_id',
+        'Stat_id',
+        'Role_id',
+        'updated_at'
+    ];
 
     protected $updatedField = 'updated_at';
     protected $beforeInsert = ['beforeInsert'];
@@ -78,7 +78,7 @@ class UserModel extends Model
         }
         return $user;
     }
-    
+
     public function findUserByEmailPassword(string $emailAddress, string $password)
     {
         $this->select('User_id');
@@ -91,5 +91,29 @@ class UserModel extends Model
         }
         return $user;
     }
+    public function getUserBy(string $column, string $value)
+    {
+        return $this->where($column, $value)->first();
+    }
 
+    public function sp_select_user_modules(int $userId)
+    {
+        $query = "CALL sp_select_user_modules($userId)";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
+
+    public function sp_select_role_module_permit(int $userId, string $moduleName)
+    {
+        $query = "CALL sp_select_role_module_permit($userId,'$moduleName')";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
+    public function sp_select_user_role(int $userId)
+    {
+        $query = "CALL sp_select_user_role($userId)";
+        $result = $this->db->query($query)->getResult();
+    
+        return $result[0]->Role_id;
+    }
 }
