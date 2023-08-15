@@ -372,7 +372,7 @@ DROP PROCEDURE IF EXISTS `sp_insert_user_manager`$$
 CREATE PROCEDURE `sp_insert_user_manager` (IN `managerId` INT)   
 BEGIN
     INSERT INTO user(User_name, User_email, User_password, Comp_id, Stat_id, Role_id)
-    SELECT M.Manager_name, M.Manager_email, '', C.Comp_id, 1, 5
+    SELECT M.Manager_name, M.Manager_email, '', C.Comp_id, 1, 4
     FROM manager M
     INNER JOIN client CL ON M.Client_id = CL.Client_id
     INNER JOIN company C ON CL.Comp_id = C.Comp_id
