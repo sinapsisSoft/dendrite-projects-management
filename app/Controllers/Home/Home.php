@@ -15,8 +15,8 @@ class Home extends BaseController{
     public function __construct()
     {
         $this->objModel = new ProjectModel();
-        $this->userId = 24; //Id del usuario logueado
-        $this->roleId = 4; //Id del rol logueado
+        $this->userId = 2;//1;//9;//4; //Id del usuario logueado
+        $this->roleId = 1;//2;//4;//3; //Id del rol logueado
     }
 
     public function show(){

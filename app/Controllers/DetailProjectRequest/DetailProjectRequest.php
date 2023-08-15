@@ -53,6 +53,7 @@ class DetailProjectRequest extends BaseController
     {
         try {
             $projectModel = new ProjectModel();
+            $today = date("Y-m-d H:i:s");
             $projectRequestId = $this->request->getVar($this->primaryKey);
             $result = $this->objModel->sp_insert_projectRequest($projectRequestId);
             $projectId = $result[0]->Project_id;            
@@ -61,7 +62,8 @@ class DetailProjectRequest extends BaseController
                 'Project_code' => $codeProject,
                 'Project_commercial' => $this->request->getVar('Project_commercial'),
                 'User_id' => $this->request->getVar('User_id'),
-                'Priorities_id' => $this->request->getVar('Priorities_id')
+                'Priorities_id' => $this->request->getVar('Priorities_id'),
+                'Project_startDate' => $today
             ];
             $projectModel->update($projectId, $dataProject);
             $dataRequest = [

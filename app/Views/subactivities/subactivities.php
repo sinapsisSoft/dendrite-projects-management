@@ -349,7 +349,7 @@
                         </div>
                         <div class="mb-3 col-4">
                           <label for="SubAct_estimatedEndDate">Fecha estimada de entrega</label>
-                          <input type="date" class="form-control form-disabled" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="">
+                          <input type="date" class="form-control form-disabled" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" required>
                         </div>
                         <div class="mb-3 col-4">
                           <label for="Stat_id">Estado</label>

@@ -45,7 +45,7 @@ function hidePreload() {
   $(".preloader").fadeOut();
 }
 
-// document.onload = showModal(); DESCOMENTARIAR CUANDO SE TRERMINE DE TRABAJAR LAS GRÁFICAS
+document.onload = showModal();
 
 modalObj.addEventListener('hidden.bs.modal', function (event) {
   videoObj.pause();
