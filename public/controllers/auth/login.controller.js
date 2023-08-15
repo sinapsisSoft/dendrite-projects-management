@@ -16,7 +16,6 @@ $("#to-recover").on("click", function () {
     $("#loginform").slideUp();
     $("#recoverform").fadeIn();
 });
-
 $("#to-login").click(function () {
     $("#recoverform").fadeOut();
     $("#loginform").slideDown();
@@ -27,7 +26,7 @@ $("#to-login").click(function () {
 // ==============================================================
 
 var sTForm = null;
-var arRoutes = new Array('login', 'checkUserEmail');
+var arRoutes = new Array('login');
 var arMessages = new Array('Validate the entered username and password data');
 var ruteContent = "login/";
 var dataModel = 'data';
@@ -64,7 +63,6 @@ function sendDataLogin(e, formObj) {
 function recoveryPassword(e, formObj) {
     let obj = formObj;
     sTForm = new STForm(obj);
-    validateEmailUser(sTForm.getDataForm());
     sTForm.clearDataForm(obj);
     sTForm.inputButtonDisable();
     e.preventDefault();
@@ -91,7 +89,6 @@ function viewInputPassword(inputId, iconId) {
         icon.classList.remove(iconInActivie);
     }
 }
-
 /*
 *Ahutor:DIEGO CASALLAS
 *Busines: SINAPSIS TECHNOLOGIES
@@ -113,44 +110,6 @@ function getDataLogin(formData) {
         .then(response => {
             if (response[dataResponse] == 200) {
                 console.log(response[dataModel]);
-            } else {
-                console.log(arMessages[0]);
-            }
-            sTForm.inputButtonEnable();
-        });
-}
-
-/*
-*Ahutor:DIEGO CASALLAS
-*Busines: SINAPSIS TECHNOLOGIES
-*Date:31/01/2023
-*Description:This function send data login validate
-*/
-function validateEmailUser(formData) {
-    url = URL_ROUTE + arRoutes[1];
-    fetch(url, {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest"
-        }
-    })
-        .then(response => response.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => {
-            if (response[dataResponse] == 200) {
-                var objResult = document.getElementById('ResultFeedback');
-                if (response[dataModel] == null) {
-                    objResult.innerHTML = "Error : Usuario no registrado";
-                    objResult.classList.remove('valid-feedback');
-                    objResult.classList.add('invalid-feedback');
-                } else {
-                    objResult.innerHTML = "Ok : Correo envíado";
-                    objResult.classList.add('valid-feedback');
-                    objResult.classList.remove('invalid-feedback');
-                    console.log(response[dataModel]);
-                }
             } else {
                 console.log(arMessages[0]);
             }

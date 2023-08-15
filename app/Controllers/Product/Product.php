@@ -4,11 +4,11 @@ namespace App\Controllers\Product;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\Product\ProductModel;
-use App\Models\Filing\FilingModel;
-use App\Models\ProductBrand\ProductBrandModel;
-use App\Models\ProductType\ProductTypeModel;
-use App\Models\Unit\UnitModel;
+use App\Models\ProductModel;
+use App\Models\FilingModel;
+use App\Models\ProductBrandModel;
+use App\Models\ProductTypeModel;
+use App\Models\UnitModel;
 
 
 class Product extends BaseController
@@ -29,14 +29,13 @@ class Product extends BaseController
         $filing = new FilingModel();
         $productbrand = new ProductBrandModel();
         $data['title'] = 'Productos';
-        $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('header/header');
-        $data['footer'] = view('footer/footer');
+        $data['header'] = view('navbar/header');
+        $data['footer'] = view('navbar/footer');
 
         $data[$this->nameModel] = $this->objModel->findAll();
         $data['filings'] = $filing->findAll();

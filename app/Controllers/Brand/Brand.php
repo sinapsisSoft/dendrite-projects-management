@@ -3,8 +3,8 @@ namespace App\Controllers\Brand;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\Brand\BrandModel;
-use App\Models\Client\ClientModel;
+use App\Models\BrandModel;
+use App\Models\ClientModel;
 use App\Models\ManagerBrandsModel;
 use App\Models\ManagerModel;
 

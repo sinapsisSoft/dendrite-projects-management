@@ -7,7 +7,7 @@ $("#table_obj").DataTable({
 });
 
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Revise la información suministrada', 'Rol creado exitosamente', 'Rol actualizado exitosamente', 'Rol eliminado exitosamente', 'El Rol no pudo ser eliminado. Revise si éste está siendo usado por algún usuario.');
+const arMessages = new Array('Revise la información suministrada',  'Rol creado exitosamente', 'Rol actualizado exitosamente', 'Rol eliminado exitosamente', 'El Rol no pudo ser eliminado. Revise si éste está siendo usado por algún usuario.');
 const ruteContent = "role/";
 const nameModel = 'roles';
 const dataModel = 'data';
@@ -30,10 +30,45 @@ var assignmentAction = 0;
 var formData = new Object();
 var selectInsertOrUpdate = true;
 
+function toggleModule(moduleId, permitId) {
+  const exists = 0
+  const indexAcces = findAcces(moduleId)
+  if (indexAcces >= exists) {
+    const existsPermissionByAcces = findPermissionByAccessId(indexAcces, permitId);
+    if (existsPermissionByAcces) deletePermission(indexAcces, permitId)
+    else addPermission(indexAcces, permitId)
+  } else {
+    const module = { accesId: moduleId, permissions: [] }
+    module.permissions.push(permitId)
+    modules.push(module)
+  }
+}
+
+const findAcces = (accessId) => modules.findIndex(acces => +acces.accesId === accessId)
+
+const findPermissionByAccessId = (index, permissionId) =>
+  !!modules[index]?.permissions.find(
+    (permission) => +permission === permissionId
+  )
+
+const addPermission = (index, permission) => {
+  modules[index].permissions.push(permission)
+}
+
+const deletePermission = (index, permission) => {
+  const permissions = modules[index].permissions
+  modules[index].permissions = permissions.filter(p => +p !== permission)
+  const totalPermissions = modules[index].permissions.length;
+  if (totalPermissions === 0) modules.splice(index, 1);
+}
+
+function convertModuleToObjectPhp() {
+  return modules.map(module => `${module.accesId};${module.permissions.join(',')}`)
+}
 
 function create(formData) {
   url = URL_ROUTE + arRoutes[0];
-  console.log(JSON.stringify(formData));
+  formData.modules = convertModuleToObjectPhp();
   fetch(url, {
     method: "POST",
     body: JSON.stringify(formData),
@@ -54,9 +89,9 @@ function create(formData) {
           timer: 1500
         });
         hideModal();
-        setTimeout(function () {
+        setTimeout(function(){
           window.location.reload();
-        }, 2000);
+        }, 2000); 
       } else {
         Swal.fire(
           '¡No pudimos hacer esto!',
@@ -71,6 +106,7 @@ function create(formData) {
 
 function update(formData) {
   url = URL_ROUTE + arRoutes[2];
+  formData.modules = convertModuleToObjectPhp();
   fetch(url, {
     method: "POST",
     body: JSON.stringify(formData),
@@ -91,9 +127,9 @@ function update(formData) {
           timer: 1500
         });
         hideModal();
-        setTimeout(function () {
+        setTimeout(function(){
           window.location.reload();
-        }, 2000);
+        }, 2000); 
       } else {
         Swal.fire(
           '¡No pudimos hacer esto!',
@@ -140,9 +176,9 @@ function delete_(id) {
               showConfirmButton: false,
               timer: 1500
             });
-            setTimeout(function () {
+            setTimeout(function(){
               window.location.reload();
-            }, 2000);
+            }, 2000);     
           } else {
             Swal.fire(
               '¡No pudimos hacer esto!',
@@ -196,14 +232,22 @@ function getDataId(idData, type) {
     .then(response => {
       if (response[dataResponse] == 200) {
         showModal(0);
-        sTForm.setDataForm(response[dataModel]);
-        if (type == 0) {
+        convertResponseToObject(response[dataModel].modules);
+        const checkbox = document.querySelectorAll('input[type="checkbox"]');
+        checkbox.forEach(item => {
+          const moduleId = item.getAttribute('module-id');
+          const permitId = item.getAttribute('value');
+          const isChecked = isExistsPermitByModuleId(moduleId, permitId);
+          isChecked ? item.setAttribute('checked', true) : item.removeAttribute('checked');
+        })
+        sTForm.setDataForm(response[dataModel].role);
+        if(type == 0){
           sTForm.inputButtonDisable();
         }
-        else if (type == 1) {
+        else if(type == 1){
           sTForm.inputButtonEnable();
-
-        }
+          idData > 0 && idData < 6 ? document.getElementById("Role_name").setAttribute("disabled", true) : document.getElementById("Role_name").removeAttribute("disabled");
+        } 
         hidePreload();
       } else {
         Swal.fire(
@@ -213,16 +257,33 @@ function getDataId(idData, type) {
         );
       }
     });
-
 }
 
+function isExistsPermitByModuleId(moduleId, permitId) {
+  const module = modules.find(module => module.accesId === moduleId);
+  if (module) return module.permissions.includes(permitId);
+  return false;
+}
+
+function convertResponseToObject(moduleResponse) {
+  modules = moduleResponse.map(response => {
+    return {
+      accesId: response.mod_id,
+      permissions: response.permits ? response.permits.split(',') : []
+    }
+  })
+}
 
 function hideModal() {
   $(myModalObjec).modal("hide");
+  const checkbox = document.querySelectorAll('input[type="checkbox"]');
+  checkbox.forEach(checkbox => checkbox.setAttribute('disabled', false))
 }
 
 function showModal(type) {
   if (type == 1) {
+    const checkbox = document.querySelectorAll('input[type="checkbox"]');
+    checkbox.forEach(item => item.removeAttribute('checked'))
     modules = []
     sTForm = SingletonClassSTForm.getInstance();
     sTForm.inputButtonEnable();
@@ -257,3 +318,4 @@ var SingletonClassSTForm = (function () {
   }
 })();
 
+// Los primeros 4 roles no puedan ser eliminados ni cambiados el nombre

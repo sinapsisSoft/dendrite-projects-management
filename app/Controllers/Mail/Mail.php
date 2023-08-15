@@ -4,7 +4,7 @@ namespace App\Controllers\Mail;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\Mail\MailModel;
+use App\Models\MailModel;
 
 class Mail extends BaseController
 {
@@ -22,14 +22,13 @@ class Mail extends BaseController
     public function show()
     {
         $data['title'] = 'Correo';
-        $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('header/header');
-        $data['footer'] = view('footer/footer');
+        $data['header'] = view('navbar/header');
+        $data['footer'] = view('navbar/footer');
         $mails = $this->objModel->first();
         if (empty($mails)) {
             $data[$this->nameModel] = null;

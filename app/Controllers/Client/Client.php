@@ -3,11 +3,11 @@ namespace App\Controllers\Client;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\Client\ClientModel;
-use App\Models\Company\CompanyModel;
-use App\Models\DocTypeModel\DocTypeModel;
-use App\Models\UserStatus\UserStatusModel;
-use App\Models\Country\CountryModel;
+use App\Models\ClientModel;
+use App\Models\CompanyModel;
+use App\Models\DocTypeModel;
+use App\Models\UserStatusModel;
+use App\Models\CountryModel;
 
 
 class Client extends BaseController{
@@ -28,14 +28,13 @@ class Client extends BaseController{
         $company = new CompanyModel();
         $country = new CountryModel();
         $data['title'] = 'Clientes';
-        $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('header/header');
-        $data['footer'] = view('footer/footer');
+        $data['header'] = view('navbar/header');
+        $data['footer'] = view('navbar/footer');
 
         $data[$this->nameModel] = $this->objModel->findAll();
         $data['doctypes'] = $doctype->findAll();

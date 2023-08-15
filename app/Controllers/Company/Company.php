@@ -3,7 +3,7 @@ namespace App\Controllers\Company;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\Company\CompanyModel;
+use App\Models\CompanyModel;
 use App\Models\DocTypeModel;
 use App\Models\UserStatusModel;
 
@@ -24,14 +24,13 @@ class Company extends BaseController{
         $doctype = new DocTypeModel();
         $userstatus = new UserStatusModel();
         $data['title'] = 'Empresas';
-        $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('header/header');
-        $data['footer'] = view('footer/footer');
+        $data['header'] = view('navbar/header');
+        $data['footer'] = view('navbar/footer');
 
         $data[$this->nameModel] = $this->objModel->findAll();
         $data['doctypes'] = $doctype->findAll();

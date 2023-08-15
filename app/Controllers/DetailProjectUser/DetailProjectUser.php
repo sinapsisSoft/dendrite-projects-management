@@ -3,11 +3,11 @@ namespace App\Controllers\DetailProjectUser;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\Product\ProductModel;
-use App\Models\ManagerBrands\ManagerBrandsModel;
-use App\Models\ProjectRequest\ProjectRequestModel;
-use App\Models\UserManager\UserManagerModel;
-use App\Models\ProjectRequestProduct\ProjectRequestProductModel;
+use App\Models\ProductModel;
+use App\Models\ManagerBrandsModel;
+use App\Models\ProjectRequestModel;
+use App\Models\UserManagerModel;
+use App\Models\ProjectRequestProductModel;
 
 
 class DetailProjectUser extends BaseController{
@@ -24,7 +24,7 @@ class DetailProjectUser extends BaseController{
         $this->projectRequestProduct = new ProjectRequestProductModel();
         $this->primaryKey = 'ProjReq_id';
         $this->nameModel = 'projects';
-        $this->userId = session()->UserId;
+        $this->userId = 9; //Id del usuario logueado
     }
 
     public function show(){
@@ -34,14 +34,13 @@ class DetailProjectUser extends BaseController{
         $projectRequestId = $this->request->getGet('projectRequestId');
 
         $data['title'] = 'Detalles';
-        $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('header/header');
-        $data['footer'] = view('footer/footer');
+        $data['header'] = view('navbar/header');
+        $data['footer'] = view('navbar/footer');
         $managerId = $usermanager->where('User_id',$this->userId)->findAll();
         $managerId = $managerId[0]['Manager_id']; 
         $data['brands'] = $brandModel->sp_select_manager_brands($managerId);
