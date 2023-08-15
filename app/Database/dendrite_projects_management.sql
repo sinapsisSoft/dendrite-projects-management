@@ -646,10 +646,9 @@ CREATE TABLE IF NOT EXISTS `role` (
 
 INSERT INTO `role` (`Role_id`, `Role_name`, `Role_description`, `updated_at`, `created_at`) VALUES
 (1, 'Administrator', 'Administrator', NULL, '2023-01-30 21:50:45'),
-(2, 'Cliente', 'Cliente', NULL, '2023-02-27 21:37:10'),
-(3, 'Colaborador', '', NULL, '2023-03-21 10:20:16'),
-(4, 'Comercial', '', NULL, '2023-04-19 16:06:49'),
-(5, 'Gerente de marca', '', NULL, '2023-04-19 16:06:49');
+(2, 'Colaborador', '', NULL, '2023-03-21 10:20:16'),
+(3, 'Comercial', '', NULL, '2023-04-19 16:06:49'),
+(4, 'Gerente de marca', '', NULL, '2023-04-19 16:06:49');
 
 -- --------------------------------------------------------
 

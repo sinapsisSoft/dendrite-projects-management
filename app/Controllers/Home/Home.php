@@ -15,8 +15,8 @@ class Home extends BaseController{
     public function __construct()
     {
         $this->objModel = new ProjectModel();
-        $this->userId = 25; //Id del usuario logueado
-        $this->roleId = 4; //Id del usuario logueado
+        $this->userId = 24; //Id del usuario logueado
+        $this->roleId = 5; //Id del rol logueado
     }
 
     public function show(){
@@ -25,18 +25,19 @@ class Home extends BaseController{
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
         $initialDate = $today->modify('first day of this month')->format("Y-m-d");
-        $finalDate = $today->modify('last day of this month')->format("Y-m-d");
+        $finalDate = $today->modify('last day of this month')->format("Y-m-d");        
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
         $data['header'] = view('navbar/header');
         $data['footer'] = view('navbar/footer');
         $result = $this->objModel->sp_create_general_chart($this->userId, $this->roleId, $initialDate, $finalDate);
+        $data['reportName'] = $this->reportTitle($this->roleId);
         if (count($result) > 0){
             $data['chart'] = json_encode($result);
         }
         else {
-            $data['chart'] = "";
+            $data['chart'] = 0;
         }
 
         return view('home/home', $data);
@@ -50,8 +51,9 @@ class Home extends BaseController{
             if (count($result) > 0) {
                 $data['data'] = $result;
             } else {
-                $data['data'] = "";
+                $data['data'] = 0;
             }
+            $data['reportName'] = $this->reportTitle($this->roleId);
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
             $data['csrf'] = csrf_hash();
@@ -60,6 +62,28 @@ class Home extends BaseController{
             $data['response'] = ResponseInterface::HTTP_CONFLICT;
         }
         return json_encode($data);
+    }
+
+    public function reportTitle($roleId){
+        $reportName = "";
+        switch ($roleId) {
+            case 1: 
+                $reportName = "PROYECTOS POR CLIENTE";
+                break;
+            case 2: 
+                $reportName = "SUBACTIVIDADES POR CLIENTE";
+                break;
+            case 3: 
+                $reportName = "PROYECTOS POR CLIENTE";
+                break;
+            case 4: 
+                $reportName = "PROYECTOS POR MARCA";
+                break;
+            default:
+                $reportName = "SUBACTIVIDADES POR CLIENTE";
+                break;
+        }
+        return $reportName;
     }
 
     public function getDataModel()

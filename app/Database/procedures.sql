@@ -237,14 +237,16 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_users_collaborator`$$
 CREATE PROCEDURE `sp_select_all_users_collaborator` ()   
 BEGIN
-SELECT U.User_id, U.User_name, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id WHERE R.Role_name = "Colaborador";
+SELECT U.User_id, U.User_name, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id 
+WHERE R.Role_name = "Colaborador";
 END$$
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_users_comercial`$$
 CREATE PROCEDURE `sp_select_all_users_comercial` ()   
 BEGIN
-SELECT U.User_name, U.User_id, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id WHERE R.Role_name = "Comercial";
+SELECT U.User_name, U.User_id, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id 
+WHERE R.Role_name = "Comercial";
 END$$
 
 DELIMITER $$
@@ -494,13 +496,38 @@ BEGIN
         GROUP BY Project_month, C.Client_name
         ORDER BY P.Project_startDate ASC;
     ELSE     
-        IF roleId = 4 THEN
-            SELECT COUNT(Project_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Client_id, C.Client_name 
+        IF roleId = 2 THEN
+            SELECT COUNT(SA.SubAct_id) AS Client_total, SA.SubAct_estimatedEndDate, UCASE(MONTHNAME(SA.SubAct_estimatedEndDate)) AS Project_month, P.Client_id, C.Client_name 
             FROM project P
             INNER JOIN client C ON P.Client_id = C.Client_id
-            WHERE Project_commercial = userId AND P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
-            GROUP BY Project_month, C.Client_name
-            ORDER BY P.Project_startDate ASC;                
-        END IF;
+            INNER JOIN project_product PP ON P.Project_id = PP.Project_id
+            INNER JOIN activities A ON PP.Project_product_id = A.Project_product_id
+            INNER JOIN subactivities SA ON A.Activi_id = SA.Activi_id
+            WHERE SA.User_id = userId AND (SA.SubAct_estimatedEndDate >= initialDate AND SA.SubAct_estimatedEndDate <= finalDate)
+            GROUP BY Project_month, C.Client_name 
+            ORDER BY P.Project_startDate ASC;
+        ELSE 
+            IF roleId = 3 THEN
+                SELECT COUNT(Project_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Client_id, C.Client_name 
+                FROM project P
+                INNER JOIN client C ON P.Client_id = C.Client_id
+                WHERE Project_commercial = userId AND P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
+                GROUP BY Project_month, C.Client_name
+                ORDER BY P.Project_startDate ASC;   
+            ELSE 
+                IF roleId = 4 THEN
+                    SELECT COUNT(P.Brand_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Brand_id, B.Brand_name
+                    FROM project P
+                    INNER JOIN client C ON P.Client_id = C.Client_id
+                    INNER JOIN brand B ON P.Brand_id = B.Brand_id
+                    INNER JOIN user_manager UM ON P.Manager_id = UM.Manager_id
+                    WHERE UM.User_id = userId AND P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
+                    GROUP BY Project_month, B.Brand_id
+                    ORDER BY P.Project_startDate ASC;
+                ELSE
+                    SELECT "Not found" AS "result";     
+                END IF;         
+            END IF;    
+        END IF; 
     END IF;
 END$$

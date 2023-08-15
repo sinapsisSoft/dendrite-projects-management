@@ -50,7 +50,8 @@
                 <h5 class="card-title">
                   INICIO
                 </h5>
-                <form class="form-horizontal mt-3 row justify-content-center" id="objForm">
+                <div id="reportView">
+                  <form class="form-horizontal mt-3 row justify-content-center" id="objForm">
                     <div class="col-12 my-4">
                       <h6 class="m-0 font-weight-bold text-primary">Seleccione el rango de fechas para generar el reporte</h6>
                     </div>
@@ -67,11 +68,17 @@
                         <i class="fas fa-search fa-sm"></i>
                         <div class="ripple-container"></div>
                       </button>
-                    </div>                    
-                </form>
-                <div class="row reportChart my-4 justify-content-center">
-                  <div id="chart1Report" class="col-sm-12 col-md-10">
-                    <canvas id="chart1" style="width: 100%;"></canvas>
+                    </div>
+                  </form>
+                  <div class="row reportChart my-4 justify-content-center">
+                    <div class="col-auto">
+                      <h4 id="total-project" class="m-0 font-weight-bold text-primary"></h4>
+                    </div>
+                  </div>
+                  <div class="row reportChart my-4 justify-content-center">
+                    <div id="chart1Report" class="col-sm-12 col-md-10">
+                      <canvas id="chart1" style="width: 100%;"></canvas>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -105,7 +112,9 @@
   <script src="./assets/js/char.min.js"></script>
   <script src="./controllers/home/home.controller.js"></script>
   <script>
-    var dataJson = [];
-    dataJson = <?= $chart ?>    
+    var dataJson = [],
+      reportName = "";
+    dataJson = <?= $chart ?>;
+    reportName = '<?= $reportName ?>';
   </script>
 </body>
