@@ -4,7 +4,7 @@ namespace App\Controllers\DocType;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\DocTypeModel;
+use App\Models\DocType\DocTypeModel;
 
 class DocType extends BaseController{
     private $objModel;
@@ -20,13 +20,14 @@ class DocType extends BaseController{
 
     public function show(){
         $data['title'] = 'Tipo de documentos';
+        $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
 
         $data[$this->nameModel] = $this->objModel->findAll();
 

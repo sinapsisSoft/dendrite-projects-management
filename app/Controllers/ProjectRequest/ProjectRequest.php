@@ -4,11 +4,11 @@ namespace App\Controllers\ProjectRequest;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProjectRequestModel;
-use App\Models\ClientModel;
-use App\Models\CountryModel;
-use App\Models\ManagerModel;
-use App\Models\BrandModel;
+use App\Models\ProjectRequest\ProjectRequestModel;
+use App\Models\Client\ClientModel;
+use App\Models\Country\CountryModel;
+use App\Models\Manager\ManagerModel;
+use App\Models\Brand\BrandModel;
 
 class ProjectRequest extends BaseController
 {
@@ -30,12 +30,14 @@ class ProjectRequest extends BaseController
         $country = new CountryModel();
 
         $data['title'] = 'Solicitud de proyectos';
+        $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
+
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
 
         $data[$this->nameModel] = $this->objModel->sp_select_projectrequest_all();
         $data['managers'] = $manager->findAll();

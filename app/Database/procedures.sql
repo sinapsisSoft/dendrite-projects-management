@@ -484,6 +484,44 @@ BEGIN
 END $$
 
 DELIMITER $$
+
+DROP PROCEDURE
+    IF EXISTS `sp_select_user_modules` $$
+CREATE PROCEDURE
+    `sp_select_user_modules`(IN UserId INT) BEGIN
+SELECT
+    MO.Mod_id,
+    MO.Mod_name,
+    MO.Mod_route,
+    MO.Mod_icon,
+    MO.Mod_parent
+FROM role_module RM
+    INNER JOIN module MO ON RM.Mod_id = MO.Mod_id
+    INNER JOIN role RL ON RL.Role_id = RM.Role_id
+WHERE RL.Role_id = (
+        SELECT Role_id
+        FROM user
+        WHERE User_id = UserId
+    );
+
+END$$ 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_select_user_email$$
+CREATE PROCEDURE sp_select_user_email(IN UserEmail VARCHAR(100)) BEGIN
+SELECT User_id FROM user WHERE User_email=UserEmail;
+END$$ 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_select_role_module_permit$$
+CREATE PROCEDURE sp_select_role_module_permit(IN UserId INT,IN ModRoute VARCHAR(30) )
+BEGIN
+SELECT RMP.Perm_id FROM role_module_permit RMP
+INNER JOIN role_module RM ON RM.Role_mod_id=RMP.Role_mod_id
+WHERE RM.Role_id=(SELECT Role_id FROM USER WHERE User_id=UserId) AND RM.Mod_id=(SELECT Mod_id FROM module WHERE Mod_route=ModRoute);
+END$$
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS `sp_create_general_chart`$$
 CREATE PROCEDURE `sp_create_general_chart` (IN userId INT, IN roleId INT, IN initialDate DATE, IN finalDate DATE)   
 BEGIN   
@@ -530,4 +568,19 @@ BEGIN
             END IF;    
         END IF; 
     END IF;
+END$$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_select_user_role$$
+CREATE PROCEDURE sp_select_user_role(IN UserId INT)
+BEGIN
+SELECT Role_id FROM user WHERE User_id=UserId;
+END$$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_select_module_id$$
+CREATE PROCEDURE sp_select_module_id(IN ModId INT)
+BEGIN
+SELECT * FROM module WHERE Mod_parent=ModId OR Mod_id=ModId 
+ORDER BY Mod_parent ASC;
 END$$

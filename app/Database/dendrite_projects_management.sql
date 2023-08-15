@@ -15,7 +15,8 @@ SET time_zone = "+00:00";
 -- Base de datos: `dendrite_projects_management`
 --
 
-
+CREATE DATABASE IF NOT EXISTS `dendrite_projects_management` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `dendrite_projects_management`;
 
 -- --------------------------------------------------------
 

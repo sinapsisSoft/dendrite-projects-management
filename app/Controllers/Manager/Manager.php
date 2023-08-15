@@ -4,11 +4,11 @@ namespace App\Controllers\Manager;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ManagerModel;
-use App\Models\BrandModel;
-use App\Models\ClientModel;
+use App\Models\Brand\BrandModel;
+use App\Models\Client\ClientModel;
 use App\Models\ManagerBrandsModel;
 use App\Models\UserManagerModel;
-use App\Models\UserModel;
+use App\Models\User\UserModel;
 
 
 class Manager extends BaseController{
