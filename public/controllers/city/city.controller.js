@@ -21,7 +21,7 @@ const URL_ROUTE = BASE_URL + ruteContent;
 const TOASTS = new STtoasts();
 const myModalObjec = '#createUpdateModal';
 const idForm = 'objForm';
-const infoUrl = '';
+const infoUrl = 'https://ior.ad/9iAD';
 
 var sTForm = null;
 var url = "";
