@@ -246,7 +246,7 @@ function getDataId(idData, type) {
         }
         else if(type == 1){
           sTForm.inputButtonEnable();
-          idData > 0 && idData < 6 ? document.getElementById("Role_name").setAttribute("disabled", true) : document.getElementById("Role_name").removeAttribute("disabled");
+          idData > 0 && idData < 5 ? document.getElementById("Role_name").setAttribute("disabled", true) : document.getElementById("Role_name").removeAttribute("disabled");
         } 
         hidePreload();
       } else {
