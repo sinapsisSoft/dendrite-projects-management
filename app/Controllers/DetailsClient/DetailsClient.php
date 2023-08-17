@@ -2,11 +2,11 @@
 namespace App\Controllers\DetailsClient;
 
 use App\Controllers\BaseController;
-use App\Models\ManagerModel;
-use App\Models\ClientModel;
-use App\Models\BrandModel;
-use App\Models\ManagerBrandsModel;
-use App\Models\UserStatusModel;
+use App\Models\Manager\ManagerModel;
+use App\Models\Client\ClientModel;
+use App\Models\Brand\BrandModel;
+use App\Models\ManagerBrands\ManagerBrandsModel;
+use App\Models\UserStatus\UserStatusModel;
 
 class DetailsClient extends BaseController{
 

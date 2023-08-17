@@ -4,11 +4,11 @@ namespace App\Controllers\Role;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\UserRole;
-use App\Models\RoleModuleModel;
-use App\Models\RoleModulePermitModel;
-use App\Models\PermitModel;
-use App\Models\ModuleModel;
+use App\Models\UserRole\UserRoleModel;
+use App\Models\RoleModule\RoleModuleModel;
+use App\Models\RoleModulePermit\RoleModulePermitModel;
+use App\Models\Permit\PermitModel;
+use App\Models\Module\ModuleModel;
 
 class Role extends BaseController
 {
@@ -20,7 +20,7 @@ class Role extends BaseController
 
     public function __construct()
     {
-        $this->objModel = new UserRole();
+        $this->objModel = new UserRoleModel();
         $this->roleModule = new RoleModuleModel();
         $this->roleModulePermit = new RoleModulePermitModel();
         $this->primaryKey = "Role_id";

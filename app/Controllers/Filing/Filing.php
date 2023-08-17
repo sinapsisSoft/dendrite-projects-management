@@ -4,7 +4,7 @@ namespace App\Controllers\Filing;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\FilingModel;
+use App\Models\Filing\FilingModel;
 
 class Filing extends BaseController{
     private $objModel;

@@ -4,9 +4,9 @@ namespace App\Controllers\ProjectUser;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProjectRequestModel;
-use App\Models\ManagerBrandsModel;
-use App\Models\UserManagerModel;
+use App\Models\ProjectRequest\ProjectRequestModel;
+use App\Models\ManagerBrands\ManagerBrandsModel;
+use App\Models\UserManager\UserManagerModel;
 
 class ProjectUser extends BaseController
 {
@@ -20,27 +20,35 @@ class ProjectUser extends BaseController
         $this->objModel = new ProjectRequestModel();
         $this->primaryKey = 'ProjReq_id';
         $this->nameModel = 'projectrequest';
-        $this->userId = 9; //Id del usuario logueado
+        $this->userId = session()->UserId;
     }
 
     public function show()
     {     
-        $brand = new ManagerBrandsModel();
-        $usermanager = new UserManagerModel();
+        try {
+            $brand = new ManagerBrandsModel();
+            $usermanager = new UserManagerModel();
+    
+            $data['title'] = 'Solicitud de proyectos';
+            $data['css'] = view('assets/css');
+            $data['js'] = view('assets/js');
+            $data['toasts'] = view('html/toasts');
+            $data['sidebar'] = view('navbar/sidebar');
+            $data['header'] = view('navbar/header');
+            $data['footer'] = view('navbar/footer');
+    
+            $data[$this->nameModel] = $this->objModel->sp_select_projectrequest_user($this->userId);
+            $managerId = $usermanager->where('User_id',$this->userId)->findAll();
+            $managerId = $managerId[0]['Manager_id'];        
+            $data['brands'] = $brand->sp_select_manager_brands($managerId); 
 
-        $data['title'] = 'Solicitud de proyectos';
-        $data['css'] = view('assets/css');
-        $data['js'] = view('assets/js');
-        $data['toasts'] = view('html/toasts');
-        $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+            return view('projectrequest/projectrequestcreate', $data); 
 
-        $data[$this->nameModel] = $this->objModel->sp_select_projectrequest_user($this->userId);
-        $managerId = $usermanager->where('User_id',$this->userId)->findAll();
-        $managerId = $managerId[0]['Manager_id'];        
-        $data['brands'] = $brand->sp_select_manager_brands($managerId);
-        return view('projectrequest/projectrequestcreate', $data);
+        }catch(\Exception $e){
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+        }
+        return view('error', $data);        
     }
 
     public function create()

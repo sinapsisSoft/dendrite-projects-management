@@ -3,8 +3,8 @@ namespace App\Controllers\UserStatus;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\UserStatusModel;
-use App\Models\StatusType;
+use App\Models\UserStatus\UserStatusModel;
+use App\Models\StatusType\StatusTypeModel;
 
 class UserStatus extends BaseController{
     private $objModel;

@@ -4,7 +4,7 @@ namespace App\Controllers\Module;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ModuleModel;
+use App\Models\Module\ModuleModel;
 
 class Module extends BaseController{
     private $objModel;

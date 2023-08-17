@@ -3,7 +3,7 @@ namespace App\Controllers\Email;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\EmailModel;
+use App\Models\Email\EmailModel;
 
 class Email extends BaseController{
     private $objModel;

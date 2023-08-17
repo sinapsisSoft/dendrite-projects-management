@@ -4,7 +4,7 @@ namespace App\Controllers\Mail;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\MailModel;
+use App\Models\Mail\MailModel;
 
 class Mail extends BaseController
 {

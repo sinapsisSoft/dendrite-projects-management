@@ -3,9 +3,9 @@ namespace App\Controllers\Company;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\CompanyModel;
-use App\Models\DocTypeModel;
-use App\Models\UserStatusModel;
+use App\Models\Company\CompanyModel;
+use App\Models\DocType\DocTypeModel;
+use App\Models\UserStatus\UserStatusModel;
 
 
 class Company extends BaseController{

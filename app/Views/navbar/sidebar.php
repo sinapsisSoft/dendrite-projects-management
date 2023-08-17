@@ -1,9 +1,8 @@
 <?php
-$model = model('UserModel');
+$model = model('App\Models\User\UserModel');
 $url = substr($_SERVER['REQUEST_URI'], 1, strlen($_SERVER['REQUEST_URI']));
 if ($userModel = $model->sp_select_user_modules(session()->UserId)) {
-
-  ///return redirect()->route('login');
+  // return redirect()->route('login');
 }
 
 ?>

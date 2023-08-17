@@ -4,10 +4,9 @@ namespace App\Controllers\Activities;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ActivitiesModel;
-use App\Models\UserStatusModel;
-use App\Models\ApprovalCodeModel;
-use App\Models\ProjectProductModel;
+use App\Models\Activities\ActivitiesModel;
+use App\Models\UserStatus\UserStatusModel;
+use App\Models\ProjectProduct\ProjectProductModel;
 
 class Activities extends BaseController
 {
@@ -25,7 +24,6 @@ class Activities extends BaseController
   public function show()
   {
     $userstatus = new UserStatusModel();
-    $approvalcode = new ApprovalCodeModel();
     $projectproduct = new ProjectProductModel();
     $data['title'] = 'Actividad';
     $data['css'] = view('assets/css');
@@ -38,7 +36,6 @@ class Activities extends BaseController
 
     $data[$this->nameModel] = $this->objModel->sp_select_all_activities();
     $data['userstatuses'] = $userstatus->sp_select_status_users();
-    $data['approvalcodes'] = $approvalcode->findAll();
     $data['projectproducts'] = $projectproduct->findAll();
     return view('activities/activities', $data);
   }

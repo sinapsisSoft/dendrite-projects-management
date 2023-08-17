@@ -3,11 +3,11 @@ namespace App\Controllers\DetailProjectUser;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProductModel;
-use App\Models\ManagerBrandsModel;
-use App\Models\ProjectRequestModel;
-use App\Models\UserManagerModel;
-use App\Models\ProjectRequestProductModel;
+use App\Models\Product\ProductModel;
+use App\Models\ManagerBrands\ManagerBrandsModel;
+use App\Models\ProjectRequest\ProjectRequestModel;
+use App\Models\UserManager\UserManagerModel;
+use App\Models\ProjectRequestProduct\ProjectRequestProductModel;
 
 
 class DetailProjectUser extends BaseController{

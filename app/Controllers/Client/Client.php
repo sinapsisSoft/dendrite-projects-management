@@ -3,11 +3,11 @@ namespace App\Controllers\Client;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ClientModel;
-use App\Models\CompanyModel;
-use App\Models\DocTypeModel;
-use App\Models\UserStatusModel;
-use App\Models\CountryModel;
+use App\Models\Client\ClientModel;
+use App\Models\Company\CompanyModel;
+use App\Models\DocType\DocTypeModel;
+use App\Models\UserStatus\UserStatusModel;
+use App\Models\Country\CountryModel;
 
 
 class Client extends BaseController{

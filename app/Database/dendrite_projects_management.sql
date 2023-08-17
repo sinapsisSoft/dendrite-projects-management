@@ -405,6 +405,7 @@ INSERT INTO `module` (`Mod_id`, `Mod_name`, `Mod_route`, `Mod_description`, `Mod
 (21, 'Prioridades', 'priorities', 'Gestión de prioridades para los proyectos', NULL, 17, NULL, '2023-07-27 11:33:51'),
 (22, 'País', 'country', 'Gestión de países', NULL, 17, NULL, '2023-07-27 11:33:51'),
 (23, 'Ciudad', 'city', 'Gestión de ciudades de los países', NULL, 17, NULL, '2023-07-27 11:33:51');
+(24, 'Seguimiento de subactividades', 'subactivitiesuser', 'Seguimiento de subactividades', NULL, 2, NULL, '2023-07-27 11:33:51');
 
 -- --------------------------------------------------------
 

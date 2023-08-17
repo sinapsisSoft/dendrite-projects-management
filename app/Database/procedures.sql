@@ -586,3 +586,34 @@ INNER JOIN role_module RM ON RM.Role_mod_id=RMP.Role_mod_id
 WHERE RM.Role_id=(SELECT Role_id FROM USER WHERE User_id=UserId) AND RM.Mod_id=(SELECT Mod_id FROM module WHERE Mod_route=ModRoute);
 END$$
 DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_subactivity_user`$$
+CREATE PROCEDURE `sp_select_subactivity_user` (IN `userId` INT)   
+BEGIN
+ SELECT
+ c.Client_name,
+ P.Project_name,
+ A.Activi_name,
+ SA.SubAct_id,
+ SA.SubAct_name,
+ S.Stat_name,
+ SA.SubAct_percentage,
+ PRI.Priorities_name,
+ PRI.Priorities_color,
+ CASE 
+    	WHEN SA.SubAct_percentage = 100 THEN '#16FF00' 
+        WHEN SA.SubAct_percentage > 0 and SA.SubAct_percentage < 100 THEN '#FFD93D'
+        ELSE '#FF0303' END as color
+FROM subactivities SA
+LEFT JOIN status S ON S.Stat_id = SA.Stat_id
+INNER JOIN priorities PRI on PRI.Priorities_id = SA.Priorities_id
+LEFT JOIN activities A ON SA.SubAct_id = A.Activi_id
+INNER JOIN project_product PP ON A.Project_product_id = PP.Project_product_id
+INNER JOIN project P ON PP.Project_id = P.Project_id
+INNER JOIN client C ON P.Client_id = C.Client_id
+WHERE SA.User_id = userId
+ORDER BY P.Project_id DESC;
+END$$
+
+SELECT A.Activi_name, SA.SubAct_id, SA.SubAct_name, S.Stat_name, SA.SubAct_percentage, PRI.Priorities_name, PRI.Priorities_color, CASE WHEN SA.SubAct_percentage = 100 THEN '#16FF00' WHEN SA.SubAct_percentage > 0 and SA.SubAct_percentage < 100 THEN '#FFD93D' ELSE '#FF0303' END as color FROM subactivities SA INNER JOIN status S ON S.Stat_id = SA.Stat_id INNER JOIN priorities PRI on PRI.Priorities_id = SA.Priorities_id LEFT JOIN activities A ON SA.SubAct_id = A.Activi_id WHERE SA.User_id = 1 ORDER BY SA.SubAct_id DESC; 

@@ -3,7 +3,7 @@ namespace App\Controllers\ProductBrand;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProductBrandModel;
+use App\Models\ProductBrand\ProductBrandModel;
 
 class ProductBrand extends BaseController{
     private $objModel;

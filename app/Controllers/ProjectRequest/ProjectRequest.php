@@ -3,12 +3,10 @@
 namespace App\Controllers\ProjectRequest;
 
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProjectRequestModel;
-use App\Models\ClientModel;
-use App\Models\CountryModel;
-use App\Models\ManagerModel;
-use App\Models\BrandModel;
+use App\Models\ProjectRequest\ProjectRequestModel;
+use App\Models\Country\CountryModel;
+use App\Models\Manager\ManagerModel;
+use App\Models\Brand\BrandModel;
 
 class ProjectRequest extends BaseController
 {

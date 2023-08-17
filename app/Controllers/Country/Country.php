@@ -3,7 +3,7 @@ namespace App\Controllers\Country;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\CountryModel;
+use App\Models\Country\CountryModel;
 
 
 class Country extends BaseController{

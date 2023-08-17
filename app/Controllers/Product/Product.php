@@ -4,11 +4,9 @@ namespace App\Controllers\Product;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProductModel;
-use App\Models\FilingModel;
-use App\Models\ProductBrandModel;
-use App\Models\ProductTypeModel;
-use App\Models\UnitModel;
+use App\Models\Product\ProductModel;
+use App\Models\Filing\FilingModel;
+use App\Models\ProductBrand\ProductBrandModel;
 
 
 class Product extends BaseController

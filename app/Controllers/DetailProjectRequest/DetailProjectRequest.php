@@ -4,11 +4,11 @@ namespace App\Controllers\DetailProjectRequest;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProjectModel;
-use App\Models\ProjectRequestModel;
-use App\Models\ProjectRequestProductModel;
-use App\Models\UserModel;
-use App\Models\PrioritiesModel;
+use App\Models\Project\ProjectModel;
+use App\Models\ProjectRequest\ProjectRequestModel;
+use App\Models\ProjectRequestProduct\ProjectRequestProductModel;
+use App\Models\User\UserModel;
+use App\Models\Priorities\PrioritiesModel;
 
 class DetailProjectRequest extends BaseController
 {

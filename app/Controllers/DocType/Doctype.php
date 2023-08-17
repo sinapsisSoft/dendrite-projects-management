@@ -4,7 +4,7 @@ namespace App\Controllers\DocType;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\DocTypeModel;
+use App\Models\DocType\DocTypeModel;
 
 class DocType extends BaseController{
     private $objModel;

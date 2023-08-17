@@ -4,7 +4,7 @@ namespace App\Controllers\ProjectProduct;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProjectProductModel;
+use App\Models\ProjectProduct\ProjectProductModel;
 
 class ProjectProduct extends BaseController
 {

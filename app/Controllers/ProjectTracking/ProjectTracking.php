@@ -3,7 +3,7 @@ namespace App\Controllers\ProjectTracking;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProjectTrackingModel;
+use App\Models\ProjectTracking\ProjectTrackingModel;
 
 
 class ProjectTracking extends BaseController{

@@ -3,9 +3,8 @@ namespace App\Controllers\Home;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\ProjectModel;
-use App\Models\UserModel;
-
+use App\Models\Project\ProjectModel;
+use App\Models\User\UserModel;
 use DateTime;
 
 class Home extends BaseController{
@@ -13,16 +12,15 @@ class Home extends BaseController{
     private $objModel;
     private $userId;
     private $roleId;
+    private $objUserModel;
 
     public function __construct()
     {
 
         $this->objModel = new ProjectModel();
         $this->objUserModel = new UserModel();
-        $this->primaryKey = 'User_id';
-        $this->nameModel = 'users';
-        $this->userId =session()->UserId;
-        $this->roleId =$this->objUserModel->sp_select_user_role($this->userId);
+        $this->userId = session()->UserId;
+        $this->roleId = $this->objUserModel->sp_select_user_role($this->userId);
     }
 
     public function show(){

@@ -3,7 +3,7 @@ namespace App\Controllers\Priorities;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\PrioritiesModel;
+use App\Models\Priorities\PrioritiesModel;
 
 
 class Priorities extends BaseController{

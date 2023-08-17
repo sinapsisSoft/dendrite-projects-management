@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\SubActivities;
+namespace App\Controllers\SubActivitiesUser;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -15,12 +15,13 @@ use App\Utils\Email;
 use DateTime;
 use PhpParser\Node\Expr\Cast\Array_;
 
-class SubActivities extends BaseController
+class SubActivitiesUser extends BaseController
 {
     private $objModel;
     private $primaryKey;
     private $nameModel;
     private $activities;
+    private $userId;
 
     public function __construct()
     {
@@ -28,6 +29,28 @@ class SubActivities extends BaseController
         $this->primaryKey = 'SubAct_id';
         $this->nameModel = 'subactivities';
         $this->activities = new ActivitiesModel();
+        $this->userId = session()->UserId;
+    }
+
+    public function show()
+    {
+        $userstatus = new UserStatusModel();
+        $priorities = new PrioritiesModel();
+        $user = new UserModel();
+
+        $data['title'] = 'Subactividades';
+        $data['css'] = view('assets/css');
+        $data['js'] = view('assets/js');
+
+        $data['sidebar'] = view('navbar/sidebar');
+        $data['header'] = view('navbar/header');
+        $data['footer'] = view('navbar/footer');
+
+        $data['userstatuses'] = $userstatus->where('StatType_id', 4)->find();
+        $data['subactivities'] = $this->objModel->sp_select_subactivity_user($this->userId);
+        $data['priorities'] = $priorities->findAll();
+        $data['users'] = $user->sp_select_all_users();
+        return view('subactivitiesuser/subactivitiesuser', $data);
     }
 
     public function finishTask()
@@ -66,35 +89,7 @@ class SubActivities extends BaseController
             $data['data'] = '';
         }
         return json_encode($data);
-    }
-
-    public function show()
-    {
-        $userstatus = new UserStatusModel();
-        $priorities = new PrioritiesModel();
-        $user = new UserModel();
-
-        $activityId = $this->request->getGet('activitiesId');
-        // $subactivityId = $this->request->getGet('subactivitiesId');
-
-        $data['title'] = 'Subactividades';
-        $data['css'] = view('assets/css');
-        $data['js'] = view('assets/js');
-
-        $data['toasts'] = view('html/toasts');
-        $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
-
-        $data[$this->nameModel] = $this->objModel->findAll();
-        $data['userstatuses'] = $userstatus->where('StatType_id', 4)->find();
-        $data['activity'] = $this->activities->sp_select_all_details_activities($activityId) != null ? $this->activities->sp_select_all_details_activities($activityId)[0] : [];
-        $data['subactivities'] = $this->objModel->sp_select_all_sub_actitivites($activityId);
-        $data['collaborators'] = $user->sp_select_all_users_collaborator();
-        $data['priorities'] = $priorities->findAll();
-        $data['users'] = $user->sp_select_all_users();
-        return view('subactivities/subactivities', $data);
-    }
+    }    
 
     public function sendNotification()
     {

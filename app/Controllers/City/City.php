@@ -4,8 +4,8 @@ namespace App\Controllers\City;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\CityModel;
-use App\Models\CountryModel;
+use App\Models\City\CityModel;
+use App\Models\Country\CountryModel;
 
 
 class City extends BaseController

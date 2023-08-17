@@ -2,12 +2,12 @@
 namespace App\Controllers\Details;
 
 use App\Controllers\BaseController;
-use App\Models\ProjectModel;
-use App\Models\ProjectProductModel;
-use App\Models\ProductModel;
-use App\Models\UserStatusModel;
-use App\Models\ActivitiesModel;
-use App\Models\ProjectTrackingModel;
+use App\Models\Project\ProjectModel;
+use App\Models\ProjectProduct\ProjectProductModel;
+use App\Models\Product\ProductModel;
+use App\Models\UserStatus\UserStatusModel;
+use App\Models\Activities\ActivitiesModel;
+use App\Models\ProjectTracking\ProjectTrackingModel;
 
 class Details extends BaseController{
 
