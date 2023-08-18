@@ -8,7 +8,7 @@ $("#table_obj").DataTable({
 
 const arRoutes = AR_ROUTES_GENERAL;
 const arMessages = new Array('Revise la información suministrada', 'Subactividad creada exitosamente', 'Subactividad actualizada exitosamente', 'Subactividad eliminada exitosamente', 'La subactividad no pudo ser eliminada', 'Se ha copiado el link', 'No pudo ser copiado el link', 'Notificación enviada con éxito', 'E-mail enviado con éxito');
-const ruteContent = "subactivitiesUser/";
+const ruteContent = "subactivitiesuser/";
 const nameModel = 'subactivitiesUser';
 const dataModel = 'data';
 const dataResponse = 'response';
@@ -277,6 +277,7 @@ function getDataId(idData) {
           arMessages[0],
           'error'
         );
+        hidePreload();
       }
     });
 }

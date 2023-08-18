@@ -18,7 +18,9 @@ class SubActivitiesModel extends Model
     'Stat_id', 
     'Priorities_id',
     'Activi_id', 
-    'User_id'];
+    'User_id',
+    'updated_at',
+    'created_at'];
     protected $updatedField = 'updated_at';
 
 

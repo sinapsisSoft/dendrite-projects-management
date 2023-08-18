@@ -1098,6 +1098,8 @@ CREATE TABLE IF NOT EXISTS `subactivities` (
   `SubAct_description` varchar(150) NOT NULL,
   `SubAct_percentage` varchar(15) NOT NULL,
   `SubAct_endDate` varchar(15) NOT NULL,
+  `updated_at` DATETIME DEFAULT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`SubAct_id`),
   KEY `subactivities_user` (`User_id`),
   KEY `subactivities_stad` (`Stat_id`),

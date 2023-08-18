@@ -56,6 +56,7 @@ class SubActivitiesUser extends BaseController
     public function finishTask()
     {
         if ($this->request->isAJAX()) {
+            $today = date("Y-m-d H:i:s");
             $email = new Email();
             $mail = new ProjectModel();
             $status = new UserStatusModel();
@@ -68,7 +69,8 @@ class SubActivitiesUser extends BaseController
                 $updateSubactivity = [
                     'Stat_id' => $finishStatus["Stat_id"],
                     'SubAct_percentage' => '100',
-                    'SubAct_endDate' => date("Y-m-d H:i:s")
+                    'SubAct_endDate' => date("Y-m-d H:i:s"),
+                    'updated_at' => $today
                 ];
                 $this->objModel->update($subactivityId, $updateSubactivity);
                 $this->activities->sp_update_percent_activity($subActivitie[0]->Activi_id);
@@ -124,29 +126,6 @@ class SubActivitiesUser extends BaseController
         return json_encode($data);
     }
 
-    public function create()
-    {
-        if ($this->request->isAJAX()) {
-            $dataModel = $this->getDataModel(NULL);
-            if ($this->objModel->insert($dataModel)) {
-                $data['message'] = 'success';
-                $data['response'] = ResponseInterface::HTTP_OK;
-                $data['data'] = $dataModel;
-                $data['csrf'] = csrf_hash();
-                $this->activities->sp_update_percent_activity($dataModel['Activi_id']);
-            } else {
-                $data['message'] = 'Error create user';
-                $data['response'] = ResponseInterface::HTTP_NO_CONTENT;
-                $data['data'] = '';
-            }
-        } else {
-            $data['message'] = 'Error Ajax';
-            $data['response'] = ResponseInterface::HTTP_CONFLICT;
-            $data['data'] = '';
-        }
-        return json_encode($data);
-    }
-
     public function edit()
     {
         try {
@@ -169,14 +148,17 @@ class SubActivitiesUser extends BaseController
         try {
             $today = date("Y-m-d H:i:s");
             $id = $this->request->getVar($this->primaryKey);
-            $data = $this->getDataModel($id);
-            $data['updated_at'] = $today;
-            $this->objModel->update($id, $data);
+            $percent = $this->request->getVar('SubAct_percentage');
+            $dataNew = [
+                'SubAct_percentage' => $percent,
+                'updated_at' => $today
+            ];
+            $this->objModel->update($id, $dataNew);
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
             $data['data'] = $id;
             $data['csrf'] = csrf_hash();
-            $this->activities->sp_update_percent_activity($data['Activi_id']);
+            $this->activities->sp_update_percent_activity($id);
         } catch (\Exception $e) {
             $data['message'] = $e;
             $data['response'] = ResponseInterface::HTTP_CONFLICT;
@@ -197,30 +179,6 @@ class SubActivitiesUser extends BaseController
             $activityModel->update($Activi_id, $activity);
         }
         return [$totalFinish, $total, $Activi_id, $date];
-    }
-
-    public function delete()
-    {
-        try {
-            $id = $this->request->getVar($this->primaryKey);
-            $activityId = $this->request->getVar('activityId');
-            if ($this->objModel->where($this->primaryKey, $id)->delete($id)) {
-                $data['message'] = 'success';
-                $data['response'] = ResponseInterface::HTTP_OK;
-                $data['data'] = "ok";
-                $data['csrf'] = csrf_hash();
-                $this->activities->sp_update_percent_activity($activityId);
-            } else {
-                $data['message'] = 'Error Ajax';
-                $data['response'] = ResponseInterface::HTTP_CONFLICT;
-                $data['data'] = 'error';
-            }
-        } catch (\Exception $e) {
-            $data['message'] = $e;
-            $data['response'] = ResponseInterface::HTTP_CONFLICT;
-            $data['data'] = 'Error';
-        }
-        return json_encode($data);
     }
 
     public function getDataModel($getShares)

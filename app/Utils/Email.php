@@ -2,7 +2,7 @@
 
 namespace App\Utils;
 
-use App\Models\EmailModel;
+use App\Models\Email\EmailModel;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;

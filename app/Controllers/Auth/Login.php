@@ -20,7 +20,7 @@ class Login extends BaseController
     public function show()
     {
         if (!session()->is_logged) {
-            $data['title'] = 'TITLE';
+            $data['title'] = 'Ingreso al sistema';
             $data['meta'] = view('assets/meta');
             $data['css'] = view('assets/css');
             $data['js'] = view('assets/js');
@@ -70,7 +70,7 @@ class Login extends BaseController
             return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Usuario no registrado en el sistema']);
         } else {
             if (!password_verify($userPassword, $user['User_password'])) {
-                return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Credenciales invalidas']);
+                return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Credenciales inválidas']);
             } else {
                 session()->set([
                     'UserId' => $user['User_id'],

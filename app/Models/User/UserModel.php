@@ -91,6 +91,7 @@ class UserModel extends Model
         }
         return $user;
     }
+    
     public function getUserBy(string $column, string $value)
     {
         return $this->where($column, $value)->first();

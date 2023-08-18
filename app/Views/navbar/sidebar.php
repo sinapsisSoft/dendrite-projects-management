@@ -1,10 +1,13 @@
 <?php
-$model = model('App\Models\User\UserModel');
-$url = substr($_SERVER['REQUEST_URI'], 1, strlen($_SERVER['REQUEST_URI']));
-if ($userModel = $model->sp_select_user_modules(session()->UserId)) {
-  // return redirect()->route('login');
-}
 
+$model = model('App\Models\User\UserModel');
+
+if(isset(session()->UserId)){
+  $url = substr($_SERVER['REQUEST_URI'], 1, strlen($_SERVER['REQUEST_URI']));
+  if (!$userModel = $model->sp_select_user_modules(session()->UserId)) {
+    redirect('login');
+  }
+}
 ?>
 <style>
   .color {

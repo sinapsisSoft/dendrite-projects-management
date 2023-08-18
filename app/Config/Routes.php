@@ -264,7 +264,10 @@ $routes->group('subactivities', ['namespace' => 'App\Controllers\SubActivities']
 
 $routes->group('subactivitiesuser', ['namespace' => 'App\Controllers\SubActivitiesUser'], function ($routes) {
     $routes->get('/', 'SubActivitiesUser::show');
-    $routes->post('edit', 'SubActivities::edit');
+    $routes->post('edit', 'SubActivitiesUser::edit');
+    $routes->post('update', 'SubActivitiesUser::update');
+    $routes->post('notification', 'SubActivitiesUser::sendNotification');
+    $routes->post('finish', 'SubActivitiesUser::finishTask');
 });
 
 $routes->group('priorities', ['namespace' => 'App\Controllers\Priorities'], function ($routes) {

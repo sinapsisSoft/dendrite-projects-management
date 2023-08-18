@@ -137,19 +137,16 @@
                     <form class="form-horizontal mt-3" id="objForm" action="" onsubmit="sendData(event,this.id)">
                       <div class="row">
                         <input type="hidden" class="form-control" id="SubAct_id" name="SubAct_id" value="NULL">
-                        <div class="col-12 col-md-8 mb-3">
+                        <input type="hidden" class="form-control" id="Activi_id" name="Activi_id" value="NULL">
+                        <div class="col-12 col-md-12 mb-3">
                           <label for="SubAct_name">Nombre de Subactividad</label>
-                          <input type="text" class="form-control" id="SubAct_name" name="SubAct_name" required>
+                          <input type="text" class="form-control form-disabled" id="SubAct_name" name="SubAct_name" required>
                         </div>
-                        <div class="col-12 col-md-4 mb-3">
+                        <div class="col-12 col-md-6 mb-3">
                           <label for="SubAct_estimatedEndDate">Fecha Estimada de Entrega</label>
-                          <input type="date" class="form-control" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate">
-                        </div>
-                        <div class="col-12 col-md-4 mb-3">
-                          <label for="SubAct_endDate">Fecha de Entrega</label>
-                          <input type="text" class="form-control form-disabled read" id="SubAct_endDate" name="SubAct_endDate">
+                          <input type="date" class="form-control form-disabled" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate">
                         </div> 
-                        <div class="col-12 col-md-4 mb-3">
+                        <div class="col-12 col-md-6 mb-3">
                           <label for="SubAct_percentage">% actividad realizada</label>
                           <input type="text" class="form-control read" id="SubAct_percentage" name="SubAct_percentage" value="0" required>
                         </div>                         

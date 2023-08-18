@@ -145,7 +145,7 @@
     <!-- ============================================================== -->
     <!-- This page plugin js -->
     <!-- ============================================================== -->
-    <script src="../controllers/auth/login.controller.js"></script>
+    <script src="./controllers/auth/login.controller.js"></script>
 
 </body>
 
