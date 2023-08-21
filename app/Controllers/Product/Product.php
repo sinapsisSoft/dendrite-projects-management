@@ -26,14 +26,16 @@ class Product extends BaseController
     {
         $filing = new FilingModel();
         $productbrand = new ProductBrandModel();
+    
+        $data['meta'] = view('assets/meta');
         $data['title'] = 'Productos';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
 
         $data[$this->nameModel] = $this->objModel->findAll();
         $data['filings'] = $filing->findAll();

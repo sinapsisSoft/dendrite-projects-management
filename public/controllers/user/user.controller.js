@@ -68,7 +68,8 @@ var confirmPassword = document.getElementById("confirmPassword");
 */
 function create(formData) {
   url = URL_ROUTE + arRoutes[0];
-  fetch(url, {
+  console.log(JSON.stringify(formData));
+   fetch(url, {
     method: "POST",
     body: JSON.stringify(formData),
     headers: {
@@ -79,6 +80,7 @@ function create(formData) {
     .then(response => response.json())
     .catch(error => console.error('Error:', error))
     .then(response => {
+      
       if (response[dataResponse] == 200) {
         Swal.fire({
           position: 'top-end',
@@ -100,7 +102,7 @@ function create(formData) {
       }
       sTForm.inputButtonEnable();
       hidePreload();
-    });
+    }); 
 }
 /*
 *Ahutor:DIEGO CASALLAS

@@ -2,16 +2,11 @@
 <html dir="ltr">
 
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="keywords" content="Made in casa, Market Support" />
-  <meta name="description" content="Made in Casa - Construyendo el futuro. Plataforma de gestión proyectos." />
-  <meta name="robots" content="noindex,nofollow" />
-  <title><?= $title ?></title>
-  <?= $css ?>
-  <!-- Custom CSS -->
+    <?= $meta ?>
+    <title>
+        <?= $title ?>
+    </title>
+    <?= $css ?>
 
   <style>
     .card {

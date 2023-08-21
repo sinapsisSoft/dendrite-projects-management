@@ -38,13 +38,14 @@ class Project extends BaseController
         $brand = new BrandModel();
         $country = new CountryModel();
 
+        $data['meta'] = 'assets/meta';
         $data['title'] = 'Proyectos';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
 
         $data[$this->nameModel] = $this->objModel->sp_select_all_project_table();
         $data['clients'] = $client->findAll();

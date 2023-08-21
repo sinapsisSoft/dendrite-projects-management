@@ -7,7 +7,8 @@ use App\Models\Project\ProjectModel;
 use App\Models\User\UserModel;
 use DateTime;
 
-class Home extends BaseController{
+class Home extends BaseController
+{
 
     private $objModel;
     private $userId;
@@ -16,41 +17,44 @@ class Home extends BaseController{
 
     public function __construct()
     {
-
-        $this->objModel = new ProjectModel();
-        $this->objUserModel = new UserModel();
-        $this->userId = session()->UserId;
-        $this->roleId = $this->objUserModel->sp_select_user_role($this->userId);
+        
+            $this->objModel = new ProjectModel();
+            $this->objUserModel = new UserModel();
+            $this->userId = session()->UserId;
+            $this->roleId = $this->objUserModel->sp_select_user_role($this->userId);
+        
     }
 
-    public function show(){
+    public function show()
+    {
 
         $today = new DateTime();
+        $data['meta'] = view('assets/meta');
         $data['title'] = 'Inicio';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
         $initialDate = $today->modify('first day of this month')->format("Y-m-d");
-        $finalDate = $today->modify('last day of this month')->format("Y-m-d");        
+        $finalDate = $today->modify('last day of this month')->format("Y-m-d");
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
-        
-      $result = $this->objModel->sp_create_general_chart($this->userId, $this->roleId, $initialDate, $finalDate);
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
+
+        $result = $this->objModel->sp_create_general_chart($this->userId, $this->roleId, $initialDate, $finalDate);
         $data['reportName'] = $this->reportTitle($this->roleId);
-        if (count($result) > 0){
+        if (count($result) > 0) {
             $data['chart'] = json_encode($result);
-        }
-        else {
-           $data['chart'] = 0;
+        } else {
+            $data['chart'] = 0;
         }
 
         return view('home/home', $data);
-       
-    } 
 
-    public function chart(){
+    }
+
+    public function chart()
+    {
         if ($this->request->isAJAX()) {
             $initialDate = $this->request->getVar('initialDate');
             $finalDate = $this->request->getVar('finalDate');
@@ -71,19 +75,20 @@ class Home extends BaseController{
         return json_encode($data);
     }
 
-    public function reportTitle($roleId){
+    public function reportTitle($roleId)
+    {
         $reportName = "";
         switch ($roleId) {
-            case 1: 
+            case 1:
                 $reportName = "PROYECTOS POR CLIENTE";
                 break;
-            case 2: 
+            case 2:
                 $reportName = "SUBACTIVIDADES POR CLIENTE";
                 break;
-            case 3: 
+            case 3:
                 $reportName = "PROYECTOS POR CLIENTE";
                 break;
-            case 4: 
+            case 4:
                 $reportName = "PROYECTOS POR MARCA";
                 break;
             default:

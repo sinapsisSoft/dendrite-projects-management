@@ -10,6 +10,7 @@ use App\Models\UserStatus\UserStatusModel;
 use App\Models\Company\CompanyModel;
 
 
+
 class User extends BaseController
 {
     public $dataResult;
@@ -22,6 +23,8 @@ class User extends BaseController
         $this->objModel = new UserModel();
         $this->primaryKey = 'User_id';
         $this->nameModel = 'users';
+
+
     }
     /*
 *Ahutor:DIEGO CASALLAS
@@ -35,13 +38,14 @@ class User extends BaseController
         $status = new UserStatusModel();
         $company = new CompanyModel();
         $data['title'] = 'Usuarios';
+        $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
         
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
 
         $data[$this->nameModel] = $this->objModel->sp_select_all_users();
         
@@ -164,7 +168,7 @@ class User extends BaseController
             'User_id' => $getShares,
             'User_name' => $this->request->getVar('User_name'),
             'User_email' => $this->request->getVar('User_email'),
-            'User_password' => password_hash($this->request->getVar('User_password'), PASSWORD_BCRYPT),
+            'User_password' => $this->objModel->hash(trim($this->request->getVar('User_password'))),
             'Comp_id' => $this->request->getVar('Comp_id'),
             'Stat_id' => $this->request->getVar('Stat_id'),
             'Role_id' => $this->request->getVar('Role_id'),
@@ -173,3 +177,4 @@ class User extends BaseController
         return $data;
     }
 }
+

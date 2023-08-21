@@ -117,4 +117,33 @@ class UserModel extends Model
     
         return $result[0]->Role_id;
     }
+    /*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:20/08/2022
+*Description:This functions create hash password  
+*/
+public function hash($password)
+{
+    return password_hash($password,PASSWORD_DEFAULT);
+     
+}
+
+    /*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:20/08/2022
+*Description:This functions validate hash password  
+*/
+public function verifyHash($password,$vpassword)
+{
+   if(password_verify($password,$vpassword))
+   {
+       return TRUE;
+   }
+   else{
+       return FALSE;
+   }
+}
+
 }

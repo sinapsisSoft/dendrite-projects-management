@@ -18,14 +18,16 @@ class ProductBrand extends BaseController{
     }
 
     public function show(){
+
+        $data['meta'] = view('assets/meta');
         $data['title'] = 'Marca de producto';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
 
         $data[$this->nameModel] = $this->objModel->findAll();
         return view('productbrand/productbrand', $data);

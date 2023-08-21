@@ -1,13 +1,19 @@
 <?php
 
 $model = model('App\Models\User\UserModel');
+if (session()->is_logged) {
+  if (isset(session()->UserId)) {
+    $url = substr($_SERVER['REQUEST_URI'], 1, strlen($_SERVER['REQUEST_URI']));
+    if (!$userModel = $model->sp_select_user_modules(session()->UserId)) {
+      return redirect()->route('login');
 
-if(isset(session()->UserId)){
-  $url = substr($_SERVER['REQUEST_URI'], 1, strlen($_SERVER['REQUEST_URI']));
-  if (!$userModel = $model->sp_select_user_modules(session()->UserId)) {
-    redirect('login');
+    }
   }
+} else {
+  return redirect()->route('login');
 }
+
+
 ?>
 <style>
   .color {
@@ -66,7 +72,9 @@ if(isset(session()->UserId)){
                     <?php if ($objSub->Mod_route != "" && $objSub->Mod_parent == $obj->Mod_id): ?>
                       <li class="sidebar-item">
                         <a href="<?= $objSub->Mod_route ?>" class="sidebar-link project"><i
-                            class="mdi mdi-chevron-right"></i><span class="hide-menu"><?= $objSub->Mod_name ?></span></a>
+                            class="mdi mdi-chevron-right"></i><span class="hide-menu">
+                            <?= $objSub->Mod_name ?>
+                          </span></a>
                       </li>
                     <?php endif ?>
                   <?php endforeach; ?>

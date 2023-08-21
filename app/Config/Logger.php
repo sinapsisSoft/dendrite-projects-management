@@ -105,7 +105,7 @@ class Logger extends BaseConfig
 
             /*
              * The file system permissions to be applied on newly created log files.
-             *
+             * 
              * IMPORTANT: This MUST be an integer (no quotes) and you MUST use octal
              * integer notation (i.e. 0700, 0644, etc.)
              */
@@ -119,6 +119,20 @@ class Logger extends BaseConfig
              */
             'path' => '',
         ],
+
+        'App\Libraries\EmailLogHandler'=>[
+              // The log levels that this handler will handle.
+              'handles' => [
+                'critical',
+                'alert',
+                'emergency',
+                'debug',
+                'error',
+                'info',
+                'notice',
+                'warning',
+            ],
+        ]
 
         /*
          * The ChromeLoggerHandler requires the use of the Chrome web browser
