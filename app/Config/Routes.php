@@ -30,7 +30,7 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 /**Routes groups*/
-$routes->group('home', ['namespace' => 'App\Controllers\Home'], function ($routes) {
+$routes->group('home', ['namespace' => 'App\Controllers\Home','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Home::show',['as'=>'dashboard']);
     $routes->post('chart', 'Home::chart');
 });
@@ -46,7 +46,7 @@ $routes->group('login', ['namespace' => 'App\Controllers\Auth'], function ($rout
 });
 
 /**Routes groups*/
-$routes->group('user', ['namespace' => 'App\Controllers\User'], function ($routes) {
+$routes->group('user', ['namespace' => 'App\Controllers\User','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'User::show');
     $routes->post('create', 'User::create');
     $routes->post('delete', 'User::delete');
@@ -54,7 +54,7 @@ $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($route
     $routes->post('update', 'User::update');
 });
 
-$routes->group('doctype', ['namespace' => 'App\Controllers\DocType'], function ($routes) {
+$routes->group('doctype', ['namespace' => 'App\Controllers\DocType','filter'=>'appFilter','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Doctype::show');
     $routes->post('create', 'Doctype::create');
     $routes->post('delete', 'Doctype::delete');
@@ -62,7 +62,7 @@ $routes->group('doctype', ['namespace' => 'App\Controllers\DocType'], function (
     $routes->post('update', 'Doctype::update');
 });
 
-$routes->group('role', ['namespace' => 'App\Controllers\Role'], function ($routes) {
+$routes->group('role', ['namespace' => 'App\Controllers\Role','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Role::show');
     $routes->post('create', 'Role::create');
     $routes->post('delete', 'Role::delete');
@@ -70,7 +70,7 @@ $routes->group('role', ['namespace' => 'App\Controllers\Role'], function ($route
     $routes->post('update', 'Role::update');
 });
 
-$routes->group('module', ['namespace' => 'App\Controllers\Module'], function ($routes) {
+$routes->group('module', ['namespace' => 'App\Controllers\Module','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Module::show');
     $routes->post('create', 'Module::create');
     $routes->post('delete', 'Module::delete');
@@ -78,7 +78,7 @@ $routes->group('module', ['namespace' => 'App\Controllers\Module'], function ($r
     $routes->post('update', 'Module::update');
 });
 
-$routes->group('userstatus', ['namespace' => 'App\Controllers\UserStatus'], function ($routes) {
+$routes->group('userstatus', ['namespace' => 'App\Controllers\UserStatus','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'UserStatus::show');
     $routes->post('create', 'UserStatus::create');
     $routes->post('delete', 'UserStatus::delete');
@@ -86,7 +86,7 @@ $routes->group('userstatus', ['namespace' => 'App\Controllers\UserStatus'], func
     $routes->post('update', 'UserStatus::update');
 });
 
-$routes->group('country', ['namespace' => 'App\Controllers\Country'], function ($routes) {
+$routes->group('country', ['namespace' => 'App\Controllers\Country','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Country::show');
     $routes->post('create', 'Country::create');
     $routes->post('delete', 'Country::delete');
@@ -94,7 +94,7 @@ $routes->group('country', ['namespace' => 'App\Controllers\Country'], function (
     $routes->post('update', 'Country::update');
 });
 
-$routes->group('city', ['namespace' => 'App\Controllers\City'], function ($routes) {
+$routes->group('city', ['namespace' => 'App\Controllers\City','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'City::show');
     $routes->post('create', 'City::create');
     $routes->post('delete', 'City::delete');
@@ -102,7 +102,7 @@ $routes->group('city', ['namespace' => 'App\Controllers\City'], function ($route
     $routes->post('update', 'City::update');
 });
 
-$routes->group('email', ['namespace' => 'App\Controllers\Email'], function ($routes) {
+$routes->group('email', ['namespace' => 'App\Controllers\Email','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Email::show');
     $routes->post('create', 'Email::create');
     $routes->post('delete', 'Email::delete');
@@ -110,7 +110,7 @@ $routes->group('email', ['namespace' => 'App\Controllers\Email'], function ($rou
     $routes->post('update', 'Email::update');
 });
 
-$routes->group('mail', ['namespace' => 'App\Controllers\Mail'], function ($routes) {
+$routes->group('mail', ['namespace' => 'App\Controllers\Mail','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Mail::show');
     $routes->post('create', 'Mail::create');
     $routes->post('delete', 'Mail::delete');
@@ -118,7 +118,7 @@ $routes->group('mail', ['namespace' => 'App\Controllers\Mail'], function ($route
     $routes->post('update', 'Mail::update');
 });
 
-$routes->group('company', ['namespace' => 'App\Controllers\Company'], function ($routes) {
+$routes->group('company', ['namespace' => 'App\Controllers\Company','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Company::show');
     $routes->post('create', 'Company::create');
     $routes->post('delete', 'Company::delete');
@@ -126,7 +126,7 @@ $routes->group('company', ['namespace' => 'App\Controllers\Company'], function (
     $routes->post('update', 'Company::update');
 });
 
-$routes->group('client', ['namespace' => 'App\Controllers\Client'], function ($routes) {
+$routes->group('client', ['namespace' => 'App\Controllers\Client','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Client::show');
     $routes->post('create', 'Client::create');
     $routes->post('delete', 'Client::delete');
@@ -135,7 +135,7 @@ $routes->group('client', ['namespace' => 'App\Controllers\Client'], function ($r
     $routes->post('findCountry', 'Client::findCountry');
 });
 
-$routes->group('product', ['namespace' => 'App\Controllers\Product'], function ($routes) {
+$routes->group('product', ['namespace' => 'App\Controllers\Product','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Product::show');
     $routes->post('create', 'Product::create');
     $routes->post('delete', 'Product::delete');
@@ -143,7 +143,7 @@ $routes->group('product', ['namespace' => 'App\Controllers\Product'], function (
     $routes->post('update', 'Product::update');
 });
 
-$routes->group('filing', ['namespace' => 'App\Controllers\Filing'], function ($routes) {
+$routes->group('filing', ['namespace' => 'App\Controllers\Filing','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Filing::show');
     $routes->post('create', 'Filing::create');
     $routes->post('delete', 'Filing::delete');
@@ -151,7 +151,7 @@ $routes->group('filing', ['namespace' => 'App\Controllers\Filing'], function ($r
     $routes->post('update', 'Filing::update');
 });
 
-$routes->group('brand', ['namespace' => 'App\Controllers\Brand'], function ($routes) {
+$routes->group('brand', ['namespace' => 'App\Controllers\Brand','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Brand::show');
     $routes->post('create', 'Brand::create');
     $routes->post('delete', 'Brand::delete');
@@ -159,7 +159,7 @@ $routes->group('brand', ['namespace' => 'App\Controllers\Brand'], function ($rou
     $routes->post('update', 'Brand::update');
     $routes->post('findByManager', 'Brand::findByManager');
 });
-$routes->group('productbrand', ['namespace' => 'App\Controllers\ProductBrand'], function ($routes) {
+$routes->group('productbrand', ['namespace' => 'App\Controllers\ProductBrand','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'ProductBrand::show');
     $routes->post('create', 'ProductBrand::create');
     $routes->post('delete', 'ProductBrand::delete');
@@ -167,7 +167,7 @@ $routes->group('productbrand', ['namespace' => 'App\Controllers\ProductBrand'], 
     $routes->post('update', 'ProductBrand::update');
 });
 
-$routes->group('manager', ['namespace' => 'App\Controllers\Manager'], function ($routes) {
+$routes->group('manager', ['namespace' => 'App\Controllers\Manager','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Manager::show');
     $routes->post('create', 'Manager::create');
     $routes->post('delete', 'Manager::delete');
@@ -179,7 +179,7 @@ $routes->group('manager', ['namespace' => 'App\Controllers\Manager'], function (
     $routes->post('updateUser', 'Manager::updateUser');
 });
 
-$routes->group('project', ['namespace' => 'App\Controllers\Project'], function ($routes) {
+$routes->group('project', ['namespace' => 'App\Controllers\Project','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Project::show');
     $routes->post('create', 'Project::create');
     $routes->post('delete', 'Project::delete');
@@ -187,18 +187,18 @@ $routes->group('project', ['namespace' => 'App\Controllers\Project'], function (
     $routes->post('update', 'Project::update');
 });
 
-$routes->group('projectrequest', ['namespace' => 'App\Controllers\ProjectRequest'], function ($routes) {
+$routes->group('projectrequest', ['namespace' => 'App\Controllers\ProjectRequest','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'ProjectRequest::show');
     $routes->get('list', 'ProjectRequest::showprojectrequest');
 });
 
-$routes->group('projectrequestdetail', ['namespace' => 'App\Controllers\DetailProjectRequest'], function ($routes) {
+$routes->group('projectrequestdetail', ['namespace' => 'App\Controllers\DetailProjectRequest','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'DetailProjectRequest::show');
     $routes->post('create', 'DetailProjectRequest::create');
     $routes->post('delete', 'DetailProjectRequest::delete');
 });
 
-$routes->group('projectuser', ['namespace' => 'App\Controllers\ProjectUser'], function ($routes) {
+$routes->group('projectuser', ['namespace' => 'App\Controllers\ProjectUser','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'ProjectUser::show');
     $routes->post('create', 'ProjectUser::create');
     $routes->post('edit', 'ProjectUser::edit');
@@ -206,7 +206,7 @@ $routes->group('projectuser', ['namespace' => 'App\Controllers\ProjectUser'], fu
     $routes->post('delete', 'ProjectUser::delete');
 });
 
-$routes->group('projectuserdetail', ['namespace' => 'App\Controllers\DetailProjectUser'], function ($routes) {
+$routes->group('projectuserdetail', ['namespace' => 'App\Controllers\DetailProjectUser','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'DetailProjectUser::show');
     $routes->post('create', 'DetailProjectUser::create');
     $routes->post('edit', 'DetailProjectUser::edit');
@@ -215,14 +215,14 @@ $routes->group('projectuserdetail', ['namespace' => 'App\Controllers\DetailProje
     // $routes->post('createrequest', 'DetailProjectRequest::createrequest');
 });
 
-$routes->group('activities', ['namespace' => 'App\Controllers\Activities'], function ($routes) {
+$routes->group('activities', ['namespace' => 'App\Controllers\Activities','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Activities::show');
     $routes->post('create', 'Activities::create');
     $routes->post('delete', 'Activities::delete');
     $routes->post('edit', 'Activities::edit');
     $routes->post('update', 'Activities::update');
 });
-$routes->group('projecttracking', ['namespace' => 'App\Controllers\ProjectTracking'], function ($routes) {
+$routes->group('projecttracking', ['namespace' => 'App\Controllers\ProjectTracking','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'ProjectTracking::show');
     $routes->post('create', 'ProjectTracking::create');
     $routes->post('delete', 'ProjectTracking::delete');
@@ -230,7 +230,7 @@ $routes->group('projecttracking', ['namespace' => 'App\Controllers\ProjectTracki
     $routes->post('update', 'ProjectTracking::update');
 });
 
-$routes->group('projectproduct', ['namespace' => 'App\Controllers\ProjectProduct'], function ($routes) {
+$routes->group('projectproduct', ['namespace' => 'App\Controllers\ProjectProduct','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'ProjectProduct::show');
     $routes->post('create', 'ProjectProduct::create');
     $routes->post('delete', 'ProjectProduct::delete');
@@ -238,21 +238,21 @@ $routes->group('projectproduct', ['namespace' => 'App\Controllers\ProjectProduct
     $routes->post('update', 'ProjectProduct::update');
 });
 
-$routes->group('details', ['namespace' => 'App\Controllers\Details'], function ($routes) {
+$routes->group('details', ['namespace' => 'App\Controllers\Details','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Details::show'); 
 });
 
-$routes->group('detailsclient', ['namespace' => 'App\Controllers\DetailsClient'], function ($routes) {
+$routes->group('detailsclient', ['namespace' => 'App\Controllers\DetailsClient','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'DetailsClient::show');
 
 });
 
-$routes->group('report', ['namespace' => 'App\Controllers\Report'], function ($routes) {
+$routes->group('report', ['namespace' => 'App\Controllers\Report','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Report::show');
 
 });
 
-$routes->group('subactivities', ['namespace' => 'App\Controllers\SubActivities'], function ($routes) {
+$routes->group('subactivities', ['namespace' => 'App\Controllers\SubActivities','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'SubActivities::show');
     $routes->post('create', 'SubActivities::create');
     $routes->post('delete', 'SubActivities::delete');
@@ -262,7 +262,7 @@ $routes->group('subactivities', ['namespace' => 'App\Controllers\SubActivities']
     $routes->post('finish', 'SubActivities::finishTask');    
 });
 
-$routes->group('subactivitiesuser', ['namespace' => 'App\Controllers\SubActivitiesUser'], function ($routes) {
+$routes->group('subactivitiesuser', ['namespace' => 'App\Controllers\SubActivitiesUser','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'SubActivitiesUser::show');
     $routes->post('edit', 'SubActivitiesUser::edit');
     $routes->post('update', 'SubActivitiesUser::update');
@@ -270,7 +270,7 @@ $routes->group('subactivitiesuser', ['namespace' => 'App\Controllers\SubActiviti
     $routes->post('finish', 'SubActivitiesUser::finishTask');
 });
 
-$routes->group('priorities', ['namespace' => 'App\Controllers\Priorities'], function ($routes) {
+$routes->group('priorities', ['namespace' => 'App\Controllers\Priorities','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Priorities::show');
     $routes->post('create', 'Priorities::create');
     $routes->post('delete', 'Priorities::delete');
