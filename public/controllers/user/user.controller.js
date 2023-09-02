@@ -68,7 +68,7 @@ var confirmPassword = document.getElementById("confirmPassword");
 */
 function create(formData) {
   url = URL_ROUTE + arRoutes[0];
-  console.log(JSON.stringify(formData));
+  //console.log(JSON.stringify(formData));
    fetch(url, {
     method: "POST",
     body: JSON.stringify(formData),
@@ -82,6 +82,7 @@ function create(formData) {
     .then(response => {
       
       if (response[dataResponse] == 200) {
+       // console.log(response[dataModel]);
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -92,7 +93,7 @@ function create(formData) {
         hideModal();
         setTimeout(function(){
           window.location.reload();
-        }, 2000); 
+        }, 2000);
       } else {
         Swal.fire(
           '¡No pudimos hacer esto!',

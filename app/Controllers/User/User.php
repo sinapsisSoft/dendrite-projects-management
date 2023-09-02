@@ -168,7 +168,7 @@ class User extends BaseController
             'User_id' => $getShares,
             'User_name' => $this->request->getVar('User_name'),
             'User_email' => $this->request->getVar('User_email'),
-            'User_password' => $this->objModel->hash(trim($this->request->getVar('User_password'))),
+            'User_password' => $this->objModel->hash($this->request->getVar('User_password')),
             'Comp_id' => $this->request->getVar('Comp_id'),
             'Stat_id' => $this->request->getVar('Stat_id'),
             'Role_id' => $this->request->getVar('Role_id'),

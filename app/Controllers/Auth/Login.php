@@ -48,13 +48,13 @@ class Login extends BaseController
         if (!$user = $model->getUserBy('User_email', $userEmail)) {
             return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Usuario no registrado en el sistema']);
         } else {
-
-
             if (!$model->verifyHash($userPassword, $user['User_password'])) {
-                var_dump($user['User_password']);
+               /*  var_dump($user['User_password']);
                 echo ("<br>");
                 var_dump($userPassword);
-                //return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Credenciales inválidas']);
+                echo ("<br>");
+                var_dump($model->verifyHash($userPassword, $user['User_password'])===TRUE); */
+                return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Credenciales inválidas']);
             } else {
                 session()->set([
                     'UserId' => $user['User_id'],
@@ -63,13 +63,7 @@ class Login extends BaseController
                     'is_logged' => true
                 ]);
                 return redirect()->route('dashboard')->with('msg', ['type' => 'success', 'body' => 'Bienvenido a la Platafoema ' . $user['User_name']]);
-                /* var_dump($user['User_password']);
-                echo ("<br>");
-                var_dump($userPassword);
-                echo ("<br>");
-                var_dump($model->hash($userPassword));
-                echo ("<br>");
-                var_dump($model->verifyHash($userPassword, $user['User_password'])); */
+               
 
             }
 

@@ -61,8 +61,8 @@ class UserModel extends Model
     private function getUpdatedDataWithHashedPassword(array $data): array
     {
         if (isset($data['data']['User_password'])) {
-            $plaintextPassword = $data['data']['User_password'];
-            $data['data']['User_password'] = password_hash($plaintextPassword, PASSWORD_BCRYPT);
+           // $plaintextPassword = $data['data']['User_password'];
+           // $data['data']['User_password'] = password_hash($plaintextPassword, PASSWORD_DEFAULT);
         }
 
         return $data;
@@ -135,9 +135,9 @@ public function hash($password)
 *Date:20/08/2022
 *Description:This functions validate hash password  
 */
-public function verifyHash($password,$vpassword)
+public function verifyHash($password,$hash)
 {
-   if(password_verify($password,$vpassword))
+   if(password_verify($password,$hash))
    {
        return TRUE;
    }
