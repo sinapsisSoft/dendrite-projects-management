@@ -12,7 +12,7 @@ class AppFilter implements FilterInterface
     {
         
         if (!session()->is_logged) {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('msg', ['type' => 'danger', 'body' => 'Logear usuario ']);
         }
     }
 
