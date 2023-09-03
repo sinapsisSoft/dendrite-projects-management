@@ -3,10 +3,35 @@
 $model = model('App\Models\User\UserModel');
 if (session()->is_logged) {
   if (isset(session()->UserId)) {
-    $url = substr($_SERVER['REQUEST_URI'], 1, strlen($_SERVER['REQUEST_URI']));
+
     if (!$userModel = $model->sp_select_user_modules(session()->UserId)) {
       return redirect()->route('login');
 
+    } else {
+      $url = substr($_SERVER['REQUEST_URI'], 1, strlen($_SERVER['REQUEST_URI']));
+      $modelPermits = $model->sp_select_role_module_permit(session()->UserId, $url);
+      $arrayPermits= array("0","0","0","0");
+
+      if (count($modelPermits) > 0) {
+
+        for ($i = 0; $i < count($modelPermits); $i++) {
+
+         if ($modelPermits[$i]->Perm_id == "1") {
+            $arrayPermits[0] = $modelPermits[$i]->Perm_id;  
+          } elseif ($modelPermits[$i]->Perm_id  == "2") {
+            $arrayPermits[1] = $modelPermits[$i]->Perm_id;  
+          }elseif ($modelPermits[$i]->Perm_id  == "3") {
+            $arrayPermits[2] = $modelPermits[$i]->Perm_id;  
+          }elseif ($modelPermits[$i]->Perm_id  == "4") {
+            $arrayPermits[3] = $modelPermits[$i]->Perm_id;  
+          }
+
+        }
+      } 
+
+      define("PERMITS", $arrayPermits);
+
+      //return redirect()->route('login');
     }
   }
 } else {
