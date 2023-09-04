@@ -32,7 +32,7 @@ if (session()->is_logged) {
       define("PERMITS", $arrayPermits);
 
       //return redirect()->route('login');
-    }
+    } 
   }
 } else {
   return redirect()->route('login');
