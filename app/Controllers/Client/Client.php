@@ -27,6 +27,8 @@ class Client extends BaseController{
         $userstatus = new UserStatusModel();
         $company = new CompanyModel();
         $country = new CountryModel();
+
+        $data['meta'] = view('assets/meta');
         $data['title'] = 'Clientes';
         $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');

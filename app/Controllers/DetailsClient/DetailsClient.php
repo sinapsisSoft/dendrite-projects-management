@@ -19,14 +19,15 @@ class DetailsClient extends BaseController{
         $status = new UserStatusModel();
         $detailsclientId = $this->request->getGet('detailsclientId');
 
+        $data['meta'] = view('assets/meta');
         $data['title'] = 'Detalles';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
       
         $data['managers'] = $manager->where('Client_id', $detailsclientId)->find();
         $data['clients'] = $client->sp_select_all_clients($detailsclientId)[0];

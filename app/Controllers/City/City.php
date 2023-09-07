@@ -24,6 +24,8 @@ class City extends BaseController
   public function show()
   {
     $country = new CountryModel();
+
+    $data['meta'] = view('assets/meta');
     $data['title'] = 'Ciudades';
     $data['meta'] = view('assets/meta');
     $data['css'] = view('assets/css');

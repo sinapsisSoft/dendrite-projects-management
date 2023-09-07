@@ -33,14 +33,15 @@ class DetailProjectUser extends BaseController{
         $usermanager = new UserManagerModel();
         $projectRequestId = $this->request->getGet('projectRequestId');
 
+        $data['meta'] = view('assets/meta');
         $data['title'] = 'Detalles';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
         $managerId = $usermanager->where('User_id',$this->userId)->findAll();
         $managerId = $managerId[0]['Manager_id']; 
         $data['brands'] = $brandModel->sp_select_manager_brands($managerId);

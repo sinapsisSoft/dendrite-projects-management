@@ -30,9 +30,9 @@ class ProjectModel extends Model{
     ];
     protected $updatedField = 'updated_at';
 
-    function sp_select_all_project_table()
+    function sp_select_all_project_table($userId)
     {
-        $query = "CALL sp_select_all_project_table()";
+        $query = "CALL sp_select_all_project_table(" . $userId .")";
         $result = $this->db->query($query)->getResult();
         return $result;
     }

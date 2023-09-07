@@ -31,14 +31,15 @@ class DetailProjectRequest extends BaseController
         $priorities = new PrioritiesModel();
         $projectRequestId = $this->request->getGet('projectRequestId');
 
+        $data['meta'] = view('assets/meta');
         $data['title'] = 'Detalles de la solicitud';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
         $data['commercial'] = $user->sp_select_all_users_comercial();
         $data['users'] = $user->sp_select_all_users();
         $data['priorities'] = $priorities->findAll();

@@ -27,7 +27,7 @@ class ProjectRequest extends BaseController
         $brand = new BrandModel();
         $country = new CountryModel();
 
-        $data['meta'] =view('assets/meta');
+        $data['meta'] = view('assets/meta');
         $data['title'] = 'Solicitud de proyectos';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');

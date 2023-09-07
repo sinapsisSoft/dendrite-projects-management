@@ -20,12 +20,14 @@ class Project extends BaseController
     private $objModel;
     private $primaryKey;
     private $nameModel;
+    private $userId;
 
     public function __construct()
     {
         $this->objModel = new ProjectModel();
         $this->primaryKey = 'Project_id';
         $this->nameModel = 'projects';
+        $this->userId = session()->UserId;
     }
 
     public function show()
@@ -38,7 +40,7 @@ class Project extends BaseController
         $brand = new BrandModel();
         $country = new CountryModel();
 
-        $data['meta'] = 'assets/meta';
+        $data['meta'] = view('assets/meta');
         $data['title'] = 'Proyectos';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
@@ -47,10 +49,10 @@ class Project extends BaseController
         $data['header'] = view('header/header');
         $data['footer'] = view('footer/footer');
 
-        $data[$this->nameModel] = $this->objModel->sp_select_all_project_table();
+        $data[$this->nameModel] = $this->objModel->sp_select_all_project_table($this->userId);
         $data['clients'] = $client->findAll();
         $data['commercial'] = $user->sp_select_all_users_comercial();
-        $data['users'] = $user->sp_select_all_users();
+        $data['users'] = $user->where('Role_id', 7)->findAll();
         $data['userstatuses'] = $userstatus->sp_select_status_users();
         $data['priorities'] = $priorities->findAll();
         $data['managers'] = $manager->findAll();

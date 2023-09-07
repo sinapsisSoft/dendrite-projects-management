@@ -19,6 +19,7 @@ class DocType extends BaseController{
     }
 
     public function show(){
+        
         $data['title'] = 'Tipo de documentos';
         $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');

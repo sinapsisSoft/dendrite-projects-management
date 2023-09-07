@@ -77,14 +77,15 @@ class SubActivities extends BaseController
         $activityId = $this->request->getGet('activitiesId');
         // $subactivityId = $this->request->getGet('subactivitiesId');
 
+        $data['meta'] = view('assets/meta');
         $data['title'] = 'Subactividades';
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
 
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('navbar/header');
-        $data['footer'] = view('navbar/footer');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
 
         $data[$this->nameModel] = $this->objModel->findAll();
         $data['userstatuses'] = $userstatus->where('StatType_id', 4)->find();

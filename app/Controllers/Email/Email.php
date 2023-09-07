@@ -18,6 +18,7 @@ class Email extends BaseController{
     }
 
     public function show(){
+        
         $data['title'] = 'Correo Electronico';
         $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');

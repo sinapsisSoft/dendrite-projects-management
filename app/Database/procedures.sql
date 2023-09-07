@@ -185,12 +185,29 @@ END$$
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_project_table`$$
-CREATE PROCEDURE `sp_select_all_project_table` ()   
+CREATE PROCEDURE `sp_select_all_project_table` (IN userId INT)   
 BEGIN   
- SELECT PRO.Project_id, PRO.Project_code, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
-    INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
-    INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
-    ORDER BY Project_id DESC;
+    SET @role = (SELECT Role_id FROM user WHERE User_id = userId);
+    IF @role = 3 THEN
+        SELECT PRO.Project_id, PRO.Project_code, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
+        INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
+        INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
+        WHERE Project_commercial = userId
+        ORDER BY Project_id DESC;
+    ELSE 
+        IF @role = 7 THEN
+            SELECT PRO.Project_id, PRO.Project_code, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
+            INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
+            INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
+            WHERE User_id = userId
+            ORDER BY Project_id DESC;
+        ELSE
+            SELECT PRO.Project_id, PRO.Project_code, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
+            INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
+            INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
+            ORDER BY Project_id DESC;
+        END IF;
+    END IF;
 END$$
 
 DELIMITER $$
