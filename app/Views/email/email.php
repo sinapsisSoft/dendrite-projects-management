@@ -78,9 +78,11 @@
                   <input type="text" class="form-control" id="Email_puerto" name="Email_puerto" required value="<?= $emails == null ? '' : $emails['Email_puerto'] ?>">
                 </div>
               </form>
-              <div class="modal-footer">
-                <button type="submit" id="btn-submit" form="objForm" class="btn btn-primary mx-auto w-50">Guardar</button>
-              </div>
+              <?php if (PERMITS[2] == "3") : ?>
+                <div class="modal-footer">
+                  <button type="submit" id="btn-submit" form="objForm" class="btn btn-primary mx-auto w-50">Guardar</button>
+                </div>
+              <?php endif; ?>
             </div>
           </div>
         </div>

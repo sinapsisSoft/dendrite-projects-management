@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html dir="ltr">
+
 <head>
-    <?= $meta ?>
-    <title>
-        <?= $title ?>
-    </title>
-    <?= $css ?>
+  <?= $meta ?>
+  <title>
+    <?= $title ?>
+  </title>
+  <?= $css ?>
 </head>
 
 <body>
@@ -32,7 +33,7 @@
                     Gestión de proyectos
                   </li>
                   <li class="breadcrumb-item" aria-current="page">
-                    <a href="<?= base_url() ?>projectrequest">Solicitudes</a>
+                    Solicitudes
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
                     <a href="<?= base_url() ?>projectrequestproduct">Detalle de la solicitud</a>
@@ -120,37 +121,37 @@
               </div>
             </div>
           </div>
-          <?php if($data["projectrequest"]->Stat_id == 6): ?>
-          <div class="row">
-            <h4 class="col-4 page-title ">
-              <input type="button" onclick="history.back()" class="btn btn-primary" name="volver atrás" value="VOLVER">
-            </h4>            
-            <div class="col-8 text-end">
-              <div class="row justify-content-end">
-                <h6 class="page-title">                  
-                  APROBAR
-                  <button type="button" class="btn btn-primary btn-circle btn-lg btn-approved" onclick="showModal(1)">
-                    <lord-icon src="<?= base_url() ?>/assets/json/system-outline-31-check.json" trigger="hover" colors="primary:#ffffff" style="width: 30px;px;height:30px">
-                    </lord-icon>
-                  </button>
-                </h6>
-                <h6 class="page-title">
-                  RECHAZAR
-                  <button type="button" class="btn btn-primary btn-circle btn-lg btn-refused" onclick="delete_()">
-                    <lord-icon src="<?= base_url() ?>/assets/json/system-outline-29-cross.json" trigger="hover" colors="primary:#ffffff" style="width:30px;height:30px">
-                    </lord-icon>
-                  </button>
-                </h6>                
+          <?php if ($data["projectrequest"]->Stat_id == 6) : ?>
+            <div class="row">
+              <h4 class="col-4 page-title ">
+                <input type="button" onclick="history.back()" class="btn btn-primary" name="volver atrás" value="VOLVER">
+              </h4>
+              <div class="col-8 text-end">
+                <div class="row justify-content-end">
+                  <h6 class="page-title">
+                    APROBAR
+                    <button type="button" class="btn btn-primary btn-circle btn-lg btn-approved" onclick="showModal(1)">
+                      <lord-icon src="<?= base_url() ?>/assets/json/system-outline-31-check.json" trigger="hover" colors="primary:#ffffff" style="width: 30px;px;height:30px">
+                      </lord-icon>
+                    </button>
+                  </h6>
+                  <h6 class="page-title">
+                    RECHAZAR
+                    <button type="button" class="btn btn-primary btn-circle btn-lg btn-refused" onclick="delete_()">
+                      <lord-icon src="<?= base_url() ?>/assets/json/system-outline-29-cross.json" trigger="hover" colors="primary:#ffffff" style="width:30px;height:30px">
+                      </lord-icon>
+                    </button>
+                  </h6>
+                </div>
               </div>
-            </div>            
-          </div>          
-          <?php else: ?> 
+            </div>
+          <?php else : ?>
             <div class="row text-end">
-            <h4 class="col-12 page-title ">
-              <input type="button" onclick="history.back()" class="btn btn-primary" name="volver atrás" value="VOLVER">
-            </h4>            
-          </div> 
-          <?php endif ?> 
+              <h4 class="col-12 page-title ">
+                <input type="button" onclick="history.back()" class="btn btn-primary" name="volver atrás" value="VOLVER">
+              </h4>
+            </div>
+          <?php endif ?>
         </div>
       </div>
       <div class="modal fade" id="createModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
