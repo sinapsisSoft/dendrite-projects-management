@@ -140,11 +140,15 @@
                           <label for="SubAct_name">Nombre de Subactividad</label>
                           <input type="text" class="form-control form-disabled" id="SubAct_name" name="SubAct_name" required>
                         </div>
-                        <div class="col-12 col-md-6 mb-3">
+                        <div class="col-12 col-md-4 mb-3">
                           <label for="SubAct_estimatedEndDate">Fecha Estimada de Entrega</label>
                           <input type="date" class="form-control form-disabled" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate">
                         </div>
-                        <div class="col-12 col-md-6 mb-3">
+                        <div class="col-12 col-md-4 mb-3 ">
+                          <label for="SubAct_duration">Duración<small>(Horas)</small></label>
+                          <input type="text" class="form-control" id="SubAct_duration" name="SubAct_duration" min="0" value="" required>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3">
                           <label for="SubAct_percentage">% actividad realizada</label>
                           <input type="text" class="form-control read" id="SubAct_percentage" name="SubAct_percentage" value="0" required>
                         </div>
@@ -220,15 +224,19 @@
                       <div class="row">
                         <input type="hidden" class="form-control" id="SubAct_id" name="SubAct_id" value="0">
                         <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
-                        <div class="mb-3 col-4">
+                        <div class="mb-3 col-6">
                           <label for="SubAct_name">Nombre de la tarea</label>
                           <input type="text" class="form-control form-disabled" id="SubAct_name" name="SubAct_name" value="" required>
                         </div>
-                        <div class="mb-3 col-4">
+                        <div class="mb-3 col-6">
                           <label for="SubAct_estimatedEndDate">Fecha estimada de entrega</label>
                           <input type="date" class="form-control form-disabled" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" required>
                         </div>
-                        <div class="mb-3 col-4">
+                        <div class="mb-3 col-6">
+                          <label for="SubAct_duration">Duración<small>(Horas)</small></label>
+                          <input type="text" class="form-control" id="SubAct_duration" name="SubAct_duration" min="0" value="" required>
+                        </div>
+                        <div class="mb-3 col-6">
                           <label for="Stat_id">Estado</label>
                           <select class="form-control form-select form-disabled" id="Stat_id" name="Stat_id" required>
                             <?php foreach ($userstatuses as $userstatus) : ?>

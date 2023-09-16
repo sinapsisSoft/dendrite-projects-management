@@ -15,6 +15,7 @@ class SubActivitiesModel extends Model
     'SubAct_estimatedEndDate',
     'SubAct_endDate',  
     'SubAct_percentage', 
+    'SubAct_duration', 
     'Stat_id', 
     'Priorities_id',
     'Activi_id', 

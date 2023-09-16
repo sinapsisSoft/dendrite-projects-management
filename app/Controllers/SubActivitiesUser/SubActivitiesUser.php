@@ -60,7 +60,7 @@ class SubActivitiesUser extends BaseController
             $email = new Email();
             $mail = new ProjectModel();
             $status = new UserStatusModel();
-            $subactivityId = $this->request->getVar('id');
+            $subactivityId = $this->request->getVar($this->primaryKey);
             $mainMail = $mail->sp_select_user_notification($subactivityId);
             $subActivitie = $this->objModel->sp_select_subactivity_info($subactivityId);
             if ($subActivitie != null){
@@ -69,6 +69,7 @@ class SubActivitiesUser extends BaseController
                 $updateSubactivity = [
                     'Stat_id' => $finishStatus["Stat_id"],
                     'SubAct_percentage' => '100',
+                    'SubAct_duration' => $this->request->getVar('SubAct_duration'),
                     'SubAct_endDate' => date("Y-m-d H:i:s"),
                     'updated_at' => $today
                 ];
@@ -149,8 +150,10 @@ class SubActivitiesUser extends BaseController
             $today = date("Y-m-d H:i:s");
             $id = $this->request->getVar($this->primaryKey);
             $percent = $this->request->getVar('SubAct_percentage');
+            $duration = $this->request->getVar('SubAct_duration');
             $dataNew = [
                 'SubAct_percentage' => $percent,
+                'SubAct_duration' => $duration,
                 'updated_at' => $today
             ];
             $this->objModel->update($id, $dataNew);
@@ -190,6 +193,7 @@ class SubActivitiesUser extends BaseController
             'SubAct_estimatedEndDate' => $this->request->getVar('SubAct_estimatedEndDate'),
             'SubAct_endDate' => $this->request->getVar('SubAct_endDate'),
             'SubAct_percentage' => $this->request->getVar('SubAct_percentage'),
+            'SubAct_duration' => $this->request->getVar('SubAct_duration'),
             'Stat_id' => $this->request->getVar('Stat_id'),
             'Activi_id' => $this->request->getVar('Activi_id'),
             'Priorities_id' => $this->request->getVar('Priorities_id'),

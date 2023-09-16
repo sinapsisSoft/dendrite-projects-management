@@ -33,10 +33,11 @@ class SubActivities extends BaseController
     public function finishTask()
     {
         if ($this->request->isAJAX()) {
+            $today = date("Y-m-d H:i:s");
             $email = new Email();
             $mail = new ProjectModel();
             $status = new UserStatusModel();
-            $subactivityId = $this->request->getVar('id');
+            $subactivityId = $this->request->getVar($this->primaryKey);
             $mainMail = $mail->sp_select_user_notification($subactivityId);
             $subActivitie = $this->objModel->sp_select_subactivity_info($subactivityId);
             if ($subActivitie != null){
@@ -45,7 +46,9 @@ class SubActivities extends BaseController
                 $updateSubactivity = [
                     'Stat_id' => $finishStatus["Stat_id"],
                     'SubAct_percentage' => '100',
-                    'SubAct_endDate' => date("Y-m-d H:i:s")
+                    'SubAct_duration' => $this->request->getVar('SubAct_duration'),
+                    'SubAct_endDate' => date("Y-m-d H:i:s"),
+                    'updated_at' => $today
                 ];
                 $this->objModel->update($subactivityId, $updateSubactivity);
                 $this->activities->sp_update_percent_activity($subActivitie[0]->Activi_id);
@@ -237,6 +240,7 @@ class SubActivities extends BaseController
             'SubAct_description' => $this->request->getVar('SubAct_description'),
             'SubAct_estimatedEndDate' => $this->request->getVar('SubAct_estimatedEndDate'),
             'SubAct_endDate' => $this->request->getVar('SubAct_endDate'),
+            'SubAct_duration' => $this->request->getVar('SubAct_duration'),
             'SubAct_percentage' => $this->request->getVar('SubAct_percentage'),
             'Stat_id' => $this->request->getVar('Stat_id'),
             'Activi_id' => $this->request->getVar('Activi_id'),

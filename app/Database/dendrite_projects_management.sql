@@ -1096,6 +1096,7 @@ CREATE TABLE IF NOT EXISTS `subactivities` (
   `Activi_id` int(11) NOT NULL,
   `Priorities_id` int(11) NOT NULL,
   `SubAct_description` varchar(150) NOT NULL,
+  `SubAct_duration` float NULL,
   `SubAct_percentage` varchar(15) NOT NULL,
   `SubAct_endDate` DATETIME DEFAULT NULL,
   `updated_at` DATETIME DEFAULT NULL,

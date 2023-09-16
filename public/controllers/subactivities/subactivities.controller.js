@@ -38,10 +38,14 @@ function finish(formId) {
   let form = document.getElementById(formId);
   url = URL_ROUTE + 'finish';
   const id = form.querySelector(`#${primaryId}`).value;
-  const object = { id };
+  let duration = form.querySelector(`#SubAct_duration`).value;
+  const formData = {
+    'SubAct_id' : id,
+    'SubAct_duration' : duration
+  };
   fetch(url, {
     method: "POST",
-    body: JSON.stringify(object),
+    body: JSON.stringify(formData),
     headers: {
       "Content-Type": "application/json",
       "X-Requested-With": "XMLHttpRequest"
