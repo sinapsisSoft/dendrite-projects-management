@@ -80,6 +80,7 @@ class Project extends BaseController
                 $projectInfo = $this->objModel->sp_select_info_project($id);
                 if ($projectInfo != null){
                     $email->sendEmail($projectInfo, $mainMail, 3);
+                    $email->sendEmail($projectInfo, $userEmail['User_email'], 3);
                     $data['message'] = 'success';
                     $data['response'] = ResponseInterface::HTTP_OK;
                 }

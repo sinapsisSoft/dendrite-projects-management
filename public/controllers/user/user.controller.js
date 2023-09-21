@@ -263,7 +263,7 @@ function getDataId(idData, type) {
     .then(response => {
       if (response[dataResponse] == 200) {
         showModal(0);
-        sTForm.setDataForm(response[dataModel]);
+        sTForm.setDataForm(response[dataModel][0]);
         if(type == 0){
           sTForm.inputButtonDisable();
         }

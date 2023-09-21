@@ -58,6 +58,13 @@ class UserModel extends Model
         return $result;
     }
 
+    function sp_select_user_detail($userId)
+    {
+        $query = "CALL sp_select_user_detail(" . $userId .")";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
+
     private function getUpdatedDataWithHashedPassword(array $data): array
     {
         if (isset($data['data']['User_password'])) {

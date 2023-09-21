@@ -8,7 +8,7 @@ if (session()->is_logged) {
       return redirect()->route('login');
 
     } else {
-      $url = substr($_SERVER['REQUEST_URI'], 1, strlen($_SERVER['REQUEST_URI']));
+      $url = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/') + 1, strlen($_SERVER['REQUEST_URI']));
       $modelPermits = $model->sp_select_role_module_permit(session()->UserId, $url);
       $arrayPermits= array("0","0","0","0");
 

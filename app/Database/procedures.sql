@@ -252,6 +252,14 @@ BEGIN
 END$$
 
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_user_detail`$$
+CREATE PROCEDURE `sp_select_user_detail`(IN userId INT)   
+BEGIN
+    SELECT User_id, User_name, User_email, Comp_id, Stat_id, Role_id FROM user 
+    WHERE User_id = userId;
+END$$
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_users_collaborator`$$
 CREATE PROCEDURE `sp_select_all_users_collaborator` ()   
 BEGIN
@@ -601,7 +609,7 @@ CREATE PROCEDURE sp_select_role_module_permit(IN UserId INT,IN ModRoute VARCHAR(
 BEGIN
 SELECT RMP.Perm_id FROM role_module_permit RMP
 INNER JOIN role_module RM ON RM.Role_mod_id=RMP.Role_mod_id
-WHERE RM.Role_id=(SELECT Role_id FROM USER WHERE User_id=UserId) AND RM.Mod_id=(SELECT Mod_id FROM module WHERE Mod_route=ModRoute);
+WHERE RM.Role_id=(SELECT Role_id FROM user WHERE User_id=UserId) AND RM.Mod_id=(SELECT Mod_id FROM module WHERE Mod_route=ModRoute);
 END$$
 DELIMITER ;
 

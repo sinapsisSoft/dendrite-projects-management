@@ -92,7 +92,8 @@ class User extends BaseController
     {
         try {
             $id = $this->request->getVar($this->primaryKey);
-            $getDataId = $this->objModel->where($this->primaryKey, $id)->first();
+            $getDataId = $this->objModel->sp_select_user_detail($id);
+            // $getDataId = $this->objModel->where($this->primaryKey, $id)->first();
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
             $data['data'] = $getDataId;
@@ -115,8 +116,13 @@ class User extends BaseController
         try {
             $today = date("Y-m-d H:i:s");
             $id = $this->request->getVar($this->primaryKey);
-            $data = $this->getDataModel($id);
-            $data['updated_at'] = $today;
+            $data = [
+                'User_name' => $this->request->getVar('User_name'),
+                'User_email' => $this->request->getVar('User_email'),
+                'Role_id' => $this->request->getVar('Role_id'),
+                'Stat_id' => $this->request->getVar('Stat_id'),
+                'updated_at' => $today
+            ];
             $this->objModel->update($id, $data);
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
@@ -130,7 +136,7 @@ class User extends BaseController
         return json_encode($data);
     }
     /*
-*Ahutor:DIEGO CASALLAS
+*Author:DIEGO CASALLAS
 *Busines: SINAPSIS TECHNOLOGIES
 *Date:25/05/2022
 *Description:This functions delete 
