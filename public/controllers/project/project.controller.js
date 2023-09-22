@@ -21,6 +21,7 @@ const URL_ROUTE = BASE_URL + ruteContent;
 const TOASTS = new STtoasts();
 const myModalObjec = '#createUpdateModal';
 const idForm = 'objForm';
+const infoUrl = 'https://ior.ad/9jjF';
 
 var sTForm = null;
 var url = "";
@@ -387,3 +388,5 @@ function disableFormProject(){
 function enableFormProject(inputId){
   inputId.removeAttribute("disabled");
 }
+
+document.getElementById('btn-info').href = infoUrl;

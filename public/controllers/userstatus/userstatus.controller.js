@@ -7,7 +7,7 @@ $("#table_obj").DataTable({
 });
 
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Revise la información suministrada', 'Estado creado exitosamente', 'Estado actualizado exitosamente', 'Estado eliminado exitosamente', 'El estado no pudo ser eliminado. Revise si éste está siendo usado por algún usuario.');
+const arMessages = new Array('Revise la información suministrada. Recuerde que no se pueden crear estados ya existentes.', 'Estado creado exitosamente', 'Estado actualizado exitosamente', 'Estado eliminado exitosamente', 'El estado no pudo ser eliminado. Revise si éste está siendo usado por algún usuario.');
 const ruteContent = "userstatus/";
 const nameModel = 'userstatuses ';
 const dataModel = 'data';
@@ -21,7 +21,7 @@ const URL_ROUTE = BASE_URL + ruteContent;
 const TOASTS = new STtoasts();
 const myModalObjec = '#createUpdateModal';
 const idForm = 'objForm';
-const infoUrl = '';
+const infoUrl = 'https://ior.ad/9kBJ';
 
 var sTForm = null;
 var url = "";
@@ -251,3 +251,5 @@ var SingletonClassSTForm = (function () {
     }
   }
 })();
+
+document.getElementById('btn-info').href = infoUrl;

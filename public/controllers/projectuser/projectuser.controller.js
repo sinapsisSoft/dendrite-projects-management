@@ -18,8 +18,8 @@ const dataCsrf = 'csrf';
 const primaryId = 'ProjReq_id';
 const URL_ROUTE = BASE_URL + ruteContent;
 const myModalObjec = '#createUpdateModal';
-
 const idForm = 'objForm';
+const infoUrl = 'https://ior.ad/9osi';
 
 var sTForm = null;
 var url = "";
@@ -246,3 +246,5 @@ function getDataId(idData, type) {
       }
     });
 }
+
+document.getElementById('btn-info').href = infoUrl;

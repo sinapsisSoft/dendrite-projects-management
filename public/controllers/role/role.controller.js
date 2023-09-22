@@ -22,7 +22,7 @@ const URL_ROUTE = BASE_URL + ruteContent;
 const TOASTS = new STtoasts();
 const myModalObjec = '#createUpdateModal';
 const idForm = 'objForm';
-const infoUrl = '';
+const infoUrl = 'https://ior.ad/9kBH';
 
 var sTForm = null;
 var url = "";
@@ -318,4 +318,4 @@ var SingletonClassSTForm = (function () {
   }
 })();
 
-// Los primeros 4 roles no puedan ser eliminados ni cambiados el nombre
+document.getElementById('btn-info').href = infoUrl;

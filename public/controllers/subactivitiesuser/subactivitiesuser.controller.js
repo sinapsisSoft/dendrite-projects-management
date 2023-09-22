@@ -22,7 +22,7 @@ const myModalObjec = '#createUpdateModal';
 const idForm = 'objForm';
 const idEmailForm = 'objEmailForm';
 const idFinForm = 'objFinForm';
-
+const infoUrl = 'https://ior.ad/9paG';
 
 var sTForm = null;
 var sTFormEmail = null
@@ -409,3 +409,5 @@ function disableFormProject() {
     element.setAttribute("disabled", "true");
   }
 }
+
+document.getElementById('btn-info').href = infoUrl;

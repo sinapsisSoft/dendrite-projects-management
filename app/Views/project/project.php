@@ -66,6 +66,7 @@
                         <th>#</th>
                         <th>Código</th>
                         <th>Nombre</th>
+                        <th>Cliente</th>
                         <th>Prioridad</th>
                         <th>Fecha de creación</th>
                         <th>%</th>
@@ -79,6 +80,7 @@
                           <td><?= $i++; ?></td>
                           <td><?= $obj->Project_code; ?></td>
                           <td><?= $obj->Project_name; ?></td>
+                          <td><?= $obj->Client_name; ?></td>
                           <td class="priorities-text" style="color: <?= $obj->Priorities_color ?>"><?= $obj->Priorities_name; ?></td>
                           <td><?= $obj->Created_at; ?></td>
                           <td><?= $obj->Project_percentage == NULL ? 0 : $obj->Project_percentage; ?></td>
@@ -119,6 +121,7 @@
                         <th>#</th>
                         <th>Código</th>
                         <th>Nombre</th>
+                        <th>Cliente</th>
                         <th>Prioridad</th>
                         <th>Fecha de creación</th>
                         <th>%</th>

@@ -139,6 +139,7 @@
                       <tr>
                         <th>#</th>
                         <th>Nombre</th>
+                        <th>Colaborador</th>
                         <th>Prioridad</th>
                         <th colspan="2">Estado</th>
                         <th>Acciones</th>
@@ -150,6 +151,7 @@
                         <tr>
                           <td><?= $i++; ?></td>
                           <td><?= $obj->SubAct_name; ?></td>
+                          <td><?= $obj->User_name; ?></td>
                           <td class="priorities-text" style="color: <?= $obj->Priorities_color ?>"><?= $obj->Priorities_name; ?></td>
                           <td><?= $obj->Stat_name; ?></td>
                           <td>
@@ -188,6 +190,7 @@
                       <tr>
                         <th>#</th>
                         <th>Nombre</th>
+                        <th>Colaborador</th>
                         <th>Prioridad</th>
                         <th colspan="2">Estado</th>
                         <th>Acciones</th>

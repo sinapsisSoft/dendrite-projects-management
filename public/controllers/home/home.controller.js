@@ -13,6 +13,7 @@ const dataMessages = 'message';
 const dataCsrf = 'csrf';
 const idForm = 'objForm';
 const dataReportName = 'reportName';
+const infoUrl = 'https://ior.ad/9oXJ';
 
 const URL_ROUTE = BASE_URL + ruteContent;
 var sTForm = null;
@@ -239,3 +240,5 @@ function hideCanvas(){
   document.getElementById("reportView").innerHTML = "";
   document.getElementById("reportView").innerHTML = "No hay información para mostrar";
 }
+
+document.getElementById('btn-info').href = infoUrl;

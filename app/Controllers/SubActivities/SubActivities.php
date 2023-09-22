@@ -90,7 +90,7 @@ class SubActivities extends BaseController
         $data['header'] = view('header/header');
         $data['footer'] = view('footer/footer');
 
-        $data[$this->nameModel] = $this->objModel->findAll();
+        // $data[$this->nameModel] = $this->objModel->findAll();
         $data['userstatuses'] = $userstatus->where('StatType_id', 4)->find();
         $data['activity'] = $this->activities->sp_select_all_details_activities($activityId) != null ? $this->activities->sp_select_all_details_activities($activityId)[0] : [];
         $data['subactivities'] = $this->objModel->sp_select_all_sub_actitivites($activityId);

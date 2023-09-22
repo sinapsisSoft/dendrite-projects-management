@@ -1028,7 +1028,7 @@ INSERT INTO `role_module_permit` (`Role_mod_per_id`, `Perm_id`, `Role_mod_id`, `
 DROP TABLE IF EXISTS `status`;
 CREATE TABLE IF NOT EXISTS `status` (
   `Stat_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Stat_name` varchar(100) NOT NULL,
+  `Stat_name` varchar(100) NOT NULL UNIQUE,
   `Stat_description` varchar(200) NOT NULL,
   `StatType_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,

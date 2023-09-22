@@ -189,22 +189,25 @@ CREATE PROCEDURE `sp_select_all_project_table` (IN userId INT)
 BEGIN   
     SET @role = (SELECT Role_id FROM user WHERE User_id = userId);
     IF @role = 3 THEN
-        SELECT PRO.Project_id, PRO.Project_code, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
+        SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
         INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
         INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
+        INNER JOIN client CL ON PRO.Client_id = CL.Client_id
         WHERE Project_commercial = userId
         ORDER BY Project_id DESC;
     ELSE 
         IF @role = 7 THEN
-            SELECT PRO.Project_id, PRO.Project_code, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
+            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
             INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
             INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
+            INNER JOIN client CL ON PRO.Client_id = CL.Client_id
             WHERE User_id = userId
             ORDER BY Project_id DESC;
         ELSE
-            SELECT PRO.Project_id, PRO.Project_code, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
+            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
             INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
             INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
+            INNER JOIN client CL ON PRO.Client_id = CL.Client_id
             ORDER BY Project_id DESC;
         END IF;
     END IF;
@@ -217,6 +220,7 @@ CREATE PROCEDURE `sp_select_all_subactivities` (IN `activity_id` INT)   BEGIN
  SA.SubAct_id,
  SA.SubAct_name,
  S.Stat_name,
+ U.User_name,
  SA.SubAct_duration,
  SA.SubAct_percentage,
  PRI.Priorities_name,
@@ -228,6 +232,7 @@ CREATE PROCEDURE `sp_select_all_subactivities` (IN `activity_id` INT)   BEGIN
 FROM subactivities SA
 INNER JOIN status S ON S.Stat_id = SA.Stat_id
 INNER JOIN priorities PRI on PRI.Priorities_id = SA.Priorities_id
+INNER JOIN user U ON SA.User_id = U.User_id
 WHERE SA.Activi_id = activity_id
 ORDER BY SA.SubAct_id DESC;
 END$$
