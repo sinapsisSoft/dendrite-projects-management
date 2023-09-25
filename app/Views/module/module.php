@@ -124,7 +124,7 @@
           <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content" style="width: 100%;">
               <div class="modal-header">
-                <h5 class="modal-title" id="createUpdateModalLabel">DATOS</h5>
+                <h5 class="modal-title" id="createUpdateModalLabel">NUEVO MÓDULO</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -132,11 +132,11 @@
                   <input type="hidden" class="form-control" id="Mod_id" name="Mod_id" value="0">
                   <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                   <div class="col-12 col-md-6 mb-3">
-                    <label for="Mod_name">Nombre</label>
+                    <label for="Mod_name">Nombre *</label>
                     <input type="text" class="form-control" id="Mod_name" name="Mod_name" required>
                   </div>
                   <div class="col-12 col-md-6 mb-3">
-                    <label for="Mod_route">Ruta</label>
+                    <label for="Mod_route">Ruta *</label>
                     <input type="text" class="form-control" id="Mod_route" name="Mod_route" required>
                   </div>
                   <div class="col-12 mb-3">

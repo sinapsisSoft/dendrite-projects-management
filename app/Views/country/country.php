@@ -124,7 +124,7 @@
                   <input type="hidden" class="form-control" id="Country_id" name="Country_id" value="0">
                   <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                   <div class="col-12 mb-3">
-                    <label for="Country_name">Nombre</label>
+                    <label for="Country_name">Nombre *</label>
                     <input type="text" class="form-control" id="Country_name" name="Country_name" required>
                   </div>
                 </form>

@@ -194,7 +194,7 @@
           <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content" style="width: 100%;">
               <div class="modal-header">
-                <h5 class="modal-title" id="createUpdateModalLabel">DATOS</h5>
+                <h5 class="modal-title" id="createUpdateModalLabel">NUEVA MARCA DE PRODUCTO</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -202,7 +202,7 @@
                   <input type="hidden" class="form-control" id="Prod_brand_id" name="Prod_brand_id" value="0">
                   <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                   <div class="col-12 mb-3 ">
-                    <label for="Prod_brand_name">Nombre</label>
+                    <label for="Prod_brand_name">Nombre *</label>
                     <input type="text" class="form-control" id="Prod_brand_name" name="Prod_brand_name" required autocomplete="off">
                   </div>
                   <div class="col-12 mb-3">

@@ -125,11 +125,11 @@
                     <input type="hidden" class="form-control" id="Priorities_id" name="Priorities_id" value="0">
                     <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                     <div class="col-12 col-md-9 mb-3">
-                      <label for="Priorities_name">Nombre</label>
+                      <label for="Priorities_name">Nombre *</label>
                       <input type="text" class="form-control" id="Priorities_name" name="Priorities_name" required>
                     </div>
                     <div class="col-12 col-md-3 mb-3">
-                      <label for="Priorities_color">Color</label>
+                      <label for="Priorities_color">Color *</label>
                       <input type="color" class="form-control" id="Priorities_color" name="Priorities_color" required>
                     </div>
                   </form>

@@ -124,11 +124,11 @@
                   <input type="hidden" class="form-control" id="City_id" name="City_id" value="0">
                   <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                   <div class="col-12 col-md-6 mb-3">
-                    <label for="City_name">Nombre</label>
+                    <label for="City_name">Nombre *</label>
                     <input type="text" class="form-control" id="City_name" name="City_name" required>
                   </div>
                   <div class="col-12 col-md-6 mb-3">
-                    <label for="Country_id">Pais</label>
+                    <label for="Country_id">País *</label>
                     <select name="Country_id" id="Country_id" class="form-control form-select">
                       <?php foreach ($countries as $country) : ?>
                         <option value="<?= $country['Country_id'] ?>">

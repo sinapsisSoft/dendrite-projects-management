@@ -215,11 +215,11 @@
                         <input type="hidden" class="form-control" id="Activi_id" name="Activi_id" value="<?= $activity->Activi_id; ?>">
                         <input type="hidden" class="form-control" id="SubAct_id" name="SubAct_id" value="NULL">
                         <div class="col-12 col-md-8 mb-3">
-                          <label for="SubAct_name">Nombre de Subactividad</label>
+                          <label for="SubAct_name">Nombre de Subactividad *</label>
                           <input type="text" class="form-control" id="SubAct_name" name="SubAct_name" required>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
-                          <label for="User_id">Colaborador</label>
+                          <label for="User_id">Colaborador *</label>
                           <select name="User_id" id="User_id" class="form-control form-select" required>
                             <option value="">
                               Seleccione...
@@ -236,7 +236,7 @@
                           <input type="date" class="form-control" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate">
                         </div>
                         <div class="col-12 col-md-4 mb-3">
-                          <label for="Priorities_id">Prioridad</label>
+                          <label for="Priorities_id">Prioridad *</label>
                           <select class="form-control form-select" id="Priorities_id" name="Priorities_id" required>
                             <option value="">Seleccione...</option>
                             <?php foreach ($priorities as $priorities) : ?>
@@ -247,11 +247,11 @@
                           </select>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
-                          <label for="SubAct_duration">Duración <small>(Horas)</small></label>
+                          <label for="SubAct_duration">Duración <small>(Horas)</small> *</label>
                           <input type="text" class="form-control read" id="SubAct_duration" name="SubAct_duration" value="0" required>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
-                          <label for="SubAct_percentage">% actividad realizada</label>
+                          <label for="SubAct_percentage">% actividad realizada *</label>
                           <input type="text" class="form-control read" id="SubAct_percentage" name="SubAct_percentage" min="0" max="100" value="0" required>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
@@ -259,7 +259,7 @@
                           <input type="text" class="form-control form-disabled read" id="SubAct_endDate" name="SubAct_endDate">
                         </div>
                         <div class="col-12 col-md-4 mb-3">
-                          <label for="Stat_id">Estado</label>
+                          <label for="Stat_id">Estado *</label>
                           <select class="form-control form-select form-disabled read" id="Stat_id" name="Stat_id" required>
                             <?php foreach ($userstatuses as $userstatus) : ?>
                               <option value="<?= $userstatus['Stat_id']; ?>">
@@ -297,15 +297,15 @@
                       <input type="hidden" class="form-control" id="not_subId" name="SubAct_id" value="NULL">
                       <div class="row">
                         <div class="col-12 mb-3">
-                          <label for="SubAct_name">Asunto</label>
+                          <label for="SubAct_name">Asunto *</label>
                           <input type="text" class="form-control" id="subject" name="subject" required>
                         </div>
                         <div class="col-12 mb-3">
-                          <label for="SubAct_name">Link</label>
+                          <label for="SubAct_name">Link *</label>
                           <input type="text" class="form-control" id="link" name="link" required>
                         </div>
                         <div class="col-12 mb-3">
-                          <label for="User_id">Colaboradores</label>
+                          <label for="User_id">Colaboradores *</label>
                           <ul class="row" style="list-style: none;">
                             <?php foreach ($users as $user) : ?>
                               <li class="mb-3 col-3">
@@ -316,7 +316,7 @@
                           </ul>
                         </div>
                         <div class="col-12 mb-3">
-                          <label for="SubAct_name">Descripción</label>
+                          <label for="SubAct_name">Descripción *</label>
                           <input type="text" class="form-control" id="description" name="description" required>
                         </div>
                       </div>
@@ -345,19 +345,19 @@
                         <input type="hidden" class="form-control" id="SubAct_id" name="SubAct_id" value="0">
                         <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                         <div class="mb-3 col-6">
-                          <label for="SubAct_name">Nombre de la tarea</label>
+                          <label for="SubAct_name">Nombre de la tarea *</label>
                           <input type="text" class="form-control form-disabled" id="SubAct_name" name="SubAct_name" value="" required>
                         </div>
                         <div class="mb-3 col-6">
-                          <label for="SubAct_estimatedEndDate">Fecha estimada de entrega</label>
+                          <label for="SubAct_estimatedEndDate">Fecha estimada de entrega *</label>
                           <input type="date" class="form-control form-disabled" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" required>
                         </div>
                         <div class="mb-3 col-6">
-                          <label for="SubAct_duration">Duración<small>(Horas)</small></label>
+                          <label for="SubAct_duration">Duración<small>(Horas)</small> *</label>
                           <input type="text" class="form-control" id="SubAct_duration" name="SubAct_duration" min="0" value="" required>
                         </div>
                         <div class="mb-3 col-6">
-                          <label for="Stat_id">Estado</label>
+                          <label for="Stat_id">Estado *</label>
                           <select class="form-control form-select form-disabled" id="Stat_id" name="Stat_id" required>
                             <?php foreach ($userstatuses as $userstatus) : ?>
                               <option value="<?= $userstatus['Stat_id']; ?>">

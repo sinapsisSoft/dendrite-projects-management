@@ -181,19 +181,19 @@
                   <input type="hidden" class="form-control" id="User_id" name="User_id" value="0">
                   <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                   <div class="col-12 col-md-6 mb-3">
-                    <label for="User_name">Nombre</label>
+                    <label for="User_name">Nombre *</label>
                     <input type="text" class="form-control" id="User_name" name="User_name" placeholder="Nombre" minlength="3" required>
                   </div>
                   <div class="col-12 col-md-6 mb-3">
-                    <label for="User_email">Correo electrónico</label>
+                    <label for="User_email">Correo electrónico *</label>
                     <input type="email" class="form-control" id="User_email" name="User_email" placeholder="user@example.com" required>
                   </div>
                   <div id="userPassword-div" class="col-12 col-md-6 mb-3 user-password">
-                    <label for="User_password">Contraseña</label>
+                    <label for="User_password">Contraseña *</label>
                     <input type="password" class="form-control" id="User_password" name="User_password" placeholder="Contraseña" minlength="5" required>
                   </div>
                   <div id="userPassword-div" class="col-12 col-md-5 mb-3 user-password">
-                    <label for="confirmPassword">Confirmar contraseña</label>
+                    <label for="confirmPassword">Confirmar contraseña *</label>
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña" minlength="5" required>
                   </div>
                   <div id="userPassword-div" class="col-1 mb-3 align-self-end user-password">
@@ -202,7 +202,7 @@
                     </button>
                   </div>
                   <div class="mb-3 col-4 d-none">
-                    <label for="Comp_id">Empresa</label>
+                    <label for="Comp_id">Empresa *</label>
                     <select class="form-select form-select-sm" id="Comp_id" name="Comp_id" required>
                       <?php foreach ($companys as $company) : ?>
                         <option value="<?= $company['Comp_id']; ?>"> <?= $company['Comp_name']; ?></option>
@@ -210,7 +210,7 @@
                     </select>
                   </div>
                   <div class="col-12 col-md-6 mb-3">
-                    <label for="Role_id">Rol de usuario</label>
+                    <label for="Role_id">Rol de usuario *</label>
                     <select class="form-select form-select-sm" id="Role_id" name="Role_id" aria-label=".form-select-sm " required>
                       <option value="" selected>Seleccione...</option>
                       <?php foreach ($roles as $role) : ?>
@@ -221,7 +221,7 @@
                     </select>
                   </div>
                   <div class="col-12 col-md-6 mb-3">
-                    <label for="Stat_id">Estado de usuario</label>
+                    <label for="Stat_id">Estado de usuario *</label>
                     <select class="form-select form-select-sm form-disabled read" id="Stat_id" name="Stat_id" aria-label=".form-select-sm " required>
                       <?php foreach ($status as $statu) : ?>
                         <option value="<?= $statu->Stat_id; ?>"> <?= $statu->Stat_name; ?></option>

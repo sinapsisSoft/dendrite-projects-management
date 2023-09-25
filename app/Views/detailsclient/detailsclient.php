@@ -188,7 +188,7 @@
                         <input type="hidden" class="form-control" id="Brand_id" name="Brand_id" value="0">
                         <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                         <div class="col-12 mb-3">
-                          <label for="Brand_name">Nombre</label>
+                          <label for="Brand_name">Nombre *</label>
                           <input type="text" class="form-control" id="Brand_name" name="Brand_name" required autocomplete="off">
                         </div>
                         <div class="col-12 mb-3">
@@ -294,15 +294,15 @@
                         <input type="hidden" class="form-control" id="Manager_id" name="Manager_id" value="0">
                         <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                         <div class="col-12 mb-3">
-                          <label for="Manager_name">Nombre</label>
+                          <label for="Manager_name">Nombre *</label>
                           <input type="text" class="form-control" id="Manager_name" name="Manager_name" required>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
-                          <label for="Manager_email">Correo</label>
+                          <label for="Manager_email">Correo *</label>
                           <input type="text" class="form-control" id="Manager_email" name="Manager_email" required>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
-                          <label for="Manager_phone">Teléfono</label>
+                          <label for="Manager_phone">Teléfono *</label>
                           <input type="text" class="form-control" id="Manager_phone" name="Manager_phone" required>
                         </div>
                         <div class="col-12 mb-3">
@@ -342,11 +342,11 @@
                         <input type="hidden" class="form-control" id="Manager_id" name="Manager_id" value="0">
                         <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                         <div class="col-12 col-md-6 mb-3">
-                          <label for="User_email">Correo</label>
+                          <label for="User_email">Correo *</label>
                           <input type="text" class="form-control form-disabled" id="User_email" name="User_email" required>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
-                          <label for="Stat_id">Estado de usuario</label>
+                          <label for="Stat_id">Estado de usuario *</label>
                           <select class="form-select form-select-sm read" id="Stat_id" name="Stat_id" aria-label=".form-select-sm " required>
                             <?php foreach ($status as $statu) : ?>
                               <option value="<?= $statu->Stat_id; ?>"> <?= $statu->Stat_name; ?></option>

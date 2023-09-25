@@ -63,7 +63,7 @@
                 <input type="hidden" class="form-control" id="Mail_id" name="Mail_id" value="<?= $mails == null ? '' : $mails['Mail_id'] ?>">
                 <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                 <div class="mb-3 col-8">
-                  <label for="Mail_user">Correo</label>
+                  <label for="Mail_user">Correo *</label>
                   <input type="email" class="form-control" id="Mail_user" name="Mail_user" required value="<?= $mails == null ? '' : $mails['Mail_user'] ?>">
                 </div>
               </form>

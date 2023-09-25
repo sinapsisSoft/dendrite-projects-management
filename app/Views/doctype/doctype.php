@@ -127,7 +127,7 @@
                   <input type="hidden" class="form-control" id="DocType_id" name="DocType_id" value="0">
                   <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                   <div class="col-12 mb-3">
-                    <label for="DocType_name">Nombre</label>
+                    <label for="DocType_name">Nombre *</label>
                     <input type="text" class="form-control read" id="DocType_name" name="DocType_name" required>
                   </div>
                 </form>

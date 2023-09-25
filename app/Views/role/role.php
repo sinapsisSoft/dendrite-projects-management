@@ -129,11 +129,11 @@
                   <input type="hidden" class="form-control" id="Role_id" name="Role_id" value="0">
                   <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                   <div class="mb-3">
-                    <label for="DocType_name">Nombre del rol</label>
+                    <label for="DocType_name">Nombre del rol *</label>
                     <input type="text" class="form-control" id="Role_name" name="Role_name" required>
                   </div>
                   <div class=" mb-3">
-                    <label>Permisos</label>
+                    <label>Permisos *</label>
                     <br>
                     <table class="table col-12" id="table-modules">
                       <thead>

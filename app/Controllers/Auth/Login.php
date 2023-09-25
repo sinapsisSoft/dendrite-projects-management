@@ -47,23 +47,26 @@ class Login extends BaseController
         $model = new UserModel();
         if (!$user = $model->getUserBy('User_email', $userEmail)) {
             return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Usuario no registrado en el sistema']);
-        } else {
-            if (!$model->verifyHash($userPassword, $user['User_password'])) {
-               /*  */
-                return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Credenciales inválidas']);
-            } else {
-                session()->set([
-                    'UserId' => $user['User_id'],
-                    'UserName' => $user['User_name'],
-                    'CompId' => $user['Comp_id'],
-                    'is_logged' => true
-                ]);
-                return redirect()->route('dashboard')->with('msg', ['type' => 'success', 'body' => 'Bienvenido a la Platafoema ' . $user['User_name']]);
-               
+        } 
+        else {
+            if ($user['Stat_id'] != 1){
+                return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Usuario inactivo']);
             }
-
+            else {
+                if (!$model->verifyHash($userPassword, $user['User_password'])) {
+                   /*  */
+                    return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Credenciales inválidas']);
+                } else {
+                    session()->set([
+                        'UserId' => $user['User_id'],
+                        'UserName' => $user['User_name'],
+                        'CompId' => $user['Comp_id'],
+                        'is_logged' => true
+                    ]);
+                    return redirect()->route('dashboard')->with('msg', ['type' => 'success', 'body' => 'Bienvenido a la Plataforma ' . $user['User_name']]);
+                }
+            }
         }
-
     }
     public function validateUserEmail()
     {

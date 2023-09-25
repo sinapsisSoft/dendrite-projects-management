@@ -147,11 +147,11 @@
                     <input type="hidden" class="form-control" id="Project_id" name="Project_id" value="0">
                     <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                     <div class="col-12 col-md-6 mb-3">
-                      <label for="Project_name" class="bmd-label-floating">Nombre del Proyecto</label>
+                      <label for="Project_name" class="bmd-label-floating">Nombre del Proyecto *</label>
                       <input type="text" class="form-control" id="Project_name" name="Project_name" required>
                     </div>
                     <div class="col-12 col-md-6 mb-3">
-                      <label for="Client_id">Cliente</label>
+                      <label for="Client_id">Cliente *</label>
                       <select name="Client_id" id="Client_id" class="form-control form-disabled form-select" required>
                         <option value="">
                           Seleccione...
@@ -164,7 +164,7 @@
                       </select>
                     </div>
                     <div class="col-12 col-md-4 mb-3">
-                      <label for="Manager_id">Gerente</label>
+                      <label for="Manager_id">Gerente *</label>
                       <select name="Manager_id" id="Manager_id" class="form-control form-select form-disabled read" disabled required>
                         <option value="">
                           Seleccione...
@@ -177,7 +177,7 @@
                       </select>
                     </div>
                     <div class="col-12 col-md-4 mb-3">
-                      <label for="Brand_id">Marca</label>
+                      <label for="Brand_id">Marca *</label>
                       <select name="Brand_id" id="Brand_id" class="form-control form-disabled form-select read" disabled required>
                         <option value="">
                           Seleccione...
@@ -203,7 +203,7 @@
                       </select>
                     </div>
                     <div class="col-12 col-md-4 mb-3">
-                      <label for="Project_commercial">Nombre del comercial</label>
+                      <label for="Project_commercial">Nombre del comercial *</label>
                       <select name="Project_commercial" id="Project_commercial" class="form-control form-select" required>
                         <option value="">
                           Seleccione...
@@ -216,7 +216,7 @@
                       </select>
                     </div>
                     <div class="col-12 col-md-4 mb-3">
-                      <label for="Project_purchaseOrder">Orden de compra</label>
+                      <label for="Project_purchaseOrder">Orden de compra *</label>
                       <input type="text" class="form-control" id="Project_purchaseOrder" name="Project_purchaseOrder" required>
                     </div>
                     <div class="col-12 col-md-4 mb-3">
@@ -228,7 +228,7 @@
                       <input type="date" class="form-control" id="Project_ddtEndDate" name="Project_ddtEndDate">
                     </div>
                     <div class="col-12 col-md-3 mb-3">
-                      <label for="Project_startDate">Fecha Inicio Proyecto</label>
+                      <label for="Project_startDate">Fecha Inicio Proyecto *</label>
                       <input type="date" class="form-control" id="Project_startDate" name="Project_startDate" required>
                     </div>
                     <div class="col-12 col-md-3 mb-3">
@@ -236,7 +236,7 @@
                       <input type="date" class="form-control" id="Project_estimatedEndDate" name="Project_estimatedEndDate">
                     </div>
                     <div class="col-12 col-md-3 mb-3">
-                      <label for="User_id">Notificar a:</label>
+                      <label for="User_id">Notificar a: *</label>
                       <select name="User_id" id="User_id" class="form-control form-select" required>
                         <option value="">
                           Seleccione...
@@ -249,7 +249,7 @@
                       </select>
                     </div>
                     <div class="col-12 col-md-4 mb-3">
-                      <label for="Priorities_id">Prioridad</label>
+                      <label for="Priorities_id">Prioridad *</label>
                       <select class="form-control form-select" id="Priorities_id" name="Priorities_id" required>
                         <option value="">Seleccione...</option>
                         <?php foreach ($priorities as $priorities) : ?>

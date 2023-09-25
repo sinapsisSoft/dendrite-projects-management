@@ -131,12 +131,12 @@
                   <input type="hidden" class="form-control" id="Prod_id" name="Prod_id" value="0">
                   <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                   <div class="col-12 mb-3">
-                    <label for="Prod_name">Nombre</label>
+                    <label for="Prod_name">Nombre *</label>
                     <input type="text" class="form-control" id="Prod_name" name="Prod_name" required>
                   </div>
                   <div class="col-6 mb-3 ">
-                    <label for="Prod_brand_id">Marca</label>
-                    <select name="Prod_brand_id" id="Prod_brand_id" class="form-control form-select">
+                    <label for="Prod_brand_id">Marca *</label>
+                    <select name="Prod_brand_id" id="Prod_brand_id" class="form-control form-select" required>
                       <option value="">
                         Seleccione...
                       </option>
@@ -148,7 +148,7 @@
                     </select>
                   </div>
                   <div class="col-6 mb-3">
-                    <label for="Filings_id">Presentación</label>
+                    <label for="Filings_id">Presentación *</label>
                     <select name="Filing_id" id="Filing_id" class="form-control form-select" required>
                       <option value="">
                         Seleccione...

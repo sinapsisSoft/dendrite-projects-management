@@ -145,11 +145,11 @@
                           <input type="date" class="form-control form-disabled" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate">
                         </div>
                         <div class="col-12 col-md-4 mb-3 ">
-                          <label for="SubAct_duration">Duración<small>(Horas)</small></label>
+                          <label for="SubAct_duration">Duración<small>(Horas)</small> *</label>
                           <input type="text" class="form-control" id="SubAct_duration" name="SubAct_duration" min="0" value="" required>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
-                          <label for="SubAct_percentage">% actividad realizada</label>
+                          <label for="SubAct_percentage">% actividad realizada *</label>
                           <input type="text" class="form-control read" id="SubAct_percentage" name="SubAct_percentage" value="0" required>
                         </div>
                       </div>
@@ -177,15 +177,15 @@
                       <input type="hidden" class="form-control" id="not_subId" name="SubAct_id" value="NULL">
                       <div class="row">
                         <div class="col-12 mb-3">
-                          <label for="SubAct_name">Asunto</label>
+                          <label for="SubAct_name">Asunto *</label>
                           <input type="text" class="form-control" id="subject" name="subject" required>
                         </div>
                         <div class="col-12 mb-3">
-                          <label for="SubAct_name">Link</label>
+                          <label for="SubAct_name">Link *</label>
                           <input type="text" class="form-control" id="link" name="link" required>
                         </div>
                         <div class="col-12 mb-3">
-                          <label for="User_id">Colaboradores</label>
+                          <label for="User_id">Colaboradores *</label>
                           <ul class="row" style="list-style: none;">
                             <?php foreach ($users as $user) : ?>
                               <li class="mb-3 col-3">
@@ -196,7 +196,7 @@
                           </ul>
                         </div>
                         <div class="col-12 mb-3">
-                          <label for="SubAct_name">Descripción</label>
+                          <label for="SubAct_name">Descripción *</label>
                           <input type="text" class="form-control" id="description" name="description" required>
                         </div>
                       </div>
@@ -233,7 +233,7 @@
                           <input type="date" class="form-control form-disabled" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" required>
                         </div>
                         <div class="mb-3 col-6">
-                          <label for="SubAct_duration">Duración<small>(Horas)</small></label>
+                          <label for="SubAct_duration">Duración<small>(Horas)</small> *</label>
                           <input type="text" class="form-control" id="SubAct_duration" name="SubAct_duration" min="0" value="" required>
                         </div>
                         <div class="mb-3 col-6">

@@ -181,7 +181,7 @@
                 <input type="hidden" class="form-control" id="ProjReq_product_id" name="Project_product_id" value="NULL">
                 <input type="hidden" class="form-control" id="ProjReq_id" name="ProjReq_id" value="<?= $data['projectrequest']->ProjReq_id ?>">
                 <div class="col-12 col-md-8 mb-3">
-                  <label for="Prod_id">Producto</label>
+                  <label for="Prod_id">Producto *</label>
                   <select class="form-control form-select" name="Prod_id" id="Prod_id" required>
                     <option value="">
                       Seleccionar...
@@ -194,7 +194,7 @@
                   </select>
                 </div>
                 <div class="col-12 col-md-4 mb-3">
-                  <label for="ProjReq_product_amount">Cantidad</label>
+                  <label for="ProjReq_product_amount">Cantidad *</label>
                   <input type="number" class="form-control" id="ProjReq_product_amount" name="ProjReq_product_amount" min="1" required>
                 </div>
               </form>

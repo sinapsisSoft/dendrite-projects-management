@@ -127,7 +127,7 @@
                   <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                   <input type="hidden" class="form-control" id="StatType_id" name="StatType_id" value="1">
                   <div class="col-12 col-md-12 mb-3">
-                    <label for="Stat_name">Nombre</label>
+                    <label for="Stat_name">Nombre *</label>
                     <input type="text" class="form-control" id="Stat_name" name="Stat_name" required>
                   </div>
                 </form>

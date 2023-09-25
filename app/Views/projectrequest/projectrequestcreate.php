@@ -160,11 +160,11 @@
                     <input type="hidden" class="form-control" id="Stat_id" name="Stat_id" value="0">
                     <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                     <div class="col-12 col-md-8 mb-3">
-                      <label for="ProjReq_name" class="bmd-label-floating">Nombre del Proyecto</label>
+                      <label for="ProjReq_name" class="bmd-label-floating">Nombre del Proyecto *</label>
                       <input type="text" class="form-control" id="ProjReq_name" name="ProjReq_name" required>
                     </div>
                     <div class="col-12 col-md-4 mb-3">
-                      <label for="Brand_id">Marca</label>
+                      <label for="Brand_id">Marca *</label>
                       <select name="Brand_id" id="Brand_id" class="form-control form-select" disabled required>
                         <option value="">
                           Seleccione...

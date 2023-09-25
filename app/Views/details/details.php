@@ -224,7 +224,7 @@
                         <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                         <input type="hidden" class="form-control" id="Project_product_id" name="Project_product_id" value="NULL">
                         <div class="col-12 col-md-6 mb-3">
-                          <label for="Prod_id">Producto</label>
+                          <label for="Prod_id">Producto *</label>
                           <select class="form-control form-select" name="Prod_id" id="Prod_id" required>
                             <option value="">
                               Seleccionar...
@@ -237,7 +237,7 @@
                           </select>
                         </div>
                         <div class="col-12 col-md-2 mb-3">
-                          <label for="Project_productAmount">Cantidad</label>
+                          <label for="Project_productAmount">Cantidad *</label>
                           <input type="text" class="form-control" id="Project_productAmount" name="Project_productAmount" required>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
@@ -335,15 +335,15 @@
                           <input type="hidden" class="form-control" id="ProjectTrack_id" name="ProjectTrack_id" value="0">
                           <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                           <div class="col-12 col-md-6 mb-3">
-                            <label for="ProjectTrack_name">Nombre</label>
+                            <label for="ProjectTrack_name">Nombre *</label>
                             <input type="text" class="form-control" id="ProjectTrack_name" name="ProjectTrack_name" required>
                           </div>
                           <div class="col-12 col-md-6 mb-3">
-                            <label for="ProjectTrack_date">Fecha</label>
-                            <input type="date" class="form-control" id="ProjectTrack_date" name="ProjectTrack_date">
+                            <label for="ProjectTrack_date">Fecha *</label>
+                            <input type="date" class="form-control" id="ProjectTrack_date" name="ProjectTrack_date" required>
                           </div>
                           <div class="col-12 mb-3">
-                            <label for="ProjectTrack_description">Descripción</label>
+                            <label for="ProjectTrack_description">Descripción *</label>
                             <input type="text" class="form-control" id="ProjectTrack_description" name="ProjectTrack_description" required>
                           </div>
                         </div>
@@ -437,11 +437,11 @@
                           <input type="hidden" class="form-control" id="Activi_id" name="Activi_id" value="0">
                           <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                           <div class="col-12 col-md-6 mb-3">
-                            <label for="Activi_name">Nombre de Actividad</label>
+                            <label for="Activi_name">Nombre de Actividad *</label>
                             <input type="text" class="form-control" id="Activi_name" name="Activi_name" required>
                           </div>
                           <div class="col-12 col-md-6 mb-3">
-                            <label for="Project_product_id">Producto</label>
+                            <label for="Project_product_id">Producto *</label>
                             <select name="Project_product_id" id="Project_product_id" class="form-control form-select" required>
                               <option value="">
                                 Seleccione...

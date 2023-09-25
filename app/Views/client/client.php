@@ -124,7 +124,7 @@
           <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content" style="width: 100%;">
               <div class="modal-header">
-                <h5 class="modal-title" id="createUpdateModalLabel">DATOS</h5>
+                <h5 class="modal-title" id="createUpdateModalLabel">NUEVO CLIENTE</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -132,11 +132,11 @@
                   <input type="hidden" class="form-control" id="Client_id" name="Client_id" value="0">
                   <input type="hidden" class="form-control" id="updated_at" name="updated_at" value="NULL">
                   <div class="col-12 col-md-8 mb-3">
-                    <label for="Client_name">Nombre</label>
+                    <label for="Client_name">Nombre *</label>
                     <input type="text" class="form-control" id="Client_name" name="Client_name" required>
                   </div>
                   <div class="col-12 col-md-4 mb-3">
-                    <label for="DocType_id">Tipo de documento</label>
+                    <label for="DocType_id">Tipo de documento *</label>
                     <select name="DocType_id" id="DocType_id" class="form-control form-select" required>
                       <option value="">
                         Seleccione...
@@ -149,23 +149,23 @@
                     </select>
                   </div>
                   <div class="col-12 col-md-3 mb-3">
-                    <label for="Client_identification">Identificación</label>
+                    <label for="Client_identification">Identificación *</label>
                     <input type="text" class="form-control" id="Client_identification" name="Client_identification" required>
                   </div>
                   <div class="col-12 col-md-4 mb-3">
-                    <label for="Client_phone">Teléfono</label>
+                    <label for="Client_phone">Teléfono *</label>
                     <input type="text" class="form-control" id="Client_phone" name="Client_phone" required>
                   </div>
                   <div class="col-12 col-md-5 mb-3">
-                    <label for="Client_email">Correo Electrónico</label>
+                    <label for="Client_email">Correo Electrónico *</label>
                     <input type="text" class="form-control" id="Client_email" name="Client_email" required>
                   </div>                  
                   <div class="col-12 col-md-6 mb-3">
                     <label for="Client_address">Dirección</label>
-                    <input type="text" class="form-control" id="Client_address" name="Client_address" required>
+                    <input type="text" class="form-control" id="Client_address" name="Client_address">
                   </div>
                   <div class=" col-12 col-md-3 mb-3">
-                    <label for="Country_id">País</label>
+                    <label for="Country_id">País *</label>
                     <select name="Country_id" id="Country_id" class="form-control form-select" required>
                       <option value="">
                         Seleccione...
@@ -178,7 +178,7 @@
                     </select>
                   </div>
                   <div class="col-12 col-md-3 mb-3">
-                    <label for="Stat_id">Estado</label>
+                    <label for="Stat_id">Estado *</label>
                     <select name="Stat_id" id="Stat_id" class="form-control form-select read" required>
                       <?php foreach ($userstatuses as $userstatus) : ?>
                         <option value="<?= $userstatus->Stat_id ?>">
