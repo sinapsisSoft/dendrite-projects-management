@@ -249,6 +249,9 @@ $routes->group('detailsclient', ['namespace' => 'App\Controllers\DetailsClient',
 
 $routes->group('report', ['namespace' => 'App\Controllers\Report','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Report::show');
+    $routes->post('createCharts', 'Report::createCharts');
+    $routes->post('commercialExcel', 'Report::createCommercialExcel');
+    $routes->get('reports', '');
 
 });
 

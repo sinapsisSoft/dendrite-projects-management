@@ -1,19 +1,22 @@
 showPreload();
 
-$("#table_obj").DataTable({
+tableInfo = $("#table_obj").DataTable({
   "language": {
     "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
   }
 });
 
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Revise la información suministrada',  'Rol creado exitosamente', 'Rol actualizado exitosamente', 'Rol eliminado exitosamente', 'El Rol no pudo ser eliminado. Revise si éste está siendo usado por algún usuario.');
-const ruteContent = "role/";
-const nameModel = 'roles';
+const arMessages = new Array('Revise la información suministrada',  'Archivo generado exitosamente');
+const ruteContent = "report/";
+const nameModel = 'reports';
 const dataModel = 'data';
 const dataResponse = 'response';
 const dataMessages = 'message';
 const dataCsrf = 'csrf';
+const chart1 = 'chart1';
+const chart2 = 'chart2';
+const chart3 = 'chart3';
 let modules = [];
 const backgroundcolors = [
   'rgba(255, 99, 132, 0.2)',
@@ -32,26 +35,23 @@ const bordercolor = [
   'rgba(255, 159, 64, 1)'
 ];
 
-const primaryId = 'Role_id';
 const URL_ROUTE = BASE_URL + ruteContent;
 
 const TOASTS = new STtoasts();
-const myModalObjec = '#createUpdateModal';
 const idForm = 'objForm';
-const infoUrl = 'https://ior.ad/9kBH';
+const infoUrl = '';
 
 var sTForm = null;
 var url = "";
 var assignmentAction = 0;
 var formData = new Object();
-var selectInsertOrUpdate = true;
 var first = 0;
 
 window.addEventListener("load", (event) => {
   let initialDate = firstDay();
   let finalDate = lastDay();
-  // document.getElementById("initialDate").value = formatDate(initialDate);
-  // document.getElementById("finalDate").value = formatDate(finalDate);
+  document.getElementById("initialDate").value = formatDate(initialDate);
+  document.getElementById("finalDate").value = formatDate(finalDate);
   drawChart1('chart1', 'bar', dataChart1);
   drawChart2('chart2', 'polarArea', dataChart2);
   drawChart3('chart3', 'line', dataChart3);
@@ -75,6 +75,12 @@ function firstDay() {
 function lastDay() {
   var date = new Date();
   return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+}
+
+function formatDate(date) {
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+  return `${date.getFullYear()}-${(month < 10 ? '0' : '').concat(month)}-${(day < 10 ? '0' : '').concat(day)}`;
 }
 
 function drawChart1(chartId, type, jsonData) {
@@ -122,6 +128,20 @@ function drawChart1(chartId, type, jsonData) {
           display: true,
           text: 'Porcentaje de cumplimiento de los colaboradores'
         }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Colaboradores'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Avance en subactividades'
+          }
+        }
       }
     }
   });
@@ -137,10 +157,13 @@ function drawChart2(chartId, type, jsonData) {
     document.querySelector('#'+chartId+'Report').appendChild(canvas); 
   }
   let labels = [], data = [];
-  for (const iterator of jsonData) {
-    labels.push(iterator["Project_name"]);
-    data.push(iterator["Project_percentage"])
+  if (jsonData.length > 0 || jsonData != 0) {
+    for (const iterator of jsonData) {
+      labels.push(iterator["Project_name"]);
+      data.push(iterator["Project_percentage"])
+    }
   }
+  
   var ctx = document.getElementById(chartId);
   myChart = new Chart(ctx, {    
     type: type,
@@ -260,24 +283,131 @@ function showPreload() {
   $(".preloader").fadeIn();
 }
 
-// function hidePreload() {
-//   $(".preloader").fadeOut();
-// }
+function hidePreload() {
+  $(".preloader").fadeOut();
+}
 
-// var SingletonClassSTForm = (function () {
-//   var objInstance;
-//   function createInstance() {
-//     var object = new STForm(idForm);
-//     return object;
-//   }
-//   return {
-//     getInstance: function () {
-//       if (!objInstance) {
-//         objInstance = createInstance();
-//       }
-//       return objInstance;
-//     }
-//   }
-// })();
+var SingletonClassSTForm = (function () {
+  var objInstance;
+  function createInstance() {
+    var object = new STForm(idForm);
+    return object;
+  }
+  return {
+    getInstance: function () {
+      if (!objInstance) {
+        objInstance = createInstance();
+      }
+      return objInstance;
+    }
+  }
+})();
+
+function sendData(e) {
+  sTForm = SingletonClassSTForm.getInstance();
+  showPreload();
+  getData(sTForm.getDataForm());
+  e.preventDefault();
+}
+
+function getData(formData) {
+  showPreload();
+  url = URL_ROUTE + 'createCharts';
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        drawChart1('chart1', 'bar', response[chart1]);
+        drawChart2('chart2', 'polarArea', response[chart2]);
+        drawChart3('chart3', 'line', response[chart3]);
+        createTable('table_obj', response['dataTable']);
+        hidePreload();
+      } else {
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
+        hidePreload();
+      }
+    });
+}
+
+
+function createTable(tblid, jsonData){
+  tableInfo.destroy();
+  let tableBody = document.querySelector(`#${tblid}`).children[1];
+  let i = 1, newRow = '';
+  for (const iterator of jsonData) {
+    newRow += `<tr>
+    <td>${i}</td>
+    <td>${iterator['Project_name']}</td>
+    <td>${iterator['Client_name']}</td>
+    <td>${iterator['Activi_name']}</td>
+    <td>${iterator['Prod_name']}</td>
+    <td>${iterator['User_name']}</td>
+    <td>${iterator['SubAct_name']}</td>
+    <td>${iterator['SubAct_percentage']}</td>
+  </tr>`;
+    i++;
+  }
+  tableBody.innerHTML = newRow;
+  
+  tableInfo = $(`#${tblid}`).DataTable({
+    "language": {
+      "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+    }
+  });
+}
+
+function downloadExcel(){
+  sTForm = SingletonClassSTForm.getInstance();
+  showPreload();
+  generateExcel(sTForm.getDataForm());
+  e.preventDefault();
+}
+
+function generateExcel(formData) {
+  showPreload();
+  url = URL_ROUTE + 'commercialExcel';
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        window.open(BASE_URL + response['document']);
+        Swal.fire(
+          'Descarga exitosa',
+          arMessages[1],
+          'success'
+        );
+      } else {
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
+        
+      }
+      hidePreload();
+    });
+}
+
+
 
 // document.getElementById('btn-info').href = infoUrl;

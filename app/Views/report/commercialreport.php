@@ -57,6 +57,27 @@
                 </ul>
                 <div class="tab-content" id="tabContent">
                   <div class="tab-pane fade show active" id="report1" role="tabpanel" aria-labelledby="report1-tab">
+                    <div class="row">
+                    <form class="form-horizontal mt-3 row justify-content-center" id="objForm">
+                    <div class="col-12 my-4">
+                      <h6 class="m-0 font-weight-bold text-primary">Seleccione el rango de fechas para generar el reporte</h6>
+                    </div>
+                    <div class="col-12 col-md-5">
+                      <label for="initialDate">Fecha Inicial </label>
+                      <input type="date" id="initialDate" value="" class="form-control bg-light border-0">
+                    </div>
+                    <div class="col-10 col-md-5">
+                      <label for="finalDate">Fecha Final </label>
+                      <input type="date" id="finalDate" value="" class="form-control bg-light border-0">
+                    </div>
+                    <div class="col-auto align-self-end">
+                      <button type="submit" class="btn btn-primary" onclick="sendData(event);return false">
+                        <i class="fas fa-search fa-sm"></i>
+                        <div class="ripple-container"></div>
+                      </button>
+                    </div>
+                  </form>
+                    </div>
                     <div class="row reportChart align-items-center justify-content-center">
                       <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                         <div class="row">
@@ -73,8 +94,8 @@
                       </div>
                     </div>
                     <div class="row justify-content-end">
-                      <button type="button" class="btn btn-light my-3 mx-4 col-auto">
-                        <lord-icon src="<?= base_url() ?>/assets/json/system-outline-12-arrow-down.json" trigger="hover" colors="primary:#28b779" style="width:35px;height:35px" onclick="fnExcelReport('tableReservReport','Reporte Reservas');">
+                      <button type="button" class="btn btn-light my-3 mx-4 col-auto" onclick="downloadExcel(event); return false;">
+                        <lord-icon src="<?= base_url() ?>/assets/json/system-outline-12-arrow-down.json" id="btn-excel" trigger="hover" colors="primary:#28b779" style="width:35px;height:35px">
                         </lord-icon>
                       </button>
                     </div>
