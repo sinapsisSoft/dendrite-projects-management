@@ -42,11 +42,10 @@ class Report extends BaseController{
 
         switch ($this->roleId) {
             case 1:
-
-                return view('report/report', $data);
+                return view('error', $data);
                 break;
             case 2:
-                return view('report/report', $data);
+                return view('error', $data);
                 break;
             case 3:
                 $data['dataTable'] = $this->objModel->sp_select_commercial_info_table($initialDate, $finalDate, $this->userId);
@@ -59,10 +58,10 @@ class Report extends BaseController{
                 return view('report/commercialreport', $data);
                 break;
             case 4:
-                return view('report/report', $data);
+                return view('error', $data);
                 break;
             default:
-                $reportName = "SUBACTIVIDADES POR CLIENTE";
+                return view('error', $data);
                 break;
         }
     }
@@ -74,10 +73,10 @@ class Report extends BaseController{
             $finalDate = $this->request->getVar('finalDate');
             switch ($this->roleId) {
                 case 1:
-                    // return view('report/report', $data);
+                    // return view('error');
                     break;
                 case 2:
-                    // return view('report/report', $data);
+                    // return view('error');
                     break;
                 case 3:
                     $data['dataTable'] = $this->objModel->sp_select_commercial_info_table($initialDate, $finalDate, $this->userId);
@@ -89,9 +88,10 @@ class Report extends BaseController{
                     count($chart3) > 0 ? $data['chart3'] = $chart3 : $data['chart3'] = 0;
                     break;
                 case 4:
-                    // return view('report/report', $data);
+                    // return view('error');
                     break;
                 default:
+                    // return view('error');
                     break;
             }
             $data['message'] = 'success';
