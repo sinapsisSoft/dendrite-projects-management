@@ -51,29 +51,32 @@
                   <li class="nav-item">
                     <a class="nav-link active" id="report1-tab" data-bs-toggle="tab" data-bs-target="#report1" role="tab" aria-controls="report1" aria-selected="true">Reporte General</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="report2-tab" data-bs-toggle="tab" data-bs-target="#report2" role="tab" aria-controls="report2" aria-selected="false">Reporte Gr[afico</a>
+                  </li>
                 </ul>
                 <div class="tab-content" id="tabContent">
                   <div class="tab-pane fade show active" id="report1" role="tabpanel" aria-labelledby="report1-tab">
                     <div class="row">
-                      <form class="form-horizontal mt-3 row justify-content-center" id="objForm">
-                        <div class="col-12 my-4">
-                          <h6 class="m-0 font-weight-bold text-primary">Seleccione el rango de fechas para generar el reporte</h6>
-                        </div>
-                        <div class="col-12 col-md-5">
-                          <label for="initialDate">Fecha Inicial </label>
-                          <input type="date" id="initialDate" value="" class="form-control bg-light border-0">
-                        </div>
-                        <div class="col-10 col-md-5">
-                          <label for="finalDate">Fecha Final </label>
-                          <input type="date" id="finalDate" value="" class="form-control bg-light border-0">
-                        </div>
-                        <div class="col-auto align-self-end">
-                          <button type="submit" class="btn btn-primary" onclick="sendData(event);return false">
-                            <i class="fas fa-search fa-sm"></i>
-                            <div class="ripple-container"></div>
-                          </button>
-                        </div>
-                      </form>
+                    <form class="form-horizontal mt-3 row justify-content-center" id="objForm">
+                    <div class="col-12 my-4">
+                      <h6 class="m-0 font-weight-bold text-primary">Seleccione el rango de fechas para generar el reporte</h6>
+                    </div>
+                    <div class="col-12 col-md-5">
+                      <label for="initialDate">Fecha Inicial </label>
+                      <input type="date" id="initialDate" value="" class="form-control bg-light border-0">
+                    </div>
+                    <div class="col-10 col-md-5">
+                      <label for="finalDate">Fecha Final </label>
+                      <input type="date" id="finalDate" value="" class="form-control bg-light border-0">
+                    </div>
+                    <div class="col-auto align-self-end">
+                      <button type="submit" class="btn btn-primary" onclick="sendData(event);return false">
+                        <i class="fas fa-search fa-sm"></i>
+                        <div class="ripple-container"></div>
+                      </button>
+                    </div>
+                  </form>
                     </div>
                     <div class="row reportChart align-items-center justify-content-center">
                       <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
@@ -103,7 +106,6 @@
                           <thead>
                             <tr>
                               <th>#</th>
-                              <th>Código</th>
                               <th>Proyecto</th>
                               <th>Cliente</th>
                               <th>País</th>
@@ -119,7 +121,6 @@
                             <?php foreach ($dataTable as $obj) : ?>
                               <tr>
                                 <td><?= $i++; ?></td>
-                                <td><?= $obj->Project_code; ?></td>
                                 <td><?= $obj->Project_name; ?></td>
                                 <td><?= $obj->Client_name; ?></td>
                                 <td><?= $obj->Country_name; ?></td>
@@ -134,7 +135,6 @@
                           <tfoot>
                             <tr>
                               <th>#</th>
-                              <th>Código</th>
                               <th>Proyecto</th>
                               <th>Cliente</th>
                               <th>País</th>
@@ -150,6 +150,8 @@
                     </div>
 
                   </div>
+                  <div class="tab-pane fade" id="report2" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
                 </div>
               </div>
             </div>

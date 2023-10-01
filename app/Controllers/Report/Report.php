@@ -116,38 +116,42 @@ class Report extends BaseController{
                 $spreadsheet->getActiveSheet()->setTitle('Reporte Comercial');
 
                 $activeWorksheet = $spreadsheet->getActiveSheet();
-                $activeWorksheet->setCellValue('A1', 'Proyecto');
+                $activeWorksheet->setCellValue('A1', 'Código');
                 $activeWorksheet->getColumnDimension('A')->setAutoSize(true);
-                $activeWorksheet->setCellValue('B1', 'Cliente');
+                $activeWorksheet->setCellValue('B1', 'Proyecto');
                 $activeWorksheet->getColumnDimension('B')->setAutoSize(true);
-                $activeWorksheet->setCellValue('C1', 'Actividad');
+                $activeWorksheet->setCellValue('C1', 'Cliente');
                 $activeWorksheet->getColumnDimension('C')->setAutoSize(true);
-                $activeWorksheet->setCellValue('D1', 'Producto');
+                $activeWorksheet->setCellValue('D1', 'País');
                 $activeWorksheet->getColumnDimension('D')->setAutoSize(true);
-                $activeWorksheet->setCellValue('E1', 'Colaborador');
+                $activeWorksheet->setCellValue('E1', 'Actividad');
                 $activeWorksheet->getColumnDimension('E')->setAutoSize(true);
-                $activeWorksheet->setCellValue('F1', 'Subactividad');
+                $activeWorksheet->setCellValue('F1', 'Producto');
                 $activeWorksheet->getColumnDimension('F')->setAutoSize(true);
-                $activeWorksheet->setCellValue('G1', '% Avance');
+                $activeWorksheet->setCellValue('G1', 'Colaborador');
                 $activeWorksheet->getColumnDimension('G')->setAutoSize(true);
+                $activeWorksheet->setCellValue('H1', 'Subactividad');
+                $activeWorksheet->getColumnDimension('H')->setAutoSize(true);
+                $activeWorksheet->setCellValue('I1', '% Avance');
+                $activeWorksheet->getColumnDimension('I')->setAutoSize(true);
                 
-                // $activeWorksheet->getStyle('A1:G1')->getFont()->setBold(true);
-
                 $rowNumber = 2;
                 foreach ($tableResult as $row){
-                    $activeWorksheet->setCellValue('A'.$rowNumber, $row->Project_name);
-                    $activeWorksheet->setCellValue('B'.$rowNumber, $row->Client_name);
-                    $activeWorksheet->setCellValue('C'.$rowNumber, $row->Activi_name);
-                    $activeWorksheet->setCellValue('D'.$rowNumber, $row->Prod_name);
-                    $activeWorksheet->setCellValue('E'.$rowNumber, $row->User_name);
-                    $activeWorksheet->setCellValue('F'.$rowNumber, $row->SubAct_name);
-                    $activeWorksheet->setCellValue('G'.$rowNumber, $row->SubAct_percentage);
+                    $activeWorksheet->setCellValue('A'.$rowNumber, $row->Project_code);
+                    $activeWorksheet->setCellValue('B'.$rowNumber, $row->Project_name);
+                    $activeWorksheet->setCellValue('C'.$rowNumber, $row->Client_name);
+                    $activeWorksheet->setCellValue('D'.$rowNumber, $row->Country_name);
+                    $activeWorksheet->setCellValue('E'.$rowNumber, $row->Activi_name);
+                    $activeWorksheet->setCellValue('F'.$rowNumber, $row->Prod_name);
+                    $activeWorksheet->setCellValue('G'.$rowNumber, $row->User_name);
+                    $activeWorksheet->setCellValue('H'.$rowNumber, $row->SubAct_name);
+                    $activeWorksheet->setCellValue('I'.$rowNumber, $row->SubAct_percentage);
                     $rowNumber++;
                 }
     
                 $writer = new Xlsx($spreadsheet);
-                $download = 'reports/Reporte.xlsx';
-                $writer->save('reports/Reporte.xlsx');
+                $download = 'reports/Reporte'.$initialDate.'a'.$finalDate.'.xlsx';
+                $writer->save('reports/Reporte'.$initialDate.'a'.$finalDate.'.xlsx');
                 $data['data'] = $tableResult;
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;

@@ -349,8 +349,10 @@ function createTable(tblid, jsonData){
   for (const iterator of jsonData) {
     newRow += `<tr>
     <td>${i}</td>
+    <td>${iterator['Project_code']}</td>
     <td>${iterator['Project_name']}</td>
     <td>${iterator['Client_name']}</td>
+    <td>${iterator['Country_name']}</td>
     <td>${iterator['Activi_name']}</td>
     <td>${iterator['Prod_name']}</td>
     <td>${iterator['User_name']}</td>

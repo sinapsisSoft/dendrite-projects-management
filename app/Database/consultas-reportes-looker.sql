@@ -5,15 +5,17 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_commercial_info_table`$$
 CREATE PROCEDURE `sp_select_commercial_info_table` (IN initDate DATE, IN finDate DATE, IN userId INT)   
 BEGIN
-  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Client_id, C.Client_name FROM activities AC
+  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name FROM activities AC
   RIGHT JOIN subactivities SA ON AC.Activi_id = SA.Activi_id
   INNER JOIN user U ON SA.User_id = U.User_id
   INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id
   INNER JOIN project P ON PP.Project_id = P.Project_id
   INNER JOIN product PD ON PP.Prod_id = PD.Prod_id
   INNER JOIN client C ON P.Client_id = C.Client_id
+  INNER JOIN country CN ON C.Country_id = CN.Country_id
   WHERE (P.Project_startDate BETWEEN initDate AND finDate) AND P.Project_commercial = userId
-  GROUP BY SA.SubAct_id ; 
+  GROUP BY SA.SubAct_id
+  ORDER BY P.Project_id ASC; 
 END$$
 
 -- Bar chart of each collaborator indicating the average completeness of their activities
