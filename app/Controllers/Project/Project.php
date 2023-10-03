@@ -66,7 +66,7 @@ class Project extends BaseController
         $codeProject = '';
         $user = new UserModel();
         $mail = new MailModel();
-        $email = new Email();
+        // $email = new Email();
         $mainMail = $mail->findAll()[0]["Mail_user"];
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL, $codeProject);
@@ -79,8 +79,8 @@ class Project extends BaseController
                 $this->objModel->update($id, array_merge($dataModel, ["Project_code" => $codeProject]));
                 $projectInfo = $this->objModel->sp_select_info_project($id);
                 if ($projectInfo != null){
-                    $email->sendEmail($projectInfo, $mainMail, 3);
-                    $email->sendEmail($projectInfo, $userEmail['User_email'], 3);
+                    // $email->sendEmail($projectInfo, $mainMail, 3);
+                    // $email->sendEmail($projectInfo, $userEmail['User_email'], 3);
                     $data['message'] = 'success';
                     $data['response'] = ResponseInterface::HTTP_OK;
                 }

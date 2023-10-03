@@ -171,6 +171,90 @@ class Email
       </tbody>
     </table> ';
     }
+    else if($type == 4){
+      $this->subject =  'Novedades del proyecto ' . $data[0]->Project_name;
+      $this->body = '<table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tbody>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+      <div style="font-size: 16px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word;">
+        <p style="line-height: 140%;">Hola, queremos mantenerte al día sobre el proyecto <strong>' . $data[0]->Project_name . '</strong></p>
+      </div>    
+          </td>
+        </tr>
+      </tbody>
+    </table>  
+    <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tbody>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;">Se ha creado una nueva subactividad <strong>' . $data[0]->SubAct_name . '</strong> asignada al colaborador <strong>'. $data[0]->User_name .'</strong>.</p>
+            </div>    
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;"><strong>Fecha estimada de entrega:</strong> '. $data[0]->SubAct_estimatedEndDate . '</p>
+              </br>
+              <p style="line-height: 140%;"><strong>Prioridad: </strong>'. $data[0]->Priorities_name . '</p>
+            </div>    
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;color: #7460ee;">Recuerda que puedes revisar el listado de tus subactividades desde el siguiente botón </p>
+            </div>            
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <button type="button" style="padding: 8px; border-color: #7460ee; background: #7460ee; border-radius: 18px;">
+                <a href="www.google.com" target="_blank" style="color: #ffffff; text-decoration: none;">Revisar actividades</a>
+              </button>
+            </div>            
+          </td>
+        </tr>
+      </tbody>
+    </table> ';
+    }
+    else if($type == 5){
+      $this->subject =  'Novedades del proyecto ' . $data[0]->Project_name;
+      $this->body = '<table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tbody>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+      <div style="font-size: 16px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word;">
+        <p style="line-height: 140%;">Hola, queremos mantenerte al día sobre el proyecto <strong>' . $data[0]->Project_name . '</strong></p>
+      </div>    
+          </td>
+        </tr>
+      </tbody>
+    </table>  
+    <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tbody>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;">Se ha creado una nueva subactividad <strong>' . $data[0]->SubAct_name . '</strong> asignada al colaborador <strong>'. $data[0]->User_name .'</strong>.</p>
+            </div>    
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;"><strong>Fecha estimada de entrega:</strong> '. $data[0]->SubAct_estimatedEndDate . '</p>
+              </br>
+              <p style="line-height: 140%;"><strong>Prioridad: </strong>'. $data[0]->Priorities_name . '</p>
+            </div>    
+          </td>
+        </tr>
+      </tbody>
+    </table> ';
+    }
     $this->message = '<!DOCTYPE html>
     <head>
     <!--[if gte mso 9]>

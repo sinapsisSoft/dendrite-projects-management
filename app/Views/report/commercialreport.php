@@ -91,7 +91,7 @@
                       </div>
                     </div>
                     <div class="row justify-content-end">
-                      <button type="button" class="btn btn-light my-3 mx-4 col-auto" onclick="downloadExcel(event); return false;">
+                      <button type="button" class="btn btn-light my-3 mx-4 col-auto" onclick="downloadExcel(); return false;">
                         <lord-icon src="<?= base_url() ?>/assets/json/system-outline-12-arrow-down.json" id="btn-excel" trigger="hover" colors="primary:#28b779" style="width:35px;height:35px">
                         </lord-icon>
                       </button>

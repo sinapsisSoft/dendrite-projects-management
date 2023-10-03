@@ -649,3 +649,23 @@ BEGIN
     ORDER BY P.project_id DESC;
 END$$
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_info_subactivity`$$
+CREATE PROCEDURE `sp_select_info_subactivity` (IN `subactId` INT)   
+BEGIN
+    SELECT S.SubAct_name,
+    S.SubAct_estimatedEndDate,
+    S.Priorities_id,
+    S.User_id,
+    U.User_name,
+    PR.Priorities_name,
+    P.Project_id,
+    P.Project_name
+    FROM subactivities S
+    INNER JOIN activities A ON S.Activi_id = A.Activi_id
+    INNER JOIN project_product PP ON A.Project_product_id = PP.Project_product_id 
+    INNER JOIN project P ON PP.Project_id = P.Project_id
+    INNER JOIN priorities PR ON P.Priorities_id = PR.Priorities_id
+    INNER JOIN user U ON S.User_id = U.User_id
+    WHERE S.SubAct_id = subactId;
+END$$

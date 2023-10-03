@@ -374,7 +374,6 @@ function downloadExcel(){
   sTForm = SingletonClassSTForm.getInstance();
   showPreload();
   generateExcel(sTForm.getDataForm());
-  e.preventDefault();
 }
 
 function generateExcel(formData) {
