@@ -124,61 +124,61 @@ class Report extends BaseController{
             $initialDate = $this->request->getVar('initialDate');
             $finalDate = $this->request->getVar('finalDate');
             $tableResult = $this->objModel->sp_select_commercial_info_table($initialDate, $finalDate, $this->userId);
-            // try {
+            try {
                 $sheet = new Spreadsheet();
-                // $sheet->getProperties()->setCreator('Made in Casa')->setTitle('Reporte Comercial');
-                // $sheet->getActiveSheet()->setTitle('Reporte Comercial');
+                $sheet->getProperties()->setCreator('Made in Casa')->setTitle('Reporte Comercial');
+                $sheet->getActiveSheet()->setTitle('Reporte Comercial');
 
-                // $activeWorksheet = $sheet->getActiveSheet();
-                // $activeWorksheet->setCellValue('A1', 'Código');
-                // $activeWorksheet->getColumnDimension('A')->setAutoSize(true);
-                // $activeWorksheet->setCellValue('B1', 'Proyecto');
-                // $activeWorksheet->getColumnDimension('B')->setAutoSize(true);
-                // $activeWorksheet->setCellValue('C1', 'Cliente');
-                // $activeWorksheet->getColumnDimension('C')->setAutoSize(true);
-                // $activeWorksheet->setCellValue('D1', 'País');
-                // $activeWorksheet->getColumnDimension('D')->setAutoSize(true);
-                // $activeWorksheet->setCellValue('E1', 'Actividad');
-                // $activeWorksheet->getColumnDimension('E')->setAutoSize(true);
-                // $activeWorksheet->setCellValue('F1', 'Producto');
-                // $activeWorksheet->getColumnDimension('F')->setAutoSize(true);
-                // $activeWorksheet->setCellValue('G1', 'Colaborador');
-                // $activeWorksheet->getColumnDimension('G')->setAutoSize(true);
-                // $activeWorksheet->setCellValue('H1', 'Subactividad');
-                // $activeWorksheet->getColumnDimension('H')->setAutoSize(true);
-                // $activeWorksheet->setCellValue('I1', '% Avance');
-                // $activeWorksheet->getColumnDimension('I')->setAutoSize(true);
+                $activeWorksheet = $sheet->getActiveSheet();
+                $activeWorksheet->setCellValue('A1', 'Código');
+                $activeWorksheet->getColumnDimension('A')->setAutoSize(true);
+                $activeWorksheet->setCellValue('B1', 'Proyecto');
+                $activeWorksheet->getColumnDimension('B')->setAutoSize(true);
+                $activeWorksheet->setCellValue('C1', 'Cliente');
+                $activeWorksheet->getColumnDimension('C')->setAutoSize(true);
+                $activeWorksheet->setCellValue('D1', 'País');
+                $activeWorksheet->getColumnDimension('D')->setAutoSize(true);
+                $activeWorksheet->setCellValue('E1', 'Actividad');
+                $activeWorksheet->getColumnDimension('E')->setAutoSize(true);
+                $activeWorksheet->setCellValue('F1', 'Producto');
+                $activeWorksheet->getColumnDimension('F')->setAutoSize(true);
+                $activeWorksheet->setCellValue('G1', 'Colaborador');
+                $activeWorksheet->getColumnDimension('G')->setAutoSize(true);
+                $activeWorksheet->setCellValue('H1', 'Subactividad');
+                $activeWorksheet->getColumnDimension('H')->setAutoSize(true);
+                $activeWorksheet->setCellValue('I1', '% Avance');
+                $activeWorksheet->getColumnDimension('I')->setAutoSize(true);
                 
-                // $rowNumber = 2;
-                // foreach ($tableResult as $row){
-                //     $activeWorksheet->setCellValue('A'.$rowNumber, $row->Project_code);
-                //     $activeWorksheet->setCellValue('B'.$rowNumber, $row->Project_name);
-                //     $activeWorksheet->setCellValue('C'.$rowNumber, $row->Client_name);
-                //     $activeWorksheet->setCellValue('D'.$rowNumber, $row->Country_name);
-                //     $activeWorksheet->setCellValue('E'.$rowNumber, $row->Activi_name);
-                //     $activeWorksheet->setCellValue('F'.$rowNumber, $row->Prod_name);
-                //     $activeWorksheet->setCellValue('G'.$rowNumber, $row->User_name);
-                //     $activeWorksheet->setCellValue('H'.$rowNumber, $row->SubAct_name);
-                //     $activeWorksheet->setCellValue('I'.$rowNumber, $row->SubAct_percentage);
-                //     $rowNumber++;
-                // }
+                $rowNumber = 2;
+                foreach ($tableResult as $row){
+                    $activeWorksheet->setCellValue('A'.$rowNumber, $row->Project_code);
+                    $activeWorksheet->setCellValue('B'.$rowNumber, $row->Project_name);
+                    $activeWorksheet->setCellValue('C'.$rowNumber, $row->Client_name);
+                    $activeWorksheet->setCellValue('D'.$rowNumber, $row->Country_name);
+                    $activeWorksheet->setCellValue('E'.$rowNumber, $row->Activi_name);
+                    $activeWorksheet->setCellValue('F'.$rowNumber, $row->Prod_name);
+                    $activeWorksheet->setCellValue('G'.$rowNumber, $row->User_name);
+                    $activeWorksheet->setCellValue('H'.$rowNumber, $row->SubAct_name);
+                    $activeWorksheet->setCellValue('I'.$rowNumber, $row->SubAct_percentage);
+                    $rowNumber++;
+                }
     
-                // $writer = new Xlsx($sheet);
-                // $download = 'reports/Reporte'.$initialDate.'a'.$finalDate.'.xlsx';
-                // $writer->save('reports/Reporte'.$initialDate.'a'.$finalDate.'.xlsx');
+                $writer = new Xlsx($sheet);
+                $download = 'reports/Reporte'.$initialDate.'a'.$finalDate.'.xlsx';
+                $writer->save('reports/Reporte'.$initialDate.'a'.$finalDate.'.xlsx');
                 $data['data'] = $tableResult;
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['csrf'] = csrf_hash();
-                // $data['document'] = $download;
+                $data['document'] = $download;
                 return json_encode($data);
-                // $sheet->disconnectWorksheets();
+                $sheet->disconnectWorksheets();
                 unset($sheet);
-            // }
-            // catch(Exception $e){
-            //     $data['message'] = 'Error Ajax';
-            //     $data['response'] = ResponseInterface::HTTP_CONFLICT;
-            // }
+            }
+            catch(Exception $e){
+                $data['message'] = 'Error Ajax';
+                $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            }
         }
         
         
