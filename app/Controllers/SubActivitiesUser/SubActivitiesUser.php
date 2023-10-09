@@ -70,6 +70,7 @@ class SubActivitiesUser extends BaseController
                     'Stat_id' => $finishStatus["Stat_id"],
                     'SubAct_percentage' => '100',
                     'SubAct_duration' => $this->request->getVar('SubAct_duration'),
+                    'SubAct_description' => $this->request->getVar('SubAct_description'),
                     'SubAct_endDate' => date("Y-m-d H:i:s"),
                     'updated_at' => $today
                 ];

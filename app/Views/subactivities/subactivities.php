@@ -368,7 +368,7 @@
                         </div>
                         <div class="mb-3 col-12">
                           <label for="SubAct_description">Descripción</label>
-                          <input type="text" class="form-control form-disabled" id="SubAct_description" name="SubAct_description" value="" required>
+                          <input type="text" class="form-control" id="SubAct_description" name="SubAct_description" value="">
                         </div>
                       </div>
                     </form>

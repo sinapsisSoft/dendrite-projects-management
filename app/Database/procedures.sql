@@ -660,7 +660,9 @@ BEGIN
     U.User_name,
     PR.Priorities_name,
     P.Project_id,
-    P.Project_name
+    P.Project_name,
+    A.Activi_name,
+    A.Activi_id
     FROM subactivities S
     INNER JOIN activities A ON S.Activi_id = A.Activi_id
     INNER JOIN project_product PP ON A.Project_product_id = PP.Project_product_id 

@@ -40,9 +40,11 @@ function finish(formId) {
   url = URL_ROUTE + 'finish';
   const id = form.querySelector(`#${primaryId}`).value;
   let duration = form.querySelector(`#SubAct_duration`).value;
+  let description = form.querySelector(`#SubAct_description`).value;
   const formData = {
     'SubAct_id' : id,
-    'SubAct_duration' : duration
+    'SubAct_duration' : duration,
+    'SubAct_description' : description
   };
   fetch(url, {
     method: "POST",

@@ -34,4 +34,11 @@ class ReportModel extends Model
     $result = $this->db->query($query)->getResult();
     return $result;
   }
+
+  function sp_select_administrative_info_table($iniDate, $finDate, $user)
+  {
+    $query = "CALL sp_select_administrative_info_table('" . $iniDate . "','" . $finDate . "'," . $user . ")";
+    $result = $this->db->query($query)->getResult();
+    return $result;
+  }
 }

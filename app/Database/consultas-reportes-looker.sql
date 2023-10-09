@@ -71,3 +71,20 @@ GROUP BY PP.Project_id;
 SELECT COUNT(P.Client_id) AS total, C.Client_name 
 FROM project P INNER JOIN client C ON P.Client_id = C.Client_id 
 GROUP BY P.Client_id;
+
+-- Administrative Role reports
+-- Table information
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_administrative_info_table`$$
+CREATE PROCEDURE `sp_select_administrative_info_table` (IN initDate DATE, IN finDate DATE, IN userId INT)   
+BEGIN
+  SELECT PR.ProjReq_id, PR.User_id, UM.Manager_id, (SELECT Manager_name FROM manager WHERE Manager_id = UM.Manager_id) AS Manager_name, PR.ProjReq_name, PR.Project_id, P.Project_code, PRP.Prod_id, PD.Prod_name, PR.Stat_id, S.Stat_name, PR.created_at, C.Client_name, PR.Brand_id, B.Brand_name, P.Project_commercial, (SELECT User_name FROM user WHERE User_id = P.Project_commercial) AS User_name FROM project_request PR
+  LEFT JOIN project_request_product PRP ON PR.ProjReq_id = PRP.ProjReq_id
+  INNER JOIN status S ON PR.Stat_id = S.Stat_id
+  INNER JOIN user_manager UM ON PR.User_id = UM.User_id
+  INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+  INNER JOIN client C ON M.Client_id = C.Client_id
+  LEFT JOIN product PD ON PRP.Prod_id = PD.Prod_id
+  LEFT JOIN project P ON PR.Project_id = P.Project_id
+  LEFT JOIN brand B ON PR.Brand_id = B.Brand_id;
+END$$
