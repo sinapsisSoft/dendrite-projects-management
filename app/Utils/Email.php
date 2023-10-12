@@ -364,6 +364,48 @@ class Email
       </tbody>
     </table> ';
         break;
+      case 9:
+        $this->subject =  'Novedades del proyecto ' . $data[0]->Project_name;
+        $this->body = '<table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tbody>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+            <div style="font-size: 16px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;">Hola, queremos mantenerte al día sobre el proyecto <strong>' . $data[0]->Project_name . '</strong></p>
+            </div>    
+          </td>
+        </tr>
+      </tbody>
+    </table>    
+    <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tbody>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;">Se ha añadido el link para revisar los entregables del proyecto:</p>
+              <a href=' . $data[0]->Project_url . ' style="line-height: 140%;">' . $data[0]->Project_url . '</a>
+            </div>    
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;color: #7460ee;">Recuerda que puedes revisar el proyecto desde el siguiente botón </p>
+            </div>            
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <button type="button" style="padding: 8px; border-color: #7460ee; background: #7460ee; border-radius: 18px;">
+                <a href="' . base_url() . 'details?projectId=' . $data[0]->Project_id . '" target="_blank" style="color: #ffffff; text-decoration: none;">Revisar proyecto</a>
+              </button>
+            </div>            
+          </td>
+        </tr>
+      </tbody>
+    </table> ';
+        break;
     }
     $this->message = '<!DOCTYPE html>
     <head>

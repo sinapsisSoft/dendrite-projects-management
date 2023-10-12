@@ -2,11 +2,11 @@
 <html dir="ltr">
 
 <head>
-    <?= $meta ?>
-    <title>
-        <?= $title ?>
-    </title>
-    <?= $css ?>
+  <?= $meta ?>
+  <title>
+    <?= $title ?>
+  </title>
+  <?= $css ?>
 </head>
 
 <body>
@@ -143,16 +143,40 @@
                     <label for="Project_observation">Observaciones</label>
                     <input type="text" class="form-control" size="15" maxlength="30" disabled id="Project_observation" value="<?= $data["project"]->Project_observation ?>" name="Project_observation" required>
                   </div>
+                  <div class="col-8 col-md-10 mb-3">
+                    <label for="Project_url">Enlace</label>
+                    <input type="text" class="form-control" size="15" maxlength="30" id="Project_url" value="<?= $data["project"]->Project_url ?>" name="Project_url">
+                  </div>
+                  <?php if ($roleUser == "7") : ?>
+                    <div class="col-2 col-md-auto mb-3 align-self-end">
+                      <button type="button" class="btn btn-outline-primary" id="btnSave" onclick="updateUrl();" data-bs-toggle="tooltip" data-bs-placement="top" title="Guardar" style="border: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+                          <path d="M11 2H9v3h2V2Z" />
+                          <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0ZM1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5Zm3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4v4.5ZM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5V15Z" />
+                        </svg>
+                      </button>
+                    </div>
+                  <?php endif; ?>
+                  <div class="col-2 col-md-auto mb-3 align-self-end">
+                    <button type="button" class="btn btn-outline-primary" id="copyToClipboardProject" data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar" style="border: none;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"></path>
+                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"></path>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
 
               <!-- TABLA DE PROYECT_PRODUCT -->
 
               <div class="card-pp">
-                <h4 class="page-title text-end">  
-                Agregar Producto                
-                  <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-plus"></i></button>
-                </h4>
+                <?php if ($roleUser == "7") : ?>
+                  <h4 class="page-title text-end">
+                    Agregar Producto
+                    <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-plus"></i></button>
+                  </h4>
+                <?php endif; ?>
                 <div class="table-responsive table-pp">
                   <table id="table_obj" class="table table-striped table-bordered">
                     <thead>
@@ -178,19 +202,21 @@
                             <div class="circle" style="background-color:<?= $obj->color; ?>"></div>
                           </td>
                           <td>
-                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                              <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->Project_product_id ?>)" <?= $obj->Project_product_percentage != 100 ? "" : "disabled" ?>>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                </svg>
-                              </button>
-                              <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->Project_product_id ?>)" <?= $obj->Project_product_percentage != 100 ? "" : "disabled" ?>>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                </svg>
-                              </button>
-                            </div>
+                            <?php if ($roleUser == "7") : ?>
+                              <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->Project_product_id ?>)" <?= $obj->Project_product_percentage != 100 ? "" : "disabled" ?>>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                  </svg>
+                                </button>
+                                <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->Project_product_id ?>)" <?= $obj->Project_product_percentage != 100 ? "" : "disabled" ?>>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                  </svg>
+                                </button>
+                              </div>
+                            <?php endif; ?>
                           </td>
                         </tr>
                       <?php endforeach; ?>
@@ -268,10 +294,12 @@
               <!-- TABLA DE SEGUIMIENTO DE PROYECTO -->
 
               <div class="card-pp">
-                <h4 class="page-title text-end">
-                  Agregar Seguimiento
-                  <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showTrackingModal(1)"><i class="mdi mdi-plus"></i></button>
-                </h4>
+                <?php if ($roleUser == "7") : ?>
+                  <h4 class="page-title text-end">
+                    Agregar Seguimiento
+                    <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showTrackingModal(1)"><i class="mdi mdi-plus"></i></button>
+                  </h4>
+                <?php endif; ?>
                 <div class="card-body">
                   <div class="table-responsive table-pp">
                     <table id="table_obj_tracking" class="table table-striped table-bordered">
@@ -366,10 +394,12 @@
               <!-- TABLA DE ACTIVIDADES-->
 
               <div class="card-pp">
-                <h4 class="page-title text-end">
-                  Agregar Actividad
-                  <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showActivitiesModal(1)"><i class="mdi mdi-plus"></i></button>
-                </h4>
+                <?php if ($roleUser == "7") : ?>
+                  <h4 class="page-title text-end">
+                    Agregar Actividad
+                    <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showActivitiesModal(1)"><i class="mdi mdi-plus"></i></button>
+                  </h4>
+                <?php endif; ?>
                 <div class="card-body">
                   <div class="table-responsive table-pp">
                     <table id="table_obj_activities" class="table table-striped table-bordered">
@@ -392,17 +422,21 @@
                             <td><?= $obj->created_at; ?></td>
                             <td>
                               <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <button type="button" class="btn btn-outline-warning" onclick="getActivitiesDataId(<?= $obj->Activi_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                  </svg></button>
+                                <?php if ($roleUser == "7") : ?>
+                                  <button type="button" class="btn btn-outline-warning" onclick="getActivitiesDataId(<?= $obj->Activi_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                    </svg></button>
+                                <?php endif; ?>
                                 <button type="button" class="btn btn-outline-success" onclick="details(<?= $obj->Activi_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                     <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                   </svg></button>
-                                <button type="button" class="btn btn-outline-danger" onclick="deleteActivities(<?= $obj->Activi_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                  </svg></button>
+                                <?php if ($roleUser == "7") : ?>
+                                  <button type="button" class="btn btn-outline-danger" onclick="deleteActivities(<?= $obj->Activi_id ?>)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                      <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                    </svg></button>
+                                <?php endif; ?>
                               </div>
                             </td>
                           </tr>
@@ -493,9 +527,9 @@
                                 <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
                                 <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
                               </svg>
-                            </button>                            
+                            </button>
                           </div>
-                          
+
                           <div class="col-12 mb-3">
                             <label for="Activi_observation">Observaciones</label>
                             <input type="text" class="form-control" id="Activi_observation" name="Activi_observation">

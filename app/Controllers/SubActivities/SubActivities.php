@@ -22,14 +22,19 @@ class SubActivities extends BaseController
     private $primaryKey;
     private $nameModel;
     private $activities;
+    private $userId;
+    private $roleId;
+    private $objUserModel;
 
     public function __construct()
     {
         $this->objModel = new SubActivitiesModel();
+        $this->objUserModel = new UserModel();
         $this->primaryKey = 'SubAct_id';
         $this->nameModel = 'subactivities';
         $this->activities = new ActivitiesModel();
-        
+        $this->userId = session()->UserId;
+        $this->roleId = $this->objUserModel->sp_select_user_role($this->userId);        
     }
 
     public function finishTask()
@@ -115,6 +120,7 @@ class SubActivities extends BaseController
         $data['collaborators'] = $user->sp_select_all_users_collaborator();
         $data['priorities'] = $priorities->findAll();
         $data['users'] = $user->sp_select_all_users();
+        $data['roleUser'] = $this->roleId;
         return view('subactivities/subactivities', $data);
     }
 

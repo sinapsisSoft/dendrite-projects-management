@@ -527,6 +527,7 @@ CREATE TABLE `project` (
   `Project_activitiEndDate` date NOT NULL,
   `Project_observation` varchar(300) NOT NULL,
   `Project_percentage` varchar(15) DEFAULT NULL,
+  `Project_url` varchar(2100) DEFAULT NULL,
   `Client_id` int(11) NOT NULL,
   `User_id` int(11) DEFAULT NULL,
   `Project_commercial` int(11) DEFAULT NULL,

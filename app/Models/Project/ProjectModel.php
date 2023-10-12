@@ -21,6 +21,7 @@ class ProjectModel extends Model{
         'Project_activitiEndDate',
         'Project_observation', 
         'Project_percentage',        
+        'Project_url',        
         'Client_id', 
         'User_id', 
         'Project_commercial',

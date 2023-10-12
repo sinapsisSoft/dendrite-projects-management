@@ -193,6 +193,7 @@ class Project extends BaseController
             'Project_activitiEndDate' => $this->request->getVar('Project_activitiEndDate'),
             'Project_percentage' => $this->request->getVar('Project_percentage'),
             'Project_observation' => $this->request->getVar('Project_observation'),
+            'Project_url' => $this->request->getVar('Project_url'),
             'Client_id' => $this->request->getVar('Client_id'),
             'Manager_id' => $this->request->getVar('Manager_id'),
             'Brand_id' => $this->request->getVar('Brand_id'),

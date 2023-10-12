@@ -1,7 +1,7 @@
 showPreload();
 
 const arRoutes = AR_ROUTES_GENERAL;
-const arMessages = new Array('Revise la información suministrada', 'Producto agregado exitosamente', 'Seguimiento agregado exitosamente', 'Actividad agregada exitosamente', 'Producto actualizado exitosamente', 'Seguimiento actualizado exitosamente', 'Actividad actualizada exitosamente', 'Producto eliminado del proyecto exitosamente', 'Seguimiento eliminado del proyecto exitosamente', 'Actividad eliminada del proyecto exitosamente', 'El producto no pudo ser eliminado. Revise si éste tiene asociadas actividades', 'El seguimiento no pudo ser eliminado', 'La actividad no pudo ser eliminada. Revise si ésta tiene asociadas subactividades', 'Se ha copiado el link', 'No pudo ser copiado el link');
+const arMessages = new Array('Revise la información suministrada', 'Producto agregado exitosamente', 'Seguimiento agregado exitosamente', 'Actividad agregada exitosamente', 'Producto actualizado exitosamente', 'Seguimiento actualizado exitosamente', 'Actividad actualizada exitosamente', 'Producto eliminado del proyecto exitosamente', 'Seguimiento eliminado del proyecto exitosamente', 'Actividad eliminada del proyecto exitosamente', 'El producto no pudo ser eliminado. Revise si éste tiene asociadas actividades', 'El seguimiento no pudo ser eliminado', 'La actividad no pudo ser eliminada. Revise si ésta tiene asociadas subactividades', 'Se ha copiado el link', 'No pudo ser copiado el link', 'Enlace actualizado exitosamente');
 const ruteContent = "project/";
 const nameModel = 'projects';
 const dataModel = 'data';
@@ -250,8 +250,6 @@ function showModal(type) {
   $(myModalObjec).modal("show");
 }
 
-
-
 function showPreload() {
   $(".preloader").fadeIn();
 }
@@ -282,5 +280,66 @@ function disableFormProject() {
     element.setAttribute("disabled", "true");
   }
 }
+
+function updateUrl(){
+  showPreload();
+  selectInsertOrUpdate = false;
+  url = `${BASE_URL}/details/updateUrl`;
+  projectUrl = document.getElementById('Project_url').value;
+  projectId = document.getElementById('Project_id').value;
+  const formData = {
+    'Project_id' : projectId,
+    'Project_url' : projectUrl
+  };
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: arMessages[15],
+          showConfirmButton: false,
+          timer: 1500
+        });
+        hidePreload();
+      } else {
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
+        hidePreload();
+      }
+    });
+}
+
+document.getElementById("copyToClipboardProject").addEventListener('click', function () {
+  let valueToCopy = document.getElementById("Project_url").value;
+  navigator.clipboard.writeText(valueToCopy)
+    .then(() => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: arMessages[13],
+        showConfirmButton: false,
+        timer: 1500
+      });
+    }).catch(err => {
+      Swal.fire(
+        '¡No pudimos hacer esto!',
+        arMessages[14],
+        'error'
+      )
+    })
+})
 
 document.getElementById('btn-info').href = infoUrl;

@@ -240,6 +240,7 @@ $routes->group('projectproduct', ['namespace' => 'App\Controllers\ProjectProduct
 
 $routes->group('details', ['namespace' => 'App\Controllers\Details','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'Details::show'); 
+    $routes->post('updateUrl', 'Details::updateUrl'); 
 });
 
 $routes->group('detailsclient', ['namespace' => 'App\Controllers\DetailsClient','filter'=>'appFilter'], function ($routes) {

@@ -150,7 +150,9 @@ P.Project_estimatedEndDate,
 P.Project_activitiEndDate,
 S.Stat_name,
 P.Project_observation,
+P.Project_url,
 PR.Priorities_name,
+U2.User_id,
 U2.User_name AS 'Project_commercial'
 FROM project P
 INNER JOIN client C on C.Client_id = P.Client_id
@@ -223,6 +225,7 @@ CREATE PROCEDURE `sp_select_all_subactivities` (IN `activity_id` INT)   BEGIN
  U.User_name,
  SA.SubAct_duration,
  SA.SubAct_percentage,
+ SA.SubAct_duration,
  PRI.Priorities_name,
  PRI.Priorities_color,
  CASE 
