@@ -501,7 +501,7 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_projectrequest_user`$$
 CREATE PROCEDURE `sp_select_projectrequest_user` (IN userId INT)   
 BEGIN
-    SELECT PR.ProjReq_id, PR.ProjReq_name, PR.User_id, U.User_name, PR.Brand_id, B.Brand_name, PR.created_at, C.Client_name, PR.Stat_id, S.Stat_name, PR.Project_id, P.Project_code
+    SELECT PR.ProjReq_id, PR.ProjReq_name, PR.User_id, U.User_name, PR.Brand_id, B.Brand_name, PR.created_at, C.Client_name, PR.Stat_id, S.Stat_name, PR.Project_id, P.Project_code, P.Project_percentage
     FROM project_request PR
     INNER JOIN user U ON PR.User_id = U.User_id
     INNER JOIN brand B ON PR.Brand_id = B.Brand_id

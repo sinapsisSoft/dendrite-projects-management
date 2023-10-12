@@ -65,6 +65,7 @@
                         <th>Estado</th>
                         <th></th>
                         <th>Código Proyecto</th>
+                        <th>Avance proyecto</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
@@ -92,6 +93,7 @@
                             <div class="circle" style="background-color:<?= $color; ?>"></div>
                           </td>
                           <td><?= $obj->Project_code == NULL ? 'NO APLICA' : $obj->Project_code ?></td>
+                          <td><?= $obj->Project_percentage == NULL ? 'NO APLICA' : $obj->Project_percentage . "%" ?></td>
                           <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                               <?php if ($obj->Stat_id == 6) : ?>
@@ -135,6 +137,7 @@
                         <th>Estado</th>
                         <th></th>
                         <th>Código Proyecto</th>
+                        <th>Avance proyecto</th>
                         <th>Acciones</th>
                       </tr>
                     </tfoot>
