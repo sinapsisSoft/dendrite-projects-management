@@ -368,7 +368,7 @@ UPDATE project SET Project_percentage = @projectPercent WHERE Project_id = @proj
 IF @projectPercent = 100 THEN
     UPDATE project SET Project_activitiEndDate = NOW() WHERE Project_id = @projectId;
 END IF;
-SELECT @porcent; 
+SELECT @projectPercent AS 'Proj_percent'; 
 END$$
 
 DELIMITER $$

@@ -57,14 +57,18 @@ class SubActivitiesUser extends BaseController
     {
         if ($this->request->isAJAX()) {
             $today = date("Y-m-d H:i:s");
-            // $email = new Email();
+            $email = new Email();
+            $email1 = new Email();
+            $projectModel = new ProjectModel();
+            $status = new UserStatusModel();
+            $user = new UserModel();
+            $user1 = new UserModel();
             $mail = new ProjectModel();
             $status = new UserStatusModel();
             $subactivityId = $this->request->getVar($this->primaryKey);
             $mainMail = $mail->sp_select_user_notification($subactivityId);
             $subActivitie = $this->objModel->sp_select_subactivity_info($subactivityId);
             if ($subActivitie != null){
-                // $email->sendEmail($subActivitie, $mainMail[0]->User_email, 1);
                 $finishStatus = $status->where('Stat_name', 'Realizado')->first();
                 $updateSubactivity = [
                     'Stat_id' => $finishStatus["Stat_id"],
@@ -76,6 +80,18 @@ class SubActivitiesUser extends BaseController
                 ];
                 $this->objModel->update($subactivityId, $updateSubactivity);
                 $this->activities->sp_update_percent_activity($subActivitie[0]->Activi_id);
+                $subactivityInfo = $this->objModel->sp_select_info_subactivity($subactivityId);
+                $projectInfo = $projectModel->where('Project_id', $subactivityInfo[0]->Project_id)->first();
+                $userInfo = $user->where('User_id', $projectInfo['Project_commercial'])->first();
+                $commercialMail = $userInfo['User_email'];
+                $userInfo1 = $user1->where('User_id', $projectInfo['User_id'])->first();
+                $trafficMail = $userInfo1["User_email"];
+                if ($projectInfo['Project_percentage'] == 100) {
+                    $email->sendEmail($subactivityInfo, $commercialMail, 8);
+                    $email1->sendEmail($subactivityInfo, $trafficMail, 8);
+                } else {
+                    $email->sendEmail($subActivitie, $mainMail[0]->User_email, 1);
+                } 
                 $response = $this->updateEndDate(["Activi_id" => $subActivitie[0]->Activi_id]);
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
@@ -98,7 +114,7 @@ class SubActivitiesUser extends BaseController
     public function sendNotification()
     {
         if ($this->request->isAJAX()) {
-            // $emailObject = new Email();
+            $emailObject = new Email();
             $subactivityId = $this->request->getVar('not_subId');
             $subActivitie = $this->objModel->sp_select_subactivity_info($subactivityId);
             if(count($subActivitie) > 0){
@@ -107,9 +123,9 @@ class SubActivitiesUser extends BaseController
                 $subActivitie[0]->message = $this->request->getVar('description');
                 $collaborators = $this->request->getVar('collaborators');
                 $emails = explode(',', $collaborators);
-                // foreach ($emails as $email) {
-                //     $emailObject->sendEmail($subActivitie, $email, 2);
-                // }
+                foreach ($emails as $email) {
+                    $emailObject->sendEmail($subActivitie, $email, 2);
+                }
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['csrf'] = csrf_hash();
@@ -148,6 +164,11 @@ class SubActivitiesUser extends BaseController
     public function update()
     {
         try {
+            $user = new UserModel();
+            $user1 = new UserModel();
+            $email = new Email();
+            $email1 = new Email();
+            $projectModel = new ProjectModel();
             $today = date("Y-m-d H:i:s");
             $id = $this->request->getVar($this->primaryKey);
             $percent = $this->request->getVar('SubAct_percentage');
@@ -163,7 +184,19 @@ class SubActivitiesUser extends BaseController
             $data['data'] = $id;
             $data['csrf'] = csrf_hash();
             $this->activities->sp_update_percent_activity($id);
-            //Enviar correo a comercial y tráfico
+            $subactivityInfo = $this->objModel->sp_select_info_subactivity($id);                
+            $projectInfo = $projectModel->where('Project_id', $subactivityInfo[0]->Project_id)->first();
+            $userInfo = $user->where('User_id', $projectInfo['Project_commercial'])->first();
+            $commercialMail = $userInfo['User_email'];             
+            $userInfo1 = $user1->where('User_id', $projectInfo['User_id'])->first();
+            $trafficMail = $userInfo1["User_email"];
+            if($projectInfo['Project_percentage'] == 100){
+                $email->sendEmail($subactivityInfo, $commercialMail, 8);
+                $email1->sendEmail($subactivityInfo, $trafficMail, 8);
+            } else {
+                $email->sendEmail($subactivityInfo, $commercialMail, 6);
+                $email1->sendEmail($subactivityInfo, $trafficMail, 6);
+            }  
         } catch (\Exception $e) {
             $data['message'] = $e;
             $data['response'] = ResponseInterface::HTTP_CONFLICT;
@@ -182,7 +215,6 @@ class SubActivitiesUser extends BaseController
             $activity = $activityModel->where('Activi_id', $Activi_id)->first();
             $activity['Activi_endDate'] =  $date;
             $activityModel->update($Activi_id, $activity);
-            //Enviar correo a comercial y tráfico
         }
         return [$totalFinish, $total, $Activi_id, $date];
     }
