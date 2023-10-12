@@ -41,7 +41,7 @@ class DetailProjectRequest extends BaseController
         $data['header'] = view('header/header');
         $data['footer'] = view('footer/footer');
         $data['commercial'] = $user->sp_select_all_users_comercial();
-        $data['users'] = $user->sp_select_all_users();
+        $data['users'] = $user->where('Role_id', 7)->findAll();
         $data['priorities'] = $priorities->findAll();
         $data['data'] = [
             'projectrequest' => $this->objModel->sp_select_projectrequest_detail($projectRequestId)[0],

@@ -183,8 +183,8 @@
                       Seleccione...
                     </option>
                     <?php foreach ($users as $user) : ?>
-                      <option value="<?= $user->User_id; ?>">
-                        <?= $user->User_name; ?>
+                      <option value="<?= $user['User_id']; ?>">
+                        <?= $user['User_name']; ?>
                       </option>
                     <?php endforeach; ?>
                   </select>
