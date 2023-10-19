@@ -38,7 +38,6 @@
           </div>
         </div>
       </div>
-
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
@@ -47,71 +46,69 @@
                 <h5 class="card-title">
                   REPORTE GENERAL
                 </h5>
+                <div class="row">
+                  <form class="form-horizontal mt-3 row justify-content-center" id="objForm">
+                    <div class="col-12 my-4">
+                      <h6 class="m-0 font-weight-bold text-primary">Seleccione el rango de fechas para generar el reporte</h6>
+                    </div>
+                    <div class="col-12 col-md-5">
+                      <label for="initialDate">Fecha Inicial </label>
+                      <input type="date" id="initialDate" value="" class="form-control bg-light border-0">
+                    </div>
+                    <div class="col-10 col-md-5">
+                      <label for="finalDate">Fecha Final </label>
+                      <input type="date" id="finalDate" value="" class="form-control bg-light border-0">
+                    </div>
+                    <div class="col-auto align-self-end">
+                      <button type="submit" class="btn btn-primary" onclick="sendData(event);return false">
+                        <i class="fas fa-search fa-sm"></i>
+                        <div class="ripple-container"></div>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                <div class="row reportChart align-items-center justify-content-center">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row justify-content-center">
+                      <div id="chart1Report" class="col-10 my-3 shadow-sm">
+                        <canvas id="chart1" style="width: 100%;"></canvas>
+                      </div>
+                      <div id="chart3Report" class="col-10 my-3 shadow-sm">
+                        <canvas id="chart3" style="width: 100%;"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <ul class="nav nav-tabs nav-fill">
                   <li class="nav-item">
-                    <a class="nav-link active" id="report1-tab" data-bs-toggle="tab" data-bs-target="#report1" role="tab" aria-controls="report1" aria-selected="true">Reporte General</a>
+                    <a class="nav-link active" id="report1-tab" data-bs-toggle="tab" data-bs-target="#report1" role="tab" aria-controls="report1" aria-selected="true">Reporte solicitudes de proyectos</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="report2-tab" data-bs-toggle="tab" data-bs-target="#report2" role="tab" aria-controls="report2" aria-selected="true">Reporte proyectos</a>
                   </li>
                 </ul>
                 <div class="tab-content" id="tabContent">
                   <div class="tab-pane fade show active" id="report1" role="tabpanel" aria-labelledby="report1-tab">
-                    <div class="row">
-                      <form class="form-horizontal mt-3 row justify-content-center" id="objForm">
-                        <div class="col-12 my-4">
-                          <h6 class="m-0 font-weight-bold text-primary">Seleccione el rango de fechas para generar el reporte</h6>
-                        </div>
-                        <div class="col-12 col-md-5">
-                          <label for="initialDate">Fecha Inicial </label>
-                          <input type="date" id="initialDate" value="" class="form-control bg-light border-0">
-                        </div>
-                        <div class="col-10 col-md-5">
-                          <label for="finalDate">Fecha Final </label>
-                          <input type="date" id="finalDate" value="" class="form-control bg-light border-0">
-                        </div>
-                        <div class="col-auto align-self-end">
-                          <button type="submit" class="btn btn-primary" onclick="sendData(event);return false">
-                            <i class="fas fa-search fa-sm"></i>
-                            <div class="ripple-container"></div>
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                    <div class="row reportChart align-items-center justify-content-center">
-                      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                        <div class="row">
-                          <div id="chart1Report" class="col-12 my-3 shadow-sm">
-                            <canvas id="chart1" style="width: 100%;"></canvas>
-                          </div>
-                          <div id="chart3Report" class="col-12 my-3 shadow-sm">
-                            <canvas id="chart3" style="width: 100%;"></canvas>
-                          </div>
-                        </div>
-                      </div>
-                      <div id="chart2Report" class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                        <canvas id="chart2" style="width: 100%;"></canvas>
-                      </div>
-                    </div>
                     <div class="row justify-content-end">
-                      <button type="button" class="btn btn-light my-3 mx-4 col-auto" onclick="downloadExcel(); return false;">
+                      <button type="button" class="btn btn-light my-3 mx-4 col-auto" onclick="downloadExcel(0); return false;">
                         <lord-icon src="<?= base_url() ?>/assets/json/system-outline-12-arrow-down.json" id="btn-excel" trigger="hover" colors="primary:#28b779" style="width:35px;height:35px">
                         </lord-icon>
                       </button>
                     </div>
                     <div class="card-pp">
-
                       <div class="table-responsive">
                         <table id="table_obj" class="table table-striped table-bordered">
                           <thead>
                             <tr>
                               <th>#</th>
                               <th>Cliente</th>
-                              <th>País</th>
                               <th>Manager</th>
-                              <th>Marca</th>                              
-                              <th>Project</th>
-                              <th>Comercial</th>
+                              <th>Marca</th>
                               <th>Producto</th>
-                              <th>Estado solicitud</th>
-                              <th>Fecha solicitud</th>
+                              <th>Solicitud</th>
+                              <th>Código del proyecto</th>
+                              <th>Comercial</th>
+                              <th>Estado</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -120,13 +117,74 @@
                               <tr>
                                 <td><?= $i++; ?></td>
                                 <td><?= $obj->Client_name; ?></td>
-                                <td><?= $obj->Country_name; ?></td>
                                 <td><?= $obj->Manager_name; ?></td>
-                                <td><?= $obj->Brand_name; ?></td>                                
+                                <td><?= $obj->Brand_name; ?></td>
+                                <td><?= $obj->Prod_name; ?></td>
+                                <td><?= $obj->ProjReq_name; ?></td>
                                 <td><?= $obj->Project_code; ?></td>
                                 <td><?= $obj->User_name; ?></td>
-                                <td><?= $obj->Prod_name; ?></td>
                                 <td><?= $obj->Stat_name; ?></td>
+                              </tr>
+                            <?php endforeach; ?>
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <th>#</th>
+                              <th>Cliente</th>
+                              <th>Manager</th>
+                              <th>Marca</th>
+                              <th>Producto</th>
+                              <th>Solicitud</th>
+                              <th>Código del proyecto</th>
+                              <th>Comercial</th>
+                              <th>Estado</th>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade show" id="report2" role="tabpanel" aria-labelledby="report2-tab">
+                    <div class="row justify-content-end">
+                      <button type="button" class="btn btn-light my-3 mx-4 col-auto" onclick="downloadExcel(1); return false;">
+                        <lord-icon src="<?= base_url() ?>/assets/json/system-outline-12-arrow-down.json" id="btn-excel" trigger="hover" colors="primary:#28b779" style="width:35px;height:35px">
+                        </lord-icon>
+                      </button>
+                    </div>
+                    <div class="card-pp">
+                      <div class="table-responsive">
+                        <table id="table_obj1" class="table table-striped table-bordered">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Cliente</th>
+                              <th>País</th>
+                              <th>Manager</th>
+                              <th>Marca</th>
+                              <th>Comercial</th>
+                              <th>Tráfico</th>
+                              <th>% Avance</th>
+                              <th>Fecha inicio</th>
+                              <th>Fecha estimada finalización</th>
+                              <th>Fecha real finalización</th>
+                              <th>Fecha creación proyecto</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($dataTable2 as $obj) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $obj->Client_name; ?></td>
+                                <td><?= $obj->Country_name; ?></td>
+                                <td><?= $obj->Manager_name; ?></td>
+                                <td><?= $obj->Brand_name; ?></td>
+                                <td><?= $obj->Project_commercial; ?></td>
+                                <td><?= $obj->User_name; ?></td>
+                                <td><?= $obj->Project_percentage == null ? 0 : $obj->Project_percentage; ?></td>
+                                <td><?= $obj->Project_startDate; ?></td>
+                                <td><?= $obj->Project_estimatedEndDate; ?></td>
+                                <td><?= $obj->Project_activitiEndDate; ?></td>
                                 <td><?= $obj->created_at; ?></td>
                               </tr>
                             <?php endforeach; ?>
@@ -137,18 +195,19 @@
                               <th>Cliente</th>
                               <th>País</th>
                               <th>Manager</th>
-                              <th>Marca</th>                              
-                              <th>Project</th>
+                              <th>Marca</th>
                               <th>Comercial</th>
-                              <th>Producto</th>
-                              <th>Estado solicitud</th>
-                              <th>Fecha solicitud</th>
+                              <th>Tráfico</th>
+                              <th>% Avance</th>
+                              <th>Fecha inicio</th>
+                              <th>Fecha estimada finalización</th>
+                              <th>Fecha real finalización</th>
+                              <th>Fecha creación proyecto</th>
                             </tr>
                           </tfoot>
                         </table>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -165,5 +224,8 @@
   <script src="./assets/js/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="./controllers/report/administrativereport.controller.js"></script>
   <script>
+    var dataChart1 = [], dataChart3 = [];
+    dataChart1 = <?= $chart1 ?>;
+    dataChart3 = <?= $chart3 ?>;
   </script>
 </body>

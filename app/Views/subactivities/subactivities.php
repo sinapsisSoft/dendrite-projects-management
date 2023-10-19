@@ -262,7 +262,7 @@
                         </div>
                         <div class="col-12 col-md-4 mb-3">
                           <label for="SubAct_percentage">% actividad realizada *</label>
-                          <input type="text" class="form-control read" id="SubAct_percentage" name="SubAct_percentage" min="0" max="100" value="0" required>
+                          <input type="number" class="form-control read" id="SubAct_percentage" name="SubAct_percentage" min="0" max="100" value="0" required>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
                           <label for="SubAct_endDate">Fecha de Entrega</label>

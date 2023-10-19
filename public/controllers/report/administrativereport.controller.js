@@ -6,6 +6,12 @@ tableInfo = $("#table_obj").DataTable({
   }
 });
 
+tableInfo2 = $("#table_obj1").DataTable({
+  "language": {
+    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+  }
+});
+
 const arRoutes = AR_ROUTES_GENERAL;
 const arMessages = new Array('Revise la información suministrada',  'Archivo generado exitosamente');
 const ruteContent = "report/";
@@ -53,7 +59,7 @@ window.addEventListener("load", (event) => {
   document.getElementById("initialDate").value = formatDate(initialDate);
   document.getElementById("finalDate").value = formatDate(finalDate);
   drawChart1('chart1', 'bar', dataChart1);
-  drawChart2('chart2', 'polarArea', dataChart2);
+  // drawChart2('chart2', 'polarArea', dataChart2);
   drawChart3('chart3', 'line', dataChart3);
   first++;
 });
@@ -97,7 +103,7 @@ function drawChart1(chartId, type, jsonData) {
     type: type,
     data: {     
       datasets: [{
-        label: 'Cumplimiento de subactividades ',        
+        label: 'Cumplimiento de proyectos ',        
         data: jsonData,        
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
@@ -120,26 +126,26 @@ function drawChart1(chartId, type, jsonData) {
     },
     options: {
       parsing: {
-        xAxisKey: 'User_name',
-        yAxisKey: 'User_average'
+        xAxisKey: 'Project_name',
+        yAxisKey: 'Project_estimation'
       },
       plugins: {
         title: {
           display: true,
-          text: 'Porcentaje de cumplimiento de los colaboradores'
+          text: 'Porcentaje de cumplimiento de los proyectos'
         }
       },
       scales: {
         x: {
           title: {
             display: true,
-            text: 'Colaboradores'
+            text: 'Proyecto'
           }
         },
         y: {
           title: {
             display: true,
-            text: 'Avance en subactividades'
+            text: 'Cumplimiento'
           }
         }
       }
@@ -219,7 +225,7 @@ function drawChart3(chartId, type, jsonData) {
     options: {
       plugins: {
         title: {
-          text: 'Cantidad de proyectos por cliente',
+          text: 'Cantidad de solicitudes por gerente',
           display: true
         }
       },
@@ -237,7 +243,7 @@ function drawChart3(chartId, type, jsonData) {
         y: {
           title: {
             display: true,
-            text: 'Cantidad de proyectos'
+            text: 'Cantidad de solicitudes'
           }
         }
       },
@@ -252,13 +258,13 @@ function addDataset(myChart, jsonData) {
   let labels = [];
   let dataset = [], newLabel = '';  
   for(let i = 0; i < jsonData.length; i++){
-    labels.includes(jsonData[i]['Client_name']) ? '' : labels.push(jsonData[i]['Client_name']);
+    labels.includes(jsonData[i]['Manager_name']) ? '' : labels.push(jsonData[i]['Manager_name']);
   }
   for (let i = 0; i < labels.length; i++) {
     let data = [];
     for (const iterator of jsonData) {      
-      if (labels[i] == iterator['Client_name']) {
-        newLabel = iterator['Client_name'];
+      if (labels[i] == iterator['Manager_name']) {
+        newLabel = iterator['Manager_name'];
         let newElement = {
           x: iterator['Project_date'],
           y: iterator['Project_count']
@@ -326,9 +332,10 @@ function getData(formData) {
     .then(response => {
       if (response[dataResponse] == 200) {
         drawChart1('chart1', 'bar', response[chart1]);
-        drawChart2('chart2', 'polarArea', response[chart2]);
+        // drawChart2('chart2', 'polarArea', response[chart2]);
         drawChart3('chart3', 'line', response[chart3]);
         createTable('table_obj', response['dataTable']);
+        createTable2('table_obj1', response['dataTable2']);
         hidePreload();
       } else {
         Swal.fire(
@@ -342,27 +349,25 @@ function getData(formData) {
 }
 
 
-function createTable(tblid, jsonData){
+function createTable(tblid, jsonData){  
   tableInfo.destroy();
   let tableBody = document.querySelector(`#${tblid}`).children[1];
-  let i = 1, newRow = '';
+  let i = 1, newRow = '';  
   for (const iterator of jsonData) {
     newRow += `<tr>
-    <td>${i}</td>
-    <td>${iterator['Project_code']}</td>
-    <td>${iterator['Project_name']}</td>
-    <td>${iterator['Client_name']}</td>
-    <td>${iterator['Country_name']}</td>
-    <td>${iterator['Activi_name']}</td>
-    <td>${iterator['Prod_name']}</td>
-    <td>${iterator['User_name']}</td>
-    <td>${iterator['SubAct_name']}</td>
-    <td>${iterator['SubAct_percentage']}</td>
-  </tr>`;
+      <td>${i}</td>
+      <td>${iterator['Client_name']}</td>
+      <td>${iterator['Manager_name']}</td>
+      <td>${iterator['Brand_name']}</td>
+      <td>${iterator['Prod_name']}</td>
+      <td>${iterator['ProjReq_name']}</td>
+      <td>${iterator['Project_code']}</td>
+      <td>${iterator['User_name']}</td>
+      <td>${iterator['Stat_name']}</td>
+      </tr>`;
     i++;
   }
   tableBody.innerHTML = newRow;
-  
   tableInfo = $(`#${tblid}`).DataTable({
     "language": {
       "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
@@ -370,15 +375,45 @@ function createTable(tblid, jsonData){
   });
 }
 
-function downloadExcel(){
-  sTForm = SingletonClassSTForm.getInstance();
-  showPreload();
-  generateExcel(sTForm.getDataForm());
+function createTable2(tblid, jsonData) {
+  tableInfo2.destroy();
+  let tableBody = document.querySelector(`#${tblid}`).children[1];
+  let i = 1, newRow = '';  
+  for (const iterator of jsonData) {
+    newRow += `<tr>
+      <td>${i}</td>
+      <td>${iterator['Client_name']}</td>
+      <td>${iterator['Country_name']}</td>
+      <td>${iterator['Manager_name']}</td>
+      <td>${iterator['Brand_name']}</td>
+      <td>${iterator['Project_commercial']}</td>
+      <td>${iterator['User_name']}</td>
+      <td>${iterator['Project_percentage'] == null ? 0 : iterator['Project_percentage']}</td>
+      <td>${iterator['Project_startDate']}</td>
+      <td>${iterator['Project_estimatedEndDate']}</td>
+      <td>${iterator['Project_activitiEndDate']}</td>
+      <td>${iterator['created_at']}</td>
+      </tr>`;
+    i++;
+  }
+  tableBody.innerHTML = newRow;
+  tableInfo2 = $(`#${tblid}`).DataTable({
+    "language": {
+      "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+    }
+  });
 }
 
-function generateExcel(formData) {
+function downloadExcel(type){
+  var reportRoute = ['administrativeExcel', 'administrativeExcel2'];
+  sTForm = SingletonClassSTForm.getInstance();
   showPreload();
-  url = URL_ROUTE + 'commercialExcel';
+  generateExcel(sTForm.getDataForm(), reportRoute[type]);
+}
+
+function generateExcel(formData, route) {
+  showPreload();
+  url = URL_ROUTE + route;
   fetch(url, {
     method: "POST",
     body: JSON.stringify(formData),
@@ -402,8 +437,7 @@ function generateExcel(formData) {
           '¡No pudimos hacer esto!',
           arMessages[0],
           'error'
-        );
-        
+        );        
       }
       hidePreload();
     });

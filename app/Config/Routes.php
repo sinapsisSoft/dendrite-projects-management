@@ -252,6 +252,8 @@ $routes->group('report', ['namespace' => 'App\Controllers\Report','filter'=>'app
     $routes->get('/', 'Report::show');
     $routes->post('createCharts', 'Report::createCharts');
     $routes->post('commercialExcel', 'Report::createCommercialExcel');
+    $routes->post('administrativeExcel', 'Report::createadministrativeExcel');
+    $routes->post('administrativeExcel2', 'Report::createadministrativeExcel2');
     $routes->get('reports', '');
 
 });

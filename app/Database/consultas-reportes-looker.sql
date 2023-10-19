@@ -76,7 +76,7 @@ GROUP BY P.Client_id;
 -- Table information
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_administrative_info_table`$$
-CREATE PROCEDURE `sp_select_administrative_info_table` (IN initDate DATE, IN finDate DATE, IN userId INT)   
+CREATE PROCEDURE `sp_select_administrative_info_table` (IN initDate DATE, IN finDate DATE)   
 BEGIN
   SELECT PR.ProjReq_id, PR.User_id, UM.Manager_id, (SELECT Manager_name FROM manager WHERE Manager_id = UM.Manager_id) AS Manager_name, PR.ProjReq_name, PR.Project_id, P.Project_code, PRP.Prod_id, PD.Prod_name, PR.Stat_id, S.Stat_name, PR.created_at, C.Client_name, PR.Brand_id, B.Brand_name, P.Project_commercial, (SELECT User_name FROM user WHERE User_id = P.Project_commercial) AS User_name FROM project_request PR
   LEFT JOIN project_request_product PRP ON PR.ProjReq_id = PRP.ProjReq_id
@@ -86,5 +86,51 @@ BEGIN
   INNER JOIN client C ON M.Client_id = C.Client_id
   LEFT JOIN product PD ON PRP.Prod_id = PD.Prod_id
   LEFT JOIN project P ON PR.Project_id = P.Project_id
-  LEFT JOIN brand B ON PR.Brand_id = B.Brand_id;
+  LEFT JOIN brand B ON PR.Brand_id = B.Brand_id
+  WHERE (P.Project_startDate BETWEEN initDate AND finDate)
+  ORDER BY P.Project_id DESC;
+END$$
+
+-- Table information 2
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_administrative_info_table2`$$
+CREATE PROCEDURE `sp_select_administrative_info_table2` (IN initDate DATE, IN finDate DATE)   
+BEGIN
+  SELECT PR.Project_id, PR.User_id, U.User_name, PR.Manager_id, (SELECT Manager_name FROM manager WHERE Manager_id = PR.Manager_id) AS Manager_name, PR.Project_code, PR.created_at, C.Client_name, C.Country_id, CN.Country_name, PR.Brand_id, B.Brand_name, PR.Project_commercial AS Commercial_id, (SELECT User_name FROM user WHERE User_id = PR.Project_commercial) AS Project_commercial, PR.Project_percentage, PR.Project_startDate, PR.Project_estimatedEndDate, PR.Project_activitiEndDate FROM project PR
+  INNER JOIN manager M ON PR.Manager_id = M.Manager_id
+  INNER JOIN client C ON PR.Client_id = C.Client_id
+  INNER JOIN user U ON PR.User_id = U.User_id
+  INNER JOIN country CN ON C.Country_id = CN.Country_id
+  INNER JOIN brand B ON PR.Brand_id = B.Brand_id
+  WHERE (PR.Project_startDate BETWEEN initDate AND finDate)
+  ORDER BY PR.Project_id DESC;
+END$$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_administrative_info_chart1`$$
+CREATE PROCEDURE `sp_select_administrative_info_chart1` (IN initDate DATE, IN finDate DATE)   
+BEGIN
+  SELECT CONCAT(Project_code, " ", SUBSTRING(Brand_name, 1, 10)) AS Project_name, 
+  CASE 
+    WHEN Project_activitiEndDate > 0 THEN ROUND((DATEDIFF (Project_estimatedEndDate, Project_activitiEndDate) * 100) / DATEDIFF (Project_estimatedEndDate, Project_startDate),2) + 100 
+    ELSE 0
+    END AS Project_estimation
+  FROM project P
+  INNER JOIN brand B ON P.Brand_id = B.Brand_id
+  WHERE (Project_startDate BETWEEN initDate AND finDate)
+  ORDER BY Project_id DESC;
+END$$
+
+-- Grafico de lienas de la cantidad de proyectos por cliente y mes
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_administrative_info_chart3`$$
+CREATE PROCEDURE `sp_select_administrative_info_chart3` (IN initDate DATE, IN finDate DATE)   
+BEGIN
+  SELECT DATE_FORMAT(PR.created_at, '%Y-%m') AS Project_date, COUNT(PR.ProjReq_id ) AS Project_count, PR.User_id, M.Manager_name FROM project_request PR
+  INNER JOIN user U ON PR.User_id = U.User_id
+  INNER JOIN user_manager UM ON U.User_id = UM.User_id
+  INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+  WHERE PR.created_at BETWEEN initDate AND finDate
+  GROUP BY UM.Manager_id, Project_date 
+  ORDER BY UM.Manager_id ASC, Project_date ASC;
 END$$

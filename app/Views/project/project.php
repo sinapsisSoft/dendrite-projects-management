@@ -232,8 +232,8 @@
                       <input type="date" class="form-control" id="Project_startDate" name="Project_startDate" required>
                     </div>
                     <div class="col-12 col-md-3 mb-3">
-                      <label for="Project_estimatedEndDate">Fecha Finalización Estimada</label>
-                      <input type="date" class="form-control" id="Project_estimatedEndDate" name="Project_estimatedEndDate">
+                      <label for="Project_estimatedEndDate">Fecha Finalización Estimada *</label>
+                      <input type="date" class="form-control" id="Project_estimatedEndDate" name="Project_estimatedEndDate" required>
                     </div>
                     <div class="col-12 col-md-3 mb-3">
                       <label for="User_id">Notificar a: *</label>
