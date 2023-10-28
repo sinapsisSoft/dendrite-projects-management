@@ -4303,7 +4303,8 @@ fieldset:disabled .btn {
   margin-bottom: -1px;
   border: 1px solid transparent;
   border-top-left-radius: 2px;
-  border-top-right-radius: 2px
+  border-top-right-radius: 2px;
+  cursor: pointer;
 }
 
 .nav-tabs .nav-link:focus,
@@ -4321,7 +4322,7 @@ fieldset:disabled .btn {
 .nav-tabs .nav-link.active {
   color: #4f5467;
   background-color: #fff;
-  border-color: #dee2e6 #dee2e6 #fff
+  border-color: #dee2e6 #dee2e6 #fff;
 }
 
 .nav-tabs .dropdown-menu {

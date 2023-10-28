@@ -303,7 +303,7 @@ function getDataIdFinish(idData) {
     });
 }
 
-function getDataId(idData) {
+function getDataId(idData, type) {
   showPreload();
   selectInsertOrUpdate = false;
   formData[primaryId] = idData;
@@ -323,6 +323,9 @@ function getDataId(idData) {
       if (response[dataResponse] == 200) {
         showModal(0);
         sTForm.setDataForm(response[dataModel]);
+        if(type == 0){
+          sTForm.inputButtonDisable();
+        }       
         hidePreload();
       } else {
         Swal.fire(

@@ -145,7 +145,7 @@
                   </div>
                   <div class="col-8 col-md-10 mb-3">
                     <label for="Project_url">Enlace</label>
-                    <input type="text" class="form-control" size="15" maxlength="30" id="Project_url" value="<?= $data["project"]->Project_url ?>" name="Project_url">
+                    <input type="text" class="form-control" size="15" maxlength="320" id="Project_url" value="<?= $data["project"]->Project_url ?>" name="Project_url">
                   </div>
                   <?php if ($roleUser == "7") : ?>
                     <div class="col-2 col-md-auto mb-3 align-self-end">
@@ -294,12 +294,10 @@
               <!-- TABLA DE SEGUIMIENTO DE PROYECTO -->
 
               <div class="card-pp">
-                <?php if ($roleUser == "7") : ?>
-                  <h4 class="page-title text-end">
-                    Agregar Seguimiento
-                    <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showTrackingModal(1)"><i class="mdi mdi-plus"></i></button>
-                  </h4>
-                <?php endif; ?>
+                <h4 class="page-title text-end">
+                  Agregar Seguimiento
+                  <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showTrackingModal(1)"><i class="mdi mdi-plus"></i></button>
+                </h4>
                 <div class="card-body">
                   <div class="table-responsive table-pp">
                     <table id="table_obj_tracking" class="table table-striped table-bordered">

@@ -5,14 +5,17 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_commercial_info_table`$$
 CREATE PROCEDURE `sp_select_commercial_info_table` (IN initDate DATE, IN finDate DATE, IN userId INT)   
 BEGIN
-  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name FROM activities AC
+  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name, P.Project_purchaseOrder, P.Manager_id, M.Manager_name, P.Project_startDate, P.Project_percentage, P.User_id, U2.User_name AS Project_traffic, P.Project_estimatedEndDate, P.Project_activitiEndDate, AC.Activi_startDate, AC.Activi_endDate, SA.SubAct_estimatedEndDate, SA.SubAct_endDate, P.Brand_id, B.Brand_name FROM activities AC
   RIGHT JOIN subactivities SA ON AC.Activi_id = SA.Activi_id
-  INNER JOIN user U ON SA.User_id = U.User_id
+  INNER JOIN user U ON SA.User_id = U.User_id  
   INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id
   INNER JOIN project P ON PP.Project_id = P.Project_id
+  INNER JOIN user U2 ON P.User_id = U2.User_id
   INNER JOIN product PD ON PP.Prod_id = PD.Prod_id
   INNER JOIN client C ON P.Client_id = C.Client_id
   INNER JOIN country CN ON C.Country_id = CN.Country_id
+  INNER JOIN manager M ON P.Manager_id = M.Manager_id
+  INNER JOIN brand B ON P.Brand_id = B.Brand_id
   WHERE (P.Project_startDate BETWEEN initDate AND finDate) AND P.Project_commercial = userId
   GROUP BY SA.SubAct_id
   ORDER BY P.Project_id ASC; 
@@ -96,14 +99,21 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_administrative_info_table2`$$
 CREATE PROCEDURE `sp_select_administrative_info_table2` (IN initDate DATE, IN finDate DATE)   
 BEGIN
-  SELECT PR.Project_id, PR.User_id, U.User_name, PR.Manager_id, (SELECT Manager_name FROM manager WHERE Manager_id = PR.Manager_id) AS Manager_name, PR.Project_code, PR.created_at, C.Client_name, C.Country_id, CN.Country_name, PR.Brand_id, B.Brand_name, PR.Project_commercial AS Commercial_id, (SELECT User_name FROM user WHERE User_id = PR.Project_commercial) AS Project_commercial, PR.Project_percentage, PR.Project_startDate, PR.Project_estimatedEndDate, PR.Project_activitiEndDate FROM project PR
-  INNER JOIN manager M ON PR.Manager_id = M.Manager_id
-  INNER JOIN client C ON PR.Client_id = C.Client_id
-  INNER JOIN user U ON PR.User_id = U.User_id
+  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name, P.Project_purchaseOrder, P.Manager_id, M.Manager_name, P.Project_startDate, P.Project_percentage, P.User_id, U2.User_name AS Project_traffic, P.Project_estimatedEndDate, P.Project_activitiEndDate, AC.Activi_startDate, AC.Activi_endDate, SA.SubAct_estimatedEndDate, SA.SubAct_endDate, P.Brand_id, B.Brand_name, P.Project_commercial, U3.User_name AS Project_commercialName FROM activities AC
+  RIGHT JOIN subactivities SA ON AC.Activi_id = SA.Activi_id
+  INNER JOIN user U ON SA.User_id = U.User_id  
+  INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id
+  INNER JOIN project P ON PP.Project_id = P.Project_id
+  INNER JOIN user U2 ON P.User_id = U2.User_id
+  INNER JOIN user U3 ON P.Project_commercial = U3.User_id
+  INNER JOIN product PD ON PP.Prod_id = PD.Prod_id
+  INNER JOIN client C ON P.Client_id = C.Client_id
   INNER JOIN country CN ON C.Country_id = CN.Country_id
-  INNER JOIN brand B ON PR.Brand_id = B.Brand_id
-  WHERE (PR.Project_startDate BETWEEN initDate AND finDate)
-  ORDER BY PR.Project_id DESC;
+  INNER JOIN manager M ON P.Manager_id = M.Manager_id
+  INNER JOIN brand B ON P.Brand_id = B.Brand_id
+  WHERE P.Project_startDate BETWEEN initDate AND finDate
+  GROUP BY SA.SubAct_id
+  ORDER BY P.Project_id ASC; 
 END$$
 
 DELIMITER $$
@@ -121,7 +131,7 @@ BEGIN
   ORDER BY Project_id DESC;
 END$$
 
--- Grafico de lienas de la cantidad de proyectos por cliente y mes
+-- Lineas graphic of prject numbers by client and month
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_administrative_info_chart3`$$
 CREATE PROCEDURE `sp_select_administrative_info_chart3` (IN initDate DATE, IN finDate DATE)   
@@ -133,4 +143,23 @@ BEGIN
   WHERE PR.created_at BETWEEN initDate AND finDate
   GROUP BY UM.Manager_id, Project_date 
   ORDER BY UM.Manager_id ASC, Project_date ASC;
+END$$
+
+-- Traffic Role reports
+-- Table information
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_traffic_info_table`$$
+CREATE PROCEDURE `sp_select_traffic_info_table` (IN initDate DATE, IN finDate DATE, IN userId INT)   
+BEGIN
+  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name FROM activities AC
+  RIGHT JOIN subactivities SA ON AC.Activi_id = SA.Activi_id
+  INNER JOIN user U ON SA.User_id = U.User_id
+  INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id
+  INNER JOIN project P ON PP.Project_id = P.Project_id
+  INNER JOIN product PD ON PP.Prod_id = PD.Prod_id
+  INNER JOIN client C ON P.Client_id = C.Client_id
+  INNER JOIN country CN ON C.Country_id = CN.Country_id
+  WHERE (P.Project_startDate BETWEEN initDate AND finDate) AND P.User_id = userId
+  GROUP BY SA.SubAct_id
+  ORDER BY P.Project_id ASC; 
 END$$

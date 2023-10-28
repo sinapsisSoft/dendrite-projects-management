@@ -332,7 +332,6 @@ function getData(formData) {
     .then(response => {
       if (response[dataResponse] == 200) {
         drawChart1('chart1', 'bar', response[chart1]);
-        // drawChart2('chart2', 'polarArea', response[chart2]);
         drawChart3('chart3', 'line', response[chart3]);
         createTable('table_obj', response['dataTable']);
         createTable2('table_obj1', response['dataTable2']);
@@ -382,17 +381,28 @@ function createTable2(tblid, jsonData) {
   for (const iterator of jsonData) {
     newRow += `<tr>
       <td>${i}</td>
+      <td>${iterator['Project_code']}</td>
+      <td>${iterator['Project_name']}</td>
+      <td>${iterator['Project_purchaseOrder']}</td>                                
       <td>${iterator['Client_name']}</td>
       <td>${iterator['Country_name']}</td>
       <td>${iterator['Manager_name']}</td>
       <td>${iterator['Brand_name']}</td>
-      <td>${iterator['Project_commercial']}</td>
+      <td>${iterator['Project_startDate']}</td>                                
+      <td>${iterator['Project_percentage']}</td>                                
+      <td>${iterator['Project_estimatedEndDate']}</td>                                
+      <td>${iterator['Project_activitiEndDate']}</td>  
+      <td>${iterator['Project_commercialName']}</td>                                   
+      <td>${iterator['Project_traffic']}</td>  
+      <td>${iterator['Activi_name']}</td>
+      <td>${iterator['Prod_name']}</td>
+      <td>${iterator['Activi_startDate']}</td>
+      <td>${iterator['Activi_endDate']}</td>                                
+      <td>${iterator['SubAct_name']}</td>
       <td>${iterator['User_name']}</td>
-      <td>${iterator['Project_percentage'] == null ? 0 : iterator['Project_percentage']}</td>
-      <td>${iterator['Project_startDate']}</td>
-      <td>${iterator['Project_estimatedEndDate']}</td>
-      <td>${iterator['Project_activitiEndDate']}</td>
-      <td>${iterator['created_at']}</td>
+      <td>${iterator['SubAct_percentage']}</td>
+      <td>${iterator['SubAct_estimatedEndDate']}</td>
+      <td>${iterator['SubAct_endDate']}</td>
       </tr>`;
     i++;
   }

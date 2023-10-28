@@ -121,6 +121,7 @@
                             <?php foreach ($dataTable as $obj) : ?>
                               <tr>
                                 <td><?= $i++; ?></td>
+                                <td><?= $obj->Project_code; ?></td>
                                 <td><?= $obj->Project_name; ?></td>
                                 <td><?= $obj->Client_name; ?></td>
                                 <td><?= $obj->Country_name; ?></td>

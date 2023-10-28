@@ -214,7 +214,7 @@ class Email
           <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
             <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
               <button type="button" style="padding: 8px; border-color: #7460ee; background: #7460ee; border-radius: 18px;">
-                <a href="www.google.com" target="_blank" style="color: #ffffff; text-decoration: none;">Revisar actividades</a>
+                <a href="' . base_url() . 'subactivities?activitiesId=' . $data[0]->Activi_id . '" target="_blank" style="color: #ffffff; text-decoration: none;">Revisar actividades</a>
               </button>
             </div>            
           </td>

@@ -351,13 +351,25 @@ function createTable(tblid, jsonData){
     <td>${i}</td>
     <td>${iterator['Project_code']}</td>
     <td>${iterator['Project_name']}</td>
+    <td>${iterator['Project_purchaseOrder']}</td>                                
     <td>${iterator['Client_name']}</td>
     <td>${iterator['Country_name']}</td>
+    <td>${iterator['Manager_name']}</td>
+    <td>${iterator['Brand_name']}</td>
+    <td>${iterator['Project_startDate']}</td>                                
+    <td>${iterator['Project_percentage']}</td>                                
+    <td>${iterator['Project_estimatedEndDate']}</td>                                
+    <td>${iterator['Project_activitiEndDate']}</td>                                
+    <td>${iterator['Project_traffic']}</td>                                
     <td>${iterator['Activi_name']}</td>
     <td>${iterator['Prod_name']}</td>
-    <td>${iterator['User_name']}</td>
+    <td>${iterator['Activi_startDate']}</td>
+    <td>${iterator['Activi_endDate']}</td>                                
     <td>${iterator['SubAct_name']}</td>
+    <td>${iterator['User_name']}</td>
     <td>${iterator['SubAct_percentage']}</td>
+    <td>${iterator['SubAct_estimatedEndDate']}</td>
+    <td>${iterator['SubAct_endDate']}</td>
   </tr>`;
     i++;
   }

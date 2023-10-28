@@ -153,56 +153,89 @@
                     </div>
                     <div class="card-pp">
                       <div class="table-responsive">
-                        <table id="table_obj1" class="table table-striped table-bordered">
+                      <table id="table_obj1" class="table table-striped table-bordered">
                           <thead>
                             <tr>
                               <th>#</th>
+                              <th>Código</th>
+                              <th>Proyecto</th>
+                              <th>Orden de compra</th>                              
                               <th>Cliente</th>
                               <th>País</th>
-                              <th>Manager</th>
+                              <th>Gerente</th>
                               <th>Marca</th>
+                              <th>Fecha inicio proyecto</th>
+                              <th>Avance proyecto</th>
+                              <th>Fecha estimada entrega proyecto</th>
+                              <th>Fecha finalización proyecto</th>
                               <th>Comercial</th>
                               <th>Tráfico</th>
+                              <th>Actividad</th>
+                              <th>Producto</th>
+                              <th>Fecha estimada entrega actividad</th>
+                              <th>Fecha finalización actividad</th>                              
+                              <th>Subactividad</th>
+                              <th>Colaborador</th>
                               <th>% Avance</th>
-                              <th>Fecha inicio</th>
-                              <th>Fecha estimada finalización</th>
-                              <th>Fecha real finalización</th>
-                              <th>Fecha creación proyecto</th>
+                              <th>Fecha estimada entrega subactividad</th>
+                              <th>Fecha finalización subactividad</th>
                             </tr>
                           </thead>
                           <tbody>
                             <?php $i = 1 ?>
                             <?php foreach ($dataTable2 as $obj) : ?>
                               <tr>
-                                <td><?= $i++; ?></td>
+                              <td><?= $i++; ?></td>
+                                <td><?= $obj->Project_code; ?></td>
+                                <td><?= $obj->Project_name; ?></td>
+                                <td><?= $obj->Project_purchaseOrder; ?></td>                                
                                 <td><?= $obj->Client_name; ?></td>
                                 <td><?= $obj->Country_name; ?></td>
                                 <td><?= $obj->Manager_name; ?></td>
                                 <td><?= $obj->Brand_name; ?></td>
-                                <td><?= $obj->Project_commercial; ?></td>
+                                <td><?= $obj->Project_startDate; ?></td>                                
+                                <td><?= $obj->Project_percentage; ?></td>                                
+                                <td><?= $obj->Project_estimatedEndDate; ?></td>                                
+                                <td><?= $obj->Project_activitiEndDate; ?></td>                                
+                                <td><?= $obj->Project_commercialName; ?></td>                                
+                                <td><?= $obj->Project_traffic; ?></td>                                
+                                <td><?= $obj->Activi_name; ?></td>
+                                <td><?= $obj->Prod_name; ?></td>
+                                <td><?= $obj->Activi_startDate; ?></td>
+                                <td><?= $obj->Activi_endDate; ?></td>                                
+                                <td><?= $obj->SubAct_name; ?></td>
                                 <td><?= $obj->User_name; ?></td>
-                                <td><?= $obj->Project_percentage == null ? 0 : $obj->Project_percentage; ?></td>
-                                <td><?= $obj->Project_startDate; ?></td>
-                                <td><?= $obj->Project_estimatedEndDate; ?></td>
-                                <td><?= $obj->Project_activitiEndDate; ?></td>
-                                <td><?= $obj->created_at; ?></td>
+                                <td><?= $obj->SubAct_percentage; ?></td>
+                                <td><?= $obj->SubAct_estimatedEndDate; ?></td>
+                                <td><?= $obj->SubAct_endDate; ?></td>
                               </tr>
                             <?php endforeach; ?>
                           </tbody>
                           <tfoot>
                             <tr>
                               <th>#</th>
+                              <th>Código</th>
+                              <th>Proyecto</th>
+                              <th>Orden de compra</th>                              
                               <th>Cliente</th>
                               <th>País</th>
-                              <th>Manager</th>
+                              <th>Gerente</th>
                               <th>Marca</th>
+                              <th>Fecha inicio proyecto</th>
+                              <th>Avance proyecto</th>
+                              <th>Fecha estimada entrega proyecto</th>
+                              <th>Fecha finalización proyecto</th>
                               <th>Comercial</th>
                               <th>Tráfico</th>
+                              <th>Actividad</th>
+                              <th>Producto</th>
+                              <th>Fecha estimada entrega actividad</th>
+                              <th>Fecha finalización actividad</th>                              
+                              <th>Subactividad</th>
+                              <th>Colaborador</th>
                               <th>% Avance</th>
-                              <th>Fecha inicio</th>
-                              <th>Fecha estimada finalización</th>
-                              <th>Fecha real finalización</th>
-                              <th>Fecha creación proyecto</th>
+                              <th>Fecha estimada entrega subactividad</th>
+                              <th>Fecha finalización subactividad</th>
                             </tr>
                           </tfoot>
                         </table>
