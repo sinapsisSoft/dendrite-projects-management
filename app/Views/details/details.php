@@ -486,8 +486,8 @@
                             </select>
                           </div>
                           <div class="col-12 col-md-4 mb-3">
-                            <label for="Activi_startDate">Fecha estimada de entrega</label>
-                            <input type="date" class="form-control" id="Activi_startDate" name="Activi_startDate">
+                            <label for="Activi_startDate">Fecha estimada de entrega *</label>
+                            <input type="date" class="form-control" id="Activi_startDate" name="Activi_startDate" required>
                           </div>
                           <div class="col-12 col-md-4 mb-3">
                             <label for="Activi_codeMiigo">Código Miigo</label>

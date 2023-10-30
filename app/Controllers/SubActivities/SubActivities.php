@@ -73,7 +73,8 @@ class SubActivities extends BaseController
                     $email->sendEmail($subactivityInfo, $commercialMail, 8);
                     $email1->sendEmail($subactivityInfo, $trafficMail, 8);
                 } else {
-                    $email->sendEmail($subActivitie, $mainMail[0]->User_email, 1);
+                    $email->sendEmail($subactivityInfo, $commercialMail, 1);
+                    $email1->sendEmail($subactivityInfo, $trafficMail, 1);                    
                 }        
                 $response = $this->updateEndDate(["Activi_id" => $subActivitie[0]->Activi_id]);
                 $data['message'] = 'success';

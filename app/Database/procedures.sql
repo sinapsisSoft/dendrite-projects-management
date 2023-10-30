@@ -683,6 +683,7 @@ BEGIN
     SELECT S.SubAct_name,
     S.SubAct_estimatedEndDate,
     S.Priorities_id,
+    S.SubAct_description,
     S.User_id,
     U.User_name,
     PR.Priorities_name,

@@ -24,7 +24,7 @@ class DetailProjectUser extends BaseController{
         $this->projectRequestProduct = new ProjectRequestProductModel();
         $this->primaryKey = 'ProjReq_id';
         $this->nameModel = 'projects';
-        $this->userId = 9; //Id del usuario logueado
+        $this->userId = session()->UserId;
     }
 
     public function show(){
