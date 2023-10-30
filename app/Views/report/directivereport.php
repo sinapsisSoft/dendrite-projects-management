@@ -261,7 +261,7 @@
   <?= $js ?>
   <script src="./assets/js/char.min.js"></script>
   <script src="./assets/js/chartjs-adapter-date-fns.bundle.min.js"></script>
-  <script src="./controllers/report/administrativereport.controller.js"></script>
+  <script src="./controllers/report/directivereport.controller.js"></script>
   <script>
     var dataChart1 = [], dataChart3 = [];
     dataChart1 = <?= $chart1 ?>;

@@ -51,9 +51,6 @@
                   <li class="nav-item">
                     <a class="nav-link active" id="report1-tab" data-bs-toggle="tab" data-bs-target="#report1" role="tab" aria-controls="report1" aria-selected="true">Reporte General</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="report2-tab" data-bs-toggle="tab" data-bs-target="#report2" role="tab" aria-controls="report2" aria-selected="false">Reporte Gr[afico</a>
-                  </li>
                 </ul>
                 <div class="tab-content" id="tabContent">
                   <div class="tab-pane fade show active" id="report1" role="tabpanel" aria-labelledby="report1-tab">
@@ -105,15 +102,28 @@
                         <table id="table_obj" class="table table-striped table-bordered">
                           <thead>
                             <tr>
-                              <th>#</th>
+                            <th>#</th>
+                              <th>Código</th>
                               <th>Proyecto</th>
+                              <th>Orden de compra</th>                              
                               <th>Cliente</th>
                               <th>País</th>
+                              <th>Gerente</th>
+                              <th>Marca</th>
+                              <th>Fecha inicio proyecto</th>
+                              <th>Avance proyecto</th>
+                              <th>Fecha estimada entrega proyecto</th>
+                              <th>Fecha finalización proyecto</th>
+                              <th>Comercial</th>
                               <th>Actividad</th>
                               <th>Producto</th>
-                              <th>Colaborador</th>
+                              <th>Fecha estimada entrega actividad</th>
+                              <th>Fecha finalización actividad</th>                              
                               <th>Subactividad</th>
+                              <th>Colaborador</th>
                               <th>% Avance</th>
+                              <th>Fecha estimada entrega subactividad</th>
+                              <th>Fecha finalización subactividad</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -123,27 +133,52 @@
                                 <td><?= $i++; ?></td>
                                 <td><?= $obj->Project_code; ?></td>
                                 <td><?= $obj->Project_name; ?></td>
+                                <td><?= $obj->Project_purchaseOrder; ?></td>                                
                                 <td><?= $obj->Client_name; ?></td>
                                 <td><?= $obj->Country_name; ?></td>
+                                <td><?= $obj->Manager_name; ?></td>
+                                <td><?= $obj->Brand_name; ?></td>
+                                <td><?= $obj->Project_startDate; ?></td>                                
+                                <td><?= $obj->Project_percentage; ?></td>                                
+                                <td><?= $obj->Project_estimatedEndDate; ?></td>                                
+                                <td><?= $obj->Project_activitiEndDate; ?></td>                                
+                                <td><?= $obj->Project_commercialName; ?></td>                                
                                 <td><?= $obj->Activi_name; ?></td>
                                 <td><?= $obj->Prod_name; ?></td>
-                                <td><?= $obj->User_name; ?></td>
+                                <td><?= $obj->Activi_startDate; ?></td>
+                                <td><?= $obj->Activi_endDate; ?></td>                                
                                 <td><?= $obj->SubAct_name; ?></td>
+                                <td><?= $obj->User_name; ?></td>
                                 <td><?= $obj->SubAct_percentage; ?></td>
+                                <td><?= $obj->SubAct_estimatedEndDate; ?></td>
+                                <td><?= $obj->SubAct_endDate; ?></td>
                               </tr>
                             <?php endforeach; ?>
                           </tbody>
                           <tfoot>
                             <tr>
-                              <th>#</th>
+                            <th>#</th>
+                              <th>Código</th>
                               <th>Proyecto</th>
+                              <th>Orden de compra</th>                              
                               <th>Cliente</th>
                               <th>País</th>
+                              <th>Gerente</th>
+                              <th>Marca</th>
+                              <th>Fecha inicio proyecto</th>
+                              <th>Avance proyecto</th>
+                              <th>Fecha estimada entrega proyecto</th>
+                              <th>Fecha finalización proyecto</th>
+                              <th>Comercial</th>
                               <th>Actividad</th>
                               <th>Producto</th>
-                              <th>Colaborador</th>
+                              <th>Fecha estimada entrega actividad</th>
+                              <th>Fecha finalización actividad</th>                              
                               <th>Subactividad</th>
+                              <th>Colaborador</th>
                               <th>% Avance</th>
+                              <th>Fecha estimada entrega subactividad</th>
+                              <th>Fecha finalización subactividad</th>
                             </tr>
                           </tfoot>
                         </table>
@@ -166,7 +201,7 @@
   <?= $js ?>
   <script src="./assets/js/char.min.js"></script>
   <script src="./assets/js/chartjs-adapter-date-fns.bundle.min.js"></script>
-  <script src="./controllers/report/commercialreport.controller.js"></script>
+  <script src="./controllers/report/trafficreport.controller.js"></script>
   <script>
     var dataChart1 = [],
       dataChart2 = [];

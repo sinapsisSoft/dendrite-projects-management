@@ -69,4 +69,53 @@ class ReportModel extends Model
     $result = $this->db->query($query)->getResult();
     return $result;
   }
+
+  function sp_select_traffic_info_chart1($iniDate, $finDate, $user)
+  {
+    $query = "CALL sp_select_traffic_info_chart1('" . $iniDate . "','" . $finDate . "'," . $user . ")";
+    $result = $this->db->query($query)->getResult();
+    return $result;
+  }
+
+  function sp_select_traffic_info_chart2($iniDate, $finDate, $user)
+  {
+    $query = "CALL sp_select_traffic_info_chart2('" . $iniDate . "','" . $finDate . "'," . $user . ")";
+    $result = $this->db->query($query)->getResult();
+    return $result;
+  }
+
+  function sp_select_traffic_info_chart3($iniDate, $finDate, $user)
+  {
+    $query = "CALL sp_select_traffic_info_chart3('" . $iniDate . "','" . $finDate . "'," . $user . ")";
+    $result = $this->db->query($query)->getResult();
+    return $result;
+  }
+
+  function sp_select_directive_info_table($iniDate, $finDate)
+  {
+    $query = "CALL sp_select_directive_info_table('" . $iniDate . "','" . $finDate . "')";
+    $result = $this->db->query($query)->getResult();
+    return $result;
+  }
+
+  function sp_select_directive_info_table2($iniDate, $finDate)
+  {
+    $query = "CALL sp_select_directive_info_table2('" . $iniDate . "','" . $finDate . "')";
+    $result = $this->db->query($query)->getResult();
+    return $result;
+  }
+
+  function sp_select_directive_info_chart1($iniDate, $finDate)
+  {
+    $query = "CALL sp_select_directive_info_chart1('" . $iniDate . "','" . $finDate . "')";
+    $result = $this->db->query($query)->getResult();
+    return $result;
+  }
+
+  function sp_select_directive_info_chart3($iniDate, $finDate)
+  {
+    $query = "CALL sp_select_directive_info_chart3('" . $iniDate . "','" . $finDate . "')";
+    $result = $this->db->query($query)->getResult();
+    return $result;
+  }
 }

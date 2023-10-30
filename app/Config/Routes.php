@@ -252,8 +252,11 @@ $routes->group('report', ['namespace' => 'App\Controllers\Report','filter'=>'app
     $routes->get('/', 'Report::show');
     $routes->post('createCharts', 'Report::createCharts');
     $routes->post('commercialExcel', 'Report::createCommercialExcel');
-    $routes->post('administrativeExcel', 'Report::createadministrativeExcel');
-    $routes->post('administrativeExcel2', 'Report::createadministrativeExcel2');
+    $routes->post('administrativeExcel', 'Report::createAdministrativeExcel');
+    $routes->post('administrativeExcel2', 'Report::createAdministrativeExcel2');
+    $routes->post('trafficExcel', 'Report::createTrafficExcel');
+    $routes->post('directiveExcel', 'Report::createDirectiveExcel');
+    $routes->post('directiveExcel2', 'Report::createDirectiveExcel2');
     $routes->get('reports', '');
 
 });
