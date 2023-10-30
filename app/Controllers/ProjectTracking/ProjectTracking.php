@@ -4,6 +4,9 @@ namespace App\Controllers\ProjectTracking;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ProjectTracking\ProjectTrackingModel;
+use App\Models\Project\ProjectModel;
+use App\Models\User\UserModel;
+use App\Utils\Email;
 
 
 class ProjectTracking extends BaseController{
@@ -34,6 +37,10 @@ class ProjectTracking extends BaseController{
     }
 
     public function create(){
+        $email = new Email();
+        $email1 = new Email();
+        $projectModel = new ProjectModel();
+        $userModel = new UserModel();
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL);
             if ($this->objModel->insert($dataModel)) {
@@ -41,6 +48,14 @@ class ProjectTracking extends BaseController{
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['data'] = $dataModel;
                 $data['csrf'] = csrf_hash();
+                $projectId = $dataModel['Project_id'];
+                $project = $projectModel->sp_select_all_project($projectId);
+                $commercial = $userModel->where('User_id', $project[0]->User_id)->find();
+                $traffic = $userModel->where('User_id', $project[0]->Project_traffic)->find();
+                $dataModel['Project_name'] = $project[0]->Project_name;
+                $dataModel['Project_id'] = $projectId;
+                $email->sendEmail($dataModel, $commercial[0]['User_email'], 10);
+                $email1->sendEmail($dataModel, $traffic[0]['User_email'], 10);
             } else {
                 $data['message'] = 'Error create user';
                 $data['response'] = ResponseInterface::HTTP_NO_CONTENT;

@@ -144,6 +144,7 @@ P.Project_purchaseOrder,
 P.Project_ddtStartDate,
 CT.Country_name,
 P.Project_ddtEndDate,
+P.User_id AS Project_traffic,
 U1.User_name,
 P.Project_startDate,
 P.Project_estimatedEndDate,
@@ -576,7 +577,7 @@ BEGIN
                             SELECT COUNT(Project_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Client_id, C.Client_name 
                             FROM project P
                             INNER JOIN client C ON P.Client_id = C.Client_id
-                            WHERE P.User_id = userId AND P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
+                            WHERE P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
                             GROUP BY Project_month, C.Client_name
                             ORDER BY P.Project_startDate ASC; 
                         ELSE
