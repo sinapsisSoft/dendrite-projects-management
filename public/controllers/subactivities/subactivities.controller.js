@@ -325,8 +325,7 @@ function getDataId(idData, type) {
         sTForm.setDataForm(response[dataModel]);
         if(type == 0){
           sTForm.inputButtonDisable();
-        }       
-        hidePreload();
+        }    
       } else {
         Swal.fire(
           '¡No pudimos hacer esto!',
@@ -334,6 +333,7 @@ function getDataId(idData, type) {
           'error'
         );
       }
+      hidePreload();
     });
 }
 

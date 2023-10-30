@@ -118,4 +118,11 @@ class ReportModel extends Model
     $result = $this->db->query($query)->getResult();
     return $result;
   }
+
+  function sp_select_manager_info_chart3($iniDate, $finDate, $user)
+  {
+    $query = "CALL sp_select_manager_info_chart3('" . $iniDate . "','" . $finDate . "'," . $user . ")";
+    $result = $this->db->query($query)->getResult();
+    return $result;
+  }
 }

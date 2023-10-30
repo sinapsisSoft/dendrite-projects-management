@@ -30,7 +30,7 @@
                     <a href="<?= base_url() ?>home">Inicio</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    <a href="<?= base_url() ?>project">Proyectos</a>
+                    Proyectos
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
                     Detalle del proyecto
@@ -88,12 +88,21 @@
                           <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                               <?php if (PERMITS[2] == "3") : ?>
-                                <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->SubAct_id ?>)" <?= $obj->SubAct_percentage == 100 ? "disabled" : "" ?>>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                  </svg>
-                                </button>
+                                <?php if ($obj->SubAct_percentage < 100) : ?>
+                                  <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->SubAct_id ?>, 1)" <?= $obj->SubAct_percentage == 100 ? "disabled" : "" ?>>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                    </svg>
+                                  </button>
+                                <?php else : ?>
+                                  <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->SubAct_id ?>, 0)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                      <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                      <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                    </svg>
+                                  </button>
+                                <?php endif; ?>
                               <?php endif; ?>
                               <button type="button" class="btn btn-outline-success" onclick="showEmailModal(1, <?= $obj->SubAct_id ?>)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-plus-fill" viewBox="0 0 16 16">
@@ -149,8 +158,8 @@
                           <input type="text" class="form-control form-disabled" id="SubAct_name" name="SubAct_name" required>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
-                          <label for="SubAct_estimatedEndDate">Fecha Estimada de Entrega</label>
-                          <input type="date" class="form-control form-disabled" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate">
+                          <label for="SubAct_estimatedEndDate">Fecha estimada de entrega *</label>
+                          <input type="date" class="form-control form-disabled" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" required>
                         </div>
                         <div class="col-12 col-md-4 mb-3 ">
                           <label for="SubAct_duration">Duración<small>(Horas)</small> *</label>
@@ -159,6 +168,10 @@
                         <div class="col-12 col-md-4 mb-3">
                           <label for="SubAct_percentage">% actividad realizada *</label>
                           <input type="text" class="form-control read" id="SubAct_percentage" name="SubAct_percentage" value="0" required>
+                        </div>
+                        <div class="col-12">
+                          <label for="SubAct_description">Descripción</label>
+                          <input type="text" class="form-control read" id="SubAct_description" name="SubAct_description" value="0">
                         </div>
                       </div>
                     </form>
@@ -237,7 +250,7 @@
                           <input type="text" class="form-control form-disabled" id="SubAct_name" name="SubAct_name" value="" required>
                         </div>
                         <div class="mb-3 col-6">
-                          <label for="SubAct_estimatedEndDate">Fecha estimada de entrega</label>
+                          <label for="SubAct_estimatedEndDate">Fecha estimada de entrega *</label>
                           <input type="date" class="form-control form-disabled" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" value="" required>
                         </div>
                         <div class="mb-3 col-6">

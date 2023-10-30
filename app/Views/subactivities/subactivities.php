@@ -83,8 +83,8 @@
                   <input type="text" class="form-control" disabled id="Project_product_name" name="Project_product_name" value="<?= $activity->Prod_name ?>" value="" required>
                 </div>
                 <div class="col-12 col-md-4 mb-3">
-                  <label for="">Fecha estimada de entrega</label>
-                  <input type="date" class="form-control" disabled value="<?= $activity->Activi_startDate ?>">
+                  <label for="">Fecha estimada de entrega *</label>
+                  <input type="date" class="form-control" disabled value="<?= $activity->Activi_startDate ?>" required>
                 </div>
                 <div class="col-12 col-md-4 mb-3">
                   <label for="Activi_codeMiigo">Código Miigo</label>
@@ -256,8 +256,8 @@
                           </select>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
-                          <label for="SubAct_estimatedEndDate">Fecha Estimada de Entrega</label>
-                          <input type="date" class="form-control" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate">
+                          <label for="SubAct_estimatedEndDate">Fecha estimada de entrega *</label>
+                          <input type="date" class="form-control" id="SubAct_estimatedEndDate" name="SubAct_estimatedEndDate" required>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
                           <label for="Priorities_id">Prioridad *</label>

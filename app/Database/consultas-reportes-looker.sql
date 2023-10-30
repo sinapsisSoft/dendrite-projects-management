@@ -280,3 +280,17 @@ BEGIN
   GROUP BY UM.Manager_id, Project_date 
   ORDER BY UM.Manager_id ASC, Project_date ASC;
 END$$
+
+--Manager Role reports
+-- Grafico de lineas de la cantidad de marcas por gerente y mes
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_manager_info_chart3`$$
+CREATE PROCEDURE `sp_select_manager_info_chart3` (IN initDate DATE, IN finDate DATE, IN userId INT)   
+BEGIN
+  SELECT DATE_FORMAT(PR.created_at, '%Y-%m') AS Project_date, COUNT(PR.ProjReq_id) AS Project_count, PR.Brand_id, B.Brand_name FROM project_request PR
+  INNER JOIN brand B ON PR.Brand_id = B.Brand_id
+  WHERE (P.Project_startDate BETWEEN initDate AND finDate) AND P.User_id = userId
+  GROUP BY PR.Brand_id, Project_date
+  ORDER BY PR.Brand_id ASC, Project_date ASC;
+END$$
+

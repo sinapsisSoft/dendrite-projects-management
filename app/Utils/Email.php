@@ -46,6 +46,7 @@ class Email
           <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
             <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
               <p style="line-height: 140%;">La actividad <strong>' . $data[0]->Activi_name . '</strong> ha registrado cambios en la subactividad <strong>' . $data[0]->SubAct_name . '</strong> asignada al colaborador <strong>' . $data[0]->User_name . '</strong> y ésta ha sido marcada como finalizada. </p>
+              <p style="line-height: 140%;"><strong>Detalle:</strong> ' . $data[0]->SubAct_description . '</p>
             </div>    
           </td>
         </tr>

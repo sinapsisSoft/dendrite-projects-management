@@ -47,12 +47,12 @@ class Report extends BaseController
     $data['footer'] = view('footer/footer');
 
     switch ($this->roleId) {
-      case 1:
-        return view('error', $data);
-        break;
-      case 2:
-        return view('error', $data);
-        break;
+      // case 1:
+      //   return view('error', $data);
+      //   break;
+      // case 2:
+      //   return view('error', $data);
+      //   break;
       case 3:
         $data['dataTable'] = $this->objModel->sp_select_commercial_info_table($initialDate, $finalDate, $this->userId);
         $chart1 = $this->objModel->sp_select_commercial_info_chart1($initialDate, $finalDate, $this->userId);
@@ -63,9 +63,11 @@ class Report extends BaseController
         count($chart3) > 0 ? $data['chart3'] = json_encode($chart3) : $data['chart3'] = 0;
         return view('report/commercialreport', $data);
         break;
-      case 4:
-        return view('error', $data);
-        break;
+      // case 4:
+      //   $chart3 = $this->objModel->sp_select_manager_info_chart3($initialDate, $finalDate, $this->userId);
+      //   count($chart3) > 0 ? $data['chart3'] = json_encode($chart3) : $data['chart3'] = 0;
+      //   return view('report/managerreport', $data);
+      //   break;
       case 5:
         $data['dataTable'] = $this->objModel->sp_select_directive_info_table($initialDate, $finalDate);
         $data['dataTable2'] = $this->objModel->sp_select_directive_info_table2($initialDate, $finalDate);
@@ -122,7 +124,8 @@ class Report extends BaseController
           count($chart3) > 0 ? $data['chart3'] = $chart3 : $data['chart3'] = 0;
           break;
         case 4:
-          // return view('error');
+          $chart3 = $this->objModel->sp_select_manager_info_chart3($initialDate, $finalDate, $this->userId);
+          count($chart3) > 0 ? $data['chart3'] = $chart3 : $data['chart3'] = 0;
           break;
         case 5:
           $data['dataTable'] = $this->objModel->sp_select_directive_info_table($initialDate, $finalDate);
@@ -600,7 +603,7 @@ class Report extends BaseController
     if ($this->request->isAJAX()) {
       $initialDate = $this->request->getVar('initialDate');
       $finalDate = $this->request->getVar('finalDate');
-      $tableResult = $this->objModel->sp_select_diective_info_table2($initialDate, $finalDate);
+      $tableResult = $this->objModel->sp_select_directive_info_table2($initialDate, $finalDate);
       try {
         $sheet = new Spreadsheet();
         $sheet->getProperties()->setCreator('Made in Casa')->setTitle('Reporte Directivo');
@@ -696,6 +699,5 @@ class Report extends BaseController
       }
     }
   }
-
 }
 

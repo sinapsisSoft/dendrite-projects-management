@@ -244,7 +244,12 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_subactivity_info`$$
 CREATE PROCEDURE `sp_select_subactivity_info` (IN `subactivity_id` INT)
 BEGIN
-SELECT SA.SubAct_name, AC.Activi_name, AC.Activi_id, US.User_id, US.User_name, PJ.Project_id, PJ.Project_name FROM subactivities SA INNER JOIN activities AC ON SA.Activi_id = AC.Activi_id INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id INNER JOIN project PJ ON PP.Project_id = PJ.Project_id INNER JOIN user US ON SA.User_id = US.User_id WHERE SA.SubAct_id = subactivity_id;
+SELECT SA.SubAct_name, SA.SubAct_description, AC.Activi_name, AC.Activi_id, US.User_id, US.User_name, PJ.Project_id, PJ.Project_name 
+FROM subactivities SA INNER JOIN activities AC ON SA.Activi_id = AC.Activi_id 
+INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id 
+INNER JOIN project PJ ON PP.Project_id = PJ.Project_id 
+INNER JOIN user US ON SA.User_id = US.User_id 
+WHERE SA.SubAct_id = subactivity_id;
 END $$
 
 DELIMITER $$
@@ -559,7 +564,25 @@ BEGIN
                     GROUP BY Project_month, B.Brand_id
                     ORDER BY P.Project_startDate ASC;
                 ELSE
-                    SELECT "Not found" AS "result";     
+                    IF roleId = 7 THEN
+                        SELECT COUNT(Project_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Client_id, C.Client_name 
+                        FROM project P
+                        INNER JOIN client C ON P.Client_id = C.Client_id
+                        WHERE P.User_id = userId AND P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
+                        GROUP BY Project_month, C.Client_name
+                        ORDER BY P.Project_startDate ASC; 
+                    ELSE
+                        IF roleId = 5 OR roleId = 6 THEN
+                            SELECT COUNT(Project_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Client_id, C.Client_name 
+                            FROM project P
+                            INNER JOIN client C ON P.Client_id = C.Client_id
+                            WHERE P.User_id = userId AND P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
+                            GROUP BY Project_month, C.Client_name
+                            ORDER BY P.Project_startDate ASC; 
+                        ELSE
+                            SELECT "Not found" AS "result";    
+                        END IF;  
+                    END IF;   
                 END IF;         
             END IF;    
         END IF; 

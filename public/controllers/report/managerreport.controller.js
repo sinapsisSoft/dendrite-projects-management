@@ -6,12 +6,6 @@ tableInfo = $("#table_obj").DataTable({
   }
 });
 
-tableInfo2 = $("#table_obj1").DataTable({
-  "language": {
-    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-  }
-});
-
 const arRoutes = AR_ROUTES_GENERAL;
 const arMessages = new Array('Revise la información suministrada',  'Archivo generado exitosamente');
 const ruteContent = "report/";
@@ -59,7 +53,7 @@ window.addEventListener("load", (event) => {
   document.getElementById("initialDate").value = formatDate(initialDate);
   document.getElementById("finalDate").value = formatDate(finalDate);
   drawChart1('chart1', 'bar', dataChart1);
-  // drawChart2('chart2', 'polarArea', dataChart2);
+  drawChart2('chart2', 'polarArea', dataChart2);
   drawChart3('chart3', 'line', dataChart3);
   first++;
 });
@@ -103,7 +97,7 @@ function drawChart1(chartId, type, jsonData) {
     type: type,
     data: {     
       datasets: [{
-        label: 'Cumplimiento de proyectos ',        
+        label: 'Cumplimiento de subactividades ',        
         data: jsonData,        
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
@@ -126,26 +120,26 @@ function drawChart1(chartId, type, jsonData) {
     },
     options: {
       parsing: {
-        xAxisKey: 'Project_name',
-        yAxisKey: 'Project_estimation'
+        xAxisKey: 'User_name',
+        yAxisKey: 'User_average'
       },
       plugins: {
         title: {
           display: true,
-          text: 'Porcentaje de cumplimiento de los proyectos'
+          text: 'Porcentaje de cumplimiento de los colaboradores'
         }
       },
       scales: {
         x: {
           title: {
             display: true,
-            text: 'Proyecto'
+            text: 'Colaboradores'
           }
         },
         y: {
           title: {
             display: true,
-            text: 'Cumplimiento'
+            text: 'Avance en subactividades'
           }
         }
       }
@@ -225,7 +219,7 @@ function drawChart3(chartId, type, jsonData) {
     options: {
       plugins: {
         title: {
-          text: 'Cantidad de solicitudes por gerente',
+          text: 'Cantidad de solicitudes por marca',
           display: true
         }
       },
@@ -258,13 +252,13 @@ function addDataset(myChart, jsonData) {
   let labels = [];
   let dataset = [], newLabel = '';  
   for(let i = 0; i < jsonData.length; i++){
-    labels.includes(jsonData[i]['Manager_name']) ? '' : labels.push(jsonData[i]['Manager_name']);
+    labels.includes(jsonData[i]['Brand_name']) ? '' : labels.push(jsonData[i]['Brand_name']);
   }
   for (let i = 0; i < labels.length; i++) {
     let data = [];
     for (const iterator of jsonData) {      
-      if (labels[i] == iterator['Manager_name']) {
-        newLabel = iterator['Manager_name'];
+      if (labels[i] == iterator['Brand_name']) {
+        newLabel = iterator['Brand_name'];
         let newElement = {
           x: iterator['Project_date'],
           y: iterator['Project_count']
@@ -331,10 +325,10 @@ function getData(formData) {
     .catch(error => console.error('Error:', error))
     .then(response => {
       if (response[dataResponse] == 200) {
-        drawChart1('chart1', 'bar', response[chart1]);
+        // drawChart1('chart1', 'bar', response[chart1]);
+        // drawChart2('chart2', 'polarArea', response[chart2]);
         drawChart3('chart3', 'line', response[chart3]);
-        createTable('table_obj', response['dataTable']);
-        createTable2('table_obj1', response['dataTable2']);
+        // createTable('table_obj', response['dataTable']);
         hidePreload();
       } else {
         Swal.fire(
@@ -348,27 +342,39 @@ function getData(formData) {
 }
 
 
-function createTable(tblid, jsonData){  
+function createTable(tblid, jsonData){
   tableInfo.destroy();
   let tableBody = document.querySelector(`#${tblid}`).children[1];
-  let i = 1, newRow = '';  
+  let i = 1, newRow = '';
   for (const iterator of jsonData) {
     newRow += `<tr>
-      <td>${i}</td>
-      <td>REQ_${iterator['ProjReq_id']}</td>
-      <td>${iterator['Client_name']}</td>
-      <td>${iterator['Manager_name']}</td>
-      <td>${iterator['Brand_name']}</td>
-      <td>${iterator['Prod_name'] == null ? '' : iterator['Prod_name']}</td>
-      <td>${iterator['ProjReq_name']}</td>
-      <td>${iterator['Project_code'] == null ? '' : iterator['Project_code']}</td>
-      <td>${iterator['User_name'] == null ? '' : iterator['User_name']}</td>
-      <td>${iterator['Stat_name']}</td>
-      <td>${iterator['created_at']}</td>
-      </tr>`;
+    <td>${i}</td>
+    <td>${iterator['Project_code']}</td>
+    <td>${iterator['Project_name']}</td>
+    <td>${iterator['Project_purchaseOrder']}</td>                                
+    <td>${iterator['Client_name']}</td>
+    <td>${iterator['Country_name']}</td>
+    <td>${iterator['Manager_name']}</td>
+    <td>${iterator['Brand_name']}</td>
+    <td>${iterator['Project_startDate']}</td>                                
+    <td>${iterator['Project_percentage']}</td>                                
+    <td>${iterator['Project_estimatedEndDate']}</td>                                
+    <td>${iterator['Project_activitiEndDate']}</td>                                
+    <td>${iterator['Project_traffic']}</td>                                
+    <td>${iterator['Activi_name']}</td>
+    <td>${iterator['Prod_name']}</td>
+    <td>${iterator['Activi_startDate']}</td>
+    <td>${iterator['Activi_endDate']}</td>                                
+    <td>${iterator['SubAct_name']}</td>
+    <td>${iterator['User_name']}</td>
+    <td>${iterator['SubAct_percentage']}</td>
+    <td>${iterator['SubAct_estimatedEndDate']}</td>
+    <td>${iterator['SubAct_endDate']}</td>
+  </tr>`;
     i++;
   }
   tableBody.innerHTML = newRow;
+  
   tableInfo = $(`#${tblid}`).DataTable({
     "language": {
       "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
@@ -376,56 +382,15 @@ function createTable(tblid, jsonData){
   });
 }
 
-function createTable2(tblid, jsonData) {
-  tableInfo2.destroy();
-  let tableBody = document.querySelector(`#${tblid}`).children[1];
-  let i = 1, newRow = '';  
-  for (const iterator of jsonData) {
-    newRow += `<tr>
-      <td>${i}</td>
-      <td>${iterator['Project_code']}</td>
-      <td>${iterator['Project_name']}</td>
-      <td>${iterator['Project_purchaseOrder']}</td>                                
-      <td>${iterator['Client_name']}</td>
-      <td>${iterator['Country_name']}</td>
-      <td>${iterator['Manager_name']}</td>
-      <td>${iterator['Brand_name']}</td>
-      <td>${iterator['Project_startDate']}</td>                                
-      <td>${iterator['Project_percentage']}</td>                                
-      <td>${iterator['Project_estimatedEndDate']}</td>                                
-      <td>${iterator['Project_activitiEndDate']}</td>  
-      <td>${iterator['Project_commercialName']}</td>                                   
-      <td>${iterator['Project_traffic']}</td>  
-      <td>${iterator['Activi_name']}</td>
-      <td>${iterator['Prod_name']}</td>
-      <td>${iterator['Activi_startDate']}</td>
-      <td>${iterator['Activi_endDate']}</td>                                
-      <td>${iterator['SubAct_name']}</td>
-      <td>${iterator['User_name']}</td>
-      <td>${iterator['SubAct_percentage']}</td>
-      <td>${iterator['SubAct_estimatedEndDate']}</td>
-      <td>${iterator['SubAct_endDate']}</td>
-      </tr>`;
-    i++;
-  }
-  tableBody.innerHTML = newRow;
-  tableInfo2 = $(`#${tblid}`).DataTable({
-    "language": {
-      "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-    }
-  });
-}
-
-function downloadExcel(type){
-  var reportRoute = ['directiveExcel', 'directiveExcel2'];
+function downloadExcel(){
   sTForm = SingletonClassSTForm.getInstance();
   showPreload();
-  generateExcel(sTForm.getDataForm(), reportRoute[type]);
+  generateExcel(sTForm.getDataForm());
 }
 
-function generateExcel(formData, route) {
+function generateExcel(formData) {
   showPreload();
-  url = URL_ROUTE + route;
+  url = URL_ROUTE + 'commercialExcel';
   fetch(url, {
     method: "POST",
     body: JSON.stringify(formData),
@@ -449,7 +414,8 @@ function generateExcel(formData, route) {
           '¡No pudimos hacer esto!',
           arMessages[0],
           'error'
-        );        
+        );
+        
       }
       hidePreload();
     });

@@ -257,7 +257,7 @@ function getDataIdFinish(idData) {
     });
 }
 
-function getDataId(idData) {
+function getDataId(idData, type) {
   showPreload();
   formData[primaryId] = idData;
   url = URL_ROUTE + arRoutes[4];
@@ -276,15 +276,17 @@ function getDataId(idData) {
       if (response[dataResponse] == 200) {
         showModal(0);
         sTForm.setDataForm(response[dataModel]);
-        hidePreload();
+        if(type == 0){
+          sTForm.inputButtonDisable();
+        } 
       } else {
         Swal.fire(
           '¡No pudimos hacer esto!',
           arMessages[0],
           'error'
-        );
-        hidePreload();
+        );        
       }
+      hidePreload();
     });
 }
 

@@ -91,6 +91,15 @@ class Home extends BaseController
             case 4:
                 $reportName = "PROYECTOS POR MARCA";
                 break;
+            case 5:
+                $reportName = "PROYECTOS POR CLIENTE";
+                break;
+            case 6:
+                $reportName = "PROYECTOS POR CLIENTE";
+                break;
+            case 7:
+                $reportName = "PROYECTOS POR CLIENTE";
+                break;
             default:
                 $reportName = "SUBACTIVIDADES POR CLIENTE";
                 break;
