@@ -21,13 +21,16 @@ class Project extends BaseController
     private $primaryKey;
     private $nameModel;
     private $userId;
+    private $roleId;
 
     public function __construct()
     {
         $this->objModel = new ProjectModel();
+        $objUserModel = new UserModel();
         $this->primaryKey = 'Project_id';
         $this->nameModel = 'projects';
         $this->userId = session()->UserId;
+        $this->roleId = $objUserModel->sp_select_user_role($this->userId);
     }
 
     public function show()
@@ -58,6 +61,7 @@ class Project extends BaseController
         $data['managers'] = $manager->findAll();
         $data['brands'] = $brand->findAll();
         $data['countries'] = $country->findAll();
+        $data['roleUser'] = $this->roleId;
         return view('project/project', $data);
     }
 

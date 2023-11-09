@@ -59,6 +59,8 @@
                         <th>#</th>
                         <th>Cliente</th>
                         <th>Gerente</th>
+                        <th>Celular</th>
+                        <th>Correo</th>
                         <th>Proyecto</th>
                         <th>Marca</th>
                         <th>Fecha de creación</th>
@@ -86,6 +88,8 @@
                           <td><?= $i++; ?></td>
                           <td><?= $obj->Client_name; ?></td>
                           <td><?= $obj->User_name; ?></td>
+                          <td><?= $obj->Manager_phone; ?></td>
+                          <td><?= $obj->User_email; ?></td>
                           <td><?= $obj->ProjReq_name; ?></td>
                           <td><?= $obj->Brand_name; ?></td>
                           <td><?= $obj->created_at; ?></td>
@@ -112,6 +116,8 @@
                         <th>#</th>
                         <th>Cliente</th>
                         <th>Gerente</th>
+                        <th>Celular</th>
+                        <th>Correo</th>
                         <th>Proyecto</th>
                         <th>Marca</th>
                         <th>Fecha de creación</th>

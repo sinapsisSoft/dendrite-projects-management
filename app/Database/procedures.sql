@@ -200,17 +200,19 @@ BEGIN
         ORDER BY Project_id DESC;
     ELSE 
         IF @role = 7 THEN
-            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
+            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Project_commercial, U.User_name FROM project PRO
             INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
             INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
             INNER JOIN client CL ON PRO.Client_id = CL.Client_id
-            WHERE User_id = userId
+            INNER JOIN user U ON PRO.Project_commercial = U.User_id
+            WHERE PRO.User_id = userId
             ORDER BY Project_id DESC;
         ELSE
-            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
+            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Project_commercial, U.User_name FROM project PRO
             INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
             INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
             INNER JOIN client CL ON PRO.Client_id = CL.Client_id
+            INNER JOIN user U ON PRO.Project_commercial = U.User_id
             ORDER BY Project_id DESC;
         END IF;
     END IF;
@@ -450,7 +452,7 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_projectrequest_all`$$
 CREATE PROCEDURE `sp_select_projectrequest_all` ()   
 BEGIN
-    SELECT PR.ProjReq_id, PR.ProjReq_name, PR.User_id, U.User_name, PR.Brand_id, B.Brand_name, PR.created_at, C.Client_name, PR.Stat_id, S.Stat_name, PR.Project_id, P.Project_code
+    SELECT PR.ProjReq_id, PR.ProjReq_name, PR.User_id, U.User_name, U.User_email, M.Manager_phone, PR.Brand_id, B.Brand_name, PR.created_at, C.Client_name, PR.Stat_id, S.Stat_name, PR.Project_id, P.Project_code
     FROM project_request PR
     INNER JOIN user U ON PR.User_id = U.User_id
     INNER JOIN brand B ON PR.Brand_id = B.Brand_id
@@ -673,7 +675,7 @@ BEGIN
     INNER JOIN project P ON PP.Project_id = P.Project_id
     INNER JOIN client C ON P.Client_id = C.Client_id
     WHERE SA.User_id = userId
-    ORDER BY P.project_id DESC;
+    ORDER BY SA.SubAct_id DESC;
 END$$
 
 DELIMITER $$

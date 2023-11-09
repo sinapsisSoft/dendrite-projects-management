@@ -67,6 +67,9 @@
                         <th>Código</th>
                         <th>Nombre</th>
                         <th>Cliente</th>
+                        <?php if ($roleUser != "3") : ?>
+                          <th>Comercial</th>
+                        <?php endif?>
                         <th>Prioridad</th>
                         <th>Fecha de creación</th>
                         <th>%</th>
@@ -81,6 +84,9 @@
                           <td><?= $obj->Project_code; ?></td>
                           <td><?= $obj->Project_name; ?></td>
                           <td><?= $obj->Client_name; ?></td>
+                          <?php if ($roleUser != "3") : ?>
+                            <td><?= $obj->User_name; ?></td>
+                          <?php endif?>
                           <td class="priorities-text" style="color: <?= $obj->Priorities_color ?>"><?= $obj->Priorities_name; ?></td>
                           <td><?= $obj->Created_at; ?></td>
                           <td><?= $obj->Project_percentage == NULL ? 0 : $obj->Project_percentage; ?></td>
@@ -122,6 +128,9 @@
                         <th>Código</th>
                         <th>Nombre</th>
                         <th>Cliente</th>
+                        <?php if ($roleUser != "3") : ?>
+                          <th>Comercial</th>
+                        <?php endif?>
                         <th>Prioridad</th>
                         <th>Fecha de creación</th>
                         <th>%</th>

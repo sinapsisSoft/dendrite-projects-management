@@ -115,7 +115,7 @@ BEGIN
   INNER JOIN brand B ON P.Brand_id = B.Brand_id
   WHERE P.Project_startDate BETWEEN initDate AND finDate
   GROUP BY SA.SubAct_id
-  ORDER BY P.Project_id ASC; 
+  ORDER BY P.Project_id DESC; 
 END$$
 
 DELIMITER $$
@@ -249,7 +249,7 @@ BEGIN
   INNER JOIN brand B ON P.Brand_id = B.Brand_id
   WHERE P.Project_startDate BETWEEN initDate AND finDate
   GROUP BY SA.SubAct_id
-  ORDER BY P.Project_id ASC; 
+  ORDER BY P.Project_id DESC; 
 END$$
 
 DELIMITER $$

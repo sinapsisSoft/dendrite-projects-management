@@ -1073,11 +1073,11 @@ CREATE TABLE IF NOT EXISTS `statustype` (
 --
 
 INSERT INTO `statustype` (`StatType_id`, `StatType_name`, `StatType_description`, `updated_at`, `created_at`) VALUES
-(1, 'User', 'Status User', NULL, '2023-01-27 22:02:15'),
-(2, 'Company', 'Status Company', NULL, '2023-01-30 21:20:19'),
-(3, 'Client', 'Status Client', NULL, '2023-02-20 02:21:22'),
-(4, 'Proyect', 'Status Project', NULL, '2023-03-28 13:10:18'),
-(5, 'Activities', 'Status Activities', NULL, '2023-04-05 09:30:25'),
+(1, 'Usuario', 'Estado de usuarios', NULL, '2023-01-27 22:02:15'),
+(2, 'Empresa', 'Estado de empresas', NULL, '2023-01-30 21:20:19'),
+(3, 'Cliente', 'Estado de clientes', NULL, '2023-02-20 02:21:22'),
+(4, 'Proyecto', 'Estado de proyectos', NULL, '2023-03-28 13:10:18'),
+(5, 'Actividades', 'Estado de actividades', NULL, '2023-04-05 09:30:25'),
 (6, 'Productos', 'Estado de productos', NULL, '2023-04-10 16:31:05'),
 (7, 'Solicitudes proyecto', 'Estados de las solicitudes de proyecto', NULL, '2023-04-10 16:31:05');
 
@@ -1138,7 +1138,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`User_id`, `User_name`, `User_email`, `User_password`, `Comp_id`, `Stat_id`, `Role_id`, `updated_at`, `created_at`) VALUES
-(1, 'Dev Sinapsist', 'developer.sinapsist@gmail.com', '$2y$10$ijaEIKR4nrcpVXNGpYfJU.ov27yqnuhMvPmSS7QFj.sMzrsXUvR02', 1, 1, 3, '2023-06-05 14:50:39', '2023-01-30 22:10:44');
+(1, 'Admin Sinapsis', 'info@sinapsist.com.co', '$2y$10$qOf7pj7SWcne3YDcXh9y/u33EJssA4GyzZfjBnvpXi4tg3jSgLchy', 1, 1, 3, '2023-06-05 14:50:39', '2023-01-30 22:10:44');
 -- --------------------------------------------------------
 
 --

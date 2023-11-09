@@ -38,7 +38,7 @@
                     Gestión de proyectos
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    <a href="<?= base_url() ?>projectrequest">Solicitudes</a>
+                    <a href="<?= base_url() ?>projectuser">Solicitudes</a>
                   </li>
                 </ol>
               </nav>
