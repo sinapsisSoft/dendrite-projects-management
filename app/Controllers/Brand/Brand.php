@@ -42,8 +42,8 @@ class Brand extends BaseController{
 
     public function create(){
         if ($this->request->isAJAX()) {
-            $dataModel = $this->getDataModel(NULL);
-            if ($this->objModel->insert($dataModel)) {
+            $dataModel = $this->getDataModel(NULL);            
+            if ($this->objModel->insert($dataModel)) {                
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
                 $data['data'] = $dataModel;
@@ -57,7 +57,7 @@ class Brand extends BaseController{
             $data['message'] = 'Error Ajax';
             $data['response'] = ResponseInterface::HTTP_CONFLICT;
             $data['data'] = '';
-        }
+        }        
         return json_encode($data);
     }
 

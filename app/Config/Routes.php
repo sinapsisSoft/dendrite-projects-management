@@ -245,6 +245,7 @@ $routes->group('details', ['namespace' => 'App\Controllers\Details','filter'=>'a
 
 $routes->group('detailsclient', ['namespace' => 'App\Controllers\DetailsClient','filter'=>'appFilter'], function ($routes) {
     $routes->get('/', 'DetailsClient::show');
+    $routes->post('showEnabledBrands', 'DetailsClient::showEnabledBrands');
 
 });
 

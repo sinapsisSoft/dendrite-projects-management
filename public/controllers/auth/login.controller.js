@@ -28,7 +28,7 @@ $("#to-login").click(function () {
 
 var sTForm = null;
 var arRoutes = new Array('login', 'checkUserEmail');
-var arMessages = new Array('Validate the entered username and password data');
+var arMessages = new Array('Revise la información de usuario y contraseña');
 var ruteContent = "login/";
 var dataModel = 'data';
 var dataResponse = 'response';

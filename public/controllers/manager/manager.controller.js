@@ -1,6 +1,7 @@
 // $("#table_obj_Manager").DataTable();
 
 const ruteContentManager = "manager/";
+const ruteDetailClient = "detailsclient/";
 const nameModelManager = 'managers';
 const dataModelManager = 'data';
 const dataResponseManager = 'response';
@@ -9,6 +10,7 @@ const dataCsrfManager = 'csrf';
 
 const primaryIdManager = 'Manager_id';
 const URL_ROUTEManager = BASE_URL + ruteContentManager;
+const URL_ROUTEDetail = BASE_URL + ruteDetailClient;
 
 const TOASTSManager = new STtoasts();
 const ManagerModal = '#ManagerModal';
@@ -26,6 +28,7 @@ let brands = [];
 function createManager(formData) {
   urlManager = URL_ROUTEManager + arRoutes[0];
   formData['Client_id'] = document.getElementById('Client_id').value;
+  selectedBrand();
   formData['Brands'] = brands;
   fetch(urlManager, {
     method: "POST",
@@ -210,7 +213,7 @@ function getManagerDataId(idData, type) {
         sTFormManager.setDataForm(result.manager);
         if (type == 0) {
           sTFormManager.inputButtonDisable();
-            toggleManagerBrands(result.brands, 1);          
+          toggleManagerBrands(result.brands, 1);          
         }
         else if (type == 1) {
           sTFormManager.inputButtonEnable();
@@ -287,7 +290,8 @@ function showManagerModal(type) {
     sTFormManager.inputButtonEnable();
     selectInsertOrUpdateManager = true;
     sTFormManager.FormEnableEdit();
-    // removeElementsFromList();
+    showEnabledBrands();
+
   }
   sTFormManager.clearDataForm();
   $(ManagerModal).modal("show");
@@ -324,4 +328,37 @@ function toggleManagerBrands(brands, type) {
   }
   let modal = document.querySelector(ManagerModal);
   modal.querySelector('#btn-submit').disabled = attribute;
+}
+
+function showEnabledBrands() {
+  showPreload();
+  removeElementsFromList();
+  userId = window.location.href.split("=");
+  urlManager = URL_ROUTEDetail + 'showEnabledBrands';
+  fetch(urlManager, {
+    method: "POST",
+    body: JSON.stringify({
+      detailsclientId: userId[1]
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      if (response[dataResponse] == 200) {
+        
+        setManagerBrands(response['data'], 0);
+        hidePreload();
+      } else {
+        Swal.fire(
+          '¡No pudimos hacer esto!',
+          arMessages[0],
+          'error'
+        );
+        hidePreload();
+      }
+    });
 }

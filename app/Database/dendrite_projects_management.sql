@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `Client_name` varchar(100) NOT NULL,
   `Client_identification` varchar(20) NOT NULL,
   `Client_email` varchar(100) NOT NULL,
-  `Client_phone` varchar(10) NOT NULL,
+  `Client_phone` varchar(30) NOT NULL,
   `Client_address` varchar(100) NOT NULL,
   `DocType_id` int(11) NOT NULL,
   `Comp_id` int(11) NOT NULL,
@@ -300,7 +300,7 @@ CREATE TABLE IF NOT EXISTS `manager` (
   `Manager_id` int(11) NOT NULL AUTO_INCREMENT,
   `Manager_name` varchar(100) NOT NULL UNIQUE,
   `Manager_email` varchar(100) NOT NULL UNIQUE,
-  `Manager_phone` varchar(10) NOT NULL,
+  `Manager_phone` varchar(30) NOT NULL,
   `Client_id` int(11) NOT NULL,
   PRIMARY KEY (`Manager_id`),
   KEY `manager_client` (`Client_id`)

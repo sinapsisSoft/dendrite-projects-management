@@ -2,6 +2,7 @@
 namespace App\Controllers\DetailsClient;
 
 use App\Controllers\BaseController;
+use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\Manager\ManagerModel;
 use App\Models\Client\ClientModel;
 use App\Models\Brand\BrandModel;
@@ -35,5 +36,22 @@ class DetailsClient extends BaseController{
         $data['status'] = $status->sp_select_status_users();
         $data['managerBrands'] = $managerBrands->sp_select_all_brands_client($detailsclientId);
         return view('detailsclient/detailsclient', $data);
+    }
+
+    public function showEnabledBrands()
+    {
+        try {
+            $managerBrands = new ManagerBrandsModel();
+            $detailsclientId = $this->request->getVar('detailsclientId');
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['data'] = $managerBrands->sp_select_all_brands_client($detailsclientId);
+            $data['csrf'] = csrf_hash();
+        } catch (\Exception $e) {
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = 'Error';
+        }
+        return json_encode($data);
     }
 }
