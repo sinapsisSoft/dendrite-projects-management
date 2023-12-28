@@ -175,16 +175,18 @@ class Login extends BaseController
         try {
             $linkToActive="";
             $attribute="changePassword";
-            $to="";
-            $subject="";
-            $message="";
-            $template="";
+           
             $key = 'example_key';
-            //$data['token'] =JWT::decode($this->request->getVar('token'), new Key($key, 'HS256'));
+            $data['token'] =JWT::decode($this->request->getVar('token'), new Key($key, 'HS256'));
             $linkToActive=base_url().'login/passwChange?changePassword='.$this->request->getVar('token');
             $data['message'] = 'Send Email';
             $data['response'] = ResponseInterface::HTTP_OK;
-            $data['data'] = $linkToActive;
+            $data['data'] =$linkToActive;
+
+            $to=$data['token']->User_email;
+            $subject="";
+            $message="";
+            $template="";
            
         } catch (Exception $e) {
         }
