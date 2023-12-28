@@ -27,7 +27,7 @@ $("#to-login").click(function () {
 // ==============================================================
 
 var sTForm = null;
-var arRoutes = new Array('login', 'checkUserEmail');
+var arRoutes = new Array('login', 'checkUserEmail',  'sendNotifications');
 var arMessages = new Array('Revise la información de usuario y contraseña');
 var ruteContent = "login/";
 var dataModel = 'data';
@@ -65,6 +65,7 @@ function recoveryPassword(e, formObj) {
     let obj = formObj;
     sTForm = new STForm(obj);
     validateEmailUser(sTForm.getDataForm());
+
     sTForm.clearDataForm(obj);
     sTForm.inputButtonDisable();
     e.preventDefault();
@@ -128,6 +129,7 @@ function getDataLogin(formData) {
 */
 function validateEmailUser(formData) {
     url = URL_ROUTE + arRoutes[1];
+    //console.log(url);
     fetch(url, {
         method: "POST",
         body: JSON.stringify(formData),
@@ -149,12 +151,46 @@ function validateEmailUser(formData) {
                     objResult.innerHTML = "Ok : Correo envíado";
                     objResult.classList.add('valid-feedback');
                     objResult.classList.remove('invalid-feedback');
-                    console.log(response[dataModel]);
+                    //console.log(response[dataModel]);
+                    sendEmail(response[dataModel]);
                 }
             } else {
                 console.log(arMessages[0]);
             }
             sTForm.inputButtonEnable();
         });
+}
+
+function sendEmail(token) {
+    url = URL_ROUTE + arRoutes[2];
+
+    data = { token: token };
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    })
+        .then(response => response.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            if (response[dataResponse] == 200) {
+         
+                if (response[dataModel] == null) {
+              
+                
+                } else {
+                    console.log(response[dataModel]);
+                }
+            
+            } else {
+                console.log(arMessages[0]);
+            }
+           
+        });
+
+
 }
 

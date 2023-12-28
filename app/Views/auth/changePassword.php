@@ -10,6 +10,7 @@
 </head>
 
 <body>
+<?=var_dump($result->User_id); ?>
     <div class="main-wrapper">
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->

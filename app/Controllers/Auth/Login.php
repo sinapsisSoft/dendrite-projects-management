@@ -12,6 +12,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\User\UserModel;
 use DateTimeImmutable;
+use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -27,9 +28,8 @@ class Login extends BaseController
             return view('auth/login', $data);
         }
         return redirect()->route('dashboard');
-
     }
-  
+
     public function signin()
     {
         if (
@@ -39,7 +39,6 @@ class Login extends BaseController
             ])
         ) {
             return redirect()->back()->with('errors', $this->validator->getErrors())->withInput();
-
         }
         $userEmail = trim($this->request->getVar('User_email'));
         $userPassword = trim($this->request->getVar('User_password'));
@@ -47,14 +46,12 @@ class Login extends BaseController
         $model = new UserModel();
         if (!$user = $model->getUserBy('User_email', $userEmail)) {
             return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Usuario no registrado en el sistema']);
-        } 
-        else {
-            if ($user['Stat_id'] != 1){
+        } else {
+            if ($user['Stat_id'] != 1) {
                 return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Usuario inactivo']);
-            }
-            else {
+            } else {
                 if (!$model->verifyHash($userPassword, $user['User_password'])) {
-                   /*  */
+                    /*  */
                     return redirect()->back()->with('msg', ['type' => 'danger', 'body' => 'Credenciales inválidas']);
                 } else {
                     session()->set([
@@ -99,7 +96,10 @@ class Login extends BaseController
                 // Not before
                 'exp' => $expire_at,
                 // Expire
-                'User_id' => $userId, // User id
+                'User_id' => $userId,
+                // User id
+                'User_email' => $userEmail
+                // User email
             ];
 
             $jwt = JWT::encode($payload, $key, 'HS256');
@@ -109,7 +109,6 @@ class Login extends BaseController
             $data['csrf'] = csrf_hash();
         }
         return json_encode($data);
-
     }
     public function signout()
     {
@@ -119,20 +118,37 @@ class Login extends BaseController
 
     public function changePassword()
     {
-        $key = 'example_key';
-        // if (!session()->is_logged) {
-        if (!empty($data['token'] = $this->request->getVar('changePassword'))) {
+
+        try {
+            $key = 'example_key';
+            if (!session()->is_logged) {
+
+                if (!empty($data['token'] = $this->request->getVar('changePassword'))) {
+                    $data['title'] = 'Change Password';
+                    $data['meta'] = view('assets/meta');
+                    $data['css'] = view('assets/css');
+                    $data['js'] = view('assets/js');
+
+                    $data['result'] = JWT::decode($data['token'], new Key($key, 'HS256'));
+                    return view('auth/changePassword', $data);
+                }
+            } else {
+
+                return redirect()->route('dashboard');
+            }
+        } catch (Exception $e) {
             $data['title'] = 'Change Password';
             $data['meta'] = view('assets/meta');
             $data['css'] = view('assets/css');
             $data['js'] = view('assets/js');
-
-            $decoded = JWT::decode($data['token'], new Key($key, 'HS256'));
-            return view('auth/changePassword', $data);
-            //var_dump($decoded);
+            $message = $e->getMessage();
+            if ($message == "Expired token") {
+                $data['message'] = $message;
+            } else {
+                $data['message'] = "Error with token";
+            }
+            return view('auth/changePasswordErro', $data);
         }
-        //}
-        //return redirect()->route('dashboard');
     }
     public function login()
     {
@@ -144,7 +160,6 @@ class Login extends BaseController
             $data['message'] = 'Error search user';
             $data['response'] = ResponseInterface::HTTP_NO_CONTENT;
             $data['data'] = '';
-
         } else {
 
             $dataResult['token'] = getSignedJWTForUser($responsUser);
@@ -154,6 +169,25 @@ class Login extends BaseController
         }
 
         return json_encode($data);
-
+    }
+    public function sendNotification()
+    {
+        try {
+            $linkToActive="";
+            $attribute="changePassword";
+            $to="";
+            $subject="";
+            $message="";
+            $template="";
+            $key = 'example_key';
+            //$data['token'] =JWT::decode($this->request->getVar('token'), new Key($key, 'HS256'));
+            $linkToActive=base_url().'login/passwChange?changePassword='.$this->request->getVar('token');
+            $data['message'] = 'Send Email';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['data'] = $linkToActive;
+           
+        } catch (Exception $e) {
+        }
+        return json_encode($data);
     }
 }
