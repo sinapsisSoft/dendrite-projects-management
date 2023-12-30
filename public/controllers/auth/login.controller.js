@@ -182,7 +182,7 @@ function sendEmail(token) {
 
 
                 } else {
-                    //console.log(response[dataModel]);
+                    console.log(response[dataModel]);
                 }
 
             } else {
@@ -199,7 +199,11 @@ function sendEmail(token) {
 *Date:29/12/2023
 *Description:This function is to get data change password
 */
-function getDataChangePassword(e) {
+function getDataChangePassword(e,formObj) {
+
+    let obj = formObj;
+    sTForm = new STForm(obj);
+
     let inputFields = document.querySelectorAll("input");
     let inputValues = [];
     let menssage = "";
@@ -214,6 +218,8 @@ function getDataChangePassword(e) {
     }
     document.getElementById('User_passwordFeedbackRepeat').innerHTML = menssage;
     document.getElementById('User_passwordFeedback').innerHTML = menssage;
+    sTForm.clearDataForm(obj);
+    sTForm.inputButtonDisable();
     e.preventDefault();
 
 }
@@ -242,7 +248,7 @@ function sendDataChangePassword(data) {
                 if (response[dataModel] == null) {
 
                 } else {
-                    //console.log(response[dataModel]);
+                    console.log(response[dataModel]);
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
@@ -250,7 +256,7 @@ function sendDataChangePassword(data) {
                         showConfirmButton: false,
                         timer: 1500
                       });
-                      window.location.assign(URL_ROUTE.substring(0,URL_ROUTE.length-1));
+                     // window.location.assign(URL_ROUTE.substring(0,URL_ROUTE.length-1));
                 }
 
             } else {
