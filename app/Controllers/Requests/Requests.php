@@ -1,17 +1,13 @@
 <?php
 
-namespace App\Controllers\User;
+namespace App\Controllers\Requests;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Models\User\UserModel;
-use App\Models\UserRole\UserRoleModel;
-use App\Models\UserStatus\UserStatusModel;
-use App\Models\Company\CompanyModel;
 
 
 
-class User extends BaseController
+class Requests extends BaseController
 {
     public $dataResult;
     private $objModel;
@@ -20,38 +16,41 @@ class User extends BaseController
 
     public function __construct()
     {
-        $this->objModel = new UserModel();
+      //  $this->objModel = new UserModel();
         $this->primaryKey = 'User_id';
         $this->nameModel = 'users';
+
+
     }
     /*
 *Ahutor:DIEGO CASALLAS
 *Busines: SINAPSIS TECHNOLOGIES
-*Date:25/05/2022
+*Date:28/12/2023
 *Description:This functions Show overview
 */
     public function show()
     {
-        $role = new UserRoleModel();
-        $status = new UserStatusModel();
-        $company = new CompanyModel();
-        $data['title'] = 'Usuarios';
-        $data['meta'] = view('assets/meta');
-        $data['css'] = view('assets/css');
-        $data['js'] = view('assets/js');
+        // $role = new UserRoleModel();
+        // $status = new UserStatusModel();
+        // $company = new CompanyModel();
+        // $data['title'] = 'Usuarios';
+        // $data['meta'] = view('assets/meta');
+        // $data['css'] = view('assets/css');
+        // $data['js'] = view('assets/js');
+        
+        // $data['toasts'] = view('html/toasts');
+        // $data['sidebar'] = view('navbar/sidebar');
+        // $data['header'] = view('header/header');
+        // $data['footer'] = view('footer/footer');
 
-        $data['toasts'] = view('html/toasts');
-        $data['sidebar'] = view('navbar/sidebar');
-        $data['header'] = view('header/header');
-        $data['footer'] = view('footer/footer');
+        // $data[$this->nameModel] = $this->objModel->sp_select_all_users();
+        
+        // $data['roles'] = $role->orderBy('Role_id', 'ASC')->findAll();
+        // $data['status'] = $status->sp_select_status_users();
+        // $data['companys'] = $company->orderBy('Comp_id', 'ASC')->findAll();
 
-        $data[$this->nameModel] = $this->objModel->sp_select_all_users();
-
-        $data['roles'] = $role->orderBy('Role_id', 'ASC')->findAll();
-        $data['status'] = $status->sp_select_status_users();
-        $data['companys'] = $company->orderBy('Comp_id', 'ASC')->findAll();
-
-        return view('user/user', $data);
+        return view('requests/requests');
+        
     }
     /*
 *Ahutor:DIEGO CASALLAS
@@ -160,7 +159,6 @@ class User extends BaseController
         }
         return json_encode($data);
     }
-
     /*
 *Ahutor:DIEGO CASALLAS
 *Busines: SINAPSIS TECHNOLOGIES
@@ -182,3 +180,4 @@ class User extends BaseController
         return $data;
     }
 }
+

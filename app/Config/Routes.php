@@ -44,6 +44,7 @@ $routes->group('login', ['namespace' => 'App\Controllers\Auth'], function ($rout
     $routes->get('logout', 'Login::signout', ['as' => 'signout']);
     $routes->get('passwChange', 'Login::changePassword', ['as' => 'changePassword']);
     $routes->post('sendNotifications', 'Login::sendNotification', ['as' => 'sendNotification']);
+    $routes->post('editPassword', 'Login::setChangesPassword', ['as' => 'setChangesPassword']);
 });
 
 /**Routes groups*/
@@ -290,11 +291,14 @@ $routes->group('priorities', ['namespace' => 'App\Controllers\Priorities','filte
 
 });
 
-// $routes->group('/', ['namespace' => 'App\Controllers\Home'], function ($routes) {
-//     $routes->get('/', 'Home::show');
-// });
- 
- 
+/**Routes groups*/
+$routes->group('requests', ['namespace' => 'App\Controllers\Requests','filter'=>'appFilter'], function ($routes) {
+    $routes->get('/', 'Requests::show');
+    // $routes->post('create', 'User::create');
+    // $routes->post('delete', 'User::delete');
+    // $routes->post('edit', 'User::edit');
+    // $routes->post('update', 'User::update');
+});
 
 
 

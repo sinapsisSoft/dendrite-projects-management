@@ -18,6 +18,17 @@ use Firebase\JWT\Key;
 
 class Login extends BaseController
 {
+    private  $key;
+    private $timeJWT;
+    private $primaryKey;
+
+    public function __construct()
+    {
+        $this->key = 'example_key';
+        $this->timeJWT = '+30 minutes';
+        $this->primaryKey="User_id";
+    }
+
     public function show()
     {
         if (!session()->is_logged) {
@@ -82,9 +93,9 @@ class Login extends BaseController
             $data['data'] = null;
             $data['csrf'] = csrf_hash();
         } else {
-            $key = 'example_key';
+
             $date = new DateTimeImmutable();
-            $expire_at = $date->modify('+6 minutes')->getTimestamp(); // Add 60 seconds
+            $expire_at = $date->modify($this->timeJWT)->getTimestamp(); // Add 60 seconds
             $domainName = "https://www.sinapsist.com.co";
             $userId = $user['User_id'];
             $payload = [
@@ -102,7 +113,7 @@ class Login extends BaseController
                 // User email
             ];
 
-            $jwt = JWT::encode($payload, $key, 'HS256');
+            $jwt = JWT::encode($payload, $this->key, 'HS256');
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
             $data['data'] = $jwt;
@@ -120,7 +131,7 @@ class Login extends BaseController
     {
 
         try {
-            $key = 'example_key';
+
             if (!session()->is_logged) {
 
                 if (!empty($data['token'] = $this->request->getVar('changePassword'))) {
@@ -129,7 +140,7 @@ class Login extends BaseController
                     $data['css'] = view('assets/css');
                     $data['js'] = view('assets/js');
 
-                    $data['result'] = JWT::decode($data['token'], new Key($key, 'HS256'));
+                    $data['result'] = JWT::decode($data['token'], new Key($this->key, 'HS256'));
                     return view('auth/changePassword', $data);
                 }
             } else {
@@ -173,22 +184,47 @@ class Login extends BaseController
     public function sendNotification()
     {
         try {
-            $linkToActive="";
-            $attribute="changePassword";
-           
-            $key = 'example_key';
-            $data['token'] =JWT::decode($this->request->getVar('token'), new Key($key, 'HS256'));
-            $linkToActive=base_url().'login/passwChange?changePassword='.$this->request->getVar('token');
+
+            $uri = "login/passwChange?changePassword";
+            $data['token'] = JWT::decode($this->request->getVar('token'), new Key($this->key, 'HS256'));
             $data['message'] = 'Send Email';
             $data['response'] = ResponseInterface::HTTP_OK;
-            $data['data'] =$linkToActive;
+            $data['data'] = base_url() . "$uri=" . $this->request->getVar('token');
 
-            $to=$data['token']->User_email;
-            $subject="";
-            $message="";
-            $template="";
-           
+            $to = $data['token']->User_email;
+            $subject = "";
+            $message = "";
+            $template = "";
         } catch (Exception $e) {
+        }
+        return json_encode($data);
+    }
+    /*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:29/12/2023
+*Description:This functions update password user 
+*/
+    public function setChangesPassword()
+    {
+
+        try {
+            $objModel = new UserModel();
+            $today = date("Y-m-d H:i:s");
+            $id = $this->request->getVar($this->primaryKey);
+            $dataUser = [
+                'User_password' => $objModel->hash($this->request->getVar('User_password')),
+                'updated_at' => $today
+            ];
+            $objModel->update($id, $dataUser);
+            $data['message'] = 'success';
+            $data['response'] = ResponseInterface::HTTP_OK;
+            $data['data'] = $id;
+            $data['csrf'] = csrf_hash();
+        } catch (\Exception $e) {
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = 'Error';
         }
         return json_encode($data);
     }

@@ -27,7 +27,7 @@ $("#to-login").click(function () {
 // ==============================================================
 
 var sTForm = null;
-var arRoutes = new Array('login', 'checkUserEmail',  'sendNotifications');
+var arRoutes = new Array('login', 'checkUserEmail', 'sendNotifications', 'editPassword');
 var arMessages = new Array('Revise la información de usuario y contraseña');
 var ruteContent = "login/";
 var dataModel = 'data';
@@ -177,20 +177,86 @@ function sendEmail(token) {
         .catch(error => console.error('Error:', error))
         .then(response => {
             if (response[dataResponse] == 200) {
-         
+
                 if (response[dataModel] == null) {
-              
-                
+
+
                 } else {
-                    console.log(response[dataModel]);
+                    //console.log(response[dataModel]);
                 }
-            
+
             } else {
                 console.log(arMessages[0]);
             }
-           
+
         });
 
 
+}
+/*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:29/12/2023
+*Description:This function is to get data change password
+*/
+function getDataChangePassword(e) {
+    let inputFields = document.querySelectorAll("input");
+    let inputValues = [];
+    let menssage = "";
+    for (let i = 0; i < inputFields.length; i++) {
+        inputValues.push(inputFields[i].value);
+    }
+    if (inputValues[1] === inputValues[2]) {
+        menssage = "";
+        sendDataChangePassword(JSON.stringify({ User_id: inputValues[0], User_password: inputValues[1] }));
+    } else {
+        menssage = "Las contraseñas no coinciden";
+    }
+    document.getElementById('User_passwordFeedbackRepeat').innerHTML = menssage;
+    document.getElementById('User_passwordFeedback').innerHTML = menssage;
+    e.preventDefault();
+
+}
+
+/*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:29/12/2023
+*Description:This function is to send data change password
+*/
+function sendDataChangePassword(data) {
+    url = URL_ROUTE + arRoutes[3];
+    fetch(url, {
+        method: "POST",
+        body: data,
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    })
+        .then(response => response.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            
+            if (response[dataResponse] == 200) {
+                if (response[dataModel] == null) {
+
+                } else {
+                    //console.log(response[dataModel]);
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: arMessages[1],
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+                      window.location.assign(URL_ROUTE.substring(0,URL_ROUTE.length-1));
+                }
+
+            } else {
+                console.log(arMessages[0]);
+            }
+
+        });
 }
 
