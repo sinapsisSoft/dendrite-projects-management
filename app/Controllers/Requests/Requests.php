@@ -30,26 +30,19 @@ class Requests extends BaseController
 */
     public function show()
     {
-        // $role = new UserRoleModel();
-        // $status = new UserStatusModel();
-        // $company = new CompanyModel();
-        // $data['title'] = 'Usuarios';
-        // $data['meta'] = view('assets/meta');
-        // $data['css'] = view('assets/css');
-        // $data['js'] = view('assets/js');
         
-        // $data['toasts'] = view('html/toasts');
-        // $data['sidebar'] = view('navbar/sidebar');
-        // $data['header'] = view('header/header');
-        // $data['footer'] = view('footer/footer');
-
-        // $data[$this->nameModel] = $this->objModel->sp_select_all_users();
+       
+        $data['title'] = 'Usuarios';
+        $data['meta'] = view('assets/meta');
+        $data['css'] = view('assets/css');
+        $data['js'] = view('assets/js');
         
-        // $data['roles'] = $role->orderBy('Role_id', 'ASC')->findAll();
-        // $data['status'] = $status->sp_select_status_users();
-        // $data['companys'] = $company->orderBy('Comp_id', 'ASC')->findAll();
+        $data['toasts'] = view('html/toasts');
+        $data['sidebar'] = view('navbar/sidebar');
+        $data['header'] = view('header/header');
+        $data['footer'] = view('footer/footer');
 
-        return view('requests/requests');
+        return view('requests/requests',$data);
         
     }
     /*

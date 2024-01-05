@@ -28,7 +28,7 @@ $("#to-login").click(function () {
 
 var sTForm = null;
 var arRoutes = new Array('login', 'checkUserEmail', 'sendNotifications', 'editPassword');
-var arMessages = new Array('Revise la información de usuario y contraseña');
+var arMessages = new Array('Revise la información de usuario y contraseña','Contraseña actualizada con éxito');
 var ruteContent = "login/";
 var dataModel = 'data';
 var dataResponse = 'response';
@@ -256,7 +256,10 @@ function sendDataChangePassword(data) {
                         showConfirmButton: false,
                         timer: 1500
                       });
-                     // window.location.assign(URL_ROUTE.substring(0,URL_ROUTE.length-1));
+                      setTimeout(()=>{
+                        window.location.assign(URL_ROUTE.substring(0,URL_ROUTE.length-1));
+                      },2000);
+                     
                 }
 
             } else {

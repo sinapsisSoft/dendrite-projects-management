@@ -24,8 +24,8 @@ class Login extends BaseController
 
     public function __construct()
     {
-        $this->key = 'example_key';
-        $this->timeJWT = '+30 minutes';
+        $this->key = getenv('KEY_HASH');
+        $this->timeJWT = getenv('TIME_VALIDITY');
         $this->primaryKey="User_id";
     }
 
