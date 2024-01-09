@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Controllers\Requests;
+namespace App\Controllers\Petitions;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
 
 
-class Requests extends BaseController
+class Petitions extends BaseController
 {
     public $dataResult;
     private $objModel;
@@ -42,7 +42,7 @@ class Requests extends BaseController
         $data['header'] = view('header/header');
         $data['footer'] = view('footer/footer');
 
-        return view('requests/requests',$data);
+        return view('petitions/petitions',$data);
         
     }
     /*

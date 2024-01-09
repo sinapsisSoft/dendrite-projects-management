@@ -292,8 +292,8 @@ $routes->group('priorities', ['namespace' => 'App\Controllers\Priorities','filte
 });
 
 /**Routes groups*/
-$routes->group('requests', ['namespace' => 'App\Controllers\Requests','filter'=>'appFilter'], function ($routes) {
-    $routes->get('/', 'Requests::show');
+$routes->group('petitions', ['namespace' => 'App\Controllers\Petitions','filter'=>'appFilter'], function ($routes) {
+    $routes->get('/', 'Petitions::show');
     // $routes->post('create', 'User::create');
     // $routes->post('delete', 'User::delete');
     // $routes->post('edit', 'User::edit');

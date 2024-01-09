@@ -48,8 +48,8 @@
           <div class="col-12 d-flex no-block align-items-center">
             <?php if (PERMITS[0] == "1") : ?>
               <h4 class="page-title">
-                NUEVO
-                <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)">
+                NUEVO SOLICITUD
+                <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal()">
                   <lord-icon src="<?= base_url() ?>/assets/json/system-outline-8-account.json" trigger="hover" colors="primary:#ffffff" style="width:25px;height:25px">
                   </lord-icon>
                 </button>
@@ -86,6 +86,7 @@
         <!-- ============================================================== -->
         <!-- Start Page Content -->
         <!-- ============================================================== -->
+
         <div class="row">
           <div class="col-12">
             <div class="card">
@@ -111,7 +112,7 @@
                     </tbody>
                     <tfoot>
                       <tr>
-                      <th>#</th>
+                        <th>#</th>
                         <th>Código</th>
                         <th>Tipo</th>
                         <th>Descripción</th>
@@ -127,7 +128,7 @@
           </div>
         </div>
         <!-- ============================================================== -->
-        <!-- End PAge Content -->
+        <!-- End Page Content -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Start Modal Content -->
@@ -139,13 +140,45 @@
           <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content" style="width: 100%;">
               <div class="modal-header">
-                <h5 class="modal-title" id="createUpdateModalLabel">NUEVO ...</h5>
+                <h5 class="modal-title" id="createUpdateModalLabel">SOLICITUDES</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
                   <!--Content form -->
+                  <div class="row">
+                  <input  type="hidden" class="form-control" id="exampleFormControlInput1">
+                  <div class="mb-3 col-4">
+                      <label for="exampleFormControlInput1" class="form-label">Código</label>
+                      <input type="text" class="form-control" id="exampleFormControlInput1" disabled>
+                    </div>
+                    <div class="mb-3 col-4">
+                      <label for="exampleFormControlInput1" class="form-label">Fecha</label>
+                      <input type="date" class="form-control" id="exampleFormControlInput1" disabled>
+                    </div>
+                    <div class="mb-3 col-4">
+                      <label for="exampleFormControlInput1" class="form-label">Cliente</label>
+                      <input type="text" class="form-control" id="exampleFormControlInput1" disabled>
+                    </div>
+                    <div class="mb-3 col-6">
+                      <label for="exampleFormControlInput1" class="form-label">Estado</label>
+                      <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+                    </div>
+                    <div class="mb-3 col-6">
+                      <label for="exampleFormControlInput1" class="form-label">Link</label>
+                      <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Link de Archivos">
+                    </div>
+                    <div class="mb-3 col-12">
+                      <label for="exampleFormControlTextarea1" class="form-label">Descripción</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
 
+                  </div>
                   <!--End Content form -->
                 </form>
               </div>
@@ -200,7 +233,7 @@
   <!-- ============================================================== -->
 
   <!-- ============================================================== -->
-  
+  <script src="./controllers/petitions/petitions.controller.js"></script>
 </body>
 
 </html>
