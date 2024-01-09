@@ -456,7 +456,49 @@ class Email
         </tr>
       </tbody>
     </table> ';
-        break;
+    break;
+    case 11:
+      $this->subject =  'Reestablece tu contraseña ';
+      $this->body = '<table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tbody>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+      <div style="font-size: 16px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word;">
+        <p style="line-height: 140%;">Hola, has solicitado la recuperación de tu contraseña.</p>
+      </div>    
+          </td>
+        </tr>
+      </tbody>
+    </table>  
+    <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tbody>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">            
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;">Recuerda que este link para recuperación de tu contraseña tiene vigencia.</p>              
+            </div>    
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <p style="line-height: 140%;color: #7460ee;">Deberás solicitar un nuevo código en caso de que el link ya no sea válido y 
+              no hayas logrado cambiar tu contraseña. </p>
+            </div>            
+          </td>
+        </tr>
+        <tr>
+          <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+            <div style="font-size: 14px; font-weight: 400; line-height: 140%; text-align: center; word-wrap: break-word;">
+              <button type="button" style="padding: 8px; border-color: #7460ee; background: #7460ee; border-radius: 18px;">
+                <a href="' . $data. '" target="_blank" style="color: #ffffff; text-decoration: none;">Reestablecer contraseña</a>
+              </button>
+            </div>            
+          </td>
+        </tr>
+      </tbody>
+    </table> ';
+      break;
     }
     $this->message = '<!DOCTYPE html>
     <head>

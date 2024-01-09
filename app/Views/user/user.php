@@ -189,11 +189,11 @@
                   </div>
                   <div id="userPassword-div" class="col-12 col-md-6 mb-3 user-password">
                     <label for="User_password">Contraseña *</label>
-                    <input type="password" class="form-control" id="User_password" name="User_password" placeholder="Contraseña" minlength="5" required>
+                    <input type="password" class="form-control" id="User_password" name="User_password" placeholder="Contraseña" pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" title="La contraseña debe tener entre 8 y 16 caracteres. Al menos un dígito. Al menos una minúscula. Al menos una mayúscula y al menos un caracter no alfanumérico." required>
                   </div>
                   <div id="userPassword-div" class="col-12 col-md-5 mb-3 user-password">
                     <label for="confirmPassword">Confirmar contraseña *</label>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña" minlength="5" required>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña" pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" title="La contraseña debe tener entre 8 y 16 caracteres. Al menos un dígito. Al menos una minúscula. Al menos una mayúscula y al menos un caracter no alfanumérico." required>
                   </div>
                   <div id="userPassword-div" class="col-1 mb-3 align-self-end user-password">
                     <button type="button" class="btn btn-outline-primary" id="showPassword" name="showPassword" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver/Ocultar" style="border: none;">

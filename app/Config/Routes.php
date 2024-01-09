@@ -43,7 +43,7 @@ $routes->group('login', ['namespace' => 'App\Controllers\Auth'], function ($rout
     $routes->post('checkUserEmail', 'Login::validateUserEmail', ['as' => 'validateUserEmail']);
     $routes->get('logout', 'Login::signout', ['as' => 'signout']);
     $routes->get('passwChange', 'Login::changePassword', ['as' => 'changePassword']);
-    $routes->post('sendNotifications', 'Login::sendNotification', ['as' => 'sendNotification']);
+    $routes->post('sendNotification', 'Login::sendNotification', ['as' => 'sendNotification']);
     $routes->post('editPassword', 'Login::setChangesPassword', ['as' => 'setChangesPassword']);
 });
 

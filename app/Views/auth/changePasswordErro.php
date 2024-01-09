@@ -74,7 +74,7 @@
 </head>
 <body>
     <div class="wrap">
-        <h1>Error changing password</h1>
+        <h1>Error cambiando la contraseña</h1>
         <img src="<?= base_url() ?>/assets/img/logos/logo_small.png" width="200"/>
         
 
