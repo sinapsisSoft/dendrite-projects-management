@@ -92,8 +92,8 @@
                             <!-- pwd -->
                             <div class="row mt-3 pt-3 border-top border-secondary">
                                 <div class="col-12">
-                                    <a class="btn btn-primary text-white" href="#" id="to-login" name="action">Volver a Ingreso</a>
-                                    <button class="btn btn-info float-end" type="submit" name="action">
+                                    <a class="btn btn-info text-white" href="#" id="to-login" name="action">Volver a Ingreso</a>
+                                    <button class="btn btn-primary float-end" type="submit" name="action">
                                         Recuperar
                                     </button>
                                 </div>
