@@ -74,7 +74,9 @@
 </head>
 <body>
     <div class="wrap">
-        <h1>Error cambiando la contraseña</h1>
+        <h1>Error cambiando la contraseña.</h1>
+        <p><small>Tu link no se encuentra activo, ésto es debido a que es probable que el tiempo de vigencia haya caducado. 
+            <br> Deberás generar otro link.</small></p>        
         <img src="<?= base_url() ?>/assets/img/logos/logo_small.png" width="200"/>
         
 
