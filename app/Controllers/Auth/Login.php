@@ -11,6 +11,7 @@ namespace App\Controllers\Auth;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\User\UserModel;
+use App\Utils\Email;
 use DateTimeImmutable;
 use Exception;
 use Firebase\JWT\JWT;
@@ -184,18 +185,19 @@ class Login extends BaseController
     public function sendNotification()
     {
         try {
-
+            $email = new Email();
             $uri = "login/passwChange?changePassword";
             $data['token'] = JWT::decode($this->request->getVar('token'), new Key($this->key, 'HS256'));
             $data['message'] = 'Send Email';
             $data['response'] = ResponseInterface::HTTP_OK;
             $data['data'] = base_url() . "$uri=" . $this->request->getVar('token');
-
-            $to = $data['token']->User_email;
-            $subject = "";
-            $message = "";
-            $template = "";
-        } catch (Exception $e) {
+            // var_dump($data['data']);
+            // var_dump($data['token']->User_email);
+            $email->sendEmail($data['data'], $data['token']->User_email, 11);
+        } catch (\Exception $e) {
+            $data['message'] = $e;
+            $data['response'] = ResponseInterface::HTTP_CONFLICT;
+            $data['data'] = 'Error';
         }
         return json_encode($data);
     }
