@@ -1,16 +1,14 @@
 /*
 *Ahutor:DIEGO CASALLAS
 *Busines: SINAPSIS TECHNOLOGIES
-*Date:25/01/2023
-*Description:General login management functions
+*Date:10/01/2024
+*Description:General prtitions management functions
 */
 // ==============================================================
 // Start View
 // ==============================================================
 showPreload();
-// ==============================================================
-// Login and Recover Password
-// ==============================================================
+
 /****************************************
 *       Basic Table                   *
 ****************************************/
@@ -24,10 +22,10 @@ $("#table_obj").DataTable({
 // This is Variable  
 // ==============================================================
 
-const arRoutes = AR_ROUTES_GENERAL;
+const arRoutes = AR_ROUTES_GENERAL; // this array contains the routes defined creating, showing,updating,deleting,edit 
 const arMessages = new Array('Revise la información suministrada', 'Usuario creado exitosamente', 'Usuario actualizado exitosamente', 'Usuario eliminado exitosamente', 'El usuario no pudo ser eliminado. Revise si éste está siendo usado en algún proyecto.');
-const ruteContent = "requests/";
-const nameModel = 'requests';
+const ruteContent = "petitions/";
+const nameModel = 'petitions';
 const dataModel = 'data';
 const dataResponse = 'response';
 const dataMessages = 'message';
@@ -35,7 +33,7 @@ const dataCsrf = 'csrf';
 // ==============================================================
 // This is Variable  
 // ==============================================================
-const primaryId = 'User_id';
+const primaryId = 'Petition_id';
 const URL_ROUTE = BASE_URL + ruteContent;
 // ==============================================================
 // This is Variable  
@@ -53,9 +51,6 @@ var url = "";
 var assignmentAction = 0;
 var formData = new Object();
 var selectInsertOrUpdate = true;
-
-var userPassword = document.getElementById("User_password");
-var confirmPassword = document.getElementById("confirmPassword");
 
 
 // ==============================================================
@@ -245,7 +240,12 @@ function sendData(e, formObj) {
   hidePreload();
   sTForm.inputButtonEnable();
 }
-
+/*
+*Ahutor:DIEGO CASALLAS
+*Busines: SINAPSIS TECHNOLOGIES
+*Date:10/01/2024
+*Description:This functions is to obtain request data from the database bu means of identification
+*/
 function getDataId(idData, type) {
   showPreload();
   selectInsertOrUpdate = false;
@@ -265,6 +265,7 @@ function getDataId(idData, type) {
     .then(response => {
       if (response[dataResponse] == 200) {
         showModal(0);
+        console.log(response[dataModel][0]);
         sTForm.setDataForm(response[dataModel][0]);
         if(type == 0){
           sTForm.inputButtonDisable();

@@ -103,11 +103,52 @@
                         <th>Tipo</th>
                         <th>Descripción</th>
                         <th>Fecha de solicitud</th>
+                        <th>Fecha de cierre</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
+                      <!-- ============================================================== -->
+                      <!-- Start data model content -->
+                      <!-- ============================================================== -->
+
+                      <?php $i = 1 ?>
+                      <?php foreach ($petitions as $obj) : ?>
+
+                        <tr>
+                          <td><?= $i++; ?></td>
+                          <td><?= $obj->Petition_code; ?></td>
+                          <td><?= $obj->Petition_type_name; ?></td>
+                          <td><?= $obj->Petition_descriptions; ?></td>
+                          <td><?= $obj->Petition_start_date; ?></td>
+                          <td><?= $obj->Petition_end_date; ?></td>
+                          <td><?= $obj->Petition_status_name; ?></td>
+                          <td>
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                              <?php if (PERMITS[2] == "3") : ?>
+
+                                <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->Petition_id ?>, 1)"><img src="<?= base_url() ?>assets/img/icons/edit.svg" alt="EDITAR" title="EDITAR" />
+                                </button>
+
+                              <?php endif; ?>
+                              <?php if (PERMITS[1] == "2") : ?>
+                                <button type="button" class="btn btn-outline-success" onclick="getDataId(<?= $obj->Petition_id; ?>, 0)"><img src="<?= base_url() ?>assets/img/icons/show.svg" alt="VER" title="VER" />
+                                </button>
+                              <?php endif; ?>
+                              <?php if (PERMITS[3] == "4") : ?>
+
+                                <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->Petition_id ?>)"><img src="<?= base_url() ?>assets/img/icons/delete.svg" alt="ELIMINAR" title="ELIMINAR" /></button>
+
+                              <?php endif; ?>
+                            </div>
+                          </td>
+                        </tr>
+                      <?php endforeach; ?>
+                      <!-- ============================================================== -->
+                      <!-- End data model content -->
+                      <!-- ============================================================== -->
+
 
                     </tbody>
                     <tfoot>
@@ -147,35 +188,31 @@
                 <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
                   <!--Content form -->
                   <div class="row">
-                  <input  type="hidden" class="form-control" id="exampleFormControlInput1">
-                  <div class="mb-3 col-4">
+                    <input type="hidden" class="form-control" id="Petition_id" name="Petition_id">
+                    <div class="mb-3 col-4">
                       <label for="exampleFormControlInput1" class="form-label">Código</label>
-                      <input type="text" class="form-control" id="exampleFormControlInput1" disabled>
+                      <input type="text" class="form-control" id="Petition_code" name="Petition_code" disabled>
                     </div>
                     <div class="mb-3 col-4">
                       <label for="exampleFormControlInput1" class="form-label">Fecha</label>
-                      <input type="date" class="form-control" id="exampleFormControlInput1" disabled>
+                      <input type="datetime-local" class="form-control" id="Petition_start_date" name="Petition_start_date" disabled>
                     </div>
                     <div class="mb-3 col-4">
                       <label for="exampleFormControlInput1" class="form-label">Cliente</label>
-                      <input type="text" class="form-control" id="exampleFormControlInput1" disabled>
+                      <input type="text" class="form-control" id="Client_name" name="Client_name" disabled>
                     </div>
                     <div class="mb-3 col-6">
-                      <label for="exampleFormControlInput1" class="form-label">Estado</label>
-                      <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                        <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                      <label for="Comp_id">Estado</label>
+                      <select class="form-select form-select-sm" id="Petition_status_id" name="Petition_status_id" required>
+                        <?php foreach ($status as $statu) : ?>
+                        <option value="<?= $statu->Petition_status_id?>"><?= $statu->Petition_status_name?></option>
+                        <?php endforeach; ?>
                       </select>
-                    </div>
-                    <div class="mb-3 col-6">
-                      <label for="exampleFormControlInput1" class="form-label">Link</label>
-                      <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Link de Archivos">
+
                     </div>
                     <div class="mb-3 col-12">
                       <label for="exampleFormControlTextarea1" class="form-label">Descripción</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                      <textarea class="form-control" id="Petition_descriptions" name="Petition_descriptions" rows="3"></textarea>
                     </div>
 
                   </div>

@@ -3,6 +3,8 @@
 namespace App\Controllers\Petitions;
 
 use App\Controllers\BaseController;
+use App\Models\Petitions\PetitionsModel;
+use App\Models\PetitionsStatus\PetitionsStatusModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 
@@ -16,11 +18,9 @@ class Petitions extends BaseController
 
     public function __construct()
     {
-      //  $this->objModel = new UserModel();
-        $this->primaryKey = 'User_id';
-        $this->nameModel = 'users';
-
-
+        $this->objModel = new PetitionsModel();
+        $this->primaryKey = 'Petition_id';
+        $this->nameModel = 'petitions';
     }
     /*
 *Ahutor:DIEGO CASALLAS
@@ -30,20 +30,22 @@ class Petitions extends BaseController
 */
     public function show()
     {
+        $status = new PetitionsStatusModel();
         
-       
-        $data['title'] = 'Usuarios';
+        $data[$this->nameModel] = $this->objModel->sp_select_all_petitions();
+        $data['title'] = 'Solicitudes';
         $data['meta'] = view('assets/meta');
         $data['css'] = view('assets/css');
         $data['js'] = view('assets/js');
-        
+
         $data['toasts'] = view('html/toasts');
         $data['sidebar'] = view('navbar/sidebar');
         $data['header'] = view('header/header');
         $data['footer'] = view('footer/footer');
 
-        return view('petitions/petitions',$data);
-        
+        $data['status'] = $status->sp_select_status_petitions();
+
+        return view('petitions/petitions', $data);
     }
     /*
 *Ahutor:DIEGO CASALLAS
@@ -82,8 +84,7 @@ class Petitions extends BaseController
     {
         try {
             $id = $this->request->getVar($this->primaryKey);
-            $getDataId = $this->objModel->sp_select_user_detail($id);
-            // $getDataId = $this->objModel->where($this->primaryKey, $id)->first();
+            $getDataId = $this->objModel->sp_select_petition_detail($id);
             $data['message'] = 'success';
             $data['response'] = ResponseInterface::HTTP_OK;
             $data['data'] = $getDataId;
@@ -173,4 +174,3 @@ class Petitions extends BaseController
         return $data;
     }
 }
-

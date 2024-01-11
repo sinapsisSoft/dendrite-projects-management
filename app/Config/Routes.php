@@ -296,7 +296,7 @@ $routes->group('petitions', ['namespace' => 'App\Controllers\Petitions','filter'
     $routes->get('/', 'Petitions::show');
     // $routes->post('create', 'User::create');
     // $routes->post('delete', 'User::delete');
-    // $routes->post('edit', 'User::edit');
+     $routes->post('edit', 'Petitions::edit');
     // $routes->post('update', 'User::update');
 });
 

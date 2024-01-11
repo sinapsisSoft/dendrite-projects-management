@@ -3438,7 +3438,8 @@ fieldset:disabled .btn {
 
 .btn-outline-success {
   color: #28b779;
-  border-color: #28b779
+  border-color: #28b779;
+  background: white;
 }
 
 .btn-outline-success:hover {
@@ -3518,7 +3519,8 @@ fieldset:disabled .btn {
 
 .btn-outline-warning {
   color: #ffb848;
-  border-color: #ffb848
+  border-color: #ffb848;
+  background: #fff;
 }
 
 .btn-outline-warning:hover {
@@ -3558,7 +3560,8 @@ fieldset:disabled .btn {
 
 .btn-outline-danger {
   color: #da542e;
-  border-color: #da542e
+  border-color: #da542e;
+  background: white;
 }
 
 .btn-outline-danger:hover {
