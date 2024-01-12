@@ -61,46 +61,46 @@ var selectInsertOrUpdate = true;
 *Ahutor:DIEGO CASALLAS
 *Busines: SINAPSIS TECHNOLOGIES
 *Date:31/01/2023
-*Description:This function create users
+*Description:This function create petitions object
 */
 function create(formData) {
   url = URL_ROUTE + arRoutes[0];
-  //console.log(JSON.stringify(formData));
-   fetch(url, {
-    method: "POST",
-    body: JSON.stringify(formData),
-    headers: {
-      "Content-Type": "application/json",
-      "X-Requested-With": "XMLHttpRequest"
-    }
-  })
-    .then(response => response.json())
-    .catch(error => console.error('Error:', error))
-    .then(response => {
+  console.log(JSON.stringify(formData));
+  //  fetch(url, {
+  //   method: "POST",
+  //   body: JSON.stringify(formData),
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "X-Requested-With": "XMLHttpRequest"
+  //   }
+  // })
+  //   .then(response => response.json())
+  //   .catch(error => console.error('Error:', error))
+  //   .then(response => {
       
-      if (response[dataResponse] == 200) {
-       // console.log(response[dataModel]);
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: arMessages[1],
-          showConfirmButton: false,
-          timer: 1500
-        });
-        hideModal();
-        setTimeout(function(){
-          window.location.reload();
-        }, 2000);
-      } else {
-        Swal.fire(
-          '¡No pudimos hacer esto!',
-          arMessages[0],
-          'error'
-        );
-      }
-      sTForm.inputButtonEnable();
-      hidePreload();
-    }); 
+  //     if (response[dataResponse] == 200) {
+  //      // console.log(response[dataModel]);
+  //       Swal.fire({
+  //         position: 'top-end',
+  //         icon: 'success',
+  //         title: arMessages[1],
+  //         showConfirmButton: false,
+  //         timer: 1500
+  //       });
+  //       hideModal();
+  //       setTimeout(function(){
+  //         window.location.reload();
+  //       }, 2000);
+  //     } else {
+  //       Swal.fire(
+  //         '¡No pudimos hacer esto!',
+  //         arMessages[0],
+  //         'error'
+  //       );
+  //     }
+  //     sTForm.inputButtonEnable();
+  //     hidePreload();
+  //   }); 
 }
 /*
 *Ahutor:DIEGO CASALLAS
@@ -203,11 +203,9 @@ function delete_(id) {
 *Ahutor:DIEGO CASALLAS
 *Busines: SINAPSIS TECHNOLOGIES
 *Date:25/05/2022
-*Description:This functions is general for the operations of users
+*Description:This functions is general for the operations of petitions
 */
 function sendData(e, formObj) {
-  userPassword.type = 'password';
-  confirmPassword.type = 'password';
   let obj = formObj;
   sTForm = SingletonClassSTForm.getInstance();
     if (sTForm.validateForm()) {

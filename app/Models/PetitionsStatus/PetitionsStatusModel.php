@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 
 class PetitionsStatusModel extends Model{
 
-    protected $table ='petition_status';
+    protected $table ='petitionstatus';
     protected $primaryKey='Petition_status_id';
     protected $allowedFields=[
     'Petition_status_id',

@@ -5,6 +5,7 @@ namespace App\Controllers\Petitions;
 use App\Controllers\BaseController;
 use App\Models\Petitions\PetitionsModel;
 use App\Models\PetitionsStatus\PetitionsStatusModel;
+use App\Models\PetitionsType\PetitionsTypeModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 
@@ -31,7 +32,8 @@ class Petitions extends BaseController
     public function show()
     {
         $status = new PetitionsStatusModel();
-        
+        $type = new PetitionsTypeModel();
+
         $data[$this->nameModel] = $this->objModel->sp_select_all_petitions();
         $data['title'] = 'Solicitudes';
         $data['meta'] = view('assets/meta');
@@ -44,6 +46,7 @@ class Petitions extends BaseController
         $data['footer'] = view('footer/footer');
 
         $data['status'] = $status->sp_select_status_petitions();
+        $data['types'] = $type->sp_select_type_petitions();
 
         return view('petitions/petitions', $data);
     }

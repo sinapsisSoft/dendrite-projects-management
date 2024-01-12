@@ -188,21 +188,21 @@
                 <form class="form-horizontal mt-3 row" id="objForm" action="" onsubmit="sendData(event,this.id)">
                   <!--Content form -->
                   <div class="row">
-                    <input type="hidden" class="form-control" id="Petition_id" name="Petition_id">
+                    <input type="hidden"  id="Petition_id" name="Petition_id" disabled>
                     <div class="mb-3 col-4">
-                      <label for="exampleFormControlInput1" class="form-label">Código</label>
-                      <input type="text" class="form-control" id="Petition_code" name="Petition_code" disabled>
+                      <label for="Petition_code" class="form-label">Código</label>
+                      <input type="text" class="form-control" id="Petition_code" name="Petition_code" disabled require>
                     </div>
                     <div class="mb-3 col-4">
-                      <label for="exampleFormControlInput1" class="form-label">Fecha</label>
-                      <input type="datetime-local" class="form-control" id="Petition_start_date" name="Petition_start_date" disabled>
+                      <label for="Petition_start_date" class="form-label">Fecha</label>
+                      <input type="datetime-local" class="form-control" id="Petition_start_date" name="Petition_start_date" disabled require>
                     </div>
                     <div class="mb-3 col-4">
-                      <label for="exampleFormControlInput1" class="form-label">Cliente</label>
-                      <input type="text" class="form-control" id="Client_name" name="Client_name" disabled>
+                      <label for="Client_name" class="form-label">Cliente</label>
+                      <input type="text" class="form-control" id="Client_name" name="Client_name" disabled require>
                     </div>
                     <div class="mb-3 col-6">
-                      <label for="Comp_id">Estado</label>
+                      <label for="Petition_status_id">Estado</label>
                       <select class="form-select form-select-sm" id="Petition_status_id" name="Petition_status_id" required>
                         <?php foreach ($status as $statu) : ?>
                         <option value="<?= $statu->Petition_status_id?>"><?= $statu->Petition_status_name?></option>
@@ -210,9 +210,22 @@
                       </select>
 
                     </div>
+                    <div class="mb-3 col-6">
+                      <label for="Petition_status_id">Tipo</label>
+                      <select class="form-select form-select-sm" id="Petition_status_id" name="Petition_status_id" required>
+                        <?php foreach ($types as $type) : ?>
+                        <option value="<?= $type->Petition_type_id?>"><?= $type->Petition_type_name?></option>
+                        <?php endforeach; ?>
+                      </select>
+
+                    </div>
                     <div class="mb-3 col-12">
-                      <label for="exampleFormControlTextarea1" class="form-label">Descripción</label>
-                      <textarea class="form-control" id="Petition_descriptions" name="Petition_descriptions" rows="3"></textarea>
+                    <label for="Petition_url" class="form-label">Copiar la Url del sitio</label>
+                      <input type="url" class="form-control" id="Petition_url" name="Petition_url" disabled>
+                    </div>
+                    <div class="mb-3 col-12">
+                      <label for="Petition_descriptions" class="form-label">Descripción</label>
+                      <textarea class="form-control" id="Petition_descriptions" name="Petition_descriptions" rows="3" require></textarea>
                     </div>
 
                   </div>
