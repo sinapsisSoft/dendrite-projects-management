@@ -1,21 +1,683 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 08-06-2023 a las 21:39:13
--- Versión del servidor: 8.0.31
--- Versión de PHP: 8.0.26
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 15-01-2024 a las 16:18:53
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
 -- Base de datos: `dendrite_projects_management`
 --
+CREATE DATABASE IF NOT EXISTS `dendrite_projects_management` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `dendrite_projects_management`;
 
+DELIMITER $$
+--
+-- Procedimientos
+--
+DROP PROCEDURE IF EXISTS `sp_create_general_chart`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_create_general_chart` (IN `userId` INT, IN `roleId` INT, IN `initialDate` DATE, IN `finalDate` DATE)   BEGIN   
+    SET lc_time_names = 'es_CO';
+    IF roleId = 1 THEN
+        SELECT COUNT(Project_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Client_id, C.Client_name 
+        FROM project P
+        INNER JOIN client C ON P.Client_id = C.Client_id
+        WHERE P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
+        GROUP BY Project_month, C.Client_name
+        ORDER BY P.Project_startDate ASC;
+    ELSE     
+        IF roleId = 2 THEN
+            SELECT COUNT(SA.SubAct_id) AS Client_total, SA.SubAct_estimatedEndDate, UCASE(MONTHNAME(SA.SubAct_estimatedEndDate)) AS Project_month, P.Client_id, C.Client_name 
+            FROM project P
+            INNER JOIN client C ON P.Client_id = C.Client_id
+            INNER JOIN project_product PP ON P.Project_id = PP.Project_id
+            INNER JOIN activities A ON PP.Project_product_id = A.Project_product_id
+            INNER JOIN subactivities SA ON A.Activi_id = SA.Activi_id
+            WHERE SA.User_id = userId AND (SA.SubAct_estimatedEndDate >= initialDate AND SA.SubAct_estimatedEndDate <= finalDate)
+            GROUP BY Project_month, C.Client_name 
+            ORDER BY P.Project_startDate ASC;
+        ELSE 
+            IF roleId = 3 THEN
+                SELECT COUNT(Project_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Client_id, C.Client_name 
+                FROM project P
+                INNER JOIN client C ON P.Client_id = C.Client_id
+                WHERE Project_commercial = userId AND P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
+                GROUP BY Project_month, C.Client_name
+                ORDER BY P.Project_startDate ASC;   
+            ELSE 
+                IF roleId = 4 THEN
+                    SELECT COUNT(P.Brand_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Brand_id, B.Brand_name
+                    FROM project P
+                    INNER JOIN client C ON P.Client_id = C.Client_id
+                    INNER JOIN brand B ON P.Brand_id = B.Brand_id
+                    INNER JOIN user_manager UM ON P.Manager_id = UM.Manager_id
+                    WHERE UM.User_id = userId AND P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
+                    GROUP BY Project_month, B.Brand_id
+                    ORDER BY P.Project_startDate ASC;
+                ELSE
+                    IF roleId = 7 THEN
+                        SELECT COUNT(Project_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Client_id, C.Client_name 
+                        FROM project P
+                        INNER JOIN client C ON P.Client_id = C.Client_id
+                        WHERE P.User_id = userId AND P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
+                        GROUP BY Project_month, C.Client_name
+                        ORDER BY P.Project_startDate ASC; 
+                    ELSE
+                        IF roleId = 5 OR roleId = 6 THEN
+                            SELECT COUNT(Project_id) AS Client_total, P.Project_startDate, UCASE(MONTHNAME(P.Project_startDate)) AS Project_month, P.Client_id, C.Client_name 
+                            FROM project P
+                            INNER JOIN client C ON P.Client_id = C.Client_id
+                            WHERE P.Project_startDate >= initialDate AND P.Project_startDate <= finalDate
+                            GROUP BY Project_month, C.Client_name
+                            ORDER BY P.Project_startDate ASC; 
+                        ELSE
+                            SELECT "Not found" AS "result";    
+                        END IF;  
+                    END IF;   
+                END IF;         
+            END IF;    
+        END IF; 
+    END IF;
+END$$
 
+DROP PROCEDURE IF EXISTS `sp_delete_role_module`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_role_module` (IN `roleId` INT)   BEGIN
+    DELETE role_module_permit FROM role_module_permit
+    INNER JOIN role_module RM ON role_module_permit.Role_mod_id = RM.Role_mod_id
+    WHERE RM.Role_id = roleId;
+    DELETE FROM role_module
+    WHERE role_module.Role_id = roleId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_projectRequest`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_projectRequest` (IN `projectRequestId` INT)   BEGIN
+    INSERT INTO project(Project_name, Manager_id, Brand_id, Client_id, Stat_id, Project_observation)
+    SELECT ProjReq_name, UM.Manager_id, PR.Brand_id, C.Client_id, 1, ProjReq_observation
+    FROM project_request PR
+    INNER JOIN user_manager UM ON PR.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    INNER JOIN client C ON M.Client_id = C.Client_id
+    WHERE ProjReq_id = projectRequestId;
+    SET @projectId = (SELECT LAST_INSERT_ID() AS 'Project_id');
+    INSERT INTO project_product(`Project_productAmount`,`Project_id`,`Prod_id`, Project_product_percentage,`Stat_id`)
+    SELECT ProjReq_product_amount, @projectId, Prod_id, 0, 4 FROM project_request_product
+    WHERE ProjReq_id = projectRequestId;
+    SELECT @projectId AS 'Project_id';
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_user_manager`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_user_manager` (IN `managerId` INT)   BEGIN
+    INSERT INTO user(User_name, User_email, User_password, Comp_id, Stat_id, Role_id)
+    SELECT M.Manager_name, M.Manager_email, '', C.Comp_id, 1, 4
+    FROM manager M
+    INNER JOIN client CL ON M.Client_id = CL.Client_id
+    INNER JOIN company C ON CL.Comp_id = C.Comp_id
+    WHERE Manager_id = managerId;
+    SELECT LAST_INSERT_ID() AS 'User_id';
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_activities_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_activities_project` (IN `project_id` INT)   BEGIN
+select 
+	A.Activi_id,
+    A.Activi_name,
+    A.Activi_code,
+    A.created_at
+FROM
+activities A
+INNER JOIN project_product PP ON PP.Project_product_id = A.Project_product_id
+WHERE PP.Project_id = project_id
+ORDER BY A.Activi_id DESC;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_activities`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_activities` ()   BEGIN 
+SELECT A.Activi_id, A.Activi_name, AP.ApprCode_code, A.created_at 
+FROM activities A 
+INNER JOIN approvalcode AP on AP.ApprCode_id = A.ApprCode_id;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_brands_client`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_brands_client` (IN `client_id` INT)   BEGIN
+SELECT 
+	B.Brand_id,
+        B.Brand_name
+FROM brand B
+LEFT JOIN manager_brands MB ON MB.Brand_id = B.Brand_id
+WHERE MB.Brand_id IS NULL AND B.Client_id = client_id;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_clients`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_clients` (IN `Client_id` INT)   BEGIN
+SELECT
+C.Client_id,
+C.Client_name,
+C.Client_identification,
+C.Client_email,
+C.Client_phone,
+C.Client_address,
+DT.DocType_name,
+CO.Comp_name,
+S.Stat_name,
+CY.Country_name
+FROM client C
+LEFT JOIN doctype DT  ON DT.DocType_id = C.DocType_id
+LEFT JOIN status S ON S.Stat_id = C.Stat_id
+LEFT JOIN country CY ON CY.Country_id = C.Country_id
+LEFT JOIN company CO ON CO.Comp_id = C.Comp_id
+WHERE C.Client_id= Client_id;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_details_activities`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_details_activities` (IN `ActiviId` INT)   BEGIN
+SELECT
+A.Activi_id,
+    A.Activi_name,
+    A.Activi_code,
+    A.Activi_codeMiigo,
+    A.Activi_codeSpectra,
+    A.Activi_codeDelivery,
+    A.Activi_endDate,
+    A.Activi_startDate,
+    A.Activi_percentage,
+    A.Activi_link,
+    A.Activi_observation,
+    S.Stat_name,
+    P.Prod_name
+FROM activities A
+LEFT JOIN status S ON S.Stat_id = A.Stat_id
+LEFT JOIN project_product PP ON PP.Project_product_id = A.Project_product_id
+LEFT JOIN product P ON P.Prod_id = PP.Prod_id
+WHERE A.Activi_id = ActiviId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_details_subactivities`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_details_subactivities` (IN `SubAct_id` INT)   BEGIN
+SELECT
+    SA.SubAct_id,
+    SA.SubAct_name,
+    S.Stat_name,
+    SA.SubAct_description
+FROM subactivities SA
+LEFT JOIN status S ON S.Stat_id = SA.Stat_id
+WHERE SA.SubAct_id = SubAct_id; 
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_petitions`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_petitions` ()   BEGIN
+SELECT Petition_id, Petition_code, Petition_descriptions, Petition_start_date, Petition_end_date, PET.Petition_status_id,PET.Petition_type_id,PET_STA.Petition_status_name,PET_TYPE.Petition_type_name, PET.Client_id, PET.User_id, CLI.Client_name, USU.User_name FROM petition PET 
+INNER JOIN petitionstatus PET_STA ON PET.Petition_status_id=PET_STA.Petition_status_id
+INNER JOIN petitiontype PET_TYPE ON PET.Petition_type_id=PET_TYPE.Petition_type_id
+INNER JOIN client CLI ON PET.Client_id=CLI.Client_id
+INNER JOIN user USU ON PET.User_id=USU.User_id;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_project` (IN `project_id` INT)   BEGIN
+SELECT
+P.Project_id,
+P.Project_code,
+P.Project_name,
+C.Client_name,
+M.Manager_name,
+B.Brand_name,
+P.Project_purchaseOrder,
+P.Project_ddtStartDate,
+CT.Country_name,
+P.Project_ddtEndDate,
+P.User_id AS Project_traffic,
+U1.User_name,
+P.Project_startDate,
+P.Project_estimatedEndDate,
+P.Project_activitiEndDate,
+S.Stat_name,
+P.Project_observation,
+P.Project_url,
+PR.Priorities_name,
+U2.User_id,
+U2.User_name AS 'Project_commercial'
+FROM project P
+INNER JOIN client C on C.Client_id = P.Client_id
+INNER JOIN manager M on M.Manager_id = P.Manager_id
+INNER JOIN brand B on B.Brand_id = P.Brand_id
+INNER JOIN country CT on CT.Country_id = C.Country_id
+INNER JOIN user U1 on P.User_id = U1.User_id
+INNER JOIN user U2 on P.Project_commercial = U2.User_id 
+INNER JOIN status S on S.Stat_id = P.Stat_id
+INNER JOIN priorities PR on PR.Priorities_id = P.Priorities_id
+WHERE P.Project_id = Project_id;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_project_product`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_project_product` (IN `project_id` INT)   BEGIN    	        
+    SELECT PP.Project_product_id,
+    P.Prod_name,
+    PP.Project_productAmount,
+    (select round(sum(A.Activi_percentage) / count(*)) from activities A where A.Project_product_id = PP.Project_product_id) as Project_product_percentage,
+    S.Stat_name,
+    CASE 
+    	WHEN S.Stat_name LIKE 'Realizado' THEN '#16FF00' 
+        WHEN S.Stat_name LIKE 'Pendiente' THEN '#FFD93D'
+        ELSE '#FF0303' END as color
+FROM project_product PP
+INNER JOIN product P ON P.Prod_id = PP.Prod_id
+INNER JOIN status S ON S.Stat_id = PP.Stat_id
+WHERE PP.Project_id = project_id;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_project_table`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_project_table` (IN `userId` INT)   BEGIN   
+    SET @role = (SELECT Role_id FROM user WHERE User_id = userId);
+    IF @role = 3 THEN
+        SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage FROM project PRO
+        INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
+        INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
+        INNER JOIN client CL ON PRO.Client_id = CL.Client_id
+        WHERE Project_commercial = userId
+        ORDER BY Project_id DESC;
+    ELSE 
+        IF @role = 7 THEN
+            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Project_commercial, U.User_name FROM project PRO
+            INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
+            INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
+            INNER JOIN client CL ON PRO.Client_id = CL.Client_id
+            INNER JOIN user U ON PRO.Project_commercial = U.User_id
+            WHERE PRO.User_id = userId
+            ORDER BY Project_id DESC;
+        ELSE
+            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Project_commercial, U.User_name FROM project PRO
+            INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
+            INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
+            INNER JOIN client CL ON PRO.Client_id = CL.Client_id
+            INNER JOIN user U ON PRO.Project_commercial = U.User_id
+            ORDER BY Project_id DESC;
+        END IF;
+    END IF;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_subactivities`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_subactivities` (IN `activity_id` INT)   BEGIN
+ SELECT
+ SA.SubAct_id,
+ SA.SubAct_name,
+ S.Stat_name,
+ U.User_name,
+ SA.SubAct_duration,
+ SA.SubAct_percentage,
+ SA.SubAct_duration,
+ PRI.Priorities_name,
+ PRI.Priorities_color,
+ CASE 
+    	WHEN SA.SubAct_percentage = 100 THEN '#16FF00' 
+        WHEN SA.SubAct_percentage > 0 and SA.SubAct_percentage < 100 THEN '#FFD93D'
+        ELSE '#FF0303' END as color
+FROM subactivities SA
+INNER JOIN status S ON S.Stat_id = SA.Stat_id
+INNER JOIN priorities PRI on PRI.Priorities_id = SA.Priorities_id
+INNER JOIN user U ON SA.User_id = U.User_id
+WHERE SA.Activi_id = activity_id
+ORDER BY SA.SubAct_id DESC;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_users`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_users` ()   BEGIN
+    SELECT User_id, User_name, User_email, CO.Comp_name, ST.Stat_name, USU.Role_id, RO.Role_name, USU.created_at AS Created_at FROM user USU 
+    INNER JOIN status ST ON USU.Stat_id = ST.Stat_id
+    INNER JOIN role RO ON USU.Role_id = RO.Role_id
+    INNER JOIN company CO ON USU.Comp_id = CO.Comp_id
+    -- WHERE ST.Stat_id = 1 
+    ORDER BY User_id ASC;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_users_collaborator`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_users_collaborator` ()   BEGIN
+SELECT U.User_id, U.User_name, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id 
+WHERE R.Role_name = "Colaborador";
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_all_users_comercial`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_all_users_comercial` ()   BEGIN
+SELECT U.User_name, U.User_id, U.User_email FROM user U INNER JOIN role R on R.Role_id = U.Role_id 
+WHERE R.Role_name = "Comercial";
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_brands_client`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_brands_client` (IN `clientId` INT)   BEGIN
+SELECT B.Brand_id, B.Brand_name, 
+       (SELECT Manager_id FROM manager_brands MB WHERE B.Brand_id = MB.Brand_id LIMIT 1) AS Manager_id 
+FROM brand B
+WHERE B.Client_id = clientId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_country_client`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_country_client` (IN `clientId` INT)   BEGIN
+SELECT
+C.Country_id,
+CY.Country_name
+FROM client C
+INNER JOIN country CY ON CY.Country_id = C.Country_id
+WHERE C.Client_id = clientId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_info_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_info_project` (IN `projectId` INT)   BEGIN
+SELECT P.Project_id, 
+P.Project_name, 
+B.Brand_name, 
+M.Manager_name, 
+C.Client_name, 
+P.Project_purchaseOrder, 
+P.Project_startDate, 
+PR.Priorities_name FROM project P
+INNER JOIN brand B ON P.Brand_id = B.Brand_id
+INNER JOIN manager M ON P.Manager_id = M.Manager_id
+INNER JOIN client C ON P.Client_id = C.Client_id
+INNER JOIN priorities PR ON P.Priorities_id = PR.Priorities_id
+WHERE P.Project_id = projectId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_info_subactivity`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_info_subactivity` (IN `subactId` INT)   BEGIN
+    SELECT S.SubAct_name,
+    S.SubAct_estimatedEndDate,
+    S.Priorities_id,
+    S.SubAct_description,
+    S.User_id,
+    U.User_name,
+    PR.Priorities_name,
+    P.Project_id,
+    P.Project_name,
+    A.Activi_name,
+    A.Activi_id
+    FROM subactivities S
+    INNER JOIN activities A ON S.Activi_id = A.Activi_id
+    INNER JOIN project_product PP ON A.Project_product_id = PP.Project_product_id 
+    INNER JOIN project P ON PP.Project_id = P.Project_id
+    INNER JOIN priorities PR ON P.Priorities_id = PR.Priorities_id
+    INNER JOIN user U ON S.User_id = U.User_id
+    WHERE S.SubAct_id = subactId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_manager_brands`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_manager_brands` (IN `ManagerId` INT)   BEGIN
+SELECT 
+	MB.Brand_id,
+    B.Brand_name
+FROM manager_brands MB
+INNER JOIN brand B ON MB.Brand_id = B.Brand_id
+WHERE MB.Manager_id = ManagerId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_modules_role`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_modules_role` (IN `role_id` INT)   BEGIN
+select 
+	rm.Mod_id as mod_id,
+    (select group_concat(rmp.Perm_id) from role_module_permit rmp 
+where rmp.Role_mod_id = rm.Role_mod_id) as permits
+from role_module rm where rm.Role_id = role_id;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_module_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_module_id` (IN `ModId` INT)   BEGIN
+SELECT * FROM module WHERE Mod_parent=ModId OR Mod_id=ModId 
+ORDER BY Mod_parent ASC;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_percent_project`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_percent_project` (IN `projectId` INT)   BEGIN
+SET @percent = (SELECT 
+	ROUND(SUM(A.Activi_percentage) / COUNT(*))
+FROM activities A
+INNER JOIN project_product PP ON PP.Project_product_id = A.Project_product_id
+WHERE PP.Project_id = projectId);
+UPDATE project SET Project_percentage = @percent WHERE Project_id = projectId;
+SELECT @percent AS percent;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_petition_detail`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_petition_detail` (IN `PetitionId` INT)   BEGIN
+SELECT Petition_id, Petition_code, Petition_descriptions, Petition_start_date, Petition_end_date, PET.Petition_status_id,PET.Petition_type_id,PET_STA.Petition_status_name,PET_TYPE.Petition_type_name, PET.Client_id, PET.User_id, CLI.Client_name, USU.User_name FROM petition PET 
+INNER JOIN petitionstatus PET_STA ON PET.Petition_status_id=PET_STA.Petition_status_id
+INNER JOIN petitiontype PET_TYPE ON PET.Petition_type_id=PET_TYPE.Petition_type_id
+INNER JOIN client CLI ON PET.Client_id=CLI.Client_id
+INNER JOIN user USU ON PET.User_id=USU.User_id
+WHERE Petition_id=PetitionId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_projectrequest_all`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_projectrequest_all` ()   BEGIN
+    SELECT PR.ProjReq_id, PR.ProjReq_name, PR.User_id, U.User_name, U.User_email, M.Manager_phone, PR.Brand_id, B.Brand_name, PR.created_at, C.Client_name, PR.Stat_id, S.Stat_name, PR.Project_id, P.Project_code
+    FROM project_request PR
+    INNER JOIN user U ON PR.User_id = U.User_id
+    INNER JOIN brand B ON PR.Brand_id = B.Brand_id
+    INNER JOIN user_manager UM ON U.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    INNER JOIN status S ON PR.Stat_id = S.Stat_id
+    INNER JOIN client C ON M.Client_id = C.Client_id
+    LEFT JOIN project P ON PR.Project_id = P.Project_id
+    ORDER BY PR.ProjReq_id DESC;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_projectrequest_detail`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_projectrequest_detail` (IN `projReqId` INT)   BEGIN
+    SELECT ProjReq_id, PR.User_id, U.User_name, ProjReq_name, PR.Brand_id, B.Brand_name, ProjReq_observation, PR.created_at, PR.updated_at, C.Client_name, CT.Country_name, PR.Stat_id, S.Stat_name
+    FROM project_request PR
+    INNER JOIN user U ON PR.User_id = U.User_id
+    INNER JOIN brand B ON PR.Brand_id = B.Brand_id
+    INNER JOIN user_manager UM ON U.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    INNER JOIN status S ON PR.Stat_id = S.Stat_id
+    INNER JOIN client C ON M.Client_id = C.Client_id
+    INNER JOIN country CT ON C.Country_id = CT.Country_id 
+    WHERE ProjReq_id = projReqId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_projectrequest_product`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_projectrequest_product` (IN `projReqId` INT)   BEGIN
+    SELECT ProjReq_product_id, PRP.Prod_id, P.Prod_name, ProjReq_product_amount 
+    FROM project_request_product PRP
+    INNER JOIN product P ON PRP.Prod_id = P.Prod_id
+    WHERE ProjReq_id = projReqId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_projectrequest_user`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_projectrequest_user` (IN `userId` INT)   BEGIN
+    SELECT PR.ProjReq_id, PR.ProjReq_name, PR.User_id, U.User_name, PR.Brand_id, B.Brand_name, PR.created_at, C.Client_name, PR.Stat_id, S.Stat_name, PR.Project_id, P.Project_code, P.Project_percentage
+    FROM project_request PR
+    INNER JOIN user U ON PR.User_id = U.User_id
+    INNER JOIN brand B ON PR.Brand_id = B.Brand_id
+    INNER JOIN user_manager UM ON U.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    INNER JOIN status S ON PR.Stat_id = S.Stat_id
+    INNER JOIN client C ON M.Client_id = C.Client_id
+    LEFT JOIN project P ON PR.Project_id = P.Project_id
+    WHERE UM.User_id = userId
+    ORDER BY PR.ProjReq_id DESC;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_role_module_permit`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_role_module_permit` (IN `UserId` INT, IN `ModRoute` VARCHAR(30))   BEGIN
+SELECT RMP.Perm_id FROM role_module_permit RMP
+INNER JOIN role_module RM ON RM.Role_mod_id=RMP.Role_mod_id
+WHERE RM.Role_id=(SELECT Role_id FROM user WHERE User_id=UserId) AND RM.Mod_id=(SELECT Mod_id FROM module WHERE Mod_route=ModRoute);
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_status_petitions`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_status_petitions` ()   BEGIN
+    SELECT Petition_status_id,Petition_status_name FROM petitionstatus;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_status_project_product`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_status_project_product` (IN `percent` INT)   BEGIN
+ IF percent = 0 THEN
+  SELECT Stat_name FROM status WHERE Stat_name = 'Sin asignar';
+ ELSEIF percent > 100 THEN
+  SELECT Stat_name FROM status WHERE Stat_name = 'Realizado';
+ ELSE SELECT Stat_name FROM status WHERE Stat_name = 'Pendiente';
+END IF;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_status_users`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_status_users` ()   BEGIN
+    SELECT Stat_id,Stat_name FROM status WHERE StatType_id = 1;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_subactivity_info`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_subactivity_info` (IN `subactivity_id` INT)   BEGIN
+SELECT SA.SubAct_name, SA.SubAct_description, AC.Activi_name, AC.Activi_id, US.User_id, US.User_name, PJ.Project_id, PJ.Project_name 
+FROM subactivities SA INNER JOIN activities AC ON SA.Activi_id = AC.Activi_id 
+INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id 
+INNER JOIN project PJ ON PP.Project_id = PJ.Project_id 
+INNER JOIN user US ON SA.User_id = US.User_id 
+WHERE SA.SubAct_id = subactivity_id;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_subactivity_user`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_subactivity_user` (IN `userId` INT)   BEGIN
+    SELECT
+    A.Activi_name,
+    PP.Project_product_id,
+    C.Client_name,
+    P.Project_name,
+    SA.SubAct_id,
+    SA.SubAct_name,
+    S.Stat_name,
+    SA.SubAct_duration,
+    SA.SubAct_percentage,
+    PRI.Priorities_name,
+    PRI.Priorities_color,
+    CASE 
+        WHEN SA.SubAct_percentage = 100 THEN '#16FF00' 
+        WHEN SA.SubAct_percentage > 0 and SA.SubAct_percentage < 100 THEN '#FFD93D'
+        ELSE '#FF0303' END as color
+    FROM subactivities SA
+    INNER JOIN status S ON S.Stat_id = SA.Stat_id
+    INNER JOIN priorities PRI on PRI.Priorities_id = SA.Priorities_id
+    INNER JOIN activities A ON SA.Activi_id = A.Activi_id
+    INNER JOIN project_product PP ON A.Project_product_id = PP.Project_product_id
+    INNER JOIN project P ON PP.Project_id = P.Project_id
+    INNER JOIN client C ON P.Client_id = C.Client_id
+    WHERE SA.User_id = userId
+    ORDER BY SA.SubAct_id DESC;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_type_petitions`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_type_petitions` ()   BEGIN
+    SELECT Petition_type_id,Petition_type_name FROM petitiontype;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_user_detail`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_user_detail` (IN `userId` INT)   BEGIN
+    SELECT User_id, User_name, User_email, Comp_id, Stat_id, Role_id FROM user 
+    WHERE User_id = userId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_user_email`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_user_email` (IN `UserEmail` VARCHAR(100))   BEGIN
+SELECT User_id FROM user WHERE User_email=UserEmail;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_user_manager`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_user_manager` (IN `managerId` INT)   BEGIN
+    SET @exist = (SELECT COUNT(UserManager_id) FROM user_manager WHERE Manager_id = managerId);
+    IF @exist > 0 THEN
+        SELECT UM.UserManager_id, UM.Manager_id, U.User_email, U.User_password, U.Stat_id, UM.Manager_id 
+        FROM user U
+        INNER JOIN user_manager UM ON U.User_id = UM.User_id
+        WHERE UM.Manager_id = managerId;
+    ELSE 
+        SELECT Manager_id, Manager_email AS 'User_email' FROM manager
+        WHERE Manager_id = managerId;
+    END IF;    
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_user_modules`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_user_modules` (IN `UserId` INT)   BEGIN
+SELECT
+    MO.Mod_id,
+    MO.Mod_name,
+    MO.Mod_route,
+    MO.Mod_icon,
+    MO.Mod_parent
+FROM role_module RM
+    INNER JOIN module MO ON RM.Mod_id = MO.Mod_id
+    INNER JOIN role RL ON RL.Role_id = RM.Role_id
+WHERE RL.Role_id = (
+        SELECT Role_id
+        FROM user
+        WHERE User_id = UserId
+    );
+
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_user_notification`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_user_notification` (IN `subactivityId` INT)   BEGIN
+    SELECT project.User_id, user.User_email FROM project
+    INNER JOIN project_product ON project_product.Project_id = project.Project_id
+    INNER JOIN user ON user.User_id  = project.User_id
+    INNER JOIN activities ON activities.Project_product_id = project_product.Project_product_id
+    INNER JOIN subactivities ON activities.Activi_id = subactivities.Activi_id
+    WHERE SubAct_id = subactivityId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_user_role`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_user_role` (IN `UserId` INT)   BEGIN
+SELECT Role_id FROM user WHERE User_id=UserId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_update_percent_activity`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_percent_activity` (IN `activityId` INT)   BEGIN
+SET @porcent = (SELECT ROUND(SUM(SubAct_percentage) / COUNT(*)) as porcent FROM subactivities WHERE Activi_id = activityId);
+UPDATE activities SET Activi_percentage = @porcent
+WHERE Activi_id = activityId;
+SET @projectId = (SELECT PP.Project_id FROM project_product PP
+                INNER JOIN activities A ON PP.Project_product_id = A.Project_product_id 
+                WHERE A.Activi_id = activityId);
+SET @projectPercent = (SELECT ROUND(SUM(Activi_percentage) / COUNT(*)) as porcent FROM activities A
+                INNER JOIN project_product PP ON A.Project_product_id = PP.Project_product_id
+                WHERE PP.Project_id = @projectId);
+UPDATE project SET Project_percentage = @projectPercent WHERE Project_id = @projectId;
+IF @projectPercent = 100 THEN
+    UPDATE project SET Project_activitiEndDate = NOW() WHERE Project_id = @projectId;
+END IF;
+SELECT @projectPercent AS 'Proj_percent'; 
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_update_user_email`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_user_email` (IN `managerId` INT)   BEGIN
+    UPDATE user U
+    INNER JOIN user_manager UM ON U.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    SET U.User_email = M.Manager_email    
+    WHERE M.Manager_id = managerId;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_update_user_status`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_user_status` (IN `managerId` INT, IN `statusId` INT)   BEGIN
+    UPDATE user U
+    INNER JOIN user_manager UM ON U.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    SET U.Stat_id = statusId    
+    WHERE M.Manager_id = managerId;
+    SELECT U.User_id FROM user U
+    INNER JOIN user_manager UM ON U.User_id = UM.User_id
+    INNER JOIN manager M ON UM.Manager_id = M.Manager_id
+    WHERE M.Manager_id = managerId;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -39,11 +701,17 @@ CREATE TABLE IF NOT EXISTS `activities` (
   `Stat_id` int(11) NOT NULL,
   `Project_product_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`Activi_id`),
   KEY `activities_status` (`Stat_id`),
   KEY `activities_project_product` (`Project_product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Truncar tablas antes de insertar `activities`
+--
+
+TRUNCATE TABLE `activities`;
 -- --------------------------------------------------------
 
 --
@@ -53,15 +721,21 @@ CREATE TABLE IF NOT EXISTS `activities` (
 DROP TABLE IF EXISTS `brand`;
 CREATE TABLE IF NOT EXISTS `brand` (
   `Brand_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Brand_name` varchar(100) NOT NULL UNIQUE,
+  `Brand_name` varchar(100) NOT NULL,
   `Brand_description` varchar(100) NOT NULL,
   `Client_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`Brand_id`),
+  UNIQUE KEY `Brand_name` (`Brand_name`),
   KEY `brand_client` (`Client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `brand`
+--
+
+TRUNCATE TABLE `brand`;
 -- --------------------------------------------------------
 
 --
@@ -74,8 +748,13 @@ CREATE TABLE IF NOT EXISTS `city` (
   `City_name` varchar(50) NOT NULL,
   `Country_id` int(11) NOT NULL,
   PRIMARY KEY (`City_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `city`
+--
+
+TRUNCATE TABLE `city`;
 -- --------------------------------------------------------
 
 --
@@ -88,14 +767,14 @@ CREATE TABLE IF NOT EXISTS `client` (
   `Client_name` varchar(100) NOT NULL,
   `Client_identification` varchar(20) NOT NULL,
   `Client_email` varchar(100) NOT NULL,
-  `Client_phone` varchar(30) NOT NULL,
+  `Client_phone` varchar(10) NOT NULL,
   `Client_address` varchar(100) NOT NULL,
   `DocType_id` int(11) NOT NULL,
   `Comp_id` int(11) NOT NULL,
   `Stat_id` int(11) NOT NULL,
   `Country_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`Client_id`),
   UNIQUE KEY `Client_identification` (`Client_identification`),
   UNIQUE KEY `Client_email` (`Client_email`),
@@ -103,7 +782,19 @@ CREATE TABLE IF NOT EXISTS `client` (
   KEY `client_docType` (`DocType_id`),
   KEY `client_state` (`Stat_id`),
   KEY `client_contry` (`Country_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Truncar tablas antes de insertar `client`
+--
+
+TRUNCATE TABLE `client`;
+--
+-- Volcado de datos para la tabla `client`
+--
+
+INSERT INTO `client` (`Client_id`, `Client_name`, `Client_identification`, `Client_email`, `Client_phone`, `Client_address`, `DocType_id`, `Comp_id`, `Stat_id`, `Country_id`, `updated_at`, `created_at`) VALUES
+(1, 'Market', '900123456', 'market@gmail.com', '3012528242', 'Calle falsa 123', 1, 1, 1, 1, NULL, '2024-01-08 23:56:13');
 
 -- --------------------------------------------------------
 
@@ -119,8 +810,13 @@ CREATE TABLE IF NOT EXISTS `client_contact` (
   PRIMARY KEY (`Client_contact_id`),
   KEY `client_contact_client` (`Client_id`),
   KEY `client_contact_contact` (`Contact_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `client_contact`
+--
+
+TRUNCATE TABLE `client_contact`;
 -- --------------------------------------------------------
 
 --
@@ -137,14 +833,19 @@ CREATE TABLE IF NOT EXISTS `company` (
   `DocType_id` int(11) NOT NULL,
   `Stat_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`Comp_id`),
   UNIQUE KEY `Comp_identification` (`Comp_identification`),
   UNIQUE KEY `Comp_email` (`Comp_email`),
   KEY `company_status` (`Stat_id`),
   KEY `company_doctType` (`DocType_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `company`
+--
+
+TRUNCATE TABLE `company`;
 --
 -- Volcado de datos para la tabla `company`
 --
@@ -166,8 +867,13 @@ CREATE TABLE IF NOT EXISTS `company_contact` (
   PRIMARY KEY (`Comp_contac_id`),
   KEY `company_contact_company` (`Comp_id`),
   KEY `company_contact_contact` (`Contact_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `company_contact`
+--
+
+TRUNCATE TABLE `company_contact`;
 -- --------------------------------------------------------
 
 --
@@ -183,8 +889,13 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `Contact_email` varchar(100) NOT NULL,
   PRIMARY KEY (`Contact_id`),
   UNIQUE KEY `Contact_email` (`Contact_email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `contact`
+--
+
+TRUNCATE TABLE `contact`;
 -- --------------------------------------------------------
 
 --
@@ -194,18 +905,24 @@ CREATE TABLE IF NOT EXISTS `contact` (
 DROP TABLE IF EXISTS `country`;
 CREATE TABLE IF NOT EXISTS `country` (
   `Country_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Country_name` varchar(100) NOT NULL UNIQUE,
-  PRIMARY KEY (`Country_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `Country_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`Country_id`),
+  UNIQUE KEY `Country_name` (`Country_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `country`
+--
+
+TRUNCATE TABLE `country`;
 --
 -- Volcado de datos para la tabla `country`
 --
 
 INSERT INTO `country` (`Country_id`, `Country_name`) VALUES
 (1, 'Colombia'),
-(2, 'Venezuela'),
-(3, 'peru');
+(3, 'peru'),
+(2, 'Venezuela');
 
 -- --------------------------------------------------------
 
@@ -216,12 +933,18 @@ INSERT INTO `country` (`Country_id`, `Country_name`) VALUES
 DROP TABLE IF EXISTS `doctype`;
 CREATE TABLE IF NOT EXISTS `doctype` (
   `DocType_id` int(11) NOT NULL AUTO_INCREMENT,
-  `DocType_name` varchar(100) NOT NULL UNIQUE,
+  `DocType_name` varchar(100) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`DocType_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+  `created_at` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`DocType_id`),
+  UNIQUE KEY `DocType_name` (`DocType_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `doctype`
+--
+
+TRUNCATE TABLE `doctype`;
 --
 -- Volcado de datos para la tabla `doctype`
 --
@@ -245,8 +968,13 @@ CREATE TABLE IF NOT EXISTS `email` (
   `Email_puerto` varchar(150) NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`Email_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `email`
+--
+
+TRUNCATE TABLE `email`;
 --
 -- Volcado de datos para la tabla `email`
 --
@@ -254,6 +982,58 @@ CREATE TABLE IF NOT EXISTS `email` (
 INSERT INTO `email` (`Email_id`, `Email_user`, `Email_pass`, `Email_host`, `Email_puerto`, `updated_at`) VALUES
 (1, 'no-responder@dendrite.com.co', 'Sinapsis2020*', 'smtp.hostinger.co', '587', '2023-06-04 23:58:38');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `employee`
+--
+
+DROP TABLE IF EXISTS `employee`;
+CREATE TABLE IF NOT EXISTS `employee` (
+  `Employee_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Employee_name` varchar(30) NOT NULL,
+  `Employee_identification` varchar(20) NOT NULL,
+  `Employee_email` varchar(100) NOT NULL,
+  `Employee_phone` varchar(10) NOT NULL,
+  `Employee_address` varchar(100) NOT NULL,
+  `User_id` int(11) NOT NULL,
+  `DocType_id` int(11) NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`Employee_id`),
+  UNIQUE KEY `Employee_identification` (`Employee_identification`),
+  UNIQUE KEY `Employee_email` (`Employee_email`),
+  KEY `User_employee` (`User_id`),
+  KEY `Doctype_employee` (`DocType_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Truncar tablas antes de insertar `employee`
+--
+
+TRUNCATE TABLE `employee`;
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `files`
+--
+
+DROP TABLE IF EXISTS `files`;
+CREATE TABLE IF NOT EXISTS `files` (
+  `Files_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Files_name` varchar(20) NOT NULL,
+  `Files_rute` varchar(300) NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`Files_id`),
+  UNIQUE KEY `Files_rute` (`Files_rute`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Truncar tablas antes de insertar `files`
+--
+
+TRUNCATE TABLE `files`;
 -- --------------------------------------------------------
 
 --
@@ -266,8 +1046,13 @@ CREATE TABLE IF NOT EXISTS `filing` (
   `Filing_name` varchar(100) NOT NULL,
   `Filing_description` varchar(200) NOT NULL,
   PRIMARY KEY (`Filing_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `filing`
+--
+
+TRUNCATE TABLE `filing`;
 -- --------------------------------------------------------
 
 --
@@ -280,8 +1065,13 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `Mail_user` varchar(150) NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`Mail_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `mail`
+--
+
+TRUNCATE TABLE `mail`;
 --
 -- Volcado de datos para la tabla `mail`
 --
@@ -298,14 +1088,21 @@ INSERT INTO `mail` (`Mail_id`, `Mail_user`, `updated_at`) VALUES
 DROP TABLE IF EXISTS `manager`;
 CREATE TABLE IF NOT EXISTS `manager` (
   `Manager_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Manager_name` varchar(100) NOT NULL UNIQUE,
-  `Manager_email` varchar(100) NOT NULL UNIQUE,
-  `Manager_phone` varchar(30) NOT NULL,
+  `Manager_name` varchar(100) NOT NULL,
+  `Manager_email` varchar(100) NOT NULL,
+  `Manager_phone` varchar(10) NOT NULL,
   `Client_id` int(11) NOT NULL,
   PRIMARY KEY (`Manager_id`),
+  UNIQUE KEY `Manager_name` (`Manager_name`),
+  UNIQUE KEY `Manager_email` (`Manager_email`),
   KEY `manager_client` (`Client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `manager`
+--
+
+TRUNCATE TABLE `manager`;
 -- --------------------------------------------------------
 
 --
@@ -320,8 +1117,13 @@ CREATE TABLE IF NOT EXISTS `manager_brands` (
   PRIMARY KEY (`Manager_brand_id`),
   KEY `manager_brands_brand` (`Brand_id`),
   KEY `manager_brands_manager` (`Manager_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `manager_brands`
+--
+
+TRUNCATE TABLE `manager_brands`;
 -- --------------------------------------------------------
 
 --
@@ -338,8 +1140,13 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `time` int(11) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `migrations`
+--
+
+TRUNCATE TABLE `migrations`;
 --
 -- Volcado de datos para la tabla `migrations`
 --
@@ -373,10 +1180,15 @@ CREATE TABLE IF NOT EXISTS `module` (
   `Mod_icon` varchar(300) DEFAULT NULL,
   `Mod_parent` int(11) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`Mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `module`
+--
+
+TRUNCATE TABLE `module`;
 --
 -- Volcado de datos para la tabla `module`
 --
@@ -405,7 +1217,8 @@ INSERT INTO `module` (`Mod_id`, `Mod_name`, `Mod_route`, `Mod_description`, `Mod
 (21, 'Prioridades', 'priorities', 'Gestión de prioridades para los proyectos', NULL, 17, NULL, '2023-07-27 11:33:51'),
 (22, 'País', 'country', 'Gestión de países', NULL, 17, NULL, '2023-07-27 11:33:51'),
 (23, 'Ciudad', 'city', 'Gestión de ciudades de los países', NULL, 17, NULL, '2023-07-27 11:33:51'),
-(24, 'Seguimiento de subactividades', 'subactivitiesuser', 'Seguimiento de subactividades', NULL, 2, NULL, '2023-07-27 11:33:51');
+(24, 'Seguimiento de subactividades', 'subactivitiesuser', 'Seguimiento de subactividades', NULL, 2, NULL, '2023-07-27 11:33:51'),
+(25, 'Solicitudes', 'petitions', 'Módulo de solicitudes', NULL, NULL, NULL, '2024-01-07 06:07:19');
 
 -- --------------------------------------------------------
 
@@ -419,10 +1232,15 @@ CREATE TABLE IF NOT EXISTS `permit` (
   `Perm_name` varchar(50) NOT NULL,
   `Perm_description` varchar(100) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`Perm_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `permit`
+--
+
+TRUNCATE TABLE `permit`;
 --
 -- Volcado de datos para la tabla `permit`
 --
@@ -436,18 +1254,141 @@ INSERT INTO `permit` (`Perm_id`, `Perm_name`, `Perm_description`, `updated_at`, 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `petition`
+--
+
+DROP TABLE IF EXISTS `petition`;
+CREATE TABLE IF NOT EXISTS `petition` (
+  `Petition_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Petition_code` int(11) NOT NULL,
+  `Petition_descriptions` varchar(600) NOT NULL,
+  `Petition_start_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `Petition_end_date` datetime DEFAULT NULL,
+  `Petition_url` varchar(80) NOT NULL,
+  `Petition_status_id` int(11) NOT NULL,
+  `Petition_type_id` int(11) NOT NULL,
+  `Client_id` int(11) NOT NULL,
+  `User_id` int(11) NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`Petition_id`),
+  UNIQUE KEY `petition_code` (`Petition_code`),
+  KEY `petition_client` (`Client_id`),
+  KEY `petition_user` (`User_id`),
+  KEY `petition_type_petition` (`Petition_type_id`),
+  KEY `petition_type_status` (`Petition_status_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Truncar tablas antes de insertar `petition`
+--
+
+TRUNCATE TABLE `petition`;
+--
+-- Volcado de datos para la tabla `petition`
+--
+
+INSERT INTO `petition` (`Petition_id`, `Petition_code`, `Petition_descriptions`, `Petition_start_date`, `Petition_end_date`, `Petition_url`, `Petition_status_id`, `Petition_type_id`, `Client_id`, `User_id`, `updated_at`, `created_at`) VALUES
+(1, 1, 'La plataforma no esta funcionando', '2024-01-09 00:03:31', NULL, '', 1, 1, 1, 1, NULL, '2024-01-09 00:03:31');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `petitionstatus`
+--
+
+DROP TABLE IF EXISTS `petitionstatus`;
+CREATE TABLE IF NOT EXISTS `petitionstatus` (
+  `Petition_status_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Petition_status_name` varchar(20) NOT NULL,
+  `Petition_status_description` varchar(100) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`Petition_status_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Truncar tablas antes de insertar `petitionstatus`
+--
+
+TRUNCATE TABLE `petitionstatus`;
+--
+-- Volcado de datos para la tabla `petitionstatus`
+--
+
+INSERT INTO `petitionstatus` (`Petition_status_id`, `Petition_status_name`, `Petition_status_description`, `updated_at`, `created_at`) VALUES
+(1, 'Creado', 'Estado de la solicitud Creado', NULL, '2024-01-10 15:53:29'),
+(2, 'Asignado', 'Estado de la solicitud Asignado', NULL, '2024-01-10 15:53:29');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `petitiontype`
+--
+
+DROP TABLE IF EXISTS `petitiontype`;
+CREATE TABLE IF NOT EXISTS `petitiontype` (
+  `Petition_type_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Petition_type_name` varchar(20) NOT NULL,
+  `Petition_type_description` varchar(100) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`Petition_type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Truncar tablas antes de insertar `petitiontype`
+--
+
+TRUNCATE TABLE `petitiontype`;
+--
+-- Volcado de datos para la tabla `petitiontype`
+--
+
+INSERT INTO `petitiontype` (`Petition_type_id`, `Petition_type_name`, `Petition_type_description`, `updated_at`, `created_at`) VALUES
+(1, 'Soporte Dendrite', 'Soporte de la plataforma Dendrite', NULL, '2024-01-09 00:01:03');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `petition_process_status`
+--
+
+DROP TABLE IF EXISTS `petition_process_status`;
+CREATE TABLE IF NOT EXISTS `petition_process_status` (
+  `Petition_process_status_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Petition_process_status_name` varchar(20) NOT NULL,
+  `Petition_process_status_description` varchar(100) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`Petition_process_status_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Truncar tablas antes de insertar `petition_process_status`
+--
+
+TRUNCATE TABLE `petition_process_status`;
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `priorities`
 --
 
 DROP TABLE IF EXISTS `priorities`;
 CREATE TABLE IF NOT EXISTS `priorities` (
   `Priorities_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Priorities_name` varchar(100) NOT NULL UNIQUE,
+  `Priorities_name` varchar(100) NOT NULL,
   `Priorities_color` varchar(20) NOT NULL,
-  PRIMARY KEY (`Priorities_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`Priorities_id`),
+  UNIQUE KEY `Priorities_name` (`Priorities_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `priorities`
+--
 
+TRUNCATE TABLE `priorities`;
 -- --------------------------------------------------------
 
 --
@@ -463,12 +1404,17 @@ CREATE TABLE IF NOT EXISTS `product` (
   `Prod_brand_id` int(11) NOT NULL,
   `Filing_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`Prod_id`),
   KEY `product_filing` (`Filing_id`),
   KEY `product_brand` (`Prod_brand_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `product`
+--
+
+TRUNCATE TABLE `product`;
 -- --------------------------------------------------------
 
 --
@@ -481,8 +1427,13 @@ CREATE TABLE IF NOT EXISTS `product_brand` (
   `Prod_brand_name` varchar(100) NOT NULL,
   `Prod_brand_description` varchar(150) NOT NULL,
   PRIMARY KEY (`Prod_brand_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `product_brand`
+--
+
+TRUNCATE TABLE `product_brand`;
 -- --------------------------------------------------------
 
 --
@@ -501,19 +1452,25 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `DocType_id` int(11) NOT NULL,
   `User_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`Profile_id`),
   KEY `profile_user` (`User_id`),
   KEY `profile_doctype` (`DocType_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `profile`
+--
+
+TRUNCATE TABLE `profile`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `project`
 --
+
 DROP TABLE IF EXISTS `project`;
-CREATE TABLE `project` (
+CREATE TABLE IF NOT EXISTS `project` (
   `Project_id` int(11) NOT NULL AUTO_INCREMENT,
   `Project_code` varchar(10) DEFAULT NULL,
   `Project_name` varchar(100) NOT NULL,
@@ -541,10 +1498,15 @@ CREATE TABLE `project` (
   KEY `project_client` (`Client_id`),
   KEY `project_brand` (`Brand_id`),
   KEY `project_manager` (`Manager_id`),
-  KEY `project_commercial` (`Project_commercial`),  
+  KEY `project_commercial` (`Project_commercial`),
   KEY `Priorities_id` (`Priorities_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `project`
+--
+
+TRUNCATE TABLE `project`;
 -- --------------------------------------------------------
 
 --
@@ -560,14 +1522,20 @@ CREATE TABLE IF NOT EXISTS `project_product` (
   `Project_product_percentage` varchar(15) DEFAULT NULL,
   `Stat_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`Project_product_id`),
   KEY `project_product_prod` (`Prod_id`),
   KEY `project_product_project` (`Project_id`),
   KEY `project_product_status` (`Stat_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `project_product`
+--
+
+TRUNCATE TABLE `project_product`;
 -- --------------------------------------------------------
+
 --
 -- Estructura de tabla para la tabla `project_request`
 --
@@ -581,16 +1549,22 @@ CREATE TABLE IF NOT EXISTS `project_request` (
   `ProjReq_observation` varchar(300) DEFAULT NULL,
   `Stat_id` int(11) DEFAULT NULL,
   `Project_id` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ProjReq_id`),
   KEY `project_request_user` (`User_id`),
   KEY `project_request_brand` (`Brand_id`),
   KEY `project_request_project` (`Project_id`),
   KEY `project_request_status` (`Stat_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `project_request`
+--
+
+TRUNCATE TABLE `project_request`;
 -- --------------------------------------------------------
+
 --
 -- Estructura de tabla para la tabla `project_request_product`
 --
@@ -606,9 +1580,13 @@ CREATE TABLE IF NOT EXISTS `project_request_product` (
   PRIMARY KEY (`ProjReq_product_id`),
   KEY `project_request_product_project_request` (`ProjReq_id`),
   KEY `project_request_product_product` (`Prod_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `project_request_product`
+--
 
+TRUNCATE TABLE `project_request_product`;
 -- --------------------------------------------------------
 
 --
@@ -624,8 +1602,13 @@ CREATE TABLE IF NOT EXISTS `project_tracking` (
   `ProjectTrack_date` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`ProjectTrack_id`),
   KEY `project_tracking_project` (`Project_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `project_tracking`
+--
+
+TRUNCATE TABLE `project_tracking`;
 -- --------------------------------------------------------
 
 --
@@ -635,13 +1618,19 @@ CREATE TABLE IF NOT EXISTS `project_tracking` (
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
   `Role_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Role_name` varchar(50) NOT NULL UNIQUE,
+  `Role_name` varchar(50) NOT NULL,
   `Role_description` varchar(100) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`Role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  `created_at` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`Role_id`),
+  UNIQUE KEY `Role_name` (`Role_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `role`
+--
+
+TRUNCATE TABLE `role`;
 --
 -- Volcado de datos para la tabla `role`
 --
@@ -666,40 +1655,22 @@ CREATE TABLE IF NOT EXISTS `role_module` (
   `Role_mod_id` int(11) NOT NULL AUTO_INCREMENT,
   `Role_id` int(11) NOT NULL,
   `Mod_id` int(11) NOT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`Role_mod_id`),
   KEY `role_module` (`Mod_id`),
   KEY `role_module_role` (`Role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `role_module`
+--
+
+TRUNCATE TABLE `role_module`;
 --
 -- Volcado de datos para la tabla `role_module`
 --
 
 INSERT INTO `role_module` (`Role_mod_id`, `Role_id`, `Mod_id`, `created_at`) VALUES
-(1, 1, 1, '2023-08-16 19:39:13'),
-(2, 1, 2, '2023-08-16 19:39:13'),
-(3, 1, 3, '2023-08-16 19:39:13'),
-(4, 1, 4, '2023-08-16 19:39:13'),
-(5, 1, 5, '2023-08-16 19:39:13'),
-(6, 1, 6, '2023-08-16 19:39:13'),
-(7, 1, 7, '2023-08-16 19:39:13'),
-(8, 1, 8, '2023-08-16 19:39:13'),
-(9, 1, 9, '2023-08-16 19:39:13'),
-(10, 1, 10, '2023-08-16 19:39:13'),
-(11, 1, 11, '2023-08-16 19:39:13'),
-(12, 1, 12, '2023-08-16 19:39:13'),
-(13, 1, 13, '2023-08-16 19:39:13'),
-(14, 1, 14, '2023-08-16 19:39:13'),
-(15, 1, 15, '2023-08-16 19:39:13'),
-(16, 1, 16, '2023-08-16 19:39:13'),
-(17, 1, 17, '2023-08-16 19:39:13'),
-(18, 1, 18, '2023-08-16 19:39:13'),
-(19, 1, 19, '2023-08-16 19:39:13'),
-(20, 1, 20, '2023-08-16 19:39:13'),
-(21, 1, 21, '2023-08-16 19:39:13'),
-(22, 1, 22, '2023-08-16 19:39:13'),
-(23, 1, 23, '2023-08-16 19:39:13'),
 (26, 2, 3, '2023-08-16 19:40:46'),
 (27, 2, 1, '2023-08-16 19:40:46'),
 (28, 2, 2, '2023-08-16 19:40:46'),
@@ -767,7 +1738,31 @@ INSERT INTO `role_module` (`Role_mod_id`, `Role_id`, `Mod_id`, `created_at`) VAL
 (107, 7, 22, '2023-08-16 19:57:57'),
 (108, 7, 23, '2023-08-16 19:57:57'),
 (109, 7, 18, '2023-08-16 19:57:57'),
-(110, 7, 17, '2023-08-16 19:57:57');
+(110, 7, 17, '2023-08-16 19:57:57'),
+(111, 1, 1, '2024-01-07 06:07:46'),
+(112, 1, 2, '2024-01-07 06:07:46'),
+(113, 1, 3, '2024-01-07 06:07:46'),
+(114, 1, 4, '2024-01-07 06:07:46'),
+(115, 1, 5, '2024-01-07 06:07:46'),
+(116, 1, 6, '2024-01-07 06:07:46'),
+(117, 1, 7, '2024-01-07 06:07:46'),
+(118, 1, 8, '2024-01-07 06:07:46'),
+(119, 1, 9, '2024-01-07 06:07:46'),
+(120, 1, 10, '2024-01-07 06:07:46'),
+(121, 1, 11, '2024-01-07 06:07:46'),
+(122, 1, 12, '2024-01-07 06:07:46'),
+(123, 1, 13, '2024-01-07 06:07:46'),
+(124, 1, 14, '2024-01-07 06:07:46'),
+(125, 1, 15, '2024-01-07 06:07:46'),
+(126, 1, 16, '2024-01-07 06:07:46'),
+(127, 1, 17, '2024-01-07 06:07:46'),
+(128, 1, 18, '2024-01-07 06:07:46'),
+(129, 1, 19, '2024-01-07 06:07:46'),
+(130, 1, 20, '2024-01-07 06:07:46'),
+(131, 1, 21, '2024-01-07 06:07:46'),
+(132, 1, 22, '2024-01-07 06:07:46'),
+(133, 1, 23, '2024-01-07 06:07:46'),
+(134, 1, 25, '2024-01-07 06:07:46');
 
 -- --------------------------------------------------------
 
@@ -781,106 +1776,22 @@ CREATE TABLE IF NOT EXISTS `role_module_permit` (
   `Perm_id` int(11) NOT NULL,
   `Role_mod_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`Role_mod_per_id`),
   KEY `Role_mod_id` (`Role_mod_id`),
   KEY `Perm_id` (`Perm_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=358 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `role_module_permit`
+--
+
+TRUNCATE TABLE `role_module_permit`;
 --
 -- Volcado de datos para la tabla `role_module_permit`
 --
 
 INSERT INTO `role_module_permit` (`Role_mod_per_id`, `Perm_id`, `Role_mod_id`, `updated_at`, `created_at`) VALUES
-(1, 2, 1, NULL, '2023-08-16 19:39:13'),
-(2, 1, 2, NULL, '2023-08-16 19:39:13'),
-(3, 2, 2, NULL, '2023-08-16 19:39:13'),
-(4, 3, 2, NULL, '2023-08-16 19:39:13'),
-(5, 4, 2, NULL, '2023-08-16 19:39:13'),
-(6, 1, 3, NULL, '2023-08-16 19:39:13'),
-(7, 2, 3, NULL, '2023-08-16 19:39:13'),
-(8, 3, 3, NULL, '2023-08-16 19:39:13'),
-(9, 4, 3, NULL, '2023-08-16 19:39:13'),
-(10, 4, 4, NULL, '2023-08-16 19:39:13'),
-(11, 3, 4, NULL, '2023-08-16 19:39:13'),
-(12, 2, 4, NULL, '2023-08-16 19:39:13'),
-(13, 1, 4, NULL, '2023-08-16 19:39:13'),
-(14, 4, 5, NULL, '2023-08-16 19:39:13'),
-(15, 2, 5, NULL, '2023-08-16 19:39:13'),
-(16, 1, 5, NULL, '2023-08-16 19:39:13'),
-(17, 3, 5, NULL, '2023-08-16 19:39:13'),
-(18, 4, 6, NULL, '2023-08-16 19:39:13'),
-(19, 3, 6, NULL, '2023-08-16 19:39:13'),
-(20, 2, 6, NULL, '2023-08-16 19:39:13'),
-(21, 1, 6, NULL, '2023-08-16 19:39:13'),
-(22, 1, 7, NULL, '2023-08-16 19:39:13'),
-(23, 2, 7, NULL, '2023-08-16 19:39:13'),
-(24, 3, 7, NULL, '2023-08-16 19:39:13'),
-(25, 4, 7, NULL, '2023-08-16 19:39:13'),
-(26, 4, 8, NULL, '2023-08-16 19:39:13'),
-(27, 3, 8, NULL, '2023-08-16 19:39:13'),
-(28, 2, 8, NULL, '2023-08-16 19:39:13'),
-(29, 1, 8, NULL, '2023-08-16 19:39:13'),
-(30, 4, 9, NULL, '2023-08-16 19:39:13'),
-(31, 3, 9, NULL, '2023-08-16 19:39:13'),
-(32, 2, 9, NULL, '2023-08-16 19:39:13'),
-(33, 1, 9, NULL, '2023-08-16 19:39:13'),
-(34, 4, 10, NULL, '2023-08-16 19:39:13'),
-(35, 3, 10, NULL, '2023-08-16 19:39:13'),
-(36, 2, 10, NULL, '2023-08-16 19:39:13'),
-(37, 1, 10, NULL, '2023-08-16 19:39:13'),
-(38, 4, 11, NULL, '2023-08-16 19:39:13'),
-(39, 3, 11, NULL, '2023-08-16 19:39:13'),
-(40, 2, 11, NULL, '2023-08-16 19:39:13'),
-(41, 1, 11, NULL, '2023-08-16 19:39:13'),
-(42, 1, 12, NULL, '2023-08-16 19:39:13'),
-(43, 2, 12, NULL, '2023-08-16 19:39:13'),
-(44, 3, 12, NULL, '2023-08-16 19:39:13'),
-(45, 4, 12, NULL, '2023-08-16 19:39:13'),
-(46, 1, 13, NULL, '2023-08-16 19:39:13'),
-(47, 2, 13, NULL, '2023-08-16 19:39:13'),
-(48, 4, 13, NULL, '2023-08-16 19:39:13'),
-(49, 3, 13, NULL, '2023-08-16 19:39:13'),
-(50, 1, 14, NULL, '2023-08-16 19:39:13'),
-(51, 2, 14, NULL, '2023-08-16 19:39:13'),
-(52, 3, 14, NULL, '2023-08-16 19:39:13'),
-(53, 4, 14, NULL, '2023-08-16 19:39:13'),
-(54, 1, 15, NULL, '2023-08-16 19:39:13'),
-(55, 2, 15, NULL, '2023-08-16 19:39:13'),
-(56, 4, 15, NULL, '2023-08-16 19:39:13'),
-(57, 3, 15, NULL, '2023-08-16 19:39:13'),
-(58, 1, 16, NULL, '2023-08-16 19:39:13'),
-(59, 2, 16, NULL, '2023-08-16 19:39:13'),
-(60, 3, 16, NULL, '2023-08-16 19:39:13'),
-(61, 4, 16, NULL, '2023-08-16 19:39:13'),
-(62, 1, 17, NULL, '2023-08-16 19:39:13'),
-(63, 2, 17, NULL, '2023-08-16 19:39:13'),
-(64, 4, 17, NULL, '2023-08-16 19:39:13'),
-(65, 3, 17, NULL, '2023-08-16 19:39:13'),
-(66, 1, 18, NULL, '2023-08-16 19:39:13'),
-(67, 2, 18, NULL, '2023-08-16 19:39:13'),
-(68, 3, 18, NULL, '2023-08-16 19:39:13'),
-(69, 4, 18, NULL, '2023-08-16 19:39:13'),
-(70, 1, 19, NULL, '2023-08-16 19:39:13'),
-(71, 2, 19, NULL, '2023-08-16 19:39:13'),
-(72, 4, 19, NULL, '2023-08-16 19:39:13'),
-(73, 3, 19, NULL, '2023-08-16 19:39:13'),
-(74, 4, 20, NULL, '2023-08-16 19:39:13'),
-(75, 3, 20, NULL, '2023-08-16 19:39:13'),
-(76, 2, 20, NULL, '2023-08-16 19:39:13'),
-(77, 1, 20, NULL, '2023-08-16 19:39:13'),
-(78, 4, 21, NULL, '2023-08-16 19:39:13'),
-(79, 3, 21, NULL, '2023-08-16 19:39:13'),
-(80, 2, 21, NULL, '2023-08-16 19:39:13'),
-(81, 1, 21, NULL, '2023-08-16 19:39:13'),
-(82, 4, 22, NULL, '2023-08-16 19:39:13'),
-(83, 3, 22, NULL, '2023-08-16 19:39:13'),
-(84, 2, 22, NULL, '2023-08-16 19:39:13'),
-(85, 1, 22, NULL, '2023-08-16 19:39:13'),
-(86, 4, 23, NULL, '2023-08-16 19:39:13'),
-(87, 3, 23, NULL, '2023-08-16 19:39:13'),
-(88, 2, 23, NULL, '2023-08-16 19:39:13'),
-(89, 1, 23, NULL, '2023-08-16 19:39:13'),
 (94, 1, 26, NULL, '2023-08-16 19:40:46'),
 (95, 2, 26, NULL, '2023-08-16 19:40:46'),
 (96, 3, 26, NULL, '2023-08-16 19:40:46'),
@@ -1018,7 +1929,100 @@ INSERT INTO `role_module_permit` (`Role_mod_per_id`, `Perm_id`, `Role_mod_id`, `
 (261, 2, 107, NULL, '2023-08-16 19:57:57'),
 (262, 2, 108, NULL, '2023-08-16 19:57:57'),
 (263, 2, 109, NULL, '2023-08-16 19:57:57'),
-(264, 2, 110, NULL, '2023-08-16 19:57:57');
+(264, 2, 110, NULL, '2023-08-16 19:57:57'),
+(265, 2, 111, NULL, '2024-01-07 06:07:46'),
+(266, 1, 112, NULL, '2024-01-07 06:07:46'),
+(267, 2, 112, NULL, '2024-01-07 06:07:46'),
+(268, 3, 112, NULL, '2024-01-07 06:07:46'),
+(269, 4, 112, NULL, '2024-01-07 06:07:46'),
+(270, 1, 113, NULL, '2024-01-07 06:07:46'),
+(271, 2, 113, NULL, '2024-01-07 06:07:46'),
+(272, 3, 113, NULL, '2024-01-07 06:07:46'),
+(273, 4, 113, NULL, '2024-01-07 06:07:46'),
+(274, 4, 114, NULL, '2024-01-07 06:07:46'),
+(275, 3, 114, NULL, '2024-01-07 06:07:46'),
+(276, 2, 114, NULL, '2024-01-07 06:07:46'),
+(277, 1, 114, NULL, '2024-01-07 06:07:46'),
+(278, 4, 115, NULL, '2024-01-07 06:07:46'),
+(279, 2, 115, NULL, '2024-01-07 06:07:46'),
+(280, 1, 115, NULL, '2024-01-07 06:07:46'),
+(281, 3, 115, NULL, '2024-01-07 06:07:46'),
+(282, 4, 116, NULL, '2024-01-07 06:07:46'),
+(283, 3, 116, NULL, '2024-01-07 06:07:46'),
+(284, 2, 116, NULL, '2024-01-07 06:07:46'),
+(285, 1, 116, NULL, '2024-01-07 06:07:46'),
+(286, 1, 117, NULL, '2024-01-07 06:07:46'),
+(287, 2, 117, NULL, '2024-01-07 06:07:46'),
+(288, 3, 117, NULL, '2024-01-07 06:07:46'),
+(289, 4, 117, NULL, '2024-01-07 06:07:46'),
+(290, 4, 118, NULL, '2024-01-07 06:07:46'),
+(291, 3, 118, NULL, '2024-01-07 06:07:46'),
+(292, 2, 118, NULL, '2024-01-07 06:07:46'),
+(293, 1, 118, NULL, '2024-01-07 06:07:46'),
+(294, 4, 119, NULL, '2024-01-07 06:07:46'),
+(295, 3, 119, NULL, '2024-01-07 06:07:46'),
+(296, 2, 119, NULL, '2024-01-07 06:07:46'),
+(297, 1, 119, NULL, '2024-01-07 06:07:46'),
+(298, 4, 120, NULL, '2024-01-07 06:07:46'),
+(299, 3, 120, NULL, '2024-01-07 06:07:46'),
+(300, 2, 120, NULL, '2024-01-07 06:07:46'),
+(301, 1, 120, NULL, '2024-01-07 06:07:46'),
+(302, 4, 121, NULL, '2024-01-07 06:07:46'),
+(303, 3, 121, NULL, '2024-01-07 06:07:46'),
+(304, 2, 121, NULL, '2024-01-07 06:07:46'),
+(305, 1, 121, NULL, '2024-01-07 06:07:46'),
+(306, 1, 122, NULL, '2024-01-07 06:07:46'),
+(307, 2, 122, NULL, '2024-01-07 06:07:46'),
+(308, 3, 122, NULL, '2024-01-07 06:07:46'),
+(309, 4, 122, NULL, '2024-01-07 06:07:46'),
+(310, 1, 123, NULL, '2024-01-07 06:07:46'),
+(311, 2, 123, NULL, '2024-01-07 06:07:46'),
+(312, 4, 123, NULL, '2024-01-07 06:07:46'),
+(313, 3, 123, NULL, '2024-01-07 06:07:46'),
+(314, 1, 124, NULL, '2024-01-07 06:07:46'),
+(315, 2, 124, NULL, '2024-01-07 06:07:46'),
+(316, 3, 124, NULL, '2024-01-07 06:07:46'),
+(317, 4, 124, NULL, '2024-01-07 06:07:46'),
+(318, 1, 125, NULL, '2024-01-07 06:07:46'),
+(319, 2, 125, NULL, '2024-01-07 06:07:46'),
+(320, 4, 125, NULL, '2024-01-07 06:07:46'),
+(321, 3, 125, NULL, '2024-01-07 06:07:46'),
+(322, 1, 126, NULL, '2024-01-07 06:07:46'),
+(323, 2, 126, NULL, '2024-01-07 06:07:46'),
+(324, 3, 126, NULL, '2024-01-07 06:07:46'),
+(325, 4, 126, NULL, '2024-01-07 06:07:46'),
+(326, 1, 127, NULL, '2024-01-07 06:07:46'),
+(327, 2, 127, NULL, '2024-01-07 06:07:46'),
+(328, 4, 127, NULL, '2024-01-07 06:07:46'),
+(329, 3, 127, NULL, '2024-01-07 06:07:46'),
+(330, 1, 128, NULL, '2024-01-07 06:07:46'),
+(331, 2, 128, NULL, '2024-01-07 06:07:46'),
+(332, 3, 128, NULL, '2024-01-07 06:07:46'),
+(333, 4, 128, NULL, '2024-01-07 06:07:46'),
+(334, 1, 129, NULL, '2024-01-07 06:07:46'),
+(335, 2, 129, NULL, '2024-01-07 06:07:46'),
+(336, 4, 129, NULL, '2024-01-07 06:07:46'),
+(337, 3, 129, NULL, '2024-01-07 06:07:46'),
+(338, 4, 130, NULL, '2024-01-07 06:07:46'),
+(339, 3, 130, NULL, '2024-01-07 06:07:46'),
+(340, 2, 130, NULL, '2024-01-07 06:07:46'),
+(341, 1, 130, NULL, '2024-01-07 06:07:46'),
+(342, 4, 131, NULL, '2024-01-07 06:07:46'),
+(343, 3, 131, NULL, '2024-01-07 06:07:46'),
+(344, 2, 131, NULL, '2024-01-07 06:07:46'),
+(345, 1, 131, NULL, '2024-01-07 06:07:46'),
+(346, 4, 132, NULL, '2024-01-07 06:07:46'),
+(347, 3, 132, NULL, '2024-01-07 06:07:46'),
+(348, 2, 132, NULL, '2024-01-07 06:07:46'),
+(349, 1, 132, NULL, '2024-01-07 06:07:46'),
+(350, 4, 133, NULL, '2024-01-07 06:07:46'),
+(351, 3, 133, NULL, '2024-01-07 06:07:46'),
+(352, 2, 133, NULL, '2024-01-07 06:07:46'),
+(353, 1, 133, NULL, '2024-01-07 06:07:46'),
+(354, 1, 134, NULL, '2024-01-07 06:07:46'),
+(355, 2, 134, NULL, '2024-01-07 06:07:46'),
+(356, 3, 134, NULL, '2024-01-07 06:07:46'),
+(357, 4, 134, NULL, '2024-01-07 06:07:46');
 
 -- --------------------------------------------------------
 
@@ -1029,15 +2033,21 @@ INSERT INTO `role_module_permit` (`Role_mod_per_id`, `Perm_id`, `Role_mod_id`, `
 DROP TABLE IF EXISTS `status`;
 CREATE TABLE IF NOT EXISTS `status` (
   `Stat_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Stat_name` varchar(100) NOT NULL UNIQUE,
+  `Stat_name` varchar(100) NOT NULL,
   `Stat_description` varchar(200) NOT NULL,
   `StatType_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`Stat_id`),
+  UNIQUE KEY `Stat_name` (`Stat_name`),
   KEY `status_StatusType` (`StatType_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `status`
+--
+
+TRUNCATE TABLE `status`;
 --
 -- Volcado de datos para la tabla `status`
 --
@@ -1064,10 +2074,15 @@ CREATE TABLE IF NOT EXISTS `statustype` (
   `StatType_name` varchar(100) NOT NULL,
   `StatType_description` varchar(200) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`StatType_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `statustype`
+--
+
+TRUNCATE TABLE `statustype`;
 --
 -- Volcado de datos para la tabla `statustype`
 --
@@ -1097,18 +2112,23 @@ CREATE TABLE IF NOT EXISTS `subactivities` (
   `Activi_id` int(11) NOT NULL,
   `Priorities_id` int(11) NOT NULL,
   `SubAct_description` varchar(150) NOT NULL,
-  `SubAct_duration` float NULL,
+  `SubAct_duration` float DEFAULT NULL,
   `SubAct_percentage` varchar(15) NOT NULL,
-  `SubAct_endDate` DATETIME DEFAULT NULL,
-  `updated_at` DATETIME DEFAULT NULL,
-  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `SubAct_endDate` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`SubAct_id`),
   KEY `subactivities_user` (`User_id`),
   KEY `subactivities_stad` (`Stat_id`),
   KEY `subactivities_activi` (`Activi_id`),
   KEY `Priorities_id` (`Priorities_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `subactivities`
+--
+
+TRUNCATE TABLE `subactivities`;
 -- --------------------------------------------------------
 
 --
@@ -1125,20 +2145,26 @@ CREATE TABLE IF NOT EXISTS `user` (
   `Stat_id` int(11) NOT NULL,
   `Role_id` int(11) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`User_id`),
   UNIQUE KEY `User_email` (`User_email`),
   KEY `user_status` (`Stat_id`),
   KEY `user_company` (`Comp_id`),
   KEY `Role_id` (`Role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `user`
+--
+
+TRUNCATE TABLE `user`;
 --
 -- Volcado de datos para la tabla `user`
 --
 
 INSERT INTO `user` (`User_id`, `User_name`, `User_email`, `User_password`, `Comp_id`, `Stat_id`, `Role_id`, `updated_at`, `created_at`) VALUES
-(1, 'Admin Sinapsis', 'info@sinapsist.com.co', '$2y$10$qOf7pj7SWcne3YDcXh9y/u33EJssA4GyzZfjBnvpXi4tg3jSgLchy', 1, 1, 3, '2023-06-05 14:50:39', '2023-01-30 22:10:44');
+(1, 'Admin Sinapsis', 'info@sinapsist.com.co', '$2y$10$3kHNBVNf6Z2KXa2ZKXKl4OoTfLhhf7H0ka.mNnRuUDFYVEUXnAC1e', 1, 1, 1, '2024-01-07 11:02:52', '2023-01-30 22:10:44');
+
 -- --------------------------------------------------------
 
 --
@@ -1147,16 +2173,21 @@ INSERT INTO `user` (`User_id`, `User_name`, `User_email`, `User_password`, `Comp
 
 DROP TABLE IF EXISTS `user_manager`;
 CREATE TABLE IF NOT EXISTS `user_manager` (
-  `UserManager_id` int(11) NOT NULL AUTO_INCREMENT, 
-  `User_id` int(11) NOT NULL, 
-  `Manager_id` int(11) NOT NULL, 
-  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP, 
-  `updated_at` DATETIME DEFAULT NULL, 
+  `UserManager_id` int(11) NOT NULL AUTO_INCREMENT,
+  `User_id` int(11) NOT NULL,
+  `Manager_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`UserManager_id`),
   KEY `usermanager_user` (`User_id`),
   KEY `usermanager_manager` (`Manager_id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Truncar tablas antes de insertar `user_manager`
+--
+
+TRUNCATE TABLE `user_manager`;
 --
 -- Restricciones para tablas volcadas
 --
@@ -1165,7 +2196,7 @@ CREATE TABLE IF NOT EXISTS `user_manager` (
 -- Filtros para la tabla `activities`
 --
 ALTER TABLE `activities`
-  ADD CONSTRAINT `activities_project_product` FOREIGN KEY (`Project_product_id`) REFERENCES `project_product` (`Project_product_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `activities_project_product` FOREIGN KEY (`Project_product_id`) REFERENCES `project_product` (`Project_product_id`),
   ADD CONSTRAINT `activities_status` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`);
 
 --
@@ -1179,7 +2210,7 @@ ALTER TABLE `brand`
 --
 ALTER TABLE `client`
   ADD CONSTRAINT `client_company` FOREIGN KEY (`Comp_id`) REFERENCES `company` (`Comp_id`),
-  ADD CONSTRAINT `client_country` FOREIGN KEY (`Country_id`) REFERENCES `country` (`Country_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `client_country` FOREIGN KEY (`Country_id`) REFERENCES `country` (`Country_id`),
   ADD CONSTRAINT `client_docType` FOREIGN KEY (`DocType_id`) REFERENCES `doctype` (`DocType_id`),
   ADD CONSTRAINT `client_state` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`);
 
@@ -1205,6 +2236,13 @@ ALTER TABLE `company_contact`
   ADD CONSTRAINT `company_contact_contact` FOREIGN KEY (`Contact_id`) REFERENCES `contact` (`Contact_id`);
 
 --
+-- Filtros para la tabla `employee`
+--
+ALTER TABLE `employee`
+  ADD CONSTRAINT `Doctype_employee` FOREIGN KEY (`DocType_id`) REFERENCES `doctype` (`DocType_id`),
+  ADD CONSTRAINT `User_employee` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);
+
+--
 -- Filtros para la tabla `manager`
 --
 ALTER TABLE `manager`
@@ -1216,6 +2254,15 @@ ALTER TABLE `manager`
 ALTER TABLE `manager_brands`
   ADD CONSTRAINT `manager_brands_brand` FOREIGN KEY (`Brand_id`) REFERENCES `brand` (`Brand_id`),
   ADD CONSTRAINT `manager_brands_manager` FOREIGN KEY (`Manager_id`) REFERENCES `manager` (`Manager_id`);
+
+--
+-- Filtros para la tabla `petition`
+--
+ALTER TABLE `petition`
+  ADD CONSTRAINT `petition_client` FOREIGN KEY (`Client_id`) REFERENCES `client` (`Client_id`),
+  ADD CONSTRAINT `petition_type_petition` FOREIGN KEY (`Petition_type_id`) REFERENCES `petitiontype` (`Petition_type_id`),
+  ADD CONSTRAINT `petition_type_status` FOREIGN KEY (`Petition_status_id`) REFERENCES `petitionstatus` (`Petition_status_id`),
+  ADD CONSTRAINT `petition_user` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);
 
 --
 -- Filtros para la tabla `product`
@@ -1237,10 +2284,10 @@ ALTER TABLE `profile`
 ALTER TABLE `project`
   ADD CONSTRAINT `project_brand` FOREIGN KEY (`Brand_id`) REFERENCES `brand` (`Brand_id`),
   ADD CONSTRAINT `project_client` FOREIGN KEY (`Client_id`) REFERENCES `client` (`Client_id`),
-  ADD CONSTRAINT `project_priorities` FOREIGN KEY (`Priorities_id`) REFERENCES `priorities` (`Priorities_id`),
-  ADD CONSTRAINT `project_manager` FOREIGN KEY (`Manager_id`) REFERENCES `manager` (`Manager_id`),
-  ADD CONSTRAINT `project_stat` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`),
   ADD CONSTRAINT `project_commercial` FOREIGN KEY (`Project_commercial`) REFERENCES `user` (`User_id`),
+  ADD CONSTRAINT `project_manager` FOREIGN KEY (`Manager_id`) REFERENCES `manager` (`Manager_id`),
+  ADD CONSTRAINT `project_priorities` FOREIGN KEY (`Priorities_id`) REFERENCES `priorities` (`Priorities_id`),
+  ADD CONSTRAINT `project_stat` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`),
   ADD CONSTRAINT `project_user` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);
 
 --
@@ -1277,15 +2324,15 @@ ALTER TABLE `project_tracking`
 -- Filtros para la tabla `role_module`
 --
 ALTER TABLE `role_module`
-  ADD CONSTRAINT `role_module_role` FOREIGN KEY (`Role_id`) REFERENCES `role` (`Role_id`),
-  ADD CONSTRAINT `role_module_module` FOREIGN KEY (`Mod_id`) REFERENCES `module` (`Mod_id`);
+  ADD CONSTRAINT `role_module_module` FOREIGN KEY (`Mod_id`) REFERENCES `module` (`Mod_id`),
+  ADD CONSTRAINT `role_module_role` FOREIGN KEY (`Role_id`) REFERENCES `role` (`Role_id`);
 
 --
 -- Filtros para la tabla `role_module_permit`
 --
 ALTER TABLE `role_module_permit`
-  ADD CONSTRAINT `role_module_permit_role` FOREIGN KEY (`Role_mod_id`) REFERENCES `role_module` (`Role_mod_id`),
-  ADD CONSTRAINT `role_module_permit_permit` FOREIGN KEY (`Perm_id`) REFERENCES `permit` (`Perm_id`);
+  ADD CONSTRAINT `role_module_permit_permit` FOREIGN KEY (`Perm_id`) REFERENCES `permit` (`Perm_id`),
+  ADD CONSTRAINT `role_module_permit_role` FOREIGN KEY (`Role_mod_id`) REFERENCES `role_module` (`Role_mod_id`);
 
 --
 -- Filtros para la tabla `status`
@@ -1314,6 +2361,10 @@ ALTER TABLE `user`
 -- Filtros para la tabla `user_manager`
 --
 ALTER TABLE `user_manager`
-  ADD CONSTRAINT `usermanager_user` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`),
-  ADD CONSTRAINT `usermanager_manager` FOREIGN KEY (`Manager_id`) REFERENCES `manager` (`Manager_id`);
+  ADD CONSTRAINT `usermanager_manager` FOREIGN KEY (`Manager_id`) REFERENCES `manager` (`Manager_id`),
+  ADD CONSTRAINT `usermanager_user` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
