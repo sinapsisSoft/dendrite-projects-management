@@ -67,6 +67,8 @@
                         <th>Código</th>
                         <th>Nombre</th>
                         <th>Cliente</th>
+                        <th>Gerente</th>
+                        <th>Marca</th>
                         <?php if ($roleUser != "3") : ?>
                           <th>Comercial</th>
                         <?php endif?>
@@ -84,6 +86,8 @@
                           <td><?= $obj->Project_code; ?></td>
                           <td><?= $obj->Project_name; ?></td>
                           <td><?= $obj->Client_name; ?></td>
+                          <td><?= $obj->Manager_name; ?></td>
+                          <td><?= $obj->Brand_name; ?></td>
                           <?php if ($roleUser != "3") : ?>
                             <td><?= $obj->User_name; ?></td>
                           <?php endif?>
@@ -128,6 +132,8 @@
                         <th>Código</th>
                         <th>Nombre</th>
                         <th>Cliente</th>
+                        <th>Gerente</th>
+                        <th>Marca</th>
                         <?php if ($roleUser != "3") : ?>
                           <th>Comercial</th>
                         <?php endif?>

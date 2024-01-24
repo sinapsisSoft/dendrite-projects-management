@@ -164,23 +164,23 @@
                           <td><?= $obj->SubAct_percentage . "%"; ?></td>
                           <td><?= $obj->SubAct_duration . ""; ?></td>
                           <td>
-                            <?php if ($roleUser == "7") : ?>
-                              <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <?php if ($obj->SubAct_percentage < 100) : ?>
-                                  <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->SubAct_id ?>, 1)" <?= $obj->SubAct_percentage == 100 ? "disabled" : "" ?>>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                    </svg>
-                                  </button>
-                                <?php else : ?>
-                                  <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->SubAct_id ?>, 0)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                      <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                      <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                    </svg>
-                                  </button>
-                                <?php endif; ?>
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                              <?php if ($obj->SubAct_percentage < 100 && $roleUser == "7") : ?>
+                                <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->SubAct_id ?>, 1)" <?= $obj->SubAct_percentage == 100 ? "disabled" : "" ?>>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                  </svg>
+                                </button>
+                              <?php else : ?>
+                                <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->SubAct_id ?>, 0)">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                  </svg>
+                                </button>
+                              <?php endif; ?>
+                              <?php if ($roleUser == "7") : ?>
                                 <button type="button" class="btn btn-outline-success" onclick="showEmailModal(1, <?= $obj->SubAct_id ?>)">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-plus-fill" viewBox="0 0 16 16">
                                     <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 4.697v4.974A4.491 4.491 0 0 0 12.5 8a4.49 4.49 0 0 0-1.965.45l-.338-.207L16 4.697Z" />
@@ -202,8 +202,8 @@
                                     </svg>
                                   </button>
                                 <?php endif; ?>
-                              </div>
-                            <?php endif; ?>
+                              <?php endif; ?>
+                            </div>
                           </td>
                         </tr>
                       <?php endforeach; ?>
