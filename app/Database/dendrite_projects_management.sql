@@ -1496,8 +1496,6 @@ CREATE TABLE IF NOT EXISTS `project` (
   KEY `project_stati` (`Stat_id`),
   KEY `project_user` (`User_id`),
   KEY `project_client` (`Client_id`),
-  KEY `project_brand` (`Brand_id`),
-  KEY `project_manager` (`Manager_id`),
   KEY `project_commercial` (`Project_commercial`),
   KEY `Priorities_id` (`Priorities_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -2282,10 +2280,8 @@ ALTER TABLE `profile`
 -- Filtros para la tabla `project`
 --
 ALTER TABLE `project`
-  ADD CONSTRAINT `project_brand` FOREIGN KEY (`Brand_id`) REFERENCES `brand` (`Brand_id`),
   ADD CONSTRAINT `project_client` FOREIGN KEY (`Client_id`) REFERENCES `client` (`Client_id`),
   ADD CONSTRAINT `project_commercial` FOREIGN KEY (`Project_commercial`) REFERENCES `user` (`User_id`),
-  ADD CONSTRAINT `project_manager` FOREIGN KEY (`Manager_id`) REFERENCES `manager` (`Manager_id`),
   ADD CONSTRAINT `project_priorities` FOREIGN KEY (`Priorities_id`) REFERENCES `priorities` (`Priorities_id`),
   ADD CONSTRAINT `project_stat` FOREIGN KEY (`Stat_id`) REFERENCES `status` (`Stat_id`),
   ADD CONSTRAINT `project_user` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);

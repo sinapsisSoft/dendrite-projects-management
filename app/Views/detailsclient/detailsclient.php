@@ -220,7 +220,7 @@
                 </h4>
                 <div class="card-body">
                   <h5 class="card-title">
-                    GERENTES
+                    LISTADO DE GERENTES
                   </h5>
                   <div class="table-responsive">
                     <table id="table_obj" class="table table-striped table-bordered">

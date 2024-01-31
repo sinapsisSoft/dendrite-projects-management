@@ -48,15 +48,8 @@ function getManagerByClient() {
         .then(response => response.json())
         .catch(error => console.error('Error:', error))
         .then(response => {
-          if (response[dataResponse] == 200) {
-            const managers = response[dataModel];
-            const managerSelect = document.getElementById('Manager_id');
-            enableFormProject(managerSelect);            
-            managerSelect.innerHTML = "";
-            managerSelect.innerHTML += "<option value=''>Seleccione...</option>";
-            managers.map(item => {
-              managerSelect.innerHTML += `<option value="${item.Manager_id}">${item.Manager_name}</option>`;
-            });
+          if (response[dataResponse] == 200) {            
+            createManagerSelect(response[dataModel]);
             getCityByClient();
           } else {
             Swal.fire(
@@ -68,6 +61,17 @@ function getManagerByClient() {
           hidePreload();
         });
     })
+}
+
+function createManagerSelect(objManager) {
+  const managers = objManager;
+  const managerSelect = document.getElementById('Manager_id');  
+  enableFormProject(managerSelect);
+  managerSelect.innerHTML = "";
+  managerSelect.innerHTML += "<option value=''>Seleccione...</option>";
+  managers.map(item => {
+    managerSelect.innerHTML += `<option value="${item.Manager_id}">${item.Manager_name}</option>`;
+  });
 }
 
 function getCityByClient(){
@@ -124,14 +128,7 @@ function getBrandByManager() {
         .catch(error => console.error('Error:', error))
         .then(response => {
           if (response[dataResponse] == 200) {
-            const brands = response[dataModel];
-            const brandSelect = document.getElementById('Brand_id');
-            enableFormProject(brandSelect);
-            brandSelect.innerHTML = "";
-            brandSelect.innerHTML += "<option value=''>Seleccione...</option>";
-            brands.map(item => {
-              brandSelect.innerHTML += `<option value="${item.Brand_id}">${item.Brand_name}</option>`;
-            });
+            createBrandByManagerSelect(response[dataModel]);            
           } else {
             Swal.fire(
               '¡No pudimos hacer esto!',
@@ -142,6 +139,17 @@ function getBrandByManager() {
           hidePreload();
         })
     });
+}
+
+function createBrandByManagerSelect(objBrand) {
+  const brands = objBrand;
+  const brandSelect = document.getElementById('Brand_id');
+  enableFormProject(brandSelect);
+  brandSelect.innerHTML = "";
+  brandSelect.innerHTML += "<option value=''>Seleccione...</option>";
+  brands.map(item => {
+    brandSelect.innerHTML += `<option value="${item.Brand_id}">${item.Brand_name}</option>`;
+  });
 }
 
 function details(projectId) {
@@ -313,8 +321,10 @@ function getDataId(idData) {
     .then(response => response.json())
     .catch(error => console.error('Error:', error))
     .then(response => {
-      if (response[dataResponse] == 200) {
+      if (response[dataResponse] == 200) {        
         showModal(0);
+        createManagerSelect(response['managers']);
+        createBrandByManagerSelect(response['brands']);
         sTForm.setDataForm(response[dataModel]);
         hidePreload();
       } else {

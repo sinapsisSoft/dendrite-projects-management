@@ -119,8 +119,8 @@ class Project extends BaseController
             $id = $this->request->getVar($this->primaryKey);
             $getDataId = $this->objModel->where($this->primaryKey, $id)->first(); 
             $data['clients'] = $client->findAll();
-            $data['managers'] = $manager->findAll();
-            $data['brands'] = $brand->findAll();
+            $data['managers'] = $manager->where('Client_id', $getDataId["Client_id"])->findAll();
+            $data['brands'] = $brand->where('Client_id', $getDataId["Client_id"])->findAll();
             $country = $client->select('client.Country_id')
             ->where("Client_id", $getDataId["Client_id"])->first(); 
             $data['data'] = $country;

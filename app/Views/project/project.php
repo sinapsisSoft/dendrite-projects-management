@@ -180,7 +180,7 @@
                     </div>
                     <div class="col-12 col-md-4 mb-3">
                       <label for="Manager_id">Gerente *</label>
-                      <select name="Manager_id" id="Manager_id" class="form-control form-select form-disabled read" disabled required>
+                      <select name="Manager_id" id="Manager_id" class="form-control form-select read" required>
                         <option value="">
                           Seleccione...
                         </option>
@@ -193,7 +193,7 @@
                     </div>
                     <div class="col-12 col-md-4 mb-3">
                       <label for="Brand_id">Marca *</label>
-                      <select name="Brand_id" id="Brand_id" class="form-control form-disabled form-select read" disabled required>
+                      <select name="Brand_id" id="Brand_id" class="form-control form-select read" required>
                         <option value="">
                           Seleccione...
                         </option>
