@@ -96,7 +96,7 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_all_details_activities`$$
 CREATE PROCEDURE `sp_select_all_details_activities` (IN `ActiviId` INT)   BEGIN
 SELECT
-A.Activi_id,
+    A.Activi_id,
     A.Activi_name,
     A.Activi_code,
     A.Activi_codeMiigo,
@@ -149,6 +149,7 @@ U1.User_name,
 P.Project_startDate,
 P.Project_estimatedEndDate,
 P.Project_activitiEndDate,
+P.Stat_id,
 S.Stat_name,
 P.Project_observation,
 P.Project_url,
@@ -195,7 +196,7 @@ CREATE PROCEDURE `sp_select_all_project_table` (IN userId INT)
 BEGIN   
     SET @role = (SELECT Role_id FROM user WHERE User_id = userId);
     IF @role = 3 THEN
-        SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Manager_id, M.Manager_name, PRO.Brand_id, B.Brand_name, PRO.Project_purchaseOrder, PRO.Project_invoice, PRO.Project_invoiceState, PRO.Project_invoiceDate FROM project PRO
+        SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Manager_id, M.Manager_name, PRO.Brand_id, B.Brand_name, PRO.Project_purchaseOrder, PRO.Project_invoice, PRO.Project_invoiceState, PRO.Project_invoiceDate, PRO.Stat_id FROM project PRO
         INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
         INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
         INNER JOIN client CL ON PRO.Client_id = CL.Client_id
@@ -205,7 +206,7 @@ BEGIN
         ORDER BY Project_id DESC;
     ELSE 
         IF @role = 7 THEN
-            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Project_commercial, U.User_name, PRO.Manager_id, M.Manager_name, PRO.Brand_id, B.Brand_name, PRO.Project_purchaseOrder, PRO.Project_invoice, PRO.Project_invoiceState, PRO.Project_invoiceDate FROM project PRO
+            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Project_commercial, U.User_name, PRO.Manager_id, M.Manager_name, PRO.Brand_id, B.Brand_name, PRO.Project_purchaseOrder, PRO.Project_invoice, PRO.Project_invoiceState, PRO.Project_invoiceDate, PRO.Stat_id FROM project PRO
             INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
             INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
             INNER JOIN client CL ON PRO.Client_id = CL.Client_id
@@ -215,7 +216,7 @@ BEGIN
             WHERE PRO.User_id = userId
             ORDER BY Project_id DESC;
         ELSE
-            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Project_commercial, U.User_name, PRO.Manager_id, M.Manager_name, PRO.Brand_id, B.Brand_name, PRO.Project_purchaseOrder, PRO.Project_invoice, PRO.Project_invoiceState, PRO.Project_invoiceDate FROM project PRO
+            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Project_commercial, U.User_name, PRO.Manager_id, M.Manager_name, PRO.Brand_id, B.Brand_name, PRO.Project_purchaseOrder, PRO.Project_invoice, PRO.Project_invoiceState, PRO.Project_invoiceDate, PRO.Stat_id FROM project PRO
             INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
             INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
             INNER JOIN client CL ON PRO.Client_id = CL.Client_id
@@ -369,6 +370,12 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_status_users`$$
 CREATE PROCEDURE `sp_select_status_users` ()   BEGIN
     SELECT Stat_id,Stat_name FROM status WHERE StatType_id = 1;
+END$$
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_select_status_projects`$$
+CREATE PROCEDURE `sp_select_status_projects` ()   BEGIN
+    SELECT Stat_id, Stat_name FROM status WHERE StatType_id = 8;
 END$$
 
 DELIMITER $$

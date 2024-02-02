@@ -56,7 +56,7 @@ class Project extends BaseController
         $data['clients'] = $client->findAll();
         $data['commercial'] = $user->sp_select_all_users_comercial();
         $data['users'] = $user->where('Role_id', 7)->findAll();
-        $data['userstatuses'] = $userstatus->sp_select_status_users();
+        $data['projectstatuses'] = $this->objModel->sp_select_status_projects();
         $data['priorities'] = $priorities->findAll();
         $data['managers'] = $manager->findAll();
         $data['brands'] = $brand->findAll();

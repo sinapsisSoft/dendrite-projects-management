@@ -2062,6 +2062,8 @@ INSERT INTO `status` (`Stat_id`, `Stat_name`, `Stat_description`, `StatType_id`,
 (6, 'Creado', '', 7, NULL, '2023-04-18 01:16:20'),
 (7, 'Proyecto creado', '', 7, NULL, '2023-04-18 01:16:20'),
 (8, 'Rechazado', '', 7, NULL, '2023-04-18 01:16:20');
+(9, 'En curso', 'Proyecto sigue estando activo', 8, NULL, '2023-04-18 01:16:20');
+(10, 'Finalizado', 'Proyecto que fue aprobado y cerrado como finalizado exitosamente', 8, NULL, '2023-04-18 01:16:20');
 
 -- --------------------------------------------------------
 
@@ -2096,6 +2098,7 @@ INSERT INTO `statustype` (`StatType_id`, `StatType_name`, `StatType_description`
 (5, 'Actividades', 'Estado de actividades', NULL, '2023-04-05 09:30:25'),
 (6, 'Productos', 'Estado de productos', NULL, '2023-04-10 16:31:05'),
 (7, 'Solicitudes proyecto', 'Estados de las solicitudes de proyecto', NULL, '2023-04-10 16:31:05');
+(8, 'Proyecto General', 'Estados de las solicitudes de proyecto', NULL, '2023-04-10 16:31:05');
 
 -- --------------------------------------------------------
 

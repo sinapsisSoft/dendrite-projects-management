@@ -108,7 +108,7 @@
                 </div>
                 <div class="col-10 col-md-11 mb-3">
                   <label for="Activi_link">Enlace</label>
-                  <textarea class="form-control" id="Activi_link" name="Activi_link" maxlength="3000" rows="5" disabled><?= $activity->Activi_link ?></textarea> 
+                  <textarea class="form-control" id="Activi_link" name="Activi_link" maxlength="3000" rows="5" disabled><?= $activity->Activi_link ?></textarea>
                 </div>
                 <div class="col-2 col-md-1 mb-3 align-self-end">
                   <button type="button" class="btn btn-outline-primary" id="copyToClipboard" data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar" style="border: none;">
@@ -120,7 +120,7 @@
                 </div>
                 <div class="col-12 mb-3">
                   <label for="Activi_observation">Observaciones</label>
-                  <textarea class="form-control" id="Activi_observation" name="Activi_observation"  maxlength="1000" rows="5" disabled><?= $activity->Activi_observation ?></textarea>
+                  <textarea class="form-control" id="Activi_observation" name="Activi_observation" maxlength="1000" rows="5" disabled><?= $activity->Activi_observation ?></textarea>
                 </div>
               </div>
             </div>
@@ -128,11 +128,13 @@
             <!-- TABLA DE SUB ACTIVIDADES -->
 
             <div class="card-pp">
-              <?php if ($roleUser == "7") : ?>
-                <h4 class="page-title text-end">
-                  Nueva Subactividad
-                  <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-plus"></i></button>
-                </h4>
+              <?php if ($projStat != 10) : ?>
+                <?php if ($roleUser == "7") : ?>
+                  <h4 class="page-title text-end">
+                    Nueva Subactividad
+                    <button type="button" class="btn btn-primary btn-circle btn-lg" onclick="showModal(1)"><i class="mdi mdi-plus"></i></button>
+                  </h4>
+                <?php endif; ?>
               <?php endif; ?>
               <div class="card-body">
                 <div class="table-responsive">
@@ -166,12 +168,14 @@
                           <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                               <?php if ($obj->SubAct_percentage < 100 && $roleUser == "7") : ?>
-                                <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->SubAct_id ?>, 1)" <?= $obj->SubAct_percentage == 100 ? "disabled" : "" ?>>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                  </svg>
-                                </button>
+                                <?php if ($projStat != 10) : ?>
+                                  <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->SubAct_id ?>, 1)" <?= $obj->SubAct_percentage == 100 ? "disabled" : "" ?>>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                    </svg>
+                                  </button>
+                                <?php endif; ?>
                               <?php else : ?>
                                 <button type="button" class="btn btn-outline-warning" onclick="getDataId(<?= $obj->SubAct_id ?>, 0)">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -180,27 +184,29 @@
                                   </svg>
                                 </button>
                               <?php endif; ?>
-                              <?php if ($roleUser == "7") : ?>
-                                <button type="button" class="btn btn-outline-success" onclick="showEmailModal(1, <?= $obj->SubAct_id ?>)">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-plus-fill" viewBox="0 0 16 16">
-                                    <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 4.697v4.974A4.491 4.491 0 0 0 12.5 8a4.49 4.49 0 0 0-1.965.45l-.338-.207L16 4.697Z" />
-                                    <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5Z" />
-                                  </svg>
-                                </button>
-                                <?php if ($obj->SubAct_percentage < 100) : ?>
-                                  <button type="button" class="btn btn-outline-primary" onclick="getDataIdFinish(<?= $obj->SubAct_id ?>)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
-                                      <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
-                                      <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                              <?php if ($projStat != 10) : ?>
+                                <?php if ($roleUser == "7") : ?>
+                                  <button type="button" class="btn btn-outline-success" onclick="showEmailModal(1, <?= $obj->SubAct_id ?>)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-plus-fill" viewBox="0 0 16 16">
+                                      <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 4.697v4.974A4.491 4.491 0 0 0 12.5 8a4.49 4.49 0 0 0-1.965.45l-.338-.207L16 4.697Z" />
+                                      <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5Z" />
                                     </svg>
                                   </button>
-                                <?php endif; ?>
-                                <?php if ($obj->SubAct_percentage < 100) : ?>
-                                  <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->SubAct_id ?>)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                      <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                    </svg>
-                                  </button>
+                                  <?php if ($obj->SubAct_percentage < 100) : ?>
+                                    <button type="button" class="btn btn-outline-primary" onclick="getDataIdFinish(<?= $obj->SubAct_id ?>)">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+                                        <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
+                                        <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                                      </svg>
+                                    </button>
+                                  <?php endif; ?>
+                                  <?php if ($obj->SubAct_percentage < 100) : ?>
+                                    <button type="button" class="btn btn-outline-danger" onclick="delete_(<?= $obj->SubAct_id ?>)">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                      </svg>
+                                    </button>
+                                  <?php endif; ?>
                                 <?php endif; ?>
                               <?php endif; ?>
                             </div>

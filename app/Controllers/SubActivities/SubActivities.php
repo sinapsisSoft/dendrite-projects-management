@@ -101,7 +101,7 @@ class SubActivities extends BaseController
         $user = new UserModel();
 
         $activityId = $this->request->getGet('activitiesId');
-        // $subactivityId = $this->request->getGet('subactivitiesId');
+        $projectStatus = $this->request->getGet('projStat');
 
         $data['meta'] = view('assets/meta');
         $data['title'] = 'Subactividades';
@@ -113,7 +113,6 @@ class SubActivities extends BaseController
         $data['header'] = view('header/header');
         $data['footer'] = view('footer/footer');
 
-        // $data[$this->nameModel] = $this->objModel->findAll();
         $data['userstatuses'] = $userstatus->where('StatType_id', 4)->find();
         $data['activity'] = $this->activities->sp_select_all_details_activities($activityId) != null ? $this->activities->sp_select_all_details_activities($activityId)[0] : [];
         $data['subactivities'] = $this->objModel->sp_select_all_sub_actitivites($activityId);
@@ -121,6 +120,7 @@ class SubActivities extends BaseController
         $data['priorities'] = $priorities->findAll();
         $data['users'] = $user->sp_select_all_users();
         $data['roleUser'] = $this->roleId;
+        $data['projStat'] = $projectStatus;
         return view('subactivities/subactivities', $data);
     }
 

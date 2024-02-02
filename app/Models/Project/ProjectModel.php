@@ -77,4 +77,10 @@ class ProjectModel extends Model{
         $result = $this->db->query($query)->getResult();
         return $result;
     }
+
+    function sp_select_status_projects(){
+        $query = "call sp_select_status_projects()";
+        $result = $this->db->query($query)->getResult();
+        return $result;
+    }
 }

@@ -20,7 +20,8 @@ var formDataActivities = new Object();
 var selectInsertOrUpdateActivities = true;
 
 function details(subactivitiesId) {
-  window.location = `${BASE_URL}subactivities?activitiesId=${subactivitiesId}`
+  let status = document.getElementById("Project_stat").value;
+  window.location = `${BASE_URL}subactivities?activitiesId=${subactivitiesId}&projStat=${status}`
 }
 
 function createActivities(formData) {

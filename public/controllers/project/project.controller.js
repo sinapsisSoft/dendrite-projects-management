@@ -399,4 +399,16 @@ function enableFormProject(inputId){
   inputId.removeAttribute("disabled");
 }
 
+document.getElementById('Stat_id')
+  .addEventListener('change', function (evt) {
+    let option = evt.currentTarget.selectedOptions[0].value;
+    if (option == 10) {
+      Swal.fire({
+        title: '¿Está seguro?',
+        html: "<h3>¡Esta acción no se puede revertir!</h3>Va a marcar como finalizado el proyecto, por lo tanto, no podrá editar la información a este proyecto.<hr><small>Los cambios se efectuarán cuando oprima el botón de <b><i>Guardar</i></b>.</small>",
+        icon: 'warning'
+      })
+    }
+  });
+
 document.getElementById('btn-info').href = infoUrl;
