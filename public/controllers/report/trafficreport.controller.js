@@ -350,10 +350,13 @@ function createTable(tblid, jsonData){
     newRow += `<tr>
     <td>${i}</td>
     <td>${iterator['Project_code']}</td>
-    <td>${iterator['Project_name']}</td>
-    <td>${iterator['Project_purchaseOrder']}</td>                                
+    <td>${iterator['Project_name']}</td>                              
     <td>${iterator['Client_name']}</td>
     <td>${iterator['Country_name']}</td>
+    <td>${iterator['Project_purchaseOrder']}</td>
+    <td>${iterator['Project_invoice'] == null ? '' : iterator['Project_invoice']}</td>
+    <td>${iterator['Project_invoiceState'] == null ? '' : iterator['Project_invoiceState']}</td>
+    <td>${iterator['Project_invoiceDate'] == null ? '' : iterator['Project_invoiceDate']}</td>
     <td>${iterator['Manager_name']}</td>
     <td>${iterator['Brand_name']}</td>
     <td>${iterator['Project_startDate']}</td>                                

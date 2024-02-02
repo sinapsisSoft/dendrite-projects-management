@@ -5,7 +5,7 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_commercial_info_table`$$
 CREATE PROCEDURE `sp_select_commercial_info_table` (IN initDate DATE, IN finDate DATE, IN userId INT)   
 BEGIN
-  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name, P.Project_purchaseOrder, P.Manager_id, M.Manager_name, P.Project_startDate, P.Project_percentage, P.User_id, U2.User_name AS Project_traffic, P.Project_estimatedEndDate, P.Project_activitiEndDate, AC.Activi_startDate, AC.Activi_endDate, SA.SubAct_estimatedEndDate, SA.SubAct_endDate, P.Brand_id, B.Brand_name FROM activities AC
+  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name, P.Project_purchaseOrder, P.Project_invoice, P.Project_invoiceState, P.Project_invoiceDate, P.Manager_id, M.Manager_name, P.Project_startDate, P.Project_percentage, P.User_id, U2.User_name AS Project_traffic, P.Project_estimatedEndDate, P.Project_activitiEndDate, AC.Activi_startDate, AC.Activi_endDate, SA.SubAct_estimatedEndDate, SA.SubAct_endDate, P.Brand_id, B.Brand_name FROM activities AC
   RIGHT JOIN subactivities SA ON AC.Activi_id = SA.Activi_id
   INNER JOIN user U ON SA.User_id = U.User_id  
   INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id
@@ -101,7 +101,7 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_administrative_info_table2`$$
 CREATE PROCEDURE `sp_select_administrative_info_table2` (IN initDate DATE, IN finDate DATE)   
 BEGIN
-  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name, P.Project_purchaseOrder, P.Manager_id, M.Manager_name, P.Project_startDate, P.Project_percentage, P.User_id, U2.User_name AS Project_traffic, P.Project_estimatedEndDate, P.Project_activitiEndDate, AC.Activi_startDate, AC.Activi_endDate, SA.SubAct_estimatedEndDate, SA.SubAct_endDate, P.Brand_id, B.Brand_name, P.Project_commercial, U3.User_name AS Project_commercialName FROM activities AC
+  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name, P.Project_purchaseOrder, P.Project_invoice, P.Project_invoiceState, P.Project_invoiceDate, P.Manager_id, M.Manager_name, P.Project_startDate, P.Project_percentage, P.User_id, U2.User_name AS Project_traffic, P.Project_estimatedEndDate, P.Project_activitiEndDate, AC.Activi_startDate, AC.Activi_endDate, SA.SubAct_estimatedEndDate, SA.SubAct_endDate, P.Brand_id, B.Brand_name, P.Project_commercial, U3.User_name AS Project_commercialName FROM activities AC
   RIGHT JOIN subactivities SA ON AC.Activi_id = SA.Activi_id
   INNER JOIN user U ON SA.User_id = U.User_id  
   INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id
@@ -153,7 +153,7 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_traffic_info_table`$$
 CREATE PROCEDURE `sp_select_traffic_info_table` (IN initDate DATE, IN finDate DATE, IN userId INT)   
 BEGIN
-  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name, P.Project_purchaseOrder, P.Manager_id, M.Manager_name, P.Project_startDate, P.Project_percentage, P.Project_commercial, U2.User_name AS Project_commercialName, P.Project_estimatedEndDate, P.Project_activitiEndDate, AC.Activi_startDate, AC.Activi_endDate, SA.SubAct_estimatedEndDate, SA.SubAct_endDate, P.Brand_id, B.Brand_name FROM activities AC
+  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name, P.Project_purchaseOrder, P.Project_invoice, P.Project_invoiceState, P.Project_invoiceDate, P.Manager_id, M.Manager_name, P.Project_startDate, P.Project_percentage, P.Project_commercial, U2.User_name AS Project_commercialName, P.Project_estimatedEndDate, P.Project_activitiEndDate, AC.Activi_startDate, AC.Activi_endDate, SA.SubAct_estimatedEndDate, SA.SubAct_endDate, P.Brand_id, B.Brand_name FROM activities AC
   RIGHT JOIN subactivities SA ON AC.Activi_id = SA.Activi_id
   INNER JOIN user U ON SA.User_id = U.User_id  
   INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id
@@ -166,7 +166,7 @@ BEGIN
   INNER JOIN brand B ON P.Brand_id = B.Brand_id
   WHERE (P.Project_startDate BETWEEN initDate AND finDate) AND P.User_id = userId
   GROUP BY SA.SubAct_id
-  ORDER BY P.Project_id ASC; 
+  ORDER BY P.Project_id DESC; 
 END$$
 
 -- Bar chart of each collaborator indicating the average completeness of their activities
@@ -235,7 +235,7 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_select_directive_info_table2`$$
 CREATE PROCEDURE `sp_select_directive_info_table2` (IN initDate DATE, IN finDate DATE)   
 BEGIN
-  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name, P.Project_purchaseOrder, P.Manager_id, M.Manager_name, P.Project_startDate, P.Project_percentage, P.User_id, U2.User_name AS Project_traffic, P.Project_estimatedEndDate, P.Project_activitiEndDate, AC.Activi_startDate, AC.Activi_endDate, SA.SubAct_estimatedEndDate, SA.SubAct_endDate, P.Brand_id, B.Brand_name, P.Project_commercial, U3.User_name AS Project_commercialName FROM activities AC
+  SELECT SA.User_id, U.User_name, SA.SubAct_id, SA.SubAct_name, SA.SubAct_percentage, AC.Activi_id, AC.Activi_name, AC.Project_product_id, PP.Prod_id, PD.Prod_name, P.Project_id, P.Project_name, P.Project_code, P.Client_id, C.Client_name, C.Country_id, CN.Country_name, P.Project_purchaseOrder, P.Project_invoice, P.Project_invoiceState, P.Project_invoiceDate, P.Manager_id, M.Manager_name, P.Project_startDate, P.Project_percentage, P.User_id, U2.User_name AS Project_traffic, P.Project_estimatedEndDate, P.Project_activitiEndDate, AC.Activi_startDate, AC.Activi_endDate, SA.SubAct_estimatedEndDate, SA.SubAct_endDate, P.Brand_id, B.Brand_name, P.Project_commercial, U3.User_name AS Project_commercialName FROM activities AC
   RIGHT JOIN subactivities SA ON AC.Activi_id = SA.Activi_id
   INNER JOIN user U ON SA.User_id = U.User_id  
   INNER JOIN project_product PP ON AC.Project_product_id = PP.Project_product_id

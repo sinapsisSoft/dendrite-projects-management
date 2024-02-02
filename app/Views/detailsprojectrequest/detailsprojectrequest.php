@@ -82,7 +82,7 @@
                   </div>
                   <div class="col-12 mb-3">
                     <label for="Project_observation">Observaciones</label>
-                    <input type="text" class="form-control" size="15" maxlength="30" disabled id="Project_observation" value="<?= $data["projectrequest"]->ProjReq_observation ?>" name="Project_observation" required>
+                    <textarea class="form-control" id="Project_observation" name="Project_observation" maxlength="1000" rows="5" disabled required><?= $data["projectrequest"]->ProjReq_observation ?></textarea>
                   </div>
                 </div>
               </div>

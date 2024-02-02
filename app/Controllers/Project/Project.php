@@ -205,6 +205,9 @@ class Project extends BaseController
             'Stat_id' => $this->request->getVar('Stat_id'),
             'User_id' => $this->request->getVar('User_id'),
             'Priorities_id' => $this->request->getVar('Priorities_id'),
+            'Project_invoice' => $this->request->getVar('Project_invoice'),
+            'Project_invoiceState' => $this->request->getVar('Project_invoiceState'),
+            'Project_invoiceDate' => $this->request->getVar('Project_invoiceDate'),
             'updated_at' => $this->request->getVar('updated_at')
         ];
         return $data;

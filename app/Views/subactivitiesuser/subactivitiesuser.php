@@ -59,6 +59,9 @@
                         <th>#</th>
                         <th>Cliente</th>
                         <th>Proyecto</th>
+                        <th>Marca</th>
+                        <th>Comercial</th>
+                        <th>Tráfico</th>
                         <th>Actividad</th>
                         <th>Subactividad</th>
                         <th>Prioridad</th>
@@ -76,6 +79,9 @@
                           <td><?= $i++; ?></td>
                           <td><?= $obj->Client_name; ?></td>
                           <td><?= $obj->Project_name; ?></td>
+                          <td><?= $obj->Brand_name; ?></td>
+                          <td><?= $obj->Project_commercialName; ?></td>
+                          <td><?= $obj->Project_trafficName; ?></td>
                           <td><?= $obj->Activi_name; ?></td>
                           <td><?= $obj->SubAct_name; ?></td>
                           <td class="priorities-text" style="color: <?= $obj->Priorities_color ?>"><?= $obj->Priorities_name; ?></td>
@@ -130,6 +136,9 @@
                         <th>#</th>
                         <th>Cliente</th>
                         <th>Proyecto</th>
+                        <th>Marca</th>
+                        <th>Comercial</th>
+                        <th>Tráfico</th>
                         <th>Actividad</th>
                         <th>Subactividad</th>
                         <th>Prioridad</th>
@@ -148,6 +157,9 @@
             <div class="modal fade" id="createUpdateModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createUpdateModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content" style="width: 100%;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createUpdateModalLabel">SEGUIMIENTO DE SUBACTIVIDAD</h5>
+                  </div>
                   <div class="modal-body ">
                     <form class="form-horizontal mt-3" id="objForm" action="" onsubmit="sendData(event,this.id)">
                       <div class="row">
@@ -171,7 +183,7 @@
                         </div>
                         <div class="col-12">
                           <label for="SubAct_description">Descripción</label>
-                          <input type="text" class="form-control read" id="SubAct_description" name="SubAct_description" value="0">
+                          <textarea class="form-control read" id="SubAct_description" name="SubAct_description" maxlength="1000" rows="5"></textarea>
                         </div>
                       </div>
                     </form>
@@ -198,11 +210,11 @@
                       <input type="hidden" class="form-control" id="not_subId" name="SubAct_id" value="NULL">
                       <div class="row">
                         <div class="col-12 mb-3">
-                          <label for="SubAct_name">Asunto *</label>
+                          <label for="subject">Asunto *</label>
                           <input type="text" class="form-control" id="subject" name="subject" required>
                         </div>
                         <div class="col-12 mb-3">
-                          <label for="SubAct_name">Link *</label>
+                          <label for="link">Link *</label>
                           <input type="text" class="form-control" id="link" name="link" required>
                         </div>
                         <div class="col-12 mb-3">
@@ -217,8 +229,8 @@
                           </ul>
                         </div>
                         <div class="col-12 mb-3">
-                          <label for="SubAct_name">Descripción *</label>
-                          <input type="text" class="form-control" id="description" name="description" required>
+                          <label for="description">Descripción *</label>
+                          <textarea class="form-control" id="description" name="description" maxlength="1000" rows="5" required></textarea>
                         </div>
                       </div>
                     </form>

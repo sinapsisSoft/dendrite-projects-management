@@ -154,7 +154,10 @@ P.Project_observation,
 P.Project_url,
 PR.Priorities_name,
 U2.User_id,
-U2.User_name AS 'Project_commercial'
+U2.User_name AS 'Project_commercial',
+P.Project_invoice,
+P.Project_invoiceDate,
+P.Project_invoiceState
 FROM project P
 INNER JOIN client C on C.Client_id = P.Client_id
 INNER JOIN manager M on M.Manager_id = P.Manager_id
@@ -192,7 +195,7 @@ CREATE PROCEDURE `sp_select_all_project_table` (IN userId INT)
 BEGIN   
     SET @role = (SELECT Role_id FROM user WHERE User_id = userId);
     IF @role = 3 THEN
-        SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Manager_id, M.Manager_name, PRO.Brand_id, B.Brand_name FROM project PRO
+        SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Manager_id, M.Manager_name, PRO.Brand_id, B.Brand_name, PRO.Project_purchaseOrder, PRO.Project_invoice, PRO.Project_invoiceState, PRO.Project_invoiceDate FROM project PRO
         INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
         INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
         INNER JOIN client CL ON PRO.Client_id = CL.Client_id
@@ -202,7 +205,7 @@ BEGIN
         ORDER BY Project_id DESC;
     ELSE 
         IF @role = 7 THEN
-            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Project_commercial, U.User_name, PRO.Manager_id, M.Manager_name, PRO.Brand_id, B.Brand_name FROM project PRO
+            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Project_commercial, U.User_name, PRO.Manager_id, M.Manager_name, PRO.Brand_id, B.Brand_name, PRO.Project_purchaseOrder, PRO.Project_invoice, PRO.Project_invoiceState, PRO.Project_invoiceDate FROM project PRO
             INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
             INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
             INNER JOIN client CL ON PRO.Client_id = CL.Client_id
@@ -212,7 +215,7 @@ BEGIN
             WHERE PRO.User_id = userId
             ORDER BY Project_id DESC;
         ELSE
-            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Project_commercial, U.User_name, PRO.Manager_id, M.Manager_name, PRO.Brand_id, B.Brand_name FROM project PRO
+            SELECT PRO.Project_id, PRO.Project_code, CL.Client_name, PRO.Project_name, PRI.Priorities_name, PRI.Priorities_color, ST.Stat_name, PRO.created_at AS Created_at, PRO.Project_percentage, PRO.Project_commercial, U.User_name, PRO.Manager_id, M.Manager_name, PRO.Brand_id, B.Brand_name, PRO.Project_purchaseOrder, PRO.Project_invoice, PRO.Project_invoiceState, PRO.Project_invoiceDate FROM project PRO
             INNER JOIN status ST ON PRO.Stat_id =ST.Stat_id
             INNER JOIN priorities PRI ON PRO.Priorities_id = PRI.Priorities_id
             INNER JOIN client CL ON PRO.Client_id = CL.Client_id
@@ -662,6 +665,9 @@ BEGIN
     PP.Project_product_id,
     C.Client_name,
     P.Project_name,
+    B.Brand_name,
+    U2.User_name AS Project_commercialName,
+    U1.User_name AS Project_trafficName,
     SA.SubAct_id,
     SA.SubAct_name,
     S.Stat_name,
@@ -680,6 +686,9 @@ BEGIN
     INNER JOIN project_product PP ON A.Project_product_id = PP.Project_product_id
     INNER JOIN project P ON PP.Project_id = P.Project_id
     INNER JOIN client C ON P.Client_id = C.Client_id
+    INNER JOIN brand B ON P.Brand_id = B.Brand_id
+    INNER JOIN user U1 ON P.User_id = U1.User_id
+    INNER JOIN user U2 ON P.Project_commercial = U2.User_id
     WHERE SA.User_id = userId
     ORDER BY SA.SubAct_id DESC;
 END$$
@@ -703,7 +712,7 @@ BEGIN
     INNER JOIN activities A ON S.Activi_id = A.Activi_id
     INNER JOIN project_product PP ON A.Project_product_id = PP.Project_product_id 
     INNER JOIN project P ON PP.Project_id = P.Project_id
-    INNER JOIN priorities PR ON P.Priorities_id = PR.Priorities_id
+    INNER JOIN priorities PR ON PR.Priorities_id = S.Priorities_id
     INNER JOIN user U ON S.User_id = U.User_id
     WHERE S.SubAct_id = subactId;
 END$$

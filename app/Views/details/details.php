@@ -132,23 +132,35 @@
                     <input type="text" class="form-control" disabled id="Priorities_name" name="Priorities_name" value="<?= $data["project"]->Priorities_name ?>" required>
                   </div>
                   <div class="col-12 col-md-4 mb-3">
-                    <label for="Project_activitiStartDate">Fecha Finalización de Actividades</label>
+                    <label for="Project_activitiEndtDate">Fecha Finalización de Actividades</label>
                     <input type="date" class="form-control" disabled id="Project_activitiEndDate" name="Project_activitiEndtDate" value="<?= $data["project"]->Project_activitiEndDate ?>">
                   </div>
                   <div class="col-12 col-md-4 mb-3">
-                    <label for="Stat_name">Estado</label>
+                    <label for="Project_invoice">Número de factura</label>
+                    <input type="text" class="form-control" disabled id="Project_invoice" name="Project_invoice" value="<?= $data["project"]->Project_invoice ?>">
+                  </div>
+                  <div class="col-12 col-md-4 mb-3">
+                    <label for="Project_invoiceDate">Fecha de la factura</label>
+                    <input type="date" class="form-control" disabled id="Project_invoiceDate" name="Project_invoiceDate" value="<?= $data["project"]->Project_invoiceDate ?>">
+                  </div>
+                  <div class="col-12 col-md-4 mb-3">
+                    <label for="Project_invoiceState">Estado de la factura</label>
+                    <input type="text" class="form-control" disabled id="Project_invoiceState" name="Project_invoiceState" value="<?= $data["project"]->Project_invoiceState ?>">
+                  </div>
+                  <div class="col-12 col-md-4 mb-3">
+                    <label for="Stat_name">Estado del proyecto</label>
                     <input type="text" class="form-control" disabled id="Stat_name" name="Stat_name" value="<?= $data["project"]->Stat_name ?>" required>
                   </div>
                   <div class="col-12 mb-3">
                     <label for="Project_observation">Observaciones</label>
-                    <input type="text" class="form-control" size="15" maxlength="30" disabled id="Project_observation" value="<?= $data["project"]->Project_observation ?>" name="Project_observation" required>
+                    <textarea class="form-control" id="Project_observation" name="Project_observation" maxlength="1000" rows="5" disabled required><?= $data["project"]->Project_observation ?></textarea>
                   </div>
                   <div class="col-8 col-md-10 mb-3">
                     <label for="Project_url">Enlace</label>
-                    <input type="text" class="form-control" size="15" maxlength="320" id="Project_url" value="<?= $data["project"]->Project_url ?>" name="Project_url">
+                    <textarea type="text" class="form-control" maxlength="3000" rows="5" id="Project_url" name="Project_url"><?= $data["project"]->Project_url ?></textarea>
                   </div>
                   <?php if ($roleUser == "7") : ?>
-                    <div class="col-2 col-md-auto mb-3 align-self-end">
+                    <div class="col-2 col-md-auto mb-3 align-self-center">
                       <button type="button" class="btn btn-outline-primary" id="btnSave" onclick="updateUrl();" data-bs-toggle="tooltip" data-bs-placement="top" title="Guardar" style="border: none;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
                           <path d="M11 2H9v3h2V2Z" />
@@ -157,7 +169,7 @@
                       </button>
                     </div>
                   <?php endif; ?>
-                  <div class="col-2 col-md-auto mb-3 align-self-end">
+                  <div class="col-2 col-md-auto mb-3 align-self-center">
                     <button type="button" class="btn btn-outline-primary" id="copyToClipboardProject" data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar" style="border: none;">
                       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
                         <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"></path>
@@ -316,7 +328,7 @@
                           <tr>
                             <td><?= $i++; ?></td>
                             <td><?= $obj['ProjectTrack_name']; ?></td>
-                            <td><?= $obj['ProjectTrack_description']; ?></td>
+                            <td class="text-truncate text-wrap"><?= $obj['ProjectTrack_description']; ?></td>
                             <td class="text-nowrap"><?= $obj['ProjectTrack_date']; ?></td>
                             <td>
                               <div class="btn-group" role="group" aria-label="Basic mixed styles example">
@@ -370,7 +382,7 @@
                           </div>
                           <div class="col-12 mb-3">
                             <label for="ProjectTrack_description">Descripción *</label>
-                            <input type="text" class="form-control" id="ProjectTrack_description" name="ProjectTrack_description" required>
+                            <textarea class="form-control" id="ProjectTrack_description" name="ProjectTrack_description" maxlength="1000" rows="5" required></textarea>
                           </div>
                         </div>
                       </form>
@@ -517,7 +529,7 @@
                           </div>
                           <div class="col-10 col-md-11 mb-3">
                             <label for="Activi_link">Enlace</label>
-                            <input type="text" class="form-control" id="Activi_link" name="Activi_link">
+                            <textarea class="form-control" id="Activi_link" name="Activi_link" maxlength="3000" rows="5"></textarea>
                           </div>
                           <div class="col-2 col-md-1 mb-3 align-self-end">
                             <button type="button" class="btn btn-outline-primary" id="copyToClipboard" data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar" style="border: none;">
@@ -530,7 +542,7 @@
 
                           <div class="col-12 mb-3">
                             <label for="Activi_observation">Observaciones</label>
-                            <input type="text" class="form-control" id="Activi_observation" name="Activi_observation">
+                            <textarea class="form-control" id="Activi_observation" name="Activi_observation" maxlength="1000" rows="5"></textarea>
                           </div>
                         </div>
                       </form>

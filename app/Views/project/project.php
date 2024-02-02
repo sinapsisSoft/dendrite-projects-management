@@ -75,6 +75,10 @@
                         <th>Prioridad</th>
                         <th>Fecha de creación</th>
                         <th>%</th>
+                        <th>Orden compra</th>
+                        <th>Factura</th>
+                        <th>Fecha factura</th>
+                        <th>Estado factura</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
@@ -94,6 +98,10 @@
                           <td class="priorities-text" style="color: <?= $obj->Priorities_color ?>"><?= $obj->Priorities_name; ?></td>
                           <td><?= $obj->Created_at; ?></td>
                           <td><?= $obj->Project_percentage == NULL ? 0 : $obj->Project_percentage; ?></td>
+                          <td><?= $obj->Project_purchaseOrder; ?></td>
+                          <td><?= $obj->Project_invoice; ?></td>
+                          <td><?= $obj->Project_invoiceDate; ?></td>
+                          <td><?= $obj->Project_invoiceState; ?></td>
                           <td>                            
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                               <?php if (PERMITS[2] == "3") : ?>
@@ -140,6 +148,10 @@
                         <th>Prioridad</th>
                         <th>Fecha de creación</th>
                         <th>%</th>
+                        <th>Orden compra</th>
+                        <th>Factura</th>
+                        <th>Fecha factura</th>
+                        <th>Estado factura</th>
                         <th>Acciones</th>
                       </tr>
                     </tfoot>
@@ -232,7 +244,7 @@
                     </div>
                     <div class="col-12 col-md-4 mb-3">
                       <label for="Project_purchaseOrder">Orden de compra *</label>
-                      <input type="text" class="form-control" id="Project_purchaseOrder" name="Project_purchaseOrder" required>
+                      <input type="text" class="form-control" id="Project_purchaseOrder" name="Project_purchaseOrder" maxlength="100" required>
                     </div>
                     <div class="col-12 col-md-4 mb-3">
                       <label for="Project_ddtStartDate">Fecha Inicio DDT</label>
@@ -279,7 +291,25 @@
                       <input type="date" class="form-control form-disabled read" id="Project_activitiEndDate" name="Project_activitiEndDate">
                     </div>
                     <div class="col-12 col-md-4 mb-3">
-                      <label for="Stat_id">Estado</label>
+                      <label for="Project_invoice">Número de factura</label>
+                      <input type="text" class="form-control" id="Project_invoice" name="Project_invoice" maxlength="30">
+                    </div>
+                    <div class="col-12 col-md-4 mb-3">
+                      <label for="Project_invoiceDate">Fecha de la factura</label>
+                      <input type="date" class="form-control" id="Project_invoiceDate" name="Project_invoiceDate">
+                    </div>
+                    <div class="col-12 col-md-4 mb-3">
+                      <label for="Project_invoiceState">Estado de la factura</label>
+                      <select class="form-control form-select" id="Project_invoiceState" name="Project_invoiceState">
+                        <option value="">Seleccione</option>
+                        <option value="No facturado">No facturado</option>
+                        <option value="Facturado">Facturado</option>
+                        <option value="En seguimiento">En seguimiento</option>
+                        <option value="Cancelada">Cancelada</option>
+                      </select>
+                    </div>
+                    <div class="col-12 col-md-4 mb-3">
+                      <label for="Stat_id">Estado del proyecto</label>
                       <select class="form-control form-select form-disabled read" id="Stat_id" name="Stat_id">
                         <?php foreach ($userstatuses as $userstatus) : ?>
                           <option value="<?= $userstatus->Stat_id; ?>">
@@ -290,7 +320,7 @@
                     </div>
                     <div class="col-12 col-md-12 mb-3">
                       <label for="Project_observation">Observaciones</label>
-                      <input type="text" class="form-control" id="Project_observation" name="Project_observation">
+                      <textarea class="form-control" id="Project_observation" name="Project_observation" maxlength="1000" rows="5"></textarea>
                     </div>
                   </form>
                 </div>

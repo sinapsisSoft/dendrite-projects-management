@@ -181,7 +181,7 @@
                     </div>
                     <div class="col-12 col-md-12 mb-3">
                       <label for="ProjReq_observation">Observaciones</label>
-                      <input type="text" class="form-control" id="ProjReq_observation" name="ProjReq_observation">
+                      <textarea class="form-control" id="ProjReq_observation" name="ProjReq_observation" maxlength="1000" rows="5"></textarea>
                     </div>
                   </form>
                 </div>

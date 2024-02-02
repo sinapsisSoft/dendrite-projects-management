@@ -108,7 +108,7 @@
                 </div>
                 <div class="col-10 col-md-11 mb-3">
                   <label for="Activi_link">Enlace</label>
-                  <input type="text" class="form-control" id="Activi_link" name="Activi_link" value="<?= $activity->Activi_link ?>" disabled>
+                  <textarea class="form-control" id="Activi_link" name="Activi_link" maxlength="3000" rows="5" disabled><?= $activity->Activi_link ?></textarea> 
                 </div>
                 <div class="col-2 col-md-1 mb-3 align-self-end">
                   <button type="button" class="btn btn-outline-primary" id="copyToClipboard" data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar" style="border: none;">
@@ -120,7 +120,7 @@
                 </div>
                 <div class="col-12 mb-3">
                   <label for="Activi_observation">Observaciones</label>
-                  <input type="text" class="form-control" id="Activi_observation" name="Activi_observation" value="<?= $activity->Activi_observation ?>" disabled>
+                  <textarea class="form-control" id="Activi_observation" name="Activi_observation"  maxlength="1000" rows="5" disabled><?= $activity->Activi_observation ?></textarea>
                 </div>
               </div>
             </div>
@@ -294,7 +294,7 @@
                         </div>
                         <div class="col-12 mb-3">
                           <label for="SubAct_description">Descripción</label>
-                          <input type="text" class="form-control" id="SubAct_description" name="SubAct_description">
+                          <textarea class="form-control" id="SubAct_description" name="SubAct_description" maxlength="1000" rows="5"></textarea>
                         </div>
                       </div>
                     </form>
@@ -392,7 +392,7 @@
                         </div>
                         <div class="mb-3 col-12">
                           <label for="SubAct_description">Descripción</label>
-                          <input type="text" class="form-control" id="SubAct_description" name="SubAct_description" value="">
+                          <textarea class="form-control" id="SubAct_description" name="SubAct_description" maxlength="1000" rows="5"></textarea>
                         </div>
                       </div>
                     </form>

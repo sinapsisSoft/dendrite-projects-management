@@ -340,6 +340,6 @@ document.getElementById("copyToClipboardProject").addEventListener('click', func
         'error'
       )
     })
-})
+  })
 
 document.getElementById('btn-info').href = infoUrl;

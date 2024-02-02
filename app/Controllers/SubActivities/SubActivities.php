@@ -69,13 +69,12 @@ class SubActivities extends BaseController
                 $commercialMail = $userInfo['User_email'];
                 $userInfo1 = $user1->where('User_id', $projectInfo['User_id'])->first();
                 $trafficMail = $userInfo1["User_email"];
+                $email->sendEmail($subactivityInfo, $commercialMail, 1);
+                $email1->sendEmail($subactivityInfo, $trafficMail, 1);    
                 if ($projectInfo['Project_percentage'] == 100) {
                     $email->sendEmail($subactivityInfo, $commercialMail, 8);
                     $email1->sendEmail($subactivityInfo, $trafficMail, 8);
-                } else {
-                    $email->sendEmail($subactivityInfo, $commercialMail, 1);
-                    $email1->sendEmail($subactivityInfo, $trafficMail, 1);                    
-                }        
+                }      
                 $response = $this->updateEndDate(["Activi_id" => $subActivitie[0]->Activi_id]);
                 $data['message'] = 'success';
                 $data['response'] = ResponseInterface::HTTP_OK;
@@ -236,13 +235,12 @@ class SubActivities extends BaseController
             $commercialMail = $userInfo['User_email'];             
             $userInfo1 = $user1->where('User_id', $projectInfo['User_id'])->first();
             $trafficMail = $userInfo1["User_email"];
+            $email->sendEmail($subactivityInfo, $commercialMail, 6);
+            $email1->sendEmail($subactivityInfo, $trafficMail, 6);
             if($projectInfo['Project_percentage'] == 100){
                 $email->sendEmail($subactivityInfo, $commercialMail, 8);
                 $email1->sendEmail($subactivityInfo, $trafficMail, 8);
-            } else {
-                $email->sendEmail($subactivityInfo, $commercialMail, 6);
-                $email1->sendEmail($subactivityInfo, $trafficMail, 6);
-            }                         
+            }                        
         } catch (\Exception $e) {
             $data['message'] = $e;
             $data['response'] = ResponseInterface::HTTP_CONFLICT;

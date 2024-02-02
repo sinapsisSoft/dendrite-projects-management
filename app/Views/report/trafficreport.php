@@ -104,10 +104,13 @@
                             <tr>
                             <th>#</th>
                               <th>Código</th>
-                              <th>Proyecto</th>
-                              <th>Orden de compra</th>                              
+                              <th>Proyecto</th>                         
                               <th>Cliente</th>
                               <th>País</th>
+                              <th>Orden de compra</th>   
+                              <th>Factura</th>   
+                              <th>Estado factura</th>   
+                              <th>Fecha factura</th> 
                               <th>Gerente</th>
                               <th>Marca</th>
                               <th>Fecha inicio proyecto</th>
@@ -132,10 +135,13 @@
                               <tr>
                                 <td><?= $i++; ?></td>
                                 <td><?= $obj->Project_code; ?></td>
-                                <td><?= $obj->Project_name; ?></td>
-                                <td><?= $obj->Project_purchaseOrder; ?></td>                                
+                                <td><?= $obj->Project_name; ?></td>                              
                                 <td><?= $obj->Client_name; ?></td>
                                 <td><?= $obj->Country_name; ?></td>
+                                <td><?= $obj->Project_purchaseOrder; ?></td>  
+                                <td><?= $obj->Project_invoice == null ? '' : $obj->Project_invoice; ?></td>  
+                                <td><?= $obj->Project_invoiceState == null ? '' : $obj->Project_invoiceState; ?></td>  
+                                <td><?= $obj->Project_invoiceDate == null ? '' : $obj->Project_invoiceDate; ?></td>  
                                 <td><?= $obj->Manager_name; ?></td>
                                 <td><?= $obj->Brand_name; ?></td>
                                 <td><?= $obj->Project_startDate; ?></td>                                
@@ -159,10 +165,13 @@
                             <tr>
                             <th>#</th>
                               <th>Código</th>
-                              <th>Proyecto</th>
-                              <th>Orden de compra</th>                              
+                              <th>Proyecto</th>                          
                               <th>Cliente</th>
                               <th>País</th>
+                              <th>Orden de compra</th>   
+                              <th>Factura</th>   
+                              <th>Estado factura</th>   
+                              <th>Fecha factura</th> 
                               <th>Gerente</th>
                               <th>Marca</th>
                               <th>Fecha inicio proyecto</th>

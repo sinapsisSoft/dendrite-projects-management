@@ -27,6 +27,9 @@ class ProjectModel extends Model{
         'Project_commercial',
         'Stat_id',        
         'Priorities_id', 
+        'Project_invoice', 
+        'Project_invoiceState', 
+        'Project_invoiceDate', 
         'updated_at'
     ];
     protected $updatedField = 'updated_at';
