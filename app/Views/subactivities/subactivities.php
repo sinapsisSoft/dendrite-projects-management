@@ -246,7 +246,7 @@
                         <input type="hidden" class="form-control" id="SubAct_id" name="SubAct_id" value="NULL">
                         <div class="col-12 col-md-8 mb-3">
                           <label for="SubAct_name">Nombre de Subactividad *</label>
-                          <input type="text" class="form-control" id="SubAct_name" name="SubAct_name" required>
+                          <input type="text" class="form-control form-disabled" id="SubAct_name" name="SubAct_name" required>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
                           <label for="User_id">Colaborador *</label>
@@ -282,7 +282,7 @@
                         </div>
                         <div class="col-12 col-md-4 mb-3">
                           <label for="SubAct_percentage">% actividad realizada *</label>
-                          <input type="number" class="form-control read" id="SubAct_percentage" name="SubAct_percentage" min="0" max="100" value="0" required>
+                          <input type="number" class="form-control read" id="SubAct_percentage" name="SubAct_percentage" min="0" max="99" value="0" required>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
                           <label for="SubAct_endDate">Fecha de Entrega</label>
@@ -307,7 +307,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mx-auto w-50" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" id="btn-submit" form="objForm" class="btn btn-primary mx-auto w-50">Guardar</button>
+                    <button type="submit" id="btn-submit-save" form="objForm" class="btn btn-primary mx-auto w-50">Guardar</button>
                   </div>
                 </div>
               </div>

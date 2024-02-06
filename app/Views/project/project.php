@@ -99,9 +99,9 @@
                           <td><?= $obj->Created_at; ?></td>
                           <td><?= $obj->Project_percentage == NULL ? 0 : $obj->Project_percentage; ?></td>
                           <td><?= $obj->Project_purchaseOrder; ?></td>
-                          <td><?= $obj->Project_invoice; ?></td>
-                          <td><?= $obj->Project_invoiceDate; ?></td>
-                          <td><?= $obj->Project_invoiceState; ?></td>
+                          <td><?= $obj->Project_invoice == null ? '' : $obj->Project_invoice; ?></td>
+                          <td><?= $obj->Project_invoiceDate == null ? '' : $obj->Project_invoiceDate; ?></td>
+                          <td><?= $obj->Project_invoiceState == null ? '' : $obj->Project_invoiceState; ?></td>
                           <td>                            
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                               <?php if (PERMITS[2] == "3") : ?>

@@ -8,7 +8,6 @@ use App\Models\Project\ProjectModel;
 use App\Models\Client\ClientModel;
 use App\Models\Country\CountryModel;
 use App\Models\User\UserModel;
-use App\Models\UserStatus\UserStatusModel;
 use App\Models\Manager\ManagerModel;
 use App\Models\Brand\BrandModel;
 use App\Models\Mail\MailModel;
@@ -38,7 +37,6 @@ class Project extends BaseController
         $priorities = new PrioritiesModel();
         $client = new CLientModel();        
         $user = new UserModel();
-        $userstatus = new UserStatusModel();  
         $manager = new ManagerModel();    
         $brand = new BrandModel();
         $country = new CountryModel();
