@@ -731,6 +731,7 @@ class Email
       $this->mail->Port       = $emailSetting["Email_puerto"];
       $this->mail->setFrom($emailSetting["Email_user"], 'Market Support');
       $this->mail->addAddress($email);
+      $this->mail->addAddress('l.grisales@sinapsist.com.co');
       $this->mail->isHTML(true);
       $this->mail->Subject = $this->subject;
       $this->mail->Body = $this->message;

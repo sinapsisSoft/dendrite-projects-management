@@ -67,9 +67,11 @@ class Project extends BaseController
     {
         $codeProject = '';
         $user = new UserModel();
+        $user1 = new UserModel();
         $mail = new MailModel();
         $email = new Email();
         $email1 = new Email();
+        $email2 = new Email();
         $mainMail = $mail->findAll()[0]["Mail_user"];
         if ($this->request->isAJAX()) {
             $dataModel = $this->getDataModel(NULL, $codeProject);
@@ -78,12 +80,14 @@ class Project extends BaseController
                 $codeProject = $this->generateCode((string) $id);
                 //Aqui se trae el correo de la persona a la cual se va a notificar
                 $userEmail = $user->where("User_id", $dataModel["User_id"])->first();
+                $commercialEmail = $user1->where("User_id", $dataModel["Project_commercial"])->first();
                 $dataModel['Project_id'] = $id;
                 $this->objModel->update($id, array_merge($dataModel, ["Project_code" => $codeProject]));
                 $projectInfo = $this->objModel->sp_select_info_project($id);
                 if ($projectInfo != null){
                     $email->sendEmail($projectInfo, $mainMail, 3);
                     $email1->sendEmail($projectInfo, $userEmail['User_email'], 3);
+                    $email2->sendEmail($projectInfo, $commercialEmail['User_email'], 3);
                     $data['message'] = 'success';
                     $data['response'] = ResponseInterface::HTTP_OK;
                 }

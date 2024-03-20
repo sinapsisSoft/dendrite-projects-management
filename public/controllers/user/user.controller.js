@@ -69,7 +69,6 @@ var confirmPassword = document.getElementById("confirmPassword");
 */
 function create(formData) {
   url = URL_ROUTE + arRoutes[0];
-  //console.log(JSON.stringify(formData));
    fetch(url, {
     method: "POST",
     body: JSON.stringify(formData),
@@ -80,10 +79,8 @@ function create(formData) {
   })
     .then(response => response.json())
     .catch(error => console.error('Error:', error))
-    .then(response => {
-      
+    .then(response => {      
       if (response[dataResponse] == 200) {
-       // console.log(response[dataModel]);
         Swal.fire({
           position: 'top-end',
           icon: 'success',
