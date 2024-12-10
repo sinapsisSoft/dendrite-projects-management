@@ -253,12 +253,12 @@ sup {
 }
 
 a {
-  color: #0A4C69 !important;
+  color: #7460ee;
   text-decoration: underline
 }
 
 a:hover {
-  color: #386071 !important
+  color: #5d4dbe
 }
 
 a:not([href]):not([class]),
@@ -2863,22 +2863,22 @@ fieldset:disabled .btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #73CC00;
-  border-color: #73CC00
+  background-color: #7460ee;
+  border-color: #7460ee
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #73CC00;
-  border-color: #73CC00
+  background-color: #6352ca;
+  border-color: #5d4dbe
 }
 
 .btn-check:focus+.btn-primary,
 .btn-primary:focus {
   color: #fff;
-  background-color: #73CC00;
-  border-color: #73CC00;
-  box-shadow: 0 0 0 0.25rem #73CC00
+  background-color: #6352ca;
+  border-color: #5d4dbe;
+  box-shadow: 0 0 0 0.25rem rgba(137, 120, 241, 0.5)
 }
 
 .btn-check:active+.btn-primary,
@@ -2887,8 +2887,8 @@ fieldset:disabled .btn {
 .btn-primary:active,
 .show>.btn-primary.dropdown-toggle {
   color: #fff;
-  background-color: #73CC00;
-  border-color: #73CC00
+  background-color: #5d4dbe;
+  border-color: #5748b3
 }
 
 .btn-check:active+.btn-primary:focus,
@@ -2896,14 +2896,14 @@ fieldset:disabled .btn {
 .btn-primary.active:focus,
 .btn-primary:active:focus,
 .show>.btn-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.25rem #73CC00
+  box-shadow: 0 0 0 0.25rem rgba(137, 120, 241, 0.5)
 }
 
 .btn-primary.disabled,
 .btn-primary:disabled {
   color: #fff;
-  background-color: #73CC00;
-  border-color: #73CC00
+  background-color: #7460ee;
+  border-color: #7460ee
 }
 
 .btn-secondary {
@@ -5051,8 +5051,8 @@ fieldset:disabled .btn {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #BFFF29;
-  border-color: #BFFF29
+  background-color: #7460ee;
+  border-color: #7460ee
 }
 
 .page-item.disabled .page-link {
@@ -7948,7 +7948,7 @@ fieldset:disabled .btn {
 }
 
 .text-primary {
-  color: #0A4C69 !important
+  color: #7460ee !important
 }
 
 .text-secondary {
@@ -8032,11 +8032,11 @@ fieldset:disabled .btn {
 }
 
 .bg-primary {
-  background-color: #0A4C69 !important
+  background-color: #7460ee !important
 }
 
 .bg-secondary {
-  background-color: #73CC00 !important
+  background-color: #6c757d !important
 }
 
 .bg-success {
@@ -8048,7 +8048,7 @@ fieldset:disabled .btn {
 }
 
 .bg-warning {
-  background-color: #73CC00 !important
+  background-color: #ffb848 !important
 }
 
 .bg-danger {
@@ -11633,7 +11633,7 @@ ul.list-style-none li a {
 }
 
 ul.list-style-none li a:hover {
-  color: #0A4C69
+  color: #2962ff
 }
 
 .card {
@@ -12236,7 +12236,7 @@ textarea.form-control {
 }
 
 .sidebar-nav ul .sidebar-item.selected>.sidebar-link {
-  background: rgba(200,220,80, 0.41);
+  background: rgba(116,96,238, 0.41);
   opacity: 1
 }
 

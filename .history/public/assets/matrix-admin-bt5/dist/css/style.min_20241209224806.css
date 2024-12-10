@@ -258,7 +258,7 @@ a {
 }
 
 a:hover {
-  color: #386071 !important
+  color: #386071
 }
 
 a:not([href]):not([class]),
@@ -8032,11 +8032,11 @@ fieldset:disabled .btn {
 }
 
 .bg-primary {
-  background-color: #0A4C69 !important
+  background-color: #7460ee !important
 }
 
 .bg-secondary {
-  background-color: #73CC00 !important
+  background-color: #6c757d !important
 }
 
 .bg-success {
@@ -8048,7 +8048,7 @@ fieldset:disabled .btn {
 }
 
 .bg-warning {
-  background-color: #73CC00 !important
+  background-color: #ffb848 !important
 }
 
 .bg-danger {
